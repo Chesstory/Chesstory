@@ -28,12 +28,13 @@ abstract class FileController {
 		splitted=new String[6];
 		
 		//var used for establishing if the line read is a Deplacement or something else, like the number of move expected or, later, the name, the type and date of the game
+		int nbParaLine=3;//test var for the parameters : game_id, game_type...
 		int nbLine=0;
-		boolean isFileCorrupted=true;
+		boolean isFileCorrupted=false;
 		int game_id=-1;
 		int game_type=-1;
-		int expectedNbOfLine;
-		Object returnArray[]=new Object[104];
+		int expectedNbOfLine=-1;
+		
 		
 		//file chooser
 		JFileChooser chooser = new JFileChooser();
@@ -47,17 +48,19 @@ abstract class FileController {
 		if (retrival == JFileChooser.APPROVE_OPTION) {
 			try (FileReader fileReader = new FileReader(chooser.getSelectedFile())) {
 				BufferedReader bufferedReader = new BufferedReader(fileReader);
-				while ((line[nbLine]=bufferedReader.readLine() ) != null && isFileCorrupted) {//Reading of the lines 
+				while ((line[nbLine]=bufferedReader.readLine() ) != null && !isFileCorrupted) {//Reading of the lines 
 					splitted=line[nbLine].split(" " , -1);
 					switch(nbLine){
 					case 0:
 						if(splitted.length==1){
-							System.out.println("Ini :"+splitted[0]);
+							//System.out.println("Ini :"+splitted[0]);
 								if(!splitted[0].equals(">>>>||----Chesstory_SaveFile_Header--|")){
 									isFileCorrupted=true;
+									System.out.println("ErrorFileLoad: Header not found at the begining");
 								}
 						}else{
 							isFileCorrupted=true;
+							System.out.println("ErrorFileLoad: First line should be an unique component -> header");
 						};
 					break;
 					case 1://id of the game
@@ -66,9 +69,11 @@ abstract class FileController {
 								game_id=Integer.parseInt(splitted[0]);
 							}else{
 								isFileCorrupted=true;
+								System.out.println("ErrorFileLoad: Second line should be a integer");
 							}
 						}else{
 							isFileCorrupted=true;
+							System.out.println("ErrorFileLoad: Second line should be a unique component -> game_id");
 						};
 					break;
 					case 2://type of the game
@@ -77,30 +82,38 @@ abstract class FileController {
 								game_type=Integer.parseInt(splitted[0]);
 							}else{
 								isFileCorrupted=true;
+								System.out.println("ErrorFileLoad: Third line should be an integer");
 							}
 						}else{
 							isFileCorrupted=true;
+							System.out.println("ErrorFileLoad: Third line should be a unique component -> game_type");
 						};
 					break;
 					case 3://Number of line expected
 						if(splitted.length==1){
-							if(Integer.toString(Integer.parseInt(splitted[0]))==splitted[0]){//test if integer
+							if(splitted[0].matches("^-?\\d+$")){//test if integer
 								expectedNbOfLine=Integer.parseInt(splitted[0]);
 							}else{
 								isFileCorrupted=true;
+								System.out.println("ErrorFileLoad: Fourth line should be an integer");
 							}
 						}else{
 							isFileCorrupted=true;
+							System.out.println("ErrorFileLoad: Fourth line should be a unique component -> game_type");
 						}
 					break;
 					
 					default://the list of moves
 						if(!splitted[0].equals("|--Chesstory_SaveFile_Footer----||<<<<")){//test if it's not the footer
-							//TODO test if the first and all the others are in fact the color, piece, pos1, pos2
-							a.add(new Deplacement(new Position(Integer.parseInt(splitted[2]),Integer.parseInt(splitted[3])),    new Position(Integer.parseInt(splitted[4]),Integer.parseInt(splitted[5])),    splitted[0].toCharArray()[0],    splitted[1].toCharArray()[0]));
-							
-						}else{//TODO test footer
-							System.out.println("Ini :"+splitted[0]);		
+							if(splitted.length==6){//there is 6 parameter, no more, no less
+								//TODO test if the first and all the others are in fact the color, piece, pos1, pos2
+								a.add(new Deplacement(new Position(Integer.parseInt(splitted[2]),Integer.parseInt(splitted[3])),    new Position(Integer.parseInt(splitted[4]),Integer.parseInt(splitted[5])),    splitted[0].toCharArray()[0],    splitted[1].toCharArray()[0]));
+							}else{
+								isFileCorrupted=true;
+								System.out.println("ErrorFileLoad: Move parameters incorrect, at line: "+(nbLine+1));
+							}
+						}else{//TODO test footer if he was found
+							System.out.println("Eni :"+splitted[0]);		
 						}
 					break;
 					}					
@@ -112,6 +125,21 @@ abstract class FileController {
 			}
 		}
 		//here we check if the number on line is correct
+		if(expectedNbOfLine==(nbLine-nbParaLine-1)){//2 is the header and footer
+			isFileCorrupted=true;
+			System.out.println("ErrorFileLoad: expected nb of line: "+expectedNbOfLine+", received :"+(nbLine-nbParaLine-1));
+		}
+		
+		//here we check if the game is correct : w,b,w,... 
+		char last=a.get(0).getColor();;
+		for(int i=1;i<a.size();i++){
+			if(last==a.get(i).getColor()){
+				isFileCorrupted=true;
+				System.out.print("ErrorFileLoad: The game is not correct at line: "+(nbLine+1)+", because there is two consecutive turn of :"+last);
+			}
+			a.get(i).getColor();
+		}
+		
 		return new GameSave(isFileCorrupted, game_id, game_type, a);
 	}
 }

@@ -180,6 +180,9 @@ public class ChesstoryGame extends JFrame{
 		
 		//moveList=new ArrayList<Deplacement>(FileController.loadFile());
 		GameSave gameSave=FileController.loadFile();
+		if(gameSave.getIsGameCorrupted()){
+			System.out.println("FILE CORRUPTED");
+		}
 		moveList=gameSave.getMoveList();
 		System.out.println("Load game, id: "+gameSave.getGameId()+", type: "+gameSave.getGameType());
 		for(int i=0;i<moveList.size();i++){
