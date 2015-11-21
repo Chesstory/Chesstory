@@ -11,6 +11,8 @@ import java.awt.event.MouseListener;
 
 
 
+
+
 import javax.swing.*;
 
 import java.awt.Color;
@@ -24,6 +26,8 @@ import java.awt.BorderLayout;
 import javax.swing.border.EtchedBorder;
 
 import java.util.ArrayList;
+
+
 
 
 
@@ -179,9 +183,12 @@ public class ChesstoryGame extends JFrame{
 	public void loadGameTest1(){
 		
 		//moveList=new ArrayList<Deplacement>(FileController.loadFile());
+		System.out.println("---->Loading file");
 		GameSave gameSave=FileController.loadFile();
 		if(gameSave.getIsGameCorrupted()){
-			System.out.println("FILE CORRUPTED");
+			System.out.println("---->FILE CORRUPTED\n---->Loading failed");
+		}else{
+			System.out.println("---->Loading successed");
 		}
 		moveList=gameSave.getMoveList();
 		System.out.println("Load game, id: "+gameSave.getGameId()+", type: "+gameSave.getGameType());

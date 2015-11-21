@@ -29,13 +29,15 @@ abstract class FileController {
 		
 		//var used for establishing if the line read is a Deplacement or something else, like the number of move expected or, later, the name, the type and date of the game
 		int nbParaLine=3;//test var for the parameters : game_id, game_type...
-		int nbLine=0;
 		boolean isFileCorrupted=false;
+		boolean foundFooter=false;
+		
+		int nbLine=0;
 		int game_id=-1;
 		int game_type=-1;
 		int expectedNbOfLine=-1;
 		
-		
+		//TODO the case where there is a " " at the end of a line
 		//file chooser
 		JFileChooser chooser = new JFileChooser();
 		chooser.setCurrentDirectory(new File(directory));
@@ -56,7 +58,7 @@ abstract class FileController {
 							//System.out.println("Ini :"+splitted[0]);
 								if(!splitted[0].equals(">>>>||----Chesstory_SaveFile_Header--|")){
 									isFileCorrupted=true;
-									System.out.println("ErrorFileLoad: Header not found at the begining");
+									System.out.println("ErrorFileLoad: Header not found at the begining of the file");
 								}
 						}else{
 							isFileCorrupted=true;
@@ -107,13 +109,14 @@ abstract class FileController {
 						if(!splitted[0].equals("|--Chesstory_SaveFile_Footer----||<<<<")){//test if it's not the footer
 							if(splitted.length==6){//there is 6 parameter, no more, no less
 								//TODO test if the first and all the others are in fact the color, piece, pos1, pos2
-								a.add(new Deplacement(new Position(Integer.parseInt(splitted[2]),Integer.parseInt(splitted[3])),    new Position(Integer.parseInt(splitted[4]),Integer.parseInt(splitted[5])),    splitted[0].toCharArray()[0],    splitted[1].toCharArray()[0]));
+								a.add(new Deplacement(new Position(Integer.parseInt(splitted[2]),Integer.parseInt(splitted[3])),    new Position(Integer.parseInt(splitted[4]),Integer.parseInt(splitted[5])),    splitted[1].toCharArray()[0],    splitted[0].toCharArray()[0]));
 							}else{
 								isFileCorrupted=true;
 								System.out.println("ErrorFileLoad: Move parameters incorrect, at line: "+(nbLine+1));
 							}
-						}else{//TODO test footer if he was found
-							System.out.println("Eni :"+splitted[0]);		
+						}else{
+							foundFooter=true;
+							//System.out.println("Eni :"+splitted[0]);		
 						}
 					break;
 					}					
@@ -131,13 +134,19 @@ abstract class FileController {
 		}
 		
 		//here we check if the game is correct : w,b,w,... 
-		char last=a.get(0).getColor();;
+		char last=a.get(0).getColor();
 		for(int i=1;i<a.size();i++){
 			if(last==a.get(i).getColor()){
 				isFileCorrupted=true;
-				System.out.print("ErrorFileLoad: The game is not correct at line: "+(nbLine+1)+", because there is two consecutive turn of :"+last);
+				System.out.print("ErrorFileLoad: The game is not correct at line: "+(i+1+nbParaLine)+", because there is two consecutive turn of :"+last+"\n");
 			}
-			a.get(i).getColor();
+			last=a.get(i).getColor();
+		}
+		
+		//here we check is the footer was found
+		if(!foundFooter){
+			isFileCorrupted=true;
+			System.out.println("ErrorFileLoad: Footer not found at the begining of the file");
 		}
 		
 		return new GameSave(isFileCorrupted, game_id, game_type, a);
