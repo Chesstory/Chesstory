@@ -1,5 +1,11 @@
 package Controller;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+
+
 
 
 
@@ -18,6 +24,7 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.TextArea;
 import java.awt.GridLayout;
@@ -31,11 +38,18 @@ import java.util.ArrayList;
 
 
 
+
+
+
 import gui.YetAnotherChessGame;
 import echecs.Echiquier;
 import echecs.Deplacement;
 
-public class ChesstoryGame extends JFrame{
+import java.awt.Component;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+
+public class ChesstoryGame extends JFrame implements MouseListener{
 	//static YetAnotherChessGame YACG;
 	
 	private YetAnotherChessGame YACG;
@@ -43,7 +57,8 @@ public class ChesstoryGame extends JFrame{
 	public static JFrame f;
 	private JPanel panelLeft;
 	private JPanel panelRight;
-
+	private JPanel panelLeftChessboard;
+	
 	private static final int height=850;
 	private static final int width=1600;
 	private int heightRightPanel;
@@ -61,7 +76,15 @@ public class ChesstoryGame extends JFrame{
 	private int gameId;
 	private int gameType;
 	private String fenDeDepart="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
-	public ChesstoryGame(String title){
+	private JPanel panelLeftMenu;
+	private JButton bLoad;
+	private JButton bSave;
+	private JButton bParameters;
+	private JButton bExit;
+	
+	public ChesstoryGame(String title, int gameType){
+		this.gameType=gameType;
+		
 		heightRightPanel=(int)(height*(0.66));
 		widthRightPanel=(int)(width*(0.66));
 		
@@ -77,6 +100,8 @@ public class ChesstoryGame extends JFrame{
 		panelLeft.setBounds(10, 27, 1163, 772);
 		panelLeft.setBackground(Color.gray);
 		f.getContentPane().add(panelLeft);
+		
+		
 		
 		
 		
@@ -146,11 +171,59 @@ public class ChesstoryGame extends JFrame{
 		logsTextScroll = new JScrollPane(logsText);
 		logsTextScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		panelRight.add(logsTextScroll);
-		//<LOGS
-		
 		//Chessboard
 		YACG=new YetAnotherChessGame(fenDeDepart);
-		panelLeft.add(YACG.CreationChessboard());
+		GridBagLayout gbl_panelLeft = new GridBagLayout();
+		gbl_panelLeft.columnWidths = new int[]{1163, 0};
+		gbl_panelLeft.rowHeights = new int[]{154, 154, 0, 0};
+		gbl_panelLeft.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_panelLeft.rowWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
+		panelLeft.setLayout(gbl_panelLeft);
+		
+		panelLeftMenu = new JPanel();
+		GridBagConstraints gbc_panelLeftMenu = new GridBagConstraints();
+		gbc_panelLeftMenu.insets = new Insets(0, 0, 5, 0);
+		gbc_panelLeftMenu.fill = GridBagConstraints.BOTH;
+		gbc_panelLeftMenu.gridx = 0;
+		gbc_panelLeftMenu.gridy = 0;
+		panelLeft.add(panelLeftMenu, gbc_panelLeftMenu);
+		
+		bLoad = new JButton("Load");
+		bLoad.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				loadGame();
+			}
+		});
+		panelLeftMenu.add(bLoad);
+		
+		bSave = new JButton("Save");
+		bSave.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				saveGame();
+			}
+		});
+		panelLeftMenu.add(bSave);
+		
+		bParameters = new JButton("Parameters");
+		panelLeftMenu.add(bParameters);
+		
+		bExit = new JButton("Exit");
+		panelLeftMenu.add(bExit);
+		
+		panelLeftChessboard = new JPanel();
+		panelLeftChessboard.setSize(new Dimension(600, 600));
+		panelLeftChessboard.setMinimumSize(new Dimension(600, 600));
+		FlowLayout flowLayout = (FlowLayout) panelLeftChessboard.getLayout();
+		GridBagConstraints gbc_panelLeftChessboard = new GridBagConstraints();
+		gbc_panelLeftChessboard.insets = new Insets(0, 0, 5, 0);
+		gbc_panelLeftChessboard.fill = GridBagConstraints.BOTH;
+		gbc_panelLeftChessboard.gridx = 0;
+		gbc_panelLeftChessboard.gridy = 1;
+		panelLeft.add(panelLeftChessboard, gbc_panelLeftChessboard);
+		panelLeftChessboard.add(YACG.CreationChessboard());
+		
 		//<Chessboard
 		
 		
@@ -180,8 +253,7 @@ public class ChesstoryGame extends JFrame{
 	public static void addMove(Deplacement d){
 		moveList.add(d);
 	}
-	public void loadGameTest1(){
-		
+	public void loadGame(){		
 		//moveList=new ArrayList<Deplacement>(FileController.loadFile());
 		System.out.println("---->Loading file");
 		GameSave gameSave=FileController.loadFile();
@@ -194,9 +266,37 @@ public class ChesstoryGame extends JFrame{
 		System.out.println("Load game, id: "+gameSave.getGameId()+", type: "+gameSave.getGameType());
 		for(int i=0;i<moveList.size();i++){
 			System.out.println("c ="+moveList.get(i).getColor()+", p ="+moveList.get(i).getPiececode()+", ("+moveList.get(i).getX1()+", "+moveList.get(i).getY1()+") -> ("+moveList.get(i).getX2()+", "+moveList.get(i).getY2()+")");
-		}
+		}	
+	}
+	public void saveGame(){
+		//TODO game id generator
+		gameId=666;
+		GameSave g=new GameSave(true, gameId, gameType, moveList);
+		FileController.saveFile(g);
+	}
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
 		
 	}
 }

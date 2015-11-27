@@ -4,8 +4,10 @@ import echecs.Deplacement;
 import echecs.Position;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 import javax.swing.filechooser.FileFilter;
@@ -13,8 +15,54 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JFileChooser;
 
 abstract class FileController {
-	static boolean saveInFile(ArrayList<Deplacement> a) {
+	static boolean saveFile(GameSave g) {
+		//TODO save
+        String strToWrite="hello i'm Franky";
+        String line = null;
+        String directory = "./Saves/";
+        String suffix="txt";
+        File file;
+        
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new File(directory));
+        chooser.setDialogType(JFileChooser.OPEN_DIALOG);
+        chooser.setFileFilter(new FileNameExtensionFilter("text file", suffix));
+        int retrival = chooser.showSaveDialog(null);
+        if (retrival == JFileChooser.APPROVE_OPTION) {
+        	try(FileWriter fileWriter = new FileWriter(chooser.getSelectedFile()+"."+suffix)) {
+        		BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                 bufferedWriter.write(">>>>||----Chesstory_SaveFile_Header--|");
+                 bufferedWriter.newLine();
+                 bufferedWriter.write(g.getGameId());
+                 bufferedWriter.newLine();
+                 bufferedWriter.write(g.getGameType());
+                 bufferedWriter.newLine();
+                 ArrayList<Deplacement> temp=g.getMoveList();
+                 bufferedWriter.write(temp.size());
+                 bufferedWriter.newLine();
+                 for(int i=0; i<temp.size(); i++){
+                	 bufferedWriter.write(temp.get(i).getColor()+" "+temp.get(i).getPiececode()+" "+temp.get(i).getX1()+" "
+                			 +temp.get(i).getY1()+" "+temp.get(i).getX2()+" "+temp.get(i).getY2());;
+                	 bufferedWriter.newLine();
+                 }
+                 bufferedWriter.write("|--Chesstory_SaveFile_Footer----||<<<<");
+                 
+                 
 
+                 if(!chooser.getSelectedFile().getAbsolutePath().endsWith(suffix)){//useless I think
+                     file = new File(bufferedWriter + suffix);
+                 }
+                 
+                 // Always close files.
+                 bufferedWriter.close();
+                 
+            }catch (Exception ex) {
+                ex.printStackTrace();
+                System.out.println("Unable to save file"); 
+               /* JOptionPane.showMessageDialog(this, "The Text could not be Saved!",
+                        "Error!", JOptionPane.INFORMATION_MESSAGE);*/
+            }
+        }
 		return true;
 	}
 
@@ -43,7 +91,7 @@ abstract class FileController {
 		chooser.setCurrentDirectory(new File(directory));
 		chooser.setDialogType(JFileChooser.SAVE_DIALOG);
 		chooser.setDialogTitle("Load your chess game");
-		chooser.setFileFilter(new FileNameExtensionFilter("txt fking file", "txt"));
+		chooser.setFileFilter(new FileNameExtensionFilter("text file", "txt"));
 		//chooser.setAcceptAllFileFilterUsed(false); // remove the accept-all (.*) file filter
 		int retrival =chooser.showDialog(ChesstoryGame.f, "LOAD...");
 		//int retrival = chooser.showSaveDialog(null);
