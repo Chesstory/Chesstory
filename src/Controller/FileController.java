@@ -20,25 +20,37 @@ abstract class FileController {
         String strToWrite="hello i'm Franky";
         String line = null;
         String directory = "./Saves/";
-        String suffix="txt";
+        String suffix = "txt";
         File file;
         
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new File(directory));
         chooser.setDialogType(JFileChooser.OPEN_DIALOG);
         chooser.setFileFilter(new FileNameExtensionFilter("text file", suffix));
+        suffix=".txt";
         int retrival = chooser.showSaveDialog(null);
         if (retrival == JFileChooser.APPROVE_OPTION) {
-        	try(FileWriter fileWriter = new FileWriter(chooser.getSelectedFile()+"."+suffix)) {
+        	String sufTemp[]=chooser.getSelectedFile().getName().split("\\.",-1);
+        	if(sufTemp.length>1){
+	        	if(sufTemp[1].equals("txt")){
+	        		suffix = ""; 
+	        	}
+	        	else{
+	        		suffix = ".txt";System.out.println("leche mon anus");}
+        	}
+        	try(FileWriter fileWriter = new FileWriter(chooser.getSelectedFile()+suffix)) {
+        		System.out.println("---->Saving file");
         		BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                  bufferedWriter.write(">>>>||----Chesstory_SaveFile_Header--|");
                  bufferedWriter.newLine();
-                 bufferedWriter.write(g.getGameId());
+                 bufferedWriter.write(Integer.toString(g.getGameId()));
+                 System.out.println("    >id : "+g.getGameId());
                  bufferedWriter.newLine();
-                 bufferedWriter.write(g.getGameType());
+                 bufferedWriter.write(Integer.toString(g.getGameType()));
+                 System.out.println("    >type : "+g.getGameType());
                  bufferedWriter.newLine();
                  ArrayList<Deplacement> temp=g.getMoveList();
-                 bufferedWriter.write(temp.size());
+                 bufferedWriter.write(Integer.toString(temp.size()));
                  bufferedWriter.newLine();
                  for(int i=0; i<temp.size(); i++){
                 	 bufferedWriter.write(temp.get(i).getColor()+" "+temp.get(i).getPiececode()+" "+temp.get(i).getX1()+" "
@@ -46,12 +58,12 @@ abstract class FileController {
                 	 bufferedWriter.newLine();
                  }
                  bufferedWriter.write("|--Chesstory_SaveFile_Footer----||<<<<");
-                 
+                 System.out.println("---->File saved !");
                  
 
-                 if(!chooser.getSelectedFile().getAbsolutePath().endsWith(suffix)){//useless I think
+                 /*if(!chooser.getSelectedFile().getAbsolutePath().endsWith(suffix)){//useless I think
                      file = new File(bufferedWriter + suffix);
-                 }
+                 }*/
                  
                  // Always close files.
                  bufferedWriter.close();
