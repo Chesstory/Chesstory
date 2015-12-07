@@ -132,7 +132,8 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	/**
 	 * Verification et appliction d'un deplacement
 	 * 
-	 * @param move Le déplacement
+	 * @param move
+	 *            Le déplacement
 	 * @param c
 	 * @return La validité du déplacement
 	 */
@@ -173,10 +174,10 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	public YetAnotherChessGame(String fenDeDeapart) {
 		ech = new Echiquier();
 		ech.setFEN(fenDeDeapart);
-		
-		//Pour le test !
-		//ech.setFEN("kr6/8/8/8/8/8/8/KQR5");
-		
+
+		// Pour le test !
+		// ech.setFEN("kr6/8/8/8/8/8/8/KQR5");
+
 		Dimension boardSize = new Dimension(600, 600);
 
 		// Use a Layered Pane for this this application
@@ -244,10 +245,10 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 			System.out.println("==> Déplacement : " + d);
 
 			if (makeDeplacement(d, c)) {
-				if(ech.verifiePartieTerminee()=='w')
+				/*if (ech.verifiePartieTerminee() == 'w')
 					System.out.println("Les blancs ont gagne maggle.");
-				else if (ech.verifiePartieTerminee() == 'b')
-					System.out.println("Les noirs ont gagne maggle.");
+				if (ech.verifiePartieTerminee() == 'b')
+					System.out.println("Les noirs ont gagne maggle.");*/
 			} else {
 				// replacer sur la case de départ
 				panel.add(chessPiece);

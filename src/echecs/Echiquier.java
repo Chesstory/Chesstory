@@ -1062,7 +1062,7 @@ public class Echiquier {
 		for (i = 0; i < dimX; i++) {
 			for (int j = 0; j < dimY; j++) {
 				if (c[i][j].getPiece() != null) {
-					existantPieces[k] = c[i][j].getPiece();
+					existantPieces[k] = new Piece(c[i][j].getPiece());
 					k++;
 				}
 			}
