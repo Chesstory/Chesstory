@@ -97,7 +97,7 @@ public class ChesstoryGame extends JFrame implements MouseListener{
 		
 		
 		panelLeft = new JPanel();
-		panelLeft.setBounds(10, 27, 1163, 772);
+		panelLeft.setBounds(10, 27, 1000, 650);
 		panelLeft.setBackground(Color.gray);
 		f.getContentPane().add(panelLeft);
 		
