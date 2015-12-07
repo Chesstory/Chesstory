@@ -28,6 +28,10 @@ public class Echiquier {
 	boolean roqueQ;
 	boolean roqueq;
 
+	// pour la fin de partie
+	private Piece[] existantPieces;
+	private final int nbMaxPiece = 30;
+	
 	// pour la promotion
 	boolean promotion = false;
 	private boolean petitRoqueEnCours = false;
@@ -64,6 +68,8 @@ public class Echiquier {
 
 		this.trait = 'w';
 
+		existantPieces = new Piece[nbMaxPiece];
+		
 		c = new Case[dimX][dimY];
 		vider();
 
@@ -74,6 +80,8 @@ public class Echiquier {
 		this.dimY = ech.dimY;
 		this.trait = ech.trait;
 
+		existantPieces = new Piece[nbMaxPiece];
+		
 		c = new Case[dimX][dimY];
 		for (int i = 0; i < dimX; i++) {
 			for (int j = 0; j < dimY; j++) {
@@ -1037,13 +1045,36 @@ public class Echiquier {
 
 		return true;
 	}
-
+	
 	/**
 	 * Test si la partie est finie
 	 * 
 	 * @return n si la partie n'est pas finie, b ou w selon le gagnant
 	 */
 	public char verifiePartieTerminee() {
+		char end = 'n';
+		boolean whiteKing = false;
+		boolean blackKing = false;
+		int i;
 		
+		//Check the existing pieces on the board
+		int k=0;
+		for (i = 0; i < dimX; i++) {
+			for (int j = 0; j < dimY; j++) {
+				if(c[i][j].getPiece() != null){
+					existantPieces[k] = c[i][j].getPiece();
+					k++;
+				}
+			}
+		}
+		
+		//Test if there is only the king on one side
+		i=0;
+		/*while(((!whiteKing) || (!blackKing)) 
+				&& (i<k)){
+			
+		}*/
+		
+		return (end);
 	}
 }
