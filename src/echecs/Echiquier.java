@@ -1069,7 +1069,6 @@ public class Echiquier {
 			for (int j = 0; j < dimY; j++) {
 				if (c[i][j].getPiece() != null) {
 					existantPieces[k] = c[i][j].getPiece();
-					System.out.println(existantPieces[k].getNom());
 					k++;
 				}
 			}
@@ -1085,8 +1084,6 @@ public class Echiquier {
 
 			if (existantPieces[i].estNoir() && existantPieces[i].getCode() != 'k')
 				blackKingAlone = false;
-
-			System.out.println(existantPieces[i].getCode() + " " + existantPieces[i].getColor());
 
 			i++;
 		}
