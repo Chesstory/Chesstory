@@ -30,7 +30,7 @@ public class Echiquier {
 
 	// pour la fin de partie
 	private Piece[] existantPieces;
-	private final int nbMaxPiece = 30;
+	private final int nbMaxPiece = 35;
 
 	// pour la promotion
 	boolean promotion = false;
@@ -46,6 +46,7 @@ public class Echiquier {
 	 */
 	public Echiquier() {
 		this(8, 8);
+		existantPieces = new Piece[nbMaxPiece];
 	}
 
 	private void vider() {
@@ -1052,9 +1053,14 @@ public class Echiquier {
 	 * @return n si la partie n'est pas finie, b ou w selon le gagnant
 	 */
 	public char verifiePartieTerminee() {
+
+		// TODO Other tests, like king + one "big" piece
+
 		char end = 'n';
-		boolean whiteKing = false;
-		boolean blackKing = false;
+		// At start, we set those var true
+		boolean whiteKingAlone = true;
+		boolean blackKingAlone = true;
+
 		int i;
 
 		// Check the existing pieces on the board
@@ -1062,27 +1068,32 @@ public class Echiquier {
 		for (i = 0; i < dimX; i++) {
 			for (int j = 0; j < dimY; j++) {
 				if (c[i][j].getPiece() != null) {
-					existantPieces[k] = new Piece(c[i][j].getPiece());
+					existantPieces[k] = c[i][j].getPiece();
+					System.out.println(existantPieces[k].getNom());
 					k++;
 				}
 			}
 		}
 
-		// Test if there is only the king on one side
+		// Test if there only remains the king on one side
+		// If there is an other piece on one side of the board, it's king is not
+		// alone
 		i = 0;
-		while (!whiteKing && !blackKing && (i < k)) {
-			if (!whiteKing)
-				whiteKing = (existantPieces[i].estBlanc() && existantPieces[i].getCode() != 'K');
+		while (i < k) {
+			if (existantPieces[i].estBlanc() && existantPieces[i].getCode() != 'K')
+				whiteKingAlone = false;
 
-			if (!blackKing)
-				blackKing = (existantPieces[i].estNoir() && existantPieces[i].getCode() != 'k');
-			
+			if (existantPieces[i].estNoir() && existantPieces[i].getCode() != 'k')
+				blackKingAlone = false;
+
+			System.out.println(existantPieces[i].getCode() + " " + existantPieces[i].getColor());
+
 			i++;
 		}
-		
-		if(blackKing)
+
+		if (blackKingAlone)
 			end = 'w';
-		if(whiteKing)
+		if (whiteKingAlone)
 			end = 'b';
 
 		return (end);

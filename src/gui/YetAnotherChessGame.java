@@ -58,8 +58,16 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	 */
 	static Echiquier ech;
 
+	/** 
+	 * First click or not
+	 */
 	private boolean first = true;
 
+	/**
+	 * Winner of the game
+	 */
+	private char winner='n';
+	
 	/**
 	 * Efface tout l'échiquier
 	 */
@@ -176,7 +184,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 		ech.setFEN(fenDeDeapart);
 
 		// Pour le test !
-		// ech.setFEN("kr6/8/8/8/8/8/8/KQR5");
+		 //ech.setFEN("kr6/8/8/8/8/8/8/KQR5");
 
 		Dimension boardSize = new Dimension(600, 600);
 
@@ -245,10 +253,10 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 			System.out.println("==> Déplacement : " + d);
 
 			if (makeDeplacement(d, c)) {
-				/*if (ech.verifiePartieTerminee() == 'w')
-					System.out.println("Les blancs ont gagne maggle.");
-				if (ech.verifiePartieTerminee() == 'b')
-					System.out.println("Les noirs ont gagne maggle.");*/
+				if ((winner=ech.verifiePartieTerminee()) != 'n'){
+					System.out.println("GG aux "+winner);
+					System.exit(0);
+				}
 			} else {
 				// replacer sur la case de départ
 				panel.add(chessPiece);
