@@ -19,6 +19,8 @@ import java.awt.event.MouseListener;
 
 
 
+
+
 import javax.swing.*;
 
 import java.awt.Color;
@@ -33,6 +35,8 @@ import java.awt.BorderLayout;
 import javax.swing.border.EtchedBorder;
 
 import java.util.ArrayList;
+
+
 
 
 
@@ -81,6 +85,9 @@ public class ChesstoryGame extends JFrame implements MouseListener{
 	private JButton bSave;
 	private JButton bParameters;
 	private JButton bExit;
+	private JButton arrowLeft;
+	private JButton arrowMiddle; 
+	private JButton arrowRight; 
 	
 	public ChesstoryGame(String title, int gameType){
 		this.gameType=gameType;
@@ -97,7 +104,7 @@ public class ChesstoryGame extends JFrame implements MouseListener{
 		
 		
 		panelLeft = new JPanel();
-		panelLeft.setBounds(10, 27, 1000, 650);
+		panelLeft.setBounds(10, 27, 900, 680);
 		panelLeft.setBackground(Color.gray);
 		f.getContentPane().add(panelLeft);
 		
@@ -174,50 +181,94 @@ public class ChesstoryGame extends JFrame implements MouseListener{
 		//Chessboard
 		YACG=new YetAnotherChessGame(fenDeDepart);
 		GridBagLayout gbl_panelLeft = new GridBagLayout();
-		gbl_panelLeft.columnWidths = new int[]{1163, 0};
-		gbl_panelLeft.rowHeights = new int[]{154, 154, 0, 0};
-		gbl_panelLeft.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panelLeft.rowWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelLeft.columnWidths = new int[]{1000, 0};
+		gbl_panelLeft.rowHeights = new int[]{10, 600, 0};
+		gbl_panelLeft.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_panelLeft.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		panelLeft.setLayout(gbl_panelLeft);
+		
 		
 		panelLeftMenu = new JPanel();
 		GridBagConstraints gbc_panelLeftMenu = new GridBagConstraints();
-		gbc_panelLeftMenu.insets = new Insets(0, 0, 5, 0);
 		gbc_panelLeftMenu.fill = GridBagConstraints.BOTH;
+		gbc_panelLeftMenu.insets = new Insets(0, 0, 5, 0);
 		gbc_panelLeftMenu.gridx = 0;
 		gbc_panelLeftMenu.gridy = 0;
 		panelLeft.add(panelLeftMenu, gbc_panelLeftMenu);
+		panelLeftMenu.setLayout(new GridLayout(2, 1, 0, 0));
+		
+		JPanel panelLeftMenuMain = new JPanel();
+		panelLeftMenu.add(panelLeftMenuMain);
 		
 		bLoad = new JButton("Load");
-		bLoad.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				loadGame();
-			}
-		});
-		panelLeftMenu.add(bLoad);
+		panelLeftMenuMain.add(bLoad);
 		
 		bSave = new JButton("Save");
+		panelLeftMenuMain.add(bSave);
+		
+		bParameters = new JButton("Parameters");
+		panelLeftMenuMain.add(bParameters);
+		
+		bExit = new JButton("Exit");
+		panelLeftMenuMain.add(bExit);
+		
+		JPanel panelLeftMenuBrowse = new JPanel();
+		panelLeftMenu.add(panelLeftMenuBrowse);
+		
+		
+		arrowLeft = new JButton("");
+		//ClassLoader cl = this.getClass().getClassLoader();
+		/*arrowLeft.setBorder(BorderFactory.createEmptyBorder());
+				arrowLeft.setContentAreaFilled(false);*/
+		//Icon icon =new ImageIcon(new ImageIcon(cl.getResource("arrow_left.png")).getImage().getScaledInstance(20, 60, Image.SCALE_DEFAULT));
+		Icon icon =new ImageIcon(new ImageIcon("C:\\Users\\Roman\\git\\Chesstory\\bin\\ui_icons\\arrow_left.png").getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));		
+		arrowLeft.setIcon(icon);
+		panelLeftMenuBrowse.add(arrowLeft);
+		
+		icon =new ImageIcon(new ImageIcon("C:\\Users\\Roman\\git\\Chesstory\\bin\\ui_icons\\arrow_play.png").getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
+		arrowMiddle = new JButton(icon);
+		panelLeftMenuBrowse.add(arrowMiddle);
+		
+		icon =new ImageIcon(new ImageIcon("C:\\Users\\Roman\\git\\Chesstory\\bin\\ui_icons\\arrow_right.png").getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
+		arrowRight = new JButton(icon);
+		panelLeftMenuBrowse.add(arrowRight);
+		
+		
 		bSave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				saveGame();
 			}
 		});
-		panelLeftMenu.add(bSave);
-		
-		bParameters = new JButton("Parameters");
-		panelLeftMenu.add(bParameters);
-		
-		bExit = new JButton("Exit");
-		panelLeftMenu.add(bExit);
-		
+		bLoad.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				loadGame();
+			}
+		});
+		arrowLeft.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				loadGame();
+			}
+		});
+		arrowMiddle.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				loadGame();
+			}
+		});
+		arrowRight.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				loadGame();
+			}
+		});
 		panelLeftChessboard = new JPanel();
 		panelLeftChessboard.setSize(new Dimension(600, 600));
 		panelLeftChessboard.setMinimumSize(new Dimension(600, 600));
 		FlowLayout flowLayout = (FlowLayout) panelLeftChessboard.getLayout();
 		GridBagConstraints gbc_panelLeftChessboard = new GridBagConstraints();
-		gbc_panelLeftChessboard.insets = new Insets(0, 0, 5, 0);
 		gbc_panelLeftChessboard.fill = GridBagConstraints.BOTH;
 		gbc_panelLeftChessboard.gridx = 0;
 		gbc_panelLeftChessboard.gridy = 1;
