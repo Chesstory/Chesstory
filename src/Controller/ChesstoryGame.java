@@ -56,6 +56,7 @@ import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.border.LineBorder;
 
 public class ChesstoryGame extends JFrame implements MouseListener{
 	//static YetAnotherChessGame YACG;
@@ -64,7 +65,7 @@ public class ChesstoryGame extends JFrame implements MouseListener{
 	//>Interface
 	public static JFrame f;
 	private JPanel panelLeft;
-		private float panelLeftRatio=(2/3);
+	//	private float panelLeftRatio=(2/3);
 	private JPanel panelRight;
 	private JPanel panelLeftChessboard;
 	private JPanel panelLeftMenu;
@@ -104,17 +105,122 @@ public class ChesstoryGame extends JFrame implements MouseListener{
 		f.setForeground(Color.BLUE);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
+		//Chessboard
+		YACG=new YetAnotherChessGame(fenDeDepart);
 		
 		
 		panelLeft = new JPanel();
+		panelLeft.setBorder(new LineBorder(Color.GREEN));
 		//panelLeft.setSize((int)(f.getSize().getWidth()*panelLeftRatio)-200, (int)f.getSize().getHeight()+500);
 		panelLeft.setBackground(Color.gray);
+		GridBagLayout gbl_panelLeft = new GridBagLayout();
+		gbl_panelLeft.columnWidths = new int[]{1000, 0};
+		gbl_panelLeft.rowHeights = new int[]{10, 600, 0};
+		gbl_panelLeft.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_panelLeft.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		panelLeft.setLayout(gbl_panelLeft);
+		
+		
+		panelLeftMenu = new JPanel();
+		GridBagConstraints gbc_panelLeftMenu = new GridBagConstraints();
+		gbc_panelLeftMenu.fill = GridBagConstraints.BOTH;
+		gbc_panelLeftMenu.insets = new Insets(0, 0, 5, 0);
+		gbc_panelLeftMenu.gridx = 0;
+		gbc_panelLeftMenu.gridy = 0;
+		panelLeft.add(panelLeftMenu, gbc_panelLeftMenu);
+		panelLeftMenu.setLayout(new GridLayout(2, 1, 0, 0));
+		
+		JPanel panelLeftMenuMain = new JPanel();
+		panelLeftMenu.add(panelLeftMenuMain);
+		
+		bLoad = new JButton("Load");
+		panelLeftMenuMain.add(bLoad);
+		
+		bSave = new JButton("Save");
+		panelLeftMenuMain.add(bSave);
+		
+		bParameters = new JButton("Parameters");
+		panelLeftMenuMain.add(bParameters);
+		
+		bExit = new JButton("Exit");
+		panelLeftMenuMain.add(bExit);
+		
+		JPanel panelLeftMenuBrowse = new JPanel();
+		panelLeftMenu.add(panelLeftMenuBrowse);
+		
+		/*arrowLeft.setBorder(BorderFactory.createEmptyBorder());
+		arrowLeft.setContentAreaFilled(false);*/
+		//Icon icon =new ImageIcon(new ImageIcon(cl.getResource("arrow_left.png")).getImage().getScaledInstance(20, 60, Image.SCALE_DEFAULT));
+		
+		Icon icon =new ImageIcon(new ImageIcon("C:\\Users\\Roman\\git\\Chesstory\\bin\\ui_icons\\arrow_left.png").getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));		
+		arrowLeft = new JButton(icon);
+		panelLeftMenuBrowse.add(arrowLeft);
+		
+		icon =new ImageIcon(new ImageIcon("C:\\Users\\Roman\\git\\Chesstory\\bin\\ui_icons\\arrow_play.png").getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
+		arrowMiddle = new JButton(icon);
+		panelLeftMenuBrowse.add(arrowMiddle);
+		
+		icon =new ImageIcon(new ImageIcon("C:\\Users\\Roman\\git\\Chesstory\\bin\\ui_icons\\arrow_right.png").getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
+		arrowRight = new JButton(icon);
+		panelLeftMenuBrowse.add(arrowRight);
+		
+		
+		bSave.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				saveGame();
+			}
+		});
+		bLoad.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				loadGame();
+			}
+		});
+		bExit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		arrowLeft.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO forward
+			}
+		});
+		arrowMiddle.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO play
+			}
+		});
+		arrowRight.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO back
+			}
+		});
+		f.getContentPane().setLayout(new BoxLayout(f.getContentPane(), BoxLayout.X_AXIS));
+		panelLeftChessboard = new JPanel();
+		panelLeftChessboard.setSize(new Dimension(600, 600));
+		panelLeftChessboard.setMinimumSize(new Dimension(600, 600));
+		FlowLayout flowLayout = (FlowLayout) panelLeftChessboard.getLayout();
+		GridBagConstraints gbc_panelLeftChessboard = new GridBagConstraints();
+		gbc_panelLeftChessboard.fill = GridBagConstraints.BOTH;
+		gbc_panelLeftChessboard.gridx = 0;
+		gbc_panelLeftChessboard.gridy = 1;
+		panelLeft.add(panelLeftChessboard, gbc_panelLeftChessboard);
+		panelLeftChessboard.add(YACG.CreationChessboard());
+		f.getContentPane().add(panelLeft);
 		
 		
 		
 		
 		
 		panelRight = new JPanel();
+		FlowLayout flowLayout_1 = (FlowLayout) panelRight.getLayout();
+		panelRight.setBorder(new LineBorder(Color.RED));
 		panelRight.setBackground(Color.darkGray);
 		
 		
@@ -178,104 +284,6 @@ public class ChesstoryGame extends JFrame implements MouseListener{
 		logsTextScroll = new JScrollPane(logsText);
 		logsTextScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		panelRight.add(logsTextScroll);
-		//Chessboard
-		YACG=new YetAnotherChessGame(fenDeDepart);
-		GridBagLayout gbl_panelLeft = new GridBagLayout();
-		gbl_panelLeft.columnWidths = new int[]{1000, 0};
-		gbl_panelLeft.rowHeights = new int[]{10, 600, 0};
-		gbl_panelLeft.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_panelLeft.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		panelLeft.setLayout(gbl_panelLeft);
-		
-		
-		panelLeftMenu = new JPanel();
-		GridBagConstraints gbc_panelLeftMenu = new GridBagConstraints();
-		gbc_panelLeftMenu.fill = GridBagConstraints.BOTH;
-		gbc_panelLeftMenu.insets = new Insets(0, 0, 5, 0);
-		gbc_panelLeftMenu.gridx = 0;
-		gbc_panelLeftMenu.gridy = 0;
-		panelLeft.add(panelLeftMenu, gbc_panelLeftMenu);
-		panelLeftMenu.setLayout(new GridLayout(2, 1, 0, 0));
-		
-		JPanel panelLeftMenuMain = new JPanel();
-		panelLeftMenu.add(panelLeftMenuMain);
-		
-		bLoad = new JButton("Load");
-		panelLeftMenuMain.add(bLoad);
-		
-		bSave = new JButton("Save");
-		panelLeftMenuMain.add(bSave);
-		
-		bParameters = new JButton("Parameters");
-		panelLeftMenuMain.add(bParameters);
-		
-		bExit = new JButton("Exit");
-		panelLeftMenuMain.add(bExit);
-		
-		JPanel panelLeftMenuBrowse = new JPanel();
-		panelLeftMenu.add(panelLeftMenuBrowse);
-		
-		
-		arrowLeft = new JButton("");
-		//ClassLoader cl = this.getClass().getClassLoader();
-		/*arrowLeft.setBorder(BorderFactory.createEmptyBorder());
-				arrowLeft.setContentAreaFilled(false);*/
-		//Icon icon =new ImageIcon(new ImageIcon(cl.getResource("arrow_left.png")).getImage().getScaledInstance(20, 60, Image.SCALE_DEFAULT));
-		Icon icon =new ImageIcon(new ImageIcon("C:\\Users\\Roman\\git\\Chesstory\\bin\\ui_icons\\arrow_left.png").getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));		
-		arrowLeft.setIcon(icon);
-		panelLeftMenuBrowse.add(arrowLeft);
-		
-		icon =new ImageIcon(new ImageIcon("C:\\Users\\Roman\\git\\Chesstory\\bin\\ui_icons\\arrow_play.png").getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
-		arrowMiddle = new JButton(icon);
-		panelLeftMenuBrowse.add(arrowMiddle);
-		
-		icon =new ImageIcon(new ImageIcon("C:\\Users\\Roman\\git\\Chesstory\\bin\\ui_icons\\arrow_right.png").getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
-		arrowRight = new JButton(icon);
-		panelLeftMenuBrowse.add(arrowRight);
-		
-		
-		bSave.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				saveGame();
-			}
-		});
-		bLoad.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				loadGame();
-			}
-		});
-		arrowLeft.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//TODO forward
-			}
-		});
-		arrowMiddle.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//TODO play
-			}
-		});
-		arrowRight.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//TODO back
-			}
-		});
-		f.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 0, 5));
-		panelLeftChessboard = new JPanel();
-		panelLeftChessboard.setSize(new Dimension(600, 600));
-		panelLeftChessboard.setMinimumSize(new Dimension(600, 600));
-		FlowLayout flowLayout = (FlowLayout) panelLeftChessboard.getLayout();
-		GridBagConstraints gbc_panelLeftChessboard = new GridBagConstraints();
-		gbc_panelLeftChessboard.fill = GridBagConstraints.BOTH;
-		gbc_panelLeftChessboard.gridx = 0;
-		gbc_panelLeftChessboard.gridy = 1;
-		panelLeft.add(panelLeftChessboard, gbc_panelLeftChessboard);
-		panelLeftChessboard.add(YACG.CreationChessboard());
-		f.getContentPane().add(panelLeft);
 		f.getContentPane().add(panelRight);
 		
 		//<Chessboard
@@ -333,27 +341,22 @@ public class ChesstoryGame extends JFrame implements MouseListener{
 	}
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 }
