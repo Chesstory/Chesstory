@@ -96,6 +96,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 					// java.net.URL imgURL = getClass().getResource(nomComplet);
 					ClassLoader cl = this.getClass().getClassLoader();
 					JLabel piece = new JLabel(new ImageIcon(cl.getResource(nomComplet)));
+					//JLabel piece = new JLabel(new ImageIcon(this.getClass().getResource("Ressources/"+nomComplet)));
 					JPanel panel = (JPanel) chessBoard.getComponent(j * ech.getDimX() + i);
 					panel.add(piece);
 				}
@@ -184,7 +185,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 		ech.setFEN(fenDeDeapart);
 
 		// Pour le test !
-		ech.setFEN("krq5/8/8/8/8/8/8/KQR5");
+		//ech.setFEN("krq5/8/8/8/8/8/8/KQR5");
 
 		Dimension boardSize = new Dimension(600, 600);
 

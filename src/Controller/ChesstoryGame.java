@@ -21,11 +21,13 @@ import java.awt.event.MouseListener;
 
 
 
+
 import javax.swing.*;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.TextArea;
@@ -45,6 +47,7 @@ import java.util.ArrayList;
 
 
 
+
 import gui.YetAnotherChessGame;
 import echecs.Echiquier;
 import echecs.Deplacement;
@@ -52,6 +55,7 @@ import echecs.Deplacement;
 import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import javax.swing.GroupLayout.Alignment;
 
 public class ChesstoryGame extends JFrame implements MouseListener{
 	//static YetAnotherChessGame YACG;
@@ -60,13 +64,18 @@ public class ChesstoryGame extends JFrame implements MouseListener{
 	//>Interface
 	public static JFrame f;
 	private JPanel panelLeft;
+		private float panelLeftRatio=(2/3);
 	private JPanel panelRight;
 	private JPanel panelLeftChessboard;
+	private JPanel panelLeftMenu;
+	private JButton bLoad;
+	private JButton bSave;
+	private JButton bParameters;
+	private JButton bExit;
+	private JButton arrowLeft;
+	private JButton arrowMiddle; 
+	private JButton arrowRight; 
 	
-	private static final int height=850;
-	private static final int width=1600;
-	private int heightRightPanel;
-	private int widthRightPanel;
 	
 	
 	private JTextArea rulesText;//RULES
@@ -80,42 +89,33 @@ public class ChesstoryGame extends JFrame implements MouseListener{
 	private int gameId;
 	private int gameType;
 	private String fenDeDepart="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
-	private JPanel panelLeftMenu;
-	private JButton bLoad;
-	private JButton bSave;
-	private JButton bParameters;
-	private JButton bExit;
-	private JButton arrowLeft;
-	private JButton arrowMiddle; 
-	private JButton arrowRight; 
+	
+	
 	
 	public ChesstoryGame(String title, int gameType){
 		this.gameType=gameType;
 		
-		heightRightPanel=(int)(height*(0.66));
-		widthRightPanel=(int)(width*(0.66));
+		/*heightRightPanel=(int)(height*(0.66));
+		widthRightPanel=(int)(width*(0.66));*/
 		
 		f=new JFrame();
-		f.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		//f.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		f.setSize(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width, GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height);
 		f.setForeground(Color.BLUE);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
-		f.getContentPane().setLayout(null);
 		
 		
 		panelLeft = new JPanel();
-		panelLeft.setBounds(10, 27, 900, 680);
+		//panelLeft.setSize((int)(f.getSize().getWidth()*panelLeftRatio)-200, (int)f.getSize().getHeight()+500);
 		panelLeft.setBackground(Color.gray);
-		f.getContentPane().add(panelLeft);
 		
 		
 		
 		
 		
 		panelRight = new JPanel();
-		panelRight.setBounds(1183, 27, 403, 772);
 		panelRight.setBackground(Color.darkGray);
-		f.getContentPane().add(panelRight);
 		
 		
 		
@@ -249,21 +249,22 @@ public class ChesstoryGame extends JFrame implements MouseListener{
 		arrowLeft.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				loadGame();
+				//TODO forward
 			}
 		});
 		arrowMiddle.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				loadGame();
+				//TODO play
 			}
 		});
 		arrowRight.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				loadGame();
+				//TODO back
 			}
 		});
+		f.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 0, 5));
 		panelLeftChessboard = new JPanel();
 		panelLeftChessboard.setSize(new Dimension(600, 600));
 		panelLeftChessboard.setMinimumSize(new Dimension(600, 600));
@@ -274,6 +275,8 @@ public class ChesstoryGame extends JFrame implements MouseListener{
 		gbc_panelLeftChessboard.gridy = 1;
 		panelLeft.add(panelLeftChessboard, gbc_panelLeftChessboard);
 		panelLeftChessboard.add(YACG.CreationChessboard());
+		f.getContentPane().add(panelLeft);
+		f.getContentPane().add(panelRight);
 		
 		//<Chessboard
 		
@@ -319,6 +322,7 @@ public class ChesstoryGame extends JFrame implements MouseListener{
 		System.out.println("Load game, id: "+gameId+", type: "+gameType);
 		for(int i=0;i<moveList.size();i++){
 			System.out.println("c ="+moveList.get(i).getColor()+", p ="+moveList.get(i).getPiececode()+", ("+moveList.get(i).getX1()+", "+moveList.get(i).getY1()+") -> ("+moveList.get(i).getX2()+", "+moveList.get(i).getY2()+")");
+			
 		}	
 	}
 	public void saveGame(){
