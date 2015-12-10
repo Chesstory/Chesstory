@@ -58,7 +58,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	 */
 	static Echiquier ech;
 
-	/** 
+	/**
 	 * First click or not
 	 */
 	private boolean first = true;
@@ -66,8 +66,8 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	/**
 	 * Winner of the game
 	 */
-	private char winner='n';
-	
+	private char winner = 'n';
+
 	/**
 	 * Efface tout l'échiquier
 	 */
@@ -96,7 +96,8 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 					// java.net.URL imgURL = getClass().getResource(nomComplet);
 					ClassLoader cl = this.getClass().getClassLoader();
 					JLabel piece = new JLabel(new ImageIcon(cl.getResource(nomComplet)));
-					//JLabel piece = new JLabel(new ImageIcon(this.getClass().getResource("/Ressources/"+nomComplet)));
+					// JLabel piece = new JLabel(new
+					// ImageIcon(this.getClass().getResource("/Ressources/"+nomComplet)));
 					JPanel panel = (JPanel) chessBoard.getComponent(j * ech.getDimX() + i);
 					panel.add(piece);
 				}
@@ -185,7 +186,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 		ech.setFEN(fenDeDeapart);
 
 		// Pour le test !
-		//ech.setFEN("krq5/8/8/8/8/8/8/KQR5");
+		// ech.setFEN("krq5/8/8/8/8/8/8/KQR5");
 
 		Dimension boardSize = new Dimension(600, 600);
 
@@ -254,8 +255,8 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 			System.out.println("==> Déplacement : " + d);
 
 			if (makeDeplacement(d, c)) {
-				if ((winner=ech.verifiePartieTerminee()) != 'n'){
-					System.out.println("GG aux "+winner);
+				if ((winner = ech.verifiePartieTerminee()) != 'n') {
+					System.out.println("GG aux " + winner);
 					System.exit(0);
 				}
 			} else {
@@ -322,5 +323,16 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	public JLayeredPane CreationChessboard() {
 
 		return layeredPane;
+	}
+
+	/**
+	 * Methode effectuant et testant un deplacement sans gerer l'interface
+	 * graphique
+	 * 
+	 * @param d Deplacement a tester et effectuer
+	 * @return True si test concluant, False sinon
+	 */
+	public boolean makeMoveUI(Deplacement d) {
+		
 	}
 }

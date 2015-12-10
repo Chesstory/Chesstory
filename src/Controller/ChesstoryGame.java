@@ -128,17 +128,17 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		// ImageIcon(cl.getResource("arrow_left.png")).getImage().getScaledInstance(20,
 		// 60, Image.SCALE_DEFAULT));
 
-		Icon icon = new ImageIcon(new ImageIcon("C:\\Users\\Roman\\git\\Chesstory\\bin\\ui_icons\\arrow_left.png")
+		Icon icon = new ImageIcon(new ImageIcon("./bin/icons/arrow_left.png")
 				.getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
 		arrowLeft = new JButton(icon);
 		panelLeftMenuBrowse.add(arrowLeft);
 
-		icon = new ImageIcon(new ImageIcon("C:\\Users\\Roman\\git\\Chesstory\\bin\\ui_icons\\arrow_play.png").getImage()
+		icon = new ImageIcon(new ImageIcon("./bin/icons/arrow_play.png").getImage()
 				.getScaledInstance(60, 40, Image.SCALE_DEFAULT));
 		arrowMiddle = new JButton(icon);
 		panelLeftMenuBrowse.add(arrowMiddle);
 
-		icon = new ImageIcon(new ImageIcon("C:\\Users\\Roman\\git\\Chesstory\\bin\\ui_icons\\arrow_right.png")
+		icon = new ImageIcon(new ImageIcon("./bin/icons/arrow_right.png")
 				.getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
 		arrowRight = new JButton(icon);
 		panelLeftMenuBrowse.add(arrowRight);
