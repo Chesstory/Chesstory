@@ -290,9 +290,10 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 					+ moveList.get(i).getX1() + ", " + moveList.get(i).getY1() + ") -> (" + moveList.get(i).getX2()
 					+ ", " + moveList.get(i).getY2() + ")");
 			
-			//YACG.makeDeplacement(moveList.get(i));
+			YACG.makeDeplacement(moveList.get(i));
 
 		}
+		//TODO check if a piece was clicked on, which player have to play (??)
 		
 	}
 
