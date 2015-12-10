@@ -117,6 +117,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 		videEchiquier();
 		ech.setFEN(fenDeDepart);
 		dessineToutesLesPieces();
+		validate();
 	}
 	
 	private void surbrillance(Position pos, Color couleur) {
