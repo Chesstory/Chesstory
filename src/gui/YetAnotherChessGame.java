@@ -113,6 +113,12 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 		dessineToutesLesPieces();
 	}
 
+	public void initEch(String fenDeDepart){
+		videEchiquier();
+		ech.setFEN(fenDeDepart);
+		dessineToutesLesPieces();
+	}
+	
 	private void surbrillance(Position pos, Color couleur) {
 		JPanel panel = (JPanel) chessBoard.getComponent((8 - pos.getY() - 1) * ech.getDimX() + pos.getX());
 		panel.setBackground(couleur);
