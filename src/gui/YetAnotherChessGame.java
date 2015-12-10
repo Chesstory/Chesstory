@@ -151,10 +151,9 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 
 		int i = move.getDepart().getX();
 		int j = move.getDepart().getY();
-		
+
 		Component c = chessBoard.findComponentAt((int) ((i / 600.0) * 8.0), (int) ((((600.0 - j) / 600.0) * 8.0)));
-		
-		
+
 		if (ech.estValideDeplacement(move)) {
 			ech.executeDeplacement(move);
 			if (ech.isPromotion()) {
