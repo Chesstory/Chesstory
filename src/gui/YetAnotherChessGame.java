@@ -324,31 +324,4 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 
 		return layeredPane;
 	}
-
-	/**
-	 * Methode effectuant et testant un deplacement sans gerer l'interface
-	 * graphique
-	 * 
-	 * @param d Deplacement a tester et effectuer
-	 * @return True si test concluant, False sinon
-	 */
-	public boolean makeMoveUI(Deplacement d) {
-		if (ech.estValideDeplacement(d)) {
-			ech.executeDeplacement(d);
-			if (ech.isPromotion()) {
-			//	String nom = ech.getPiece(move.getArrive()).getNom();
-
-				//chessPiece = new JLabel(new ImageIcon("icons/" + nom + ".png"));
-				//parent.add(chessPiece);
-			}
-
-
-			if (ech.petitRoqueEnCours() || ech.grandRoqueEnCours() || ech.priseEnPassantEnCours()) {
-				redessine();
-			}
-
-			return true;
-		} else
-			return false;	
-	}
 }
