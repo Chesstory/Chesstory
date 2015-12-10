@@ -16,12 +16,8 @@ import javax.swing.JFileChooser;
 
 abstract class FileController {
 	static boolean saveFile(GameSave g) {
-		//TODO save
-        String strToWrite="hello i'm Franky";
-        String line = null;
         String directory = "./Saves/";
         String suffix = "txt";
-        File file;
         
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new File(directory));
