@@ -284,12 +284,16 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		gameId = gameSave.getGameId();
 		gameType = gameSave.getGameType();
 		System.out.println("Load game, id: " + gameId + ", type: " + gameType);
+		YACG.initEch("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 		for (int i = 0; i < moveList.size(); i++) {
 			System.out.println("c =" + moveList.get(i).getColor() + ", p =" + moveList.get(i).getPiececode() + ", ("
 					+ moveList.get(i).getX1() + ", " + moveList.get(i).getY1() + ") -> (" + moveList.get(i).getX2()
 					+ ", " + moveList.get(i).getY2() + ")");
+			
+			//YACG.makeDeplacement(moveList.get(i));
 
 		}
+		
 	}
 
 	public void saveGame() {
