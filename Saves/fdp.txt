@@ -11,5 +11,5 @@ b t 98 8 9 45
 w a 5 65 56 5
 b b 45 2 6 5
 w c 15 1 5 6
-b m 4 5 6 3
-|--Chesstory_SaveFile_Footer----||<<<<
+b m 4 5 6 3 
+|--Chesstory_SaveFile_Footer----||<<<< 

@@ -147,7 +147,14 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	 * @param c
 	 * @return La validité du déplacement
 	 */
-	public boolean makeDeplacement(Deplacement move, Component c) {
+	public boolean makeDeplacement(Deplacement move) {
+
+		int i = move.getDepart().getX();
+		int j = move.getDepart().getY();
+		
+		Component c = chessBoard.findComponentAt((int) ((i / 600.0) * 8.0), (int) ((((600.0 - j) / 600.0) * 8.0)));
+		
+		
 		if (ech.estValideDeplacement(move)) {
 			ech.executeDeplacement(move);
 			if (ech.isPromotion()) {
@@ -159,7 +166,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 			}
 
 			// cas d'une prise
-			if (c instanceof JLabel) {
+			if (ech.estVideCase(move.getArrive())) {
 				Container parent = c.getParent();
 				parent.remove(0);
 				parent.add(chessPiece);
@@ -240,7 +247,6 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (!first) {
-			Component c = chessBoard.findComponentAt(e.getX(), e.getY());
 			chessPiece.setVisible(false);
 
 			JPanel panel = (JPanel) chessBoard.getComponent((8 - depart.getY() - 1) * ech.getDimX() + depart.getX());
@@ -254,7 +260,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 
 			System.out.println("==> Déplacement : " + d);
 
-			if (makeDeplacement(d, c)) {
+			if (makeDeplacement(d)) {
 				if ((winner = ech.verifiePartieTerminee()) != 'n') {
 					System.out.println("GG aux " + winner);
 					System.exit(0);

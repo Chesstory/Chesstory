@@ -450,7 +450,7 @@ public class Echiquier {
 			char codePiece = piece.getCode();
 			char joueur = 'e';
 
-			// test de ma couleur
+			// test de la couleur
 			if (codePiece >= 97 && codePiece <= 122) {// alors on est en
 														// minuscule
 				joueur = 'b';
