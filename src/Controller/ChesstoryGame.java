@@ -59,6 +59,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 	private static ArrayList<Deplacement> moveList;// List of all the moves of
 													// the current game
+	int moveListCursor;
 	private int gameId;
 	private int gameType;
 	private String fenDeDepart = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
@@ -165,6 +166,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO forward
+				moveListCursor--;
+				YACG.forceMakeDeplacement(new Deplacement(moveList.get(moveListCursor).getArrive(), moveList.get(moveListCursor).getDepart()));
 			}
 		});
 		arrowMiddle.addActionListener(new ActionListener() {
@@ -177,6 +180,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO back
+				moveListCursor++;
+				YACG.makeDeplacement(moveList.get(moveListCursor));
 			}
 		});
 		f.getContentPane().setLayout(new BoxLayout(f.getContentPane(), BoxLayout.X_AXIS));
@@ -293,6 +298,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			YACG.makeDeplacement(moveList.get(i));
 
 		}
+		moveListCursor=moveList.size();
 		//TODO check if a piece was clicked on, which player have to play (??)
 		
 	}

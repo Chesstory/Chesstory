@@ -568,7 +568,7 @@ public class Echiquier {
 			// Ajout dans ArrayList
 			ChesstoryGame.addMove(d);
 			// ici on affiche dans le textArea
-			ChesstoryGame.addLogsMove(d, piece.getNom(), joueur);
+			ChesstoryGame.addLogsMove(d, piece.getNom(), joueur);//TODO REMOPE THAT SHIT FROM HERE
 			// ChesstoryGame.addLogsText("Deplacement : ("+x1+","+y1+") ,
 			// ("+x2+","+y2+")");
 
@@ -599,6 +599,7 @@ public class Echiquier {
 		Piece piece = c[x1][y1].getPiece();
 		c[x2][y2].setPiece(piece);
 		c[x1][y1].vider();
+		//ChesstoryGame.addLogsMove(d, piece.getNom(), 'x');//TODO do
 	}
 
 	/**
