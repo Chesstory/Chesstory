@@ -13,22 +13,14 @@ import java.awt.FlowLayout;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.Image;
-import java.awt.TextArea;
 import java.awt.GridLayout;
-import java.awt.BorderLayout;
-
-import javax.swing.border.EtchedBorder;
-
 import java.util.ArrayList;
 
 import gui.YetAnotherChessGame;
-import echecs.Echiquier;
 import echecs.Deplacement;
 
-import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.LineBorder;
 
 public class ChesstoryGame extends JFrame implements MouseListener {
@@ -129,18 +121,18 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		// ImageIcon(cl.getResource("arrow_left.png")).getImage().getScaledInstance(20,
 		// 60, Image.SCALE_DEFAULT));
 
-		Icon icon = new ImageIcon(new ImageIcon("./bin/icons/arrow_left.png")
-				.getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
+		Icon icon = new ImageIcon(
+				new ImageIcon("./bin/icons/arrow_left.png").getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
 		arrowLeft = new JButton(icon);
 		panelLeftMenuBrowse.add(arrowLeft);
 
-		icon = new ImageIcon(new ImageIcon("./bin/icons/arrow_play.png").getImage()
-				.getScaledInstance(60, 40, Image.SCALE_DEFAULT));
+		icon = new ImageIcon(
+				new ImageIcon("./bin/icons/arrow_play.png").getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
 		arrowMiddle = new JButton(icon);
 		panelLeftMenuBrowse.add(arrowMiddle);
 
-		icon = new ImageIcon(new ImageIcon("./bin/icons/arrow_right.png")
-				.getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
+		icon = new ImageIcon(
+				new ImageIcon("./bin/icons/arrow_right.png").getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
 		arrowRight = new JButton(icon);
 		panelLeftMenuBrowse.add(arrowRight);
 
@@ -167,7 +159,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			public void actionPerformed(ActionEvent e) {
 				// TODO forward
 				moveListCursor--;
-				YACG.forceMakeDeplacement(new Deplacement(moveList.get(moveListCursor).getArrive(), moveList.get(moveListCursor).getDepart()));
+				// TODO Only work if a file was loaded, i broke this :(
+				YACG.forceMakeDeplacement(new Deplacement(moveList.get(moveListCursor).getArrive(),
+						moveList.get(moveListCursor).getDepart()));
 			}
 		});
 		arrowMiddle.addActionListener(new ActionListener() {
@@ -294,13 +288,13 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			System.out.println("c =" + moveList.get(i).getColor() + ", p =" + moveList.get(i).getPiececode() + ", ("
 					+ moveList.get(i).getX1() + ", " + moveList.get(i).getY1() + ") -> (" + moveList.get(i).getX2()
 					+ ", " + moveList.get(i).getY2() + ")");
-			
+
 			YACG.makeDeplacement(moveList.get(i));
 
 		}
-		moveListCursor=moveList.size();
-		//TODO check if a piece was clicked on, which player have to play (??)
-		
+		moveListCursor = moveList.size();
+		// TODO check if a piece was clicked on, which player have to play (??)
+
 	}
 
 	public void saveGame() {

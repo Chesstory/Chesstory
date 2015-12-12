@@ -5,10 +5,7 @@
  */
 package echecs;
 
-import gui.YetAnotherChessGame;
-
 import Controller.ChesstoryGame;
-import java.awt.Color;
 import java.util.ArrayList;
 
 /**
@@ -336,15 +333,6 @@ public class Echiquier {
 		return res;
 	}
 
-	/*
-	 * private boolean estValideDeplacementTour(Deplacement d){ // déplacement
-	 * sur une colonne if (Geometrie.estSurColonne(d)){ int pas = (d.getY1() >
-	 * d.getY2() ) ? 1 : -1;
-	 * 
-	 * 
-	 * 
-	 * for (y=d.getY1()+pas; y!=getY2; y+=pas) } }
-	 */
 	/**
 	 * Méthode qui indique si un déplacement est valide ou non
 	 *
@@ -378,9 +366,6 @@ public class Echiquier {
 			return false;
 		}
 
-		// System.out.println("# Positions accessibles pour
-		// "+c[x1][y1].getPiece().getNom());
-		// System.out.println(c[x1][y1].getPiece().accessible);
 		// partie verification pour la piece
 		if (c[x1][y1].getPiece().getAccessible().contains(new Position(x2, y2))) {
 
@@ -418,15 +403,10 @@ public class Echiquier {
 					if (depl == -2 && c[x1][y1].getPiece().estNoir() && !roqueq) {
 						return false;
 					}
-
 				}
-
 			}
-
 			return verifiePasEchecsApres(d);
-
 		}
-
 		return false;
 	}
 
@@ -438,9 +418,7 @@ public class Echiquier {
 	 *            déplacement à executer
 	 */
 	public void executeDeplacement(Deplacement d) {
-
 		if (estValideDeplacement(d)) {
-
 			int x1 = d.getX1();
 			int y1 = d.getY1();
 			int x2 = d.getX2();
@@ -568,7 +546,9 @@ public class Echiquier {
 			// Ajout dans ArrayList
 			ChesstoryGame.addMove(d);
 			// ici on affiche dans le textArea
-			ChesstoryGame.addLogsMove(d, piece.getNom(), joueur);//TODO REMOPE THAT SHIT FROM HERE
+			ChesstoryGame.addLogsMove(d, piece.getNom(), joueur);// TODO REMOPE
+																	// THAT SHIT
+																	// FROM HERE
 			// ChesstoryGame.addLogsText("Deplacement : ("+x1+","+y1+") ,
 			// ("+x2+","+y2+")");
 
@@ -596,10 +576,12 @@ public class Echiquier {
 		int x2 = d.getX2();
 		int y2 = d.getY2();
 
+		// TODO Chech for captured piece
+
 		Piece piece = c[x1][y1].getPiece();
 		c[x2][y2].setPiece(piece);
 		c[x1][y1].vider();
-		//ChesstoryGame.addLogsMove(d, piece.getNom(), 'x');//TODO do
+		// ChesstoryGame.addLogsMove(d, piece.getNom(), 'x');//TODO do
 	}
 
 	/**
