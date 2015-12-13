@@ -110,9 +110,15 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 		dessineToutesLesPieces();
 	}
 
-	public void initEch(String fenDeDepart) {
+	/**
+	 * Empty and repaint the chessBoard with the entered FEN code
+	 * 
+	 * @param departureFEN
+	 *            FEN code used to repaint the chessBoard
+	 */
+	public void initEch(String departureFEN) {
 		videEchiquier();
-		ech.setFEN(fenDeDepart);
+		ech.setFEN(departureFEN);
 		dessineToutesLesPieces();
 		chessBoard.revalidate();
 		chessBoard.repaint();
@@ -158,7 +164,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	}
 
 	/**
-	 * Test and do a move, then refresh the chess board (gui)
+	 * Test and execute a move, then refresh the chess board (gui)
 	 * 
 	 * @param move
 	 *            Move to check
@@ -267,7 +273,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 		} else {
 			chessPiece = null;
 			Component c = chessBoard.findComponentAt(e.getX(), e.getY());
-			// si la case est vide : rien à faire
+			// if it is empty : do nothing
 			if (c instanceof JPanel) {
 				return;
 			}
@@ -279,13 +285,13 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 
 			chessPiece = (JLabel) c;
 
-			// Mise en "surbrillance" de la case
+			// highlight the case
 			if (ech.getPiece(depart).estBlanc())
 				surbrillance(depart, ((ech.getTrait() == 'w') ? Color.cyan : Color.red));
 			else
 				surbrillance(depart, ((ech.getTrait() == 'w') ? Color.red : Color.cyan));
 
-			// Mise en surbrillance des cases accessibles
+			// highlight allowed moves
 			afficheLesPositionsDansLeGUI(depart);
 
 			first = false;
@@ -308,7 +314,6 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	}
 
 	public JLayeredPane CreationChessboard() {
-
 		return layeredPane;
 	}
 }

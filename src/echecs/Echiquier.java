@@ -469,9 +469,7 @@ public class Echiquier {
 
 			// détection du roque
 			if (Character.toUpperCase(codePiece) == 'K') {
-
 				if (d.deplacementHorizontal() == 2) {
-
 					petitRoqueEnCours = true;
 
 					// petit roque blanc
@@ -479,62 +477,48 @@ public class Echiquier {
 						c[7][0].vider();
 						c[5][0].setPiece(new Piece("tour", 'R'));
 					}
-
 					// petit roque noir
 					if (codePiece == 'k') {
 						c[7][7].vider();
 						c[5][7].setPiece(new Piece("tour", 'r'));
 					}
-				} else {
+				} else
 					petitRoqueEnCours = false;
-				}
 
 				if (d.deplacementHorizontal() == -2) {
-
 					grandRoqueEnCours = true;
 
 					// grand roque blanc
 					if (codePiece == 'K') {
-
 						c[0][0].vider();
 						c[3][0].setPiece(new Piece("tour", 'R'));
-
 					}
-
 					// grand roque noir
 					if (codePiece == 'k') {
 						c[0][7].vider();
 						c[3][7].setPiece(new Piece("tour", 'r'));
-
 					}
-
-				} else {
+				} else
 					grandRoqueEnCours = false;
-				}
 			}
 
 			// Pour interdir les futurs roques...
 			if ((codePiece == 'R') && (x1 == 0)) {
 				roqueQ = false;
 			}
-
 			if ((codePiece == 'r') && (x1 == 0)) {
 				roqueq = false;
 			}
-
 			if ((codePiece == 'R') && (x1 == 7)) {
 				roqueK = false;
 			}
-
 			if ((codePiece == 'r') && (x1 == 7)) {
 				roquek = false;
 			}
-
 			if (codePiece == 'K') {
 				roqueQ = false;
 				roqueK = false;
 			}
-
 			if (codePiece == 'k') {
 				roqueq = false;
 				roquek = false;
@@ -553,14 +537,11 @@ public class Echiquier {
 			// ("+x2+","+y2+")");
 
 		}
-
 		// on change le trait
 		trait = (trait == 'w' ? 'b' : 'w');
 
 		construitPositionsAccessibles();
-
 		System.out.println(this.getFEN());
-
 	}
 
 	/**
@@ -576,7 +557,7 @@ public class Echiquier {
 		int x2 = d.getX2();
 		int y2 = d.getY2();
 
-		// TODO Chech for captured piece
+		// TODO Check for captured piece
 
 		Piece piece = c[x1][y1].getPiece();
 		c[x2][y2].setPiece(piece);
@@ -597,22 +578,6 @@ public class Echiquier {
 		return ech;
 	}
 
-	/**
-	 * Execute le déplacement (après avoir vérifié sa validité)
-	 *
-	 * @param x1
-	 *            x de départ
-	 * @param y1
-	 *            y de départ
-	 * @param x2
-	 *            x d'arrivée
-	 * @param y2
-	 *            y d'arrivée
-	 */
-	/*
-	 * public void executeDeplacement(int x1, int y1, int x2, int y2) {
-	 * executeDeplacement(new Deplacement(x1, y1, x2, y2)); }
-	 */
 	/**
 	 * Execute le déplacement (après avoir vérifié sa validité). La chaine de
 	 * caractère représente le dépoe
@@ -640,7 +605,6 @@ public class Echiquier {
 		boolean continuer = true;
 
 		while (continuer) {
-
 			if (posi < 0 || posi >= dimX || posj < 0 || posj >= dimY) {
 				continuer = false;
 			} else // si la case de destination est vide
@@ -765,16 +729,12 @@ public class Echiquier {
 
 		// roques
 		if ((blanc && (i == 4) && (j == 0)) || (!blanc && (i == 4) && (j == 7))) {
-			// System.out.println("roi se déplace depuis sa position de
-			// départ");
 			c[i][j].getPiece().addCaseAccessible(new Position(i + 2, j));
 			c[i][j].getPiece().addCaseAccessible(new Position(i - 2, j));
-
 		}
 	}
 
 	public void accessiblePionBlanc(int i, int j) {
-
 		// déplacement normal
 		if (existeEtVide(i, j + 1)) {
 			c[i][j].getPiece().addCaseAccessible(new Position(i, j + 1));
@@ -830,7 +790,6 @@ public class Echiquier {
 	}
 
 	public void accessiblePionNoir(int i, int j) {
-
 		if (existeEtVide(i, j - 1)) {
 			c[i][j].getPiece().addCaseAccessible(new Position(i, j - 1));
 
@@ -880,7 +839,6 @@ public class Echiquier {
 		} catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
 			// rien à faire puisque la pièce ou la case n'existe pas...
 		}
-
 	}
 
 	/**
@@ -889,16 +847,14 @@ public class Echiquier {
 	 *
 	 */
 	public void construitPositionsAccessibles() {
-
 		// Premier parcours "naïf"
 		for (int j = 0; j < dimY; j++) {
 			for (int i = 0; i < dimX; i++) {
 				Piece p = c[i][j].getPiece();
 				if (p != null) {
-
 					p.videAccessible();
-					if ((p.estBlanc() && trait == 'w') || (p.estNoir() && trait == 'b')) {
 
+					if ((p.estBlanc() && trait == 'w') || (p.estNoir() && trait == 'b')) {
 						if (p.getCode() == 'P') {
 							accessiblePionBlanc(i, j);
 						}
@@ -908,25 +864,20 @@ public class Echiquier {
 						if (Character.toLowerCase(p.getCode()) == 'r') {
 							accessibleTour(i, j);
 						}
-
 						if (Character.toLowerCase(p.getCode()) == 'b') {
 							accessibleFou(i, j);
 						}
-
 						if (Character.toLowerCase(p.getCode()) == 'q') {
 							accessibleTour(i, j);
 							accessibleFou(i, j);
 						}
-
 						if (Character.toLowerCase(p.getCode()) == 'n') {
 							accessibleCavalier(i, j);
 						}
-
 						if (Character.toLowerCase(p.getCode()) == 'k') {
 							accessibleRoi(i, j);
 						}
 					}
-
 				}
 			}
 		}
@@ -949,7 +900,6 @@ public class Echiquier {
 	 */
 	public boolean estEnEchec(char couleur) {
 		Position pos = rechercheRoi(couleur);
-		// System.out.println("# le roi est en position "+pos);
 
 		// Pour toutes les pièces
 		for (int j = 0; j < dimY; j++) {
@@ -957,17 +907,12 @@ public class Echiquier {
 				Piece p = c[i][j].getPiece();
 				if (p != null) {
 					if (p.getColor() != couleur) {
-						// System.out.print(p+" en case "+new Position(i,j));
-						// System.out.println(" peut aller en
-						// "+p.getAccessible());
-						if (p.getAccessible().contains(pos)) {
+						if (p.getAccessible().contains(pos))
 							return true;
-						}
 					}
 				}
 			}
 		}
-
 		return false;
 	}
 
@@ -979,7 +924,6 @@ public class Echiquier {
 	 * @return
 	 */
 	public Position rechercheRoi(char couleur) {
-
 		// recherche de la position du roi
 		for (int j = 0; j < dimY; j++) {
 			for (int i = 0; i < dimX; i++) {
@@ -1018,14 +962,12 @@ public class Echiquier {
 	 * @return vrai si le déplacement ne met pas en échec, faux sinon.
 	 */
 	public boolean verifiePasEchecsApres(Deplacement d) {
-
 		Echiquier n = new Echiquier(this);
 		n.forceDeplacement(d);
 		n.construitPositionsAccessibles();
 
-		if (n.estEnEchec(trait)) {
+		if (n.estEnEchec(trait))
 			return false;
-		}
 
 		return true;
 	}
@@ -1036,7 +978,6 @@ public class Echiquier {
 	 * @return n si la partie n'est pas finie, b ou w selon le gagnant
 	 */
 	public char verifiePartieTerminee() {
-
 		// TODO Other tests, like king + one "big" piece
 
 		char end = 'n';
