@@ -189,7 +189,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 		ech.setFEN(fenDeDeapart);
 
 		// Pour le test !
-		// ech.setFEN("krq5/8/8/8/8/8/8/KQR5");
+		 //ech.setFEN("krq5/8/8/8/8/8/8/KQR5");
 
 		Dimension boardSize = new Dimension(600, 600);
 
@@ -268,6 +268,10 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 
 			// Remettre la couleur d'origine
 			dessinEchiquier();
+			
+			if(ech.estEnEchec(ech.getTrait())){
+				surbrillance(ech.rechercheRoi(ech.getTrait()), Color.MAGENTA);
+			}
 
 			first = true;
 		} else {
@@ -286,14 +290,15 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 			chessPiece = (JLabel) c;
 
 			// highlight the case
-			if (ech.getPiece(depart).estBlanc())
-				surbrillance(depart, ((ech.getTrait() == 'w') ? Color.cyan : Color.red));
-			else
-				surbrillance(depart, ((ech.getTrait() == 'w') ? Color.red : Color.cyan));
+			surbrillance(depart, (ech.getTrait() == ech.getPiece(depart).getColor()) ? Color.cyan : Color.red);
 
-			// highlight allowed moves
-			afficheLesPositionsDansLeGUI(depart);
+			if(ech.getTrait() == ech.getPiece(depart).getColor())
+				afficheLesPositionsDansLeGUI(depart);
 
+			if(ech.estEnEchec(ech.getTrait())){
+				surbrillance(ech.rechercheRoi(ech.getTrait()), Color.MAGENTA);
+			}
+			
 			first = false;
 		}
 	}

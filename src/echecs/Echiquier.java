@@ -153,13 +153,11 @@ public class Echiquier {
 	 * @param FENcode
 	 */
 	public void setFEN(String FENcode) {
-
 		// vider l'échiquier
 		vider();
 
 		try {
 			String[] code = FENcode.split(" ");
-
 			String[] ligne = code[0].split("/");
 
 			// Traitement de la première partie du code
@@ -252,9 +250,7 @@ public class Echiquier {
 		} catch (ArrayIndexOutOfBoundsException e) {
 			throw (new MalformedFENException("le code " + FENcode + " n'est pas un code FEN valide"));
 		}
-
 		construitPositionsAccessibles();
-
 	}
 
 	/**
@@ -854,29 +850,27 @@ public class Echiquier {
 				if (p != null) {
 					p.videAccessible();
 
-					if ((p.estBlanc() && trait == 'w') || (p.estNoir() && trait == 'b')) {
-						if (p.getCode() == 'P') {
-							accessiblePionBlanc(i, j);
-						}
-						if (p.getCode() == 'p') {
-							accessiblePionNoir(i, j);
-						}
-						if (Character.toLowerCase(p.getCode()) == 'r') {
-							accessibleTour(i, j);
-						}
-						if (Character.toLowerCase(p.getCode()) == 'b') {
-							accessibleFou(i, j);
-						}
-						if (Character.toLowerCase(p.getCode()) == 'q') {
-							accessibleTour(i, j);
-							accessibleFou(i, j);
-						}
-						if (Character.toLowerCase(p.getCode()) == 'n') {
-							accessibleCavalier(i, j);
-						}
-						if (Character.toLowerCase(p.getCode()) == 'k') {
-							accessibleRoi(i, j);
-						}
+					if (p.getCode() == 'P') {
+						accessiblePionBlanc(i, j);
+					}
+					if (p.getCode() == 'p') {
+						accessiblePionNoir(i, j);
+					}
+					if (Character.toLowerCase(p.getCode()) == 'r') {
+						accessibleTour(i, j);
+					}
+					if (Character.toLowerCase(p.getCode()) == 'b') {
+						accessibleFou(i, j);
+					}
+					if (Character.toLowerCase(p.getCode()) == 'q') {
+						accessibleTour(i, j);
+						accessibleFou(i, j);
+					}
+					if (Character.toLowerCase(p.getCode()) == 'n') {
+						accessibleCavalier(i, j);
+					}
+					if (Character.toLowerCase(p.getCode()) == 'k') {
+						accessibleRoi(i, j);
 					}
 				}
 			}
