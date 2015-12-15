@@ -5,7 +5,7 @@
  */
 package echecs;
 
-import Controller.ChesstoryGame;
+
 import java.util.ArrayList;
 
 /**
@@ -523,14 +523,7 @@ public class Echiquier {
 			c[x2][y2].setPiece(piece);
 			c[x1][y1].vider();
 
-			// Ajout dans ArrayList
-			ChesstoryGame.addMove(d);
-			// ici on affiche dans le textArea
-			ChesstoryGame.addLogsMove(d, piece.getNom(), joueur);// TODO REMOPE
-																	// THAT SHIT
-																	// FROM HERE
-			// ChesstoryGame.addLogsText("Deplacement : ("+x1+","+y1+") ,
-			// ("+x2+","+y2+")");
+			
 
 		}
 		// on change le trait

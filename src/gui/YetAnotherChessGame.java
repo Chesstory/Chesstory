@@ -2,12 +2,15 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 
+import Controller.ChesstoryGame;
 import echecs.Deplacement;
 import echecs.Echiquier;
 import echecs.Piece;
 import echecs.Position;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,7 +22,7 @@ import java.util.logging.Logger;
 import java.util.ArrayList;
 
 public class YetAnotherChessGame extends JFrame implements MouseListener, MouseMotionListener {
-
+	
 	/**
 	 * Paneau de fond
 	 */
@@ -53,6 +56,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	 */
 	Position arrive;
 
+	private ChesstoryGame chesstoryGame;
 	/**
 	 * L'échiquier courrant
 	 */
@@ -184,7 +188,8 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	/**
 	 * Constructeur
 	 */
-	public YetAnotherChessGame(String fenDeDeapart) {
+	public YetAnotherChessGame(String fenDeDeapart, ChesstoryGame chesstoryGame ) {
+		this.chesstoryGame=chesstoryGame;
 		ech = new Echiquier();
 		ech.setFEN(fenDeDeapart);
 

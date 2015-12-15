@@ -15,12 +15,14 @@ import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.concurrent.BrokenBarrierException;
 
 import gui.YetAnotherChessGame;
 import echecs.Deplacement;
 
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+
 import javax.swing.border.LineBorder;
 
 public class ChesstoryGame extends JFrame implements MouseListener {
@@ -49,9 +51,11 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private JScrollPane logsTextScroll;
 	// <Interface
 
-	private static ArrayList<Deplacement> moveList;// List of all the moves of
-													// the current game
-	int moveListCursor;
+	private static ArrayList<Deplacement> moveList;// List of all the moves of the current game
+	private static int moveListCursor;
+	
+	private boolean isBrowserView=false;
+	
 	private int gameId;
 	private int gameType;
 	private String fenDeDepart = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
@@ -72,7 +76,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
 		// Chessboard
-		YACG = new YetAnotherChessGame(fenDeDepart);
+		YACG = new YetAnotherChessGame(fenDeDepart, this);
 
 		panelLeft = new JPanel();
 		panelLeft.setBorder(new LineBorder(Color.GREEN));
@@ -253,6 +257,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 	public static void addLogsMove(echecs.Deplacement d, String piece, char joueur) {
 		String color;
+		//int indexMovelist=
+		//TODO rework all that shit
+		//TODO addMove
 		if (joueur == 'b') {
 			color = "noir";
 		} else if (joueur == 'w') {
@@ -266,10 +273,15 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		addLogsText(s);
 	}
 
-	public static void addMove(Deplacement d) {
+	public static void addMove(Deplacement d) {//TODO this should be the main connexion : ech/yacg -> chesstory
 		moveList.add(d);
+		moveListCursor=moveList.size()-1;
 	}
-
+	private void enableBrowserView(){
+		//TODO set YACG.isClickable to false
+		isBrowserView=true;
+		
+	}
 	public void loadGame() {
 		// moveList=new ArrayList<Deplacement>(FileController.loadFile());
 		System.out.println("---->Loading file");
