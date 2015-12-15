@@ -179,7 +179,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 		if (ech.estValideDeplacement(move)) {
 			ech.executeDeplacement(move);
 			redessine();
-
+			chesstoryGame.addMoveMadeByPlayer(move);
 			return true;
 		} else
 			return false;
@@ -265,6 +265,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 					System.out.println("GG aux " + winner);
 					System.exit(0);
 				}
+				
 			} else {
 				// replacer sur la case de départ
 				panel.add(chessPiece);

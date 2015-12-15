@@ -47,12 +47,12 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private JTextArea rulesText;// RULES
 	private JScrollPane rulesTextScroll;
 
-	private static JTextArea logsText;// LOGS
+	private JTextArea logsText;// LOGS
 	private JScrollPane logsTextScroll;
 	// <Interface
 
-	private static ArrayList<Deplacement> moveList;// List of all the moves of the current game
-	private static int moveListCursor;
+	private ArrayList<Deplacement> moveList;// List of all the moves of the current game
+	private int moveListCursor;
 	
 	private boolean isBrowserView=false;
 	
@@ -161,11 +161,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		arrowLeft.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO forward
-				moveListCursor--;
-				// TODO Only work if a file was loaded, i broke this :(
-				YACG.forceMakeDeplacement(new Deplacement(moveList.get(moveListCursor).getArrive(),
-						moveList.get(moveListCursor).getDepart()));
+				browserViewBack();
 			}
 		});
 		arrowMiddle.addActionListener(new ActionListener() {
@@ -177,9 +173,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		arrowRight.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO back
-				moveListCursor++;
-				YACG.makeDeplacement(moveList.get(moveListCursor));
+				browserViewNext();
 			}
 		});
 		f.getContentPane().setLayout(new BoxLayout(f.getContentPane(), BoxLayout.X_AXIS));
@@ -251,11 +245,11 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		moveList = new ArrayList<Deplacement>();
 	}
 
-	public static void addLogsText(String s) {
+	public void addLogsText(String s) {
 		logsText.append(s + "\n\r");
 	}
 
-	public static void addLogsMove(echecs.Deplacement d, String piece, char joueur) {
+	public void addLogsMove(Deplacement d, char piece, char joueur) {
 		String color;
 		//int indexMovelist=
 		//TODO rework all that shit
@@ -269,18 +263,32 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		}
 
 		// String s=color+" : Déplacement "+piece+", de "+x1+y1+" à "+x2+y2;
-		String s = color + " : Déplacement " + piece + ", de " + d;
+		String s = color + " : Déplacement " + d;//TODO improve display
 		addLogsText(s);
 	}
 
-	public static void addMove(Deplacement d) {//TODO this should be the main connexion : ech/yacg -> chesstory
+	public void addMove(Deplacement d) {//TODO this should be the main connexion : ech/yacg -> chesstory
 		moveList.add(d);
 		moveListCursor=moveList.size()-1;
+		
+	}
+	public void addMoveMadeByPlayer(Deplacement d){
+		addMove(d);
+		addLogsMove(d, d.getPiececode(), d.getColor());
 	}
 	private void enableBrowserView(){
 		//TODO set YACG.isClickable to false
 		isBrowserView=true;
 		
+	}
+	private void browserViewNext(){
+		moveListCursor--;
+		// TODO Only work if a file was loaded, i broke this :(
+		YACG.forceMakeDeplacement(new Deplacement(moveList.get(moveListCursor).getArrive(),moveList.get(moveListCursor).getDepart()));
+	}
+	private void browserViewBack(){
+		moveListCursor++;
+		YACG.makeDeplacement(moveList.get(moveListCursor));
 	}
 	public void loadGame() {
 		// moveList=new ArrayList<Deplacement>(FileController.loadFile());

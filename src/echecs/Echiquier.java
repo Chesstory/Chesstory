@@ -551,7 +551,6 @@ public class Echiquier {
 		Piece piece = c[x1][y1].getPiece();
 		c[x2][y2].setPiece(piece);
 		c[x1][y1].vider();
-		// ChesstoryGame.addLogsMove(d, piece.getNom(), 'x');//TODO do
 	}
 
 	/**
