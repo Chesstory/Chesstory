@@ -17,6 +17,14 @@ public class Piece {
 	private String nom;
 	private char code;
 	private String couleur;
+	/**
+	 * Various rules
+	 * 
+	 * min and max for each directions
+	 * boolean to (dis)allow backward moves
+	 */
+	private int minX, maxX, minY, maxY, minDiag, maxDiag;
+	private boolean backward;
 
 	ArrayList<Position> accessible = new ArrayList<>();
 
@@ -163,5 +171,69 @@ public class Piece {
 	public void videAccessible() {
 		accessible = new ArrayList<>();
 	}
-
+	
+	/**
+	 * Getters & setters for moves capacity
+	 */
+	public int getMinX(){
+		return minX;
+	}
+	
+	public void setMinX(int i){
+		this.minX = i;
+	}
+	
+	
+	public int getMaxX(){
+		return maxX;
+	}
+	
+	public void setMaxX(int i){
+		this.maxX = i;
+	}
+	
+	
+	public int getMinY(){
+		return minY;
+	}
+	
+	public void setMinY(int i){
+		this.minY = i;
+	}
+	
+	
+	public int getMaxY(){
+		return maxY;
+	}
+	
+	public void setMaxY(int i){
+		this.maxY = i;
+	}
+	
+	
+	public int getMinDiag(){
+		return minDiag;
+	}
+	
+	public void setMinDiag(int i){
+		this.minDiag = i;
+	}
+	
+	
+	public int getMaxDiag(){
+		return maxDiag;
+	}
+	
+	public void setMaxDiag(int i){
+		this.maxDiag = i;
+	}
+	
+	
+	public boolean getBackward(){
+		return backward;
+	}
+	
+	public void setBackward(boolean b){
+		this.backward = b;
+	}
 }
