@@ -5,7 +5,6 @@
  */
 package echecs;
 
-
 import java.util.ArrayList;
 
 /**
@@ -523,8 +522,6 @@ public class Echiquier {
 			c[x2][y2].setPiece(piece);
 			c[x1][y1].vider();
 
-			
-
 		}
 		// on change le trait
 		trait = (trait == 'w' ? 'b' : 'w');
@@ -551,7 +548,7 @@ public class Echiquier {
 		Piece piece = c[x1][y1].getPiece();
 		c[x2][y2].setPiece(piece);
 		c[x1][y1].vider();
-		
+
 		// on change le trait
 		trait = (trait == 'w' ? 'b' : 'w');
 		construitPositionsAccessibles();
@@ -877,6 +874,12 @@ public class Echiquier {
 		int x = posPiece.getX();
 		int y = posPiece.getY();
 		Piece p = c[x][y].getPiece();
+		for (int i = 0; i < p.getAccessible().size(); i++) {
+			if (!verifiePasEchecsApres(new Deplacement(posPiece, p.getAccessible().get(i)))){
+				p.suppCaseAccessible(p.getAccessible().get(i));
+				i--;
+			}
+		}
 		return p.getAccessible();
 	}
 
@@ -897,8 +900,9 @@ public class Echiquier {
 				Piece p = c[i][j].getPiece();
 				if (p != null) {
 					if (p.getColor() != couleur) {
-						if (p.getAccessible().contains(pos))
+						if (p.getAccessible().contains(pos)) {
 							return true;
+						}
 					}
 				}
 			}

@@ -150,6 +150,11 @@ public class Piece {
 	public void addCaseAccessible(Position p) {
 		accessible.add(p);
 	}
+	
+	public void suppCaseAccessible(Position p){
+		if(accessible.contains(p))
+			accessible.remove(p);
+	}
 
 	public ArrayList<Position> getAccessible() {
 		return accessible;

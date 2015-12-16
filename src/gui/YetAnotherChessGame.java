@@ -282,6 +282,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 				// Remettre la couleur d'origine
 				dessinEchiquier();
 				
+				//Put king in a yoloswaggy color if echec
 				if(ech.estEnEchec(ech.getTrait())){
 					surbrillance(ech.rechercheRoi(ech.getTrait()), Color.MAGENTA);
 				}
