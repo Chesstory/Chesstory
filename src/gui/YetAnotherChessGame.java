@@ -13,7 +13,7 @@ import echecs.Position;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+//Bonjour
 /**
  * Classe principale pour l'interface graphique
  *
