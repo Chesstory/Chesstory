@@ -157,9 +157,9 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 			for (int i = 0; i < ech.getDimX(); i++) {
 				JPanel panel = (JPanel) chessBoard.getComponent(j * ech.getDimX() + i);
 				if (i % 2 == 0) {
-					panel.setBackground(j % 2 == 0 ? Color.white : Color.getHSBColor(0.56f, 1.0f, 0.8f));
+					panel.setBackground(j % 2 == 0 ? Color.getHSBColor(0.10f, 0.82f, 0.88f) : Color.getHSBColor(0.10f, 0.82f, 0.59f));
 				} else {
-					panel.setBackground(j % 2 == 0 ? Color.getHSBColor(0.56f, 1.0f, 0.8f) : Color.white);
+					panel.setBackground(j % 2 == 0 ? Color.getHSBColor(0.10f, 0.82f, 0.59f) : Color.getHSBColor(0.10f, 0.82f, 0.88f));
 				}
 			}
 		}
@@ -235,10 +235,10 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 
 			int row = (i / 8) % 2;
 			if (row == 0) {
-				square.setBackground(i % 2 == 0 ? Color.white : Color.getHSBColor(0.56f, 1.0f, 0.8f));
-			} else {
-				square.setBackground(i % 2 == 0 ? Color.getHSBColor(0.56f, 1.0f, 0.8f) : Color.white);
-			}
+                square.setBackground(i % 2 == 0 ? Color.getHSBColor(0.10f, 0.82f, 0.88f) : Color.getHSBColor(0.10f, 0.82f, 0.59f));
+            } else {
+                square.setBackground(i % 2 == 0 ? Color.getHSBColor(0.10f, 0.82f, 0.59f) : Color.getHSBColor(0.10f, 0.82f, 0.88f));
+            }
 		}
 		dessineToutesLesPieces();
 	}
