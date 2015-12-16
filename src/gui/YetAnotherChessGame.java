@@ -2,12 +2,15 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 
+import Controller.ChesstoryGame;
 import echecs.Deplacement;
 import echecs.Echiquier;
 import echecs.Piece;
 import echecs.Position;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 //Bonjour
@@ -18,8 +21,12 @@ import java.util.logging.Logger;
  */
 import java.util.ArrayList;
 
-public class YetAnotherChessGame extends JFrame implements MouseListener, MouseMotionListener {
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
 
+public class YetAnotherChessGame extends JFrame implements MouseListener, MouseMotionListener {
+	
 	/**
 	 * Paneau de fond
 	 */
@@ -53,11 +60,13 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	 */
 	Position arrive;
 
+	private ChesstoryGame chesstoryGame;
 	/**
 	 * L'échiquier courrant
 	 */
-	static Echiquier ech;
-
+	static Echiquier ech;//TODO REMOVE STATIC
+	
+	private boolean isClickable=false;
 	/**
 	 * First click or not
 	 */
@@ -93,11 +102,8 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 				if (p != null) {
 					String nom = p.getNom();
 					String nomComplet = "icons/" + nom + ".png";
-					// java.net.URL imgURL = getClass().getResource(nomComplet);
 					ClassLoader cl = this.getClass().getClassLoader();
 					JLabel piece = new JLabel(new ImageIcon(cl.getResource(nomComplet)));
-					// JLabel piece = new JLabel(new
-					// ImageIcon(this.getClass().getResource("/Ressources/"+nomComplet)));
 					JPanel panel = (JPanel) chessBoard.getComponent(j * ech.getDimX() + i);
 					panel.add(piece);
 				}
@@ -111,6 +117,20 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	private void redessine() {
 		videEchiquier();
 		dessineToutesLesPieces();
+	}
+
+	/**
+	 * Empty and repaint the chessBoard with the entered FEN code
+	 * 
+	 * @param departureFEN
+	 *            FEN code used to repaint the chessBoard
+	 */
+	public void initEch(String departureFEN) {
+		videEchiquier();
+		ech.setFEN(departureFEN);
+		dessineToutesLesPieces();
+		chessBoard.revalidate();
+		chessBoard.repaint();
 	}
 
 	private void surbrillance(Position pos, Color couleur) {
@@ -140,46 +160,31 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	}
 
 	/**
-	 * Verification et appliction d'un deplacement
+	 * Force a move, mainly used for the "forward" method
 	 * 
 	 * @param move
-	 *            Le déplacement
-	 * @param c
-	 * @return La validité du déplacement
+	 *            Move to force
+	 */
+	public void forceMakeDeplacement(Deplacement move) {
+		ech.forceDeplacement(move);
+		redessine();
+		chessBoard.repaint();
+		chessBoard.revalidate();
+	}
+
+	/**
+	 * Test and execute a move, then refresh the chess board (gui)
+	 * 
+	 * @param move
+	 *            Move to check
+	 * @return True if tests are successful
 	 */
 	public boolean makeDeplacement(Deplacement move) {
 
-		int i = move.getDepart().getX();
-		int j = move.getDepart().getY();
-		
-		Component c = chessBoard.findComponentAt((int) ((i / 600.0) * 8.0), (int) ((((600.0 - j) / 600.0) * 8.0)));
-		
-		
 		if (ech.estValideDeplacement(move)) {
 			ech.executeDeplacement(move);
-			if (ech.isPromotion()) {
-				String nom = ech.getPiece(move.getArrive()).getNom();
-				Container parent = (Container) c;
-
-				chessPiece = new JLabel(new ImageIcon("icons/" + nom + ".png"));
-				parent.add(chessPiece);
-			}
-
-			// cas d'une prise
-			if (ech.estVideCase(move.getArrive())) {
-				Container parent = c.getParent();
-				parent.remove(0);
-				parent.add(chessPiece);
-			} else {
-				Container parent = (Container) c;
-				parent.add(chessPiece);
-			}
-
-			if (ech.petitRoqueEnCours() || ech.grandRoqueEnCours() || ech.priseEnPassantEnCours()) {
-				redessine();
-			}
-
-			chessPiece.setVisible(true);
+			redessine();
+			chesstoryGame.addMoveMadeByPlayer(move);
 			return true;
 		} else
 			return false;
@@ -188,18 +193,18 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	/**
 	 * Constructeur
 	 */
-	public YetAnotherChessGame(String fenDeDeapart) {
+	public YetAnotherChessGame(String fenDeDeapart, ChesstoryGame chesstoryGame ) {
+		this.chesstoryGame=chesstoryGame;
 		ech = new Echiquier();
 		ech.setFEN(fenDeDeapart);
 
 		// Pour le test !
-		// ech.setFEN("krq5/8/8/8/8/8/8/KQR5");
+		 //ech.setFEN("krq5/8/8/8/8/8/8/KQR5");
 
 		Dimension boardSize = new Dimension(600, 600);
 
 		// Use a Layered Pane for this this application
 		layeredPane = new JLayeredPane();
-		// panel.add(layeredPane);
 
 		layeredPane.setPreferredSize(boardSize);
 		layeredPane.addMouseListener(this);
@@ -207,6 +212,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 
 		// Add a chess board to the Layered Pane
 		chessBoard = new JPanel();
+		
 		layeredPane.add(chessBoard, JLayeredPane.DEFAULT_LAYER);
 		chessBoard.setLayout(new GridLayout(8, 8));
 		chessBoard.setPreferredSize(boardSize);
@@ -227,11 +233,6 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 		dessineToutesLesPieces();
 	}
 
-	/**
-	 * Méthode appelée lorsque la souris est cliquée
-	 *
-	 * @param e
-	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 	}
@@ -244,73 +245,87 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	public void mouseReleased(MouseEvent e) {
 	}
 
+	/**
+	 * Méthode appelée lorsque la souris est cliquée
+	 *
+	 * @param e
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (!first) {
-			chessPiece.setVisible(false);
-
-			JPanel panel = (JPanel) chessBoard.getComponent((8 - depart.getY() - 1) * ech.getDimX() + depart.getX());
-
-			arrive = new Position((int) ((e.getX() / 600.0) * 8.0), (int) ((((600.0 - e.getY()) / 600.0) * 8.0)));
-			// here we have to save the color and the piece into d in order to
-			// later save it in the arraylist
-
-			Deplacement d = new Deplacement(depart, arrive, ech.getPiece(depart).getCode(),
-					ech.getPiece(depart).getColor());
-
-			System.out.println("==> Déplacement : " + d);
-
-			if (makeDeplacement(d)) {
-				if ((winner = ech.verifiePartieTerminee()) != 'n') {
-					System.out.println("GG aux " + winner);
-					System.exit(0);
+		if(isClickable){
+			if (!first) {
+				chessPiece.setVisible(false);
+	
+				JPanel panel = (JPanel) chessBoard.getComponent((8 - depart.getY() - 1) * ech.getDimX() + depart.getX());
+	
+				arrive = new Position((int) ((e.getX() / 600.0) * 8.0), (int) ((((600.0 - e.getY()) / 600.0) * 8.0)));
+				// here we have to save the color and the piece into d in order to
+				// later save it in the arraylist
+	
+				Deplacement d = new Deplacement(depart, arrive, ech.getPiece(depart).getCode(),
+						ech.getPiece(depart).getColor());
+	
+				System.out.println("==> Déplacement : " + d);
+	
+				if (makeDeplacement(d)) {
+					if ((winner = ech.verifiePartieTerminee()) != 'n') {
+						System.out.println("GG aux " + winner);
+						System.exit(0);
+					}
+					
+				} else {
+					// replacer sur la case de départ
+					panel.add(chessPiece);
+					chessPiece.setVisible(true);
 				}
+	
+				// Remettre la couleur d'origine
+				dessinEchiquier();
+				
+				if(ech.estEnEchec(ech.getTrait())){
+					surbrillance(ech.rechercheRoi(ech.getTrait()), Color.MAGENTA);
+				}
+	
+				first = true;
 			} else {
-				// replacer sur la case de départ
-				panel.add(chessPiece);
-				chessPiece.setVisible(true);
+				chessPiece = null;
+				Component c = chessBoard.findComponentAt(e.getX(), e.getY());
+				// if it is empty : do nothing
+				if (c instanceof JPanel) {
+					return;
+				}
+	
+				// retrouver la case correspondante
+				depart = new Position((int) ((e.getX() / 600.0) * 8.0), (int) ((((600.0 - e.getY()) / 600.0) * 8.0)));
+	
+				System.out.print(depart);
+	
+				chessPiece = (JLabel) c;
+	
+				// highlight the case
+				surbrillance(depart, (ech.getTrait() == ech.getPiece(depart).getColor()) ? Color.cyan : Color.red);
+	
+				if(ech.getTrait() == ech.getPiece(depart).getColor())
+					afficheLesPositionsDansLeGUI(depart);
+	
+				if(ech.estEnEchec(ech.getTrait())){
+					surbrillance(ech.rechercheRoi(ech.getTrait()), Color.MAGENTA);
+				}
+				
+				first = false;
 			}
-
-			// Remettre la couleur d'origine
-			dessinEchiquier();
-
-			first = true;
-		} else {
-			chessPiece = null;
-			Component c = chessBoard.findComponentAt(e.getX(), e.getY());
-			// si la case est vide : rien à faire
-			if (c instanceof JPanel) {
-				return;
-			}
-
-			// retrouver la case correspondante
-			depart = new Position((int) ((e.getX() / 600.0) * 8.0), (int) ((((600.0 - e.getY()) / 600.0) * 8.0)));
-
-			System.out.print(depart);
-
-			Point parentLocation = c.getParent().getLocation();
-
-			xDeplace = parentLocation.x - e.getX();
-			yDeplace = parentLocation.y - e.getY();
-			chessPiece = (JLabel) c;
-			chessPiece.setLocation(e.getX() + xDeplace, e.getY() + yDeplace);
-			chessPiece.setSize(chessPiece.getWidth(), chessPiece.getHeight());
-
-			// Mise en "surbrillance" de la case
-			if (ech.getPiece(depart).estBlanc())
-				surbrillance(depart, ((ech.getTrait() == 'w') ? Color.cyan : Color.red));
-			else
-				surbrillance(depart, ((ech.getTrait() == 'w') ? Color.red : Color.cyan));
-
-			// Mise en surbrillance des cases accessibles
-			afficheLesPositionsDansLeGUI(depart);
-
-			layeredPane.add(chessPiece, JLayeredPane.DRAG_LAYER);
-
-			first = false;
 		}
 	}
-
+	public void switchBorder(boolean b){
+		if(b){
+			chessBoard.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(0, 255, 255), new Color(0, 255, 255), new Color(0, 255, 255), new Color(0, 255, 255)));
+		}else{
+			chessBoard.setBorder(new EmptyBorder(0, 0, 0, 0));
+		}
+	}
+	public void switchClickable(boolean b){
+		isClickable=b;
+	}
 	@Override
 	public void mouseMoved(MouseEvent e) {
 
@@ -327,7 +342,6 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	}
 
 	public JLayeredPane CreationChessboard() {
-
 		return layeredPane;
 	}
 }

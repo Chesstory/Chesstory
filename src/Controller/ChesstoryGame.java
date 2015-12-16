@@ -13,22 +13,16 @@ import java.awt.FlowLayout;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.Image;
-import java.awt.TextArea;
 import java.awt.GridLayout;
-import java.awt.BorderLayout;
-
-import javax.swing.border.EtchedBorder;
-
 import java.util.ArrayList;
+import java.util.concurrent.BrokenBarrierException;
 
 import gui.YetAnotherChessGame;
-import echecs.Echiquier;
 import echecs.Deplacement;
 
-import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import javax.swing.GroupLayout.Alignment;
+
 import javax.swing.border.LineBorder;
 
 public class ChesstoryGame extends JFrame implements MouseListener {
@@ -53,12 +47,15 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private JTextArea rulesText;// RULES
 	private JScrollPane rulesTextScroll;
 
-	private static JTextArea logsText;// LOGS
+	private JTextArea logsText;// LOGS
 	private JScrollPane logsTextScroll;
 	// <Interface
 
-	private static ArrayList<Deplacement> moveList;// List of all the moves of
-													// the current game
+	private ArrayList<Deplacement> moveList;// List of all the moves of the current game
+	private int moveListCursor;
+	
+	private boolean isBrowserView=false;
+	
 	private int gameId;
 	private int gameType;
 	private String fenDeDepart = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
@@ -79,7 +76,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
 		// Chessboard
-		YACG = new YetAnotherChessGame(fenDeDepart);
+		YACG = new YetAnotherChessGame(fenDeDepart, this);
 
 		panelLeft = new JPanel();
 		panelLeft.setBorder(new LineBorder(Color.GREEN));
@@ -128,18 +125,18 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		// ImageIcon(cl.getResource("arrow_left.png")).getImage().getScaledInstance(20,
 		// 60, Image.SCALE_DEFAULT));
 
-		Icon icon = new ImageIcon(new ImageIcon("./bin/icons/arrow_left.png")
-				.getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
+		Icon icon = new ImageIcon(
+				new ImageIcon("./bin/icons/arrow_left.png").getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
 		arrowLeft = new JButton(icon);
 		panelLeftMenuBrowse.add(arrowLeft);
 
-		icon = new ImageIcon(new ImageIcon("./bin/icons/arrow_play.png").getImage()
-				.getScaledInstance(60, 40, Image.SCALE_DEFAULT));
+		icon = new ImageIcon(
+				new ImageIcon("./bin/icons/arrow_play.png").getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
 		arrowMiddle = new JButton(icon);
 		panelLeftMenuBrowse.add(arrowMiddle);
 
-		icon = new ImageIcon(new ImageIcon("./bin/icons/arrow_right.png")
-				.getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
+		icon = new ImageIcon(
+				new ImageIcon("./bin/icons/arrow_right.png").getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
 		arrowRight = new JButton(icon);
 		panelLeftMenuBrowse.add(arrowRight);
 
@@ -164,19 +161,19 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		arrowLeft.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO forward
+				browserViewBack();
 			}
 		});
 		arrowMiddle.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO play
+				browserViewPlay();
 			}
 		});
 		arrowRight.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO back
+				browserViewNext();
 			}
 		});
 		f.getContentPane().setLayout(new BoxLayout(f.getContentPane(), BoxLayout.X_AXIS));
@@ -242,18 +239,23 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		f.getContentPane().add(panelRight);
 
 		// <Chessboard
-
+		
+		disableBrowserView();//We are in a game
+		
 		f.validate();
 
 		moveList = new ArrayList<Deplacement>();
 	}
 
-	public static void addLogsText(String s) {
+	public void addLogsText(String s) {
 		logsText.append(s + "\n\r");
 	}
 
-	public static void addLogsMove(echecs.Deplacement d, String piece, char joueur) {
+	public void addLogsMove(Deplacement d, char piece, char joueur) {
 		String color;
+		//int indexMovelist=
+		//TODO rework all that shit
+		//TODO addMove
 		if (joueur == 'b') {
 			color = "noir";
 		} else if (joueur == 'w') {
@@ -263,15 +265,66 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		}
 
 		// String s=color+" : Déplacement "+piece+", de "+x1+y1+" à "+x2+y2;
-		String s = color + " : Déplacement " + piece + ", de " + d;
+		String s = color + " : Déplacement " + d;//TODO improve display
 		addLogsText(s);
 	}
 
-	public static void addMove(Deplacement d) {
+	public void addMove(Deplacement d) {//TODO this should be the main connexion : ech/yacg -> chesstory
 		moveList.add(d);
+		moveListCursor=moveList.size()-1;
+		
 	}
-
+	public void addMoveMadeByPlayer(Deplacement d){
+		addMove(d);
+		addLogsMove(d, d.getPiececode(), d.getColor());
+		moveListCursor++;
+	}
+	private void enableBrowserView(){
+		YACG.switchClickable(false);
+		isBrowserView=true;
+		//TODO BORDER
+		YACG.switchBorder(false);
+		addLogsText("    > STATE ----> Browser view !");
+	}
+	private void disableBrowserView(){
+		YACG.switchClickable(true);
+		isBrowserView=false;
+		YACG.switchBorder(true);
+		addLogsText("    > STATE ----> Game view!");
+	}
+	private void browserViewPlay(){
+		if(!isBrowserView){
+			enableBrowserView();
+		}else{
+			disableBrowserView();
+		}
+	}
+	private void browserViewNext(){
+		if(!isBrowserView)
+			enableBrowserView();
+		if(moveListCursor<moveList.size()){
+			
+			moveListCursor++;
+			YACG.makeDeplacement(moveList.get(moveListCursor));
+			addLogsText("Next, moveList : "+moveList.size()+", cursor : "+moveListCursor);
+		}else{//put the arrow in grey
+			
+		}
+	}
+	private void browserViewBack(){
+		if(!isBrowserView)
+			enableBrowserView();
+		if(moveListCursor>0){
+			
+			moveListCursor--;
+			YACG.forceMakeDeplacement(new Deplacement(moveList.get(moveListCursor).getArrive(),moveList.get(moveListCursor).getDepart()));
+			addLogsText("Back, moveList : "+moveList.size()+", cursor : "+moveListCursor);
+		}else{//put the arrow in grey
+			
+		}
+	}
 	public void loadGame() {
+		disableBrowserView();//We are in a game
 		// moveList=new ArrayList<Deplacement>(FileController.loadFile());
 		System.out.println("---->Loading file");
 		GameSave gameSave = FileController.loadFile();
@@ -284,12 +337,18 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		gameId = gameSave.getGameId();
 		gameType = gameSave.getGameType();
 		System.out.println("Load game, id: " + gameId + ", type: " + gameType);
+		YACG.initEch("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 		for (int i = 0; i < moveList.size(); i++) {
 			System.out.println("c =" + moveList.get(i).getColor() + ", p =" + moveList.get(i).getPiececode() + ", ("
 					+ moveList.get(i).getX1() + ", " + moveList.get(i).getY1() + ") -> (" + moveList.get(i).getX2()
 					+ ", " + moveList.get(i).getY2() + ")");
 
+			YACG.makeDeplacement(moveList.get(i));
+
 		}
+		moveListCursor = moveList.size()-1;
+		// TODO check if a piece was clicked on, which player have to play (??)
+
 	}
 
 	public void saveGame() {
