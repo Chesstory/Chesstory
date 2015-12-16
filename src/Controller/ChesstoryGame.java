@@ -167,7 +167,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		arrowMiddle.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO play
+				browserViewPlay();
 			}
 		});
 		arrowRight.addActionListener(new ActionListener() {
@@ -239,7 +239,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		f.getContentPane().add(panelRight);
 
 		// <Chessboard
-
+		
+		disableBrowserView();//We are in a game
+		
 		f.validate();
 
 		moveList = new ArrayList<Deplacement>();
@@ -275,22 +277,54 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	public void addMoveMadeByPlayer(Deplacement d){
 		addMove(d);
 		addLogsMove(d, d.getPiececode(), d.getColor());
+		moveListCursor++;
 	}
 	private void enableBrowserView(){
-		//TODO set YACG.isClickable to false
+		YACG.switchClickable(false);
 		isBrowserView=true;
-		
+		//TODO BORDER
+		YACG.switchBorder(false);
+		addLogsText("    > STATE ----> Browser view !");
+	}
+	private void disableBrowserView(){
+		YACG.switchClickable(true);
+		isBrowserView=false;
+		YACG.switchBorder(true);
+		addLogsText("    > STATE ----> Game view!");
+	}
+	private void browserViewPlay(){
+		if(!isBrowserView){
+			enableBrowserView();
+		}else{
+			disableBrowserView();
+		}
 	}
 	private void browserViewNext(){
-		moveListCursor--;
-		// TODO Only work if a file was loaded, i broke this :(
-		YACG.forceMakeDeplacement(new Deplacement(moveList.get(moveListCursor).getArrive(),moveList.get(moveListCursor).getDepart()));
+		if(!isBrowserView)
+			enableBrowserView();
+		if(moveListCursor<moveList.size()){
+			
+			moveListCursor++;
+			YACG.makeDeplacement(moveList.get(moveListCursor));
+			addLogsText("Next, moveList : "+moveList.size()+", cursor : "+moveListCursor);
+		}else{//put the arrow in grey
+			
+		}
 	}
 	private void browserViewBack(){
-		moveListCursor++;
-		YACG.makeDeplacement(moveList.get(moveListCursor));
+		if(!isBrowserView)
+			enableBrowserView();
+		if(moveListCursor>0){
+			
+			moveListCursor--;
+			YACG.forceMakeDeplacement(new Deplacement(moveList.get(moveListCursor).getArrive(),moveList.get(moveListCursor).getDepart()));
+			addLogsText("Back, moveList : "+moveList.size()+", cursor : "+moveListCursor);
+		}else{//put the arrow in grey
+			
+		}
 	}
 	public void loadGame() {
+		disableBrowserView();//We are in a game
 		// moveList=new ArrayList<Deplacement>(FileController.loadFile());
 		System.out.println("---->Loading file");
 		GameSave gameSave = FileController.loadFile();
@@ -312,7 +346,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			YACG.makeDeplacement(moveList.get(i));
 
 		}
-		moveListCursor = moveList.size();
+		moveListCursor = moveList.size()-1;
 		// TODO check if a piece was clicked on, which player have to play (??)
 
 	}

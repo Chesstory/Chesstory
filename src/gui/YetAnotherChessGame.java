@@ -21,6 +21,10 @@ import java.util.logging.Logger;
  */
 import java.util.ArrayList;
 
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+
 public class YetAnotherChessGame extends JFrame implements MouseListener, MouseMotionListener {
 	
 	/**
@@ -60,8 +64,9 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	/**
 	 * L'échiquier courrant
 	 */
-	static Echiquier ech;
-
+	static Echiquier ech;//TODO REMOVE STATIC
+	
+	private boolean isClickable=false;
 	/**
 	 * First click or not
 	 */
@@ -207,6 +212,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 
 		// Add a chess board to the Layered Pane
 		chessBoard = new JPanel();
+		
 		layeredPane.add(chessBoard, JLayeredPane.DEFAULT_LAYER);
 		chessBoard.setLayout(new GridLayout(8, 8));
 		chessBoard.setPreferredSize(boardSize);
@@ -246,69 +252,80 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (!first) {
-			chessPiece.setVisible(false);
-
-			JPanel panel = (JPanel) chessBoard.getComponent((8 - depart.getY() - 1) * ech.getDimX() + depart.getX());
-
-			arrive = new Position((int) ((e.getX() / 600.0) * 8.0), (int) ((((600.0 - e.getY()) / 600.0) * 8.0)));
-			// here we have to save the color and the piece into d in order to
-			// later save it in the arraylist
-
-			Deplacement d = new Deplacement(depart, arrive, ech.getPiece(depart).getCode(),
-					ech.getPiece(depart).getColor());
-
-			System.out.println("==> Déplacement : " + d);
-
-			if (makeDeplacement(d)) {
-				if ((winner = ech.verifiePartieTerminee()) != 'n') {
-					System.out.println("GG aux " + winner);
-					System.exit(0);
+		if(isClickable){
+			if (!first) {
+				chessPiece.setVisible(false);
+	
+				JPanel panel = (JPanel) chessBoard.getComponent((8 - depart.getY() - 1) * ech.getDimX() + depart.getX());
+	
+				arrive = new Position((int) ((e.getX() / 600.0) * 8.0), (int) ((((600.0 - e.getY()) / 600.0) * 8.0)));
+				// here we have to save the color and the piece into d in order to
+				// later save it in the arraylist
+	
+				Deplacement d = new Deplacement(depart, arrive, ech.getPiece(depart).getCode(),
+						ech.getPiece(depart).getColor());
+	
+				System.out.println("==> Déplacement : " + d);
+	
+				if (makeDeplacement(d)) {
+					if ((winner = ech.verifiePartieTerminee()) != 'n') {
+						System.out.println("GG aux " + winner);
+						System.exit(0);
+					}
+					
+				} else {
+					// replacer sur la case de départ
+					panel.add(chessPiece);
+					chessPiece.setVisible(true);
+				}
+	
+				// Remettre la couleur d'origine
+				dessinEchiquier();
+				
+				if(ech.estEnEchec(ech.getTrait())){
+					surbrillance(ech.rechercheRoi(ech.getTrait()), Color.MAGENTA);
+				}
+	
+				first = true;
+			} else {
+				chessPiece = null;
+				Component c = chessBoard.findComponentAt(e.getX(), e.getY());
+				// if it is empty : do nothing
+				if (c instanceof JPanel) {
+					return;
+				}
+	
+				// retrouver la case correspondante
+				depart = new Position((int) ((e.getX() / 600.0) * 8.0), (int) ((((600.0 - e.getY()) / 600.0) * 8.0)));
+	
+				System.out.print(depart);
+	
+				chessPiece = (JLabel) c;
+	
+				// highlight the case
+				surbrillance(depart, (ech.getTrait() == ech.getPiece(depart).getColor()) ? Color.cyan : Color.red);
+	
+				if(ech.getTrait() == ech.getPiece(depart).getColor())
+					afficheLesPositionsDansLeGUI(depart);
+	
+				if(ech.estEnEchec(ech.getTrait())){
+					surbrillance(ech.rechercheRoi(ech.getTrait()), Color.MAGENTA);
 				}
 				
-			} else {
-				// replacer sur la case de départ
-				panel.add(chessPiece);
-				chessPiece.setVisible(true);
+				first = false;
 			}
-
-			// Remettre la couleur d'origine
-			dessinEchiquier();
-			
-			if(ech.estEnEchec(ech.getTrait())){
-				surbrillance(ech.rechercheRoi(ech.getTrait()), Color.MAGENTA);
-			}
-
-			first = true;
-		} else {
-			chessPiece = null;
-			Component c = chessBoard.findComponentAt(e.getX(), e.getY());
-			// if it is empty : do nothing
-			if (c instanceof JPanel) {
-				return;
-			}
-
-			// retrouver la case correspondante
-			depart = new Position((int) ((e.getX() / 600.0) * 8.0), (int) ((((600.0 - e.getY()) / 600.0) * 8.0)));
-
-			System.out.print(depart);
-
-			chessPiece = (JLabel) c;
-
-			// highlight the case
-			surbrillance(depart, (ech.getTrait() == ech.getPiece(depart).getColor()) ? Color.cyan : Color.red);
-
-			if(ech.getTrait() == ech.getPiece(depart).getColor())
-				afficheLesPositionsDansLeGUI(depart);
-
-			if(ech.estEnEchec(ech.getTrait())){
-				surbrillance(ech.rechercheRoi(ech.getTrait()), Color.MAGENTA);
-			}
-			
-			first = false;
 		}
 	}
-
+	public void switchBorder(boolean b){
+		if(b){
+			chessBoard.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(0, 255, 255), new Color(0, 255, 255), new Color(0, 255, 255), new Color(0, 255, 255)));
+		}else{
+			chessBoard.setBorder(new EmptyBorder(0, 0, 0, 0));
+		}
+	}
+	public void switchClickable(boolean b){
+		isClickable=b;
+	}
 	@Override
 	public void mouseMoved(MouseEvent e) {
 
