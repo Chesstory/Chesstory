@@ -20,8 +20,7 @@ public class Piece {
 	/**
 	 * Various rules
 	 * 
-	 * min and max for each directions
-	 * boolean to (dis)allow backward moves
+	 * min and max for each directions boolean to (dis)allow backward moves
 	 */
 	private int minX, maxX, minY, maxY, minDiag, maxDiag;
 	private boolean backward;
@@ -39,12 +38,53 @@ public class Piece {
 		this.nom = nom;
 		this.code = code;
 		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
+
+		minX = 0;
+		maxX = 0;
+		minY = 0;
+		maxY = 0;
+		minDiag = 0;
+		maxDiag = 0;
+		backward = false;
+	}
+
+	/**
+	 * Build a chess piece with a name, a code, a color, and its possible moves
+	 * 
+	 * @param nom
+	 * @param code
+	 * @param couleur
+	 * @param depHor Whether it can move horizontally or not
+	 * @param depVer Whether it can move vertically or not
+	 * @param depDiag Whether it can move in diagonal or not
+	 * @param backward Whether it can move backward or not
+	 */
+	Piece(String nom, char code, boolean depHor, boolean depVer, boolean depDiag, boolean backward) {
+		this.nom = nom;
+		this.code = code;
+		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
+
+		this.backward = backward;
+		minX = 0;
+		maxX = ((depHor) ? 99 : 0);
+		minY = 0;
+		maxY = ((depVer) ? 99 : 0);
+		minDiag = 0;
+		maxDiag = ((depDiag) ? 99 : 0);
 	}
 
 	Piece(Piece p) {
 		this.nom = new String(p.nom);
 		this.code = p.code;
 		this.couleur = new String(p.couleur);
+
+		minX = 0;
+		maxX = 0;
+		minY = 0;
+		maxY = 0;
+		minDiag = 0;
+		maxDiag = 0;
+		backward = false;
 	}
 
 	/**
@@ -104,6 +144,14 @@ public class Piece {
 			couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 			break;
 		}
+
+		minX = 0;
+		maxX = 0;
+		minY = 0;
+		maxY = 0;
+		minDiag = 0;
+		maxDiag = 0;
+		backward = false;
 	}
 
 	/**
@@ -158,9 +206,9 @@ public class Piece {
 	public void addCaseAccessible(Position p) {
 		accessible.add(p);
 	}
-	
-	public void suppCaseAccessible(Position p){
-		if(accessible.contains(p))
+
+	public void suppCaseAccessible(Position p) {
+		if (accessible.contains(p))
 			accessible.remove(p);
 	}
 
@@ -171,69 +219,63 @@ public class Piece {
 	public void videAccessible() {
 		accessible = new ArrayList<>();
 	}
-	
+
 	/**
 	 * Getters & setters for moves capacity
 	 */
-	public int getMinX(){
+	public int getMinX() {
 		return minX;
 	}
-	
-	public void setMinX(int i){
+
+	public void setMinX(int i) {
 		this.minX = i;
 	}
-	
-	
-	public int getMaxX(){
+
+	public int getMaxX() {
 		return maxX;
 	}
-	
-	public void setMaxX(int i){
+
+	public void setMaxX(int i) {
 		this.maxX = i;
 	}
-	
-	
-	public int getMinY(){
+
+	public int getMinY() {
 		return minY;
 	}
-	
-	public void setMinY(int i){
+
+	public void setMinY(int i) {
 		this.minY = i;
 	}
-	
-	
-	public int getMaxY(){
+
+	public int getMaxY() {
 		return maxY;
 	}
-	
-	public void setMaxY(int i){
+
+	public void setMaxY(int i) {
 		this.maxY = i;
 	}
-	
-	
-	public int getMinDiag(){
+
+	public int getMinDiag() {
 		return minDiag;
 	}
-	
-	public void setMinDiag(int i){
+
+	public void setMinDiag(int i) {
 		this.minDiag = i;
 	}
-	
-	
-	public int getMaxDiag(){
+
+	public int getMaxDiag() {
 		return maxDiag;
 	}
-	
-	public void setMaxDiag(int i){
+
+	public void setMaxDiag(int i) {
 		this.maxDiag = i;
 	}
-	
-	
-	public boolean getBackward(){
+
+	public boolean getBackward() {
 		return backward;
 	}
-	
-	public void setBackward(boolean b){
+
+	public void setBackward(boolean b) {
 		this.backward = b;
 	}
 }
