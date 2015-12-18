@@ -66,9 +66,6 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	//TODO remove test
 	private JFrame testFrame;
 	private JTextArea testFrameTextArea;
-	private JTextArea setFenTextArea;
-	private JButton setFenButton;
-	private JPanel panel;
 	
 	
 	public ChesstoryGame(String title, int gameType) {
@@ -208,31 +205,6 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		panelLeft.add(panelLeftChessboard, gbc_panelLeftChessboard);
 		panelLeftChessboard.add(YACG.CreationChessboard());
 		f.getContentPane().add(panelLeft);
-		
-		panel = new JPanel();
-		panel.setBackground(SystemColor.controlHighlight);
-		panel.setForeground(SystemColor.controlHighlight);
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 3;
-		panelLeft.add(panel, gbc_panel);
-		
-		setFenTextArea = new JTextArea(1,15);
-		setFenTextArea.setRows(1);
-		setFenTextArea.setBorder(new LineBorder(new Color(0, 0, 0), 3));
-		panel.add(setFenTextArea);
-		//setFenTextArea.setSize(200, 200);
-		setFenTextArea.setTabSize(20);
-		
-		setFenButton = new JButton("Set FEN");
-		setFenButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				YACG.makeDrawFen(setFenTextArea.getText());
-			}
-		});
-		panel.add(setFenButton);
 
 		panelRight = new JPanel();
 		FlowLayout flowLayout_1 = (FlowLayout) panelRight.getLayout();
@@ -302,7 +274,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		testFrameTextArea.setText("ARRAYLIST THIS IS NOT SUPPOSED TO BE DISPLAYED");
 		testFrame.getContentPane().add(testFrameTextArea);
 		testFrame.setAlwaysOnTop(true);
-		testFrame.setVisible(false);
+		testFrame.setVisible(true);
 		testFrame.validate();
 	}
 
@@ -390,6 +362,14 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		}
 		refreshLabelsGame();
 	}
+	private void refreshArrows(){
+		if(moveListCursor==moveList.size()){
+			
+		}
+		if(1==1){
+			
+		}
+	}
 	private void refreshLabelsGame(){
 		labelMoveListCursor.setText("Cursor : "+moveListCursor);
 		labelSizeOfMoveList.setText("Size : "+moveList.size());
@@ -403,7 +383,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			testFrameTextArea.append((i+1)+" >"+moveList.get(i).getColor() + " : Déplacement " + moveList.get(i) + "\n\r");
 		}
 	}
-	public void loadGame() {
+	public void loadGame() {//TODO multiple moveLists I don't know why
 		disableBrowserView();//We are in a game
 		// moveList=new ArrayList<Deplacement>(FileController.loadFile());
 		System.out.println("---->Loading file");
