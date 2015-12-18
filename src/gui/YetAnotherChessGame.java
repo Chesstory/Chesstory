@@ -125,7 +125,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	 * @param departureFEN
 	 *            FEN code used to repaint the chessBoard
 	 */
-	public void initEch(String departureFEN) {
+	public void makeDrawFen(String departureFEN) {
 		videEchiquier();
 		ech.setFEN(departureFEN);
 		dessineToutesLesPieces();

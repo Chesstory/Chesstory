@@ -24,6 +24,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.border.LineBorder;
+import java.awt.SystemColor;
 
 public class ChesstoryGame extends JFrame implements MouseListener {
 	// static YetAnotherChessGame YACG;
@@ -59,7 +60,17 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private int gameId;
 	private int gameType;
 	private String fenDeDepart = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
-
+	private JLabel labelSizeOfMoveList;
+	private JLabel labelMoveListCursor;
+	
+	//TODO remove test
+	private JFrame testFrame;
+	private JTextArea testFrameTextArea;
+	private JTextArea setFenTextArea;
+	private JButton setFenButton;
+	private JPanel panel;
+	
+	
 	public ChesstoryGame(String title, int gameType) {
 		this.gameType = gameType;
 
@@ -69,6 +80,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		 */
 
 		f = new JFrame();
+		
 		// f.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		f.setSize(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width,
 				GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height);
@@ -77,7 +89,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		f.setVisible(true);
 		// Chessboard
 		YACG = new YetAnotherChessGame(fenDeDepart, this);
-
+		
+		f.setVisible(true);
 		panelLeft = new JPanel();
 		panelLeft.setBorder(new LineBorder(Color.GREEN));
 		// panelLeft.setSize((int)(f.getSize().getWidth()*panelLeftRatio)-200,
@@ -85,9 +98,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		panelLeft.setBackground(Color.gray);
 		GridBagLayout gbl_panelLeft = new GridBagLayout();
 		gbl_panelLeft.columnWidths = new int[] { 1000, 0 };
-		gbl_panelLeft.rowHeights = new int[] { 10, 600, 0 };
-		gbl_panelLeft.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
-		gbl_panelLeft.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+		gbl_panelLeft.rowHeights = new int[] { 10, 600, 0, 0, 0 };
+		gbl_panelLeft.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gbl_panelLeft.rowWeights = new double[] { 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE };
 		panelLeft.setLayout(gbl_panelLeft);
 
 		panelLeftMenu = new JPanel();
@@ -139,6 +152,12 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 				new ImageIcon("./bin/icons/arrow_right.png").getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
 		arrowRight = new JButton(icon);
 		panelLeftMenuBrowse.add(arrowRight);
+		
+		labelSizeOfMoveList = new JLabel("Size : x");
+		panelLeftMenuBrowse.add(labelSizeOfMoveList);
+		
+		labelMoveListCursor = new JLabel("Current : x");
+		panelLeftMenuBrowse.add(labelMoveListCursor);
 
 		bSave.addActionListener(new ActionListener() {
 			@Override
@@ -182,12 +201,38 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		panelLeftChessboard.setMinimumSize(new Dimension(600, 600));
 		FlowLayout flowLayout = (FlowLayout) panelLeftChessboard.getLayout();
 		GridBagConstraints gbc_panelLeftChessboard = new GridBagConstraints();
+		gbc_panelLeftChessboard.insets = new Insets(0, 0, 5, 0);
 		gbc_panelLeftChessboard.fill = GridBagConstraints.BOTH;
 		gbc_panelLeftChessboard.gridx = 0;
 		gbc_panelLeftChessboard.gridy = 1;
 		panelLeft.add(panelLeftChessboard, gbc_panelLeftChessboard);
 		panelLeftChessboard.add(YACG.CreationChessboard());
 		f.getContentPane().add(panelLeft);
+		
+		panel = new JPanel();
+		panel.setBackground(SystemColor.controlHighlight);
+		panel.setForeground(SystemColor.controlHighlight);
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		gbc_panel.gridx = 0;
+		gbc_panel.gridy = 3;
+		panelLeft.add(panel, gbc_panel);
+		
+		setFenTextArea = new JTextArea(1,15);
+		setFenTextArea.setRows(1);
+		setFenTextArea.setBorder(new LineBorder(new Color(0, 0, 0), 3));
+		panel.add(setFenTextArea);
+		//setFenTextArea.setSize(200, 200);
+		setFenTextArea.setTabSize(20);
+		
+		setFenButton = new JButton("Set FEN");
+		setFenButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				YACG.makeDrawFen(setFenTextArea.getText());
+			}
+		});
+		panel.add(setFenButton);
 
 		panelRight = new JPanel();
 		FlowLayout flowLayout_1 = (FlowLayout) panelRight.getLayout();
@@ -245,6 +290,20 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		f.validate();
 
 		moveList = new ArrayList<Deplacement>();
+		
+		
+		
+		
+		//TODO remove test
+		testFrame=new JFrame();
+		testFrame.setTitle("Affichage dynamique de la moveList");
+		testFrame.setSize(300,800);
+		testFrameTextArea=new JTextArea();
+		testFrameTextArea.setText("ARRAYLIST THIS IS NOT SUPPOSED TO BE DISPLAYED");
+		testFrame.getContentPane().add(testFrameTextArea);
+		testFrame.setAlwaysOnTop(true);
+		testFrame.setVisible(false);
+		testFrame.validate();
 	}
 
 	public void addLogsText(String s) {
@@ -272,12 +331,13 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	public void addMove(Deplacement d) {//TODO this should be the main connexion : ech/yacg -> chesstory
 		moveList.add(d);
 		moveListCursor=moveList.size()-1;
-		
+		refreshLabelsGame();
 	}
 	public void addMoveMadeByPlayer(Deplacement d){
 		addMove(d);
 		addLogsMove(d, d.getPiececode(), d.getColor());
 		moveListCursor++;
+		refreshLabelsGame();
 	}
 	private void enableBrowserView(){
 		YACG.switchClickable(false);
@@ -296,20 +356,26 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		if(!isBrowserView){
 			enableBrowserView();
 		}else{
+			int i=moveListCursor;//the user has choosen a point in the game to return to
+			while(i<moveList.size()){//we delete all moves after this point/turn
+				moveList.remove(i);
+			}
 			disableBrowserView();
+			refreshLabelsGame();
 		}
 	}
-	private void browserViewNext(){
+	private void browserViewNext(){//TODO fix this shit
 		if(!isBrowserView)
 			enableBrowserView();
 		if(moveListCursor<moveList.size()){
 			
 			moveListCursor++;
-			YACG.makeDeplacement(moveList.get(moveListCursor));
+			YACG.makeDeplacement(moveList.get(moveListCursor-1));
 			addLogsText("Next, moveList : "+moveList.size()+", cursor : "+moveListCursor);
 		}else{//put the arrow in grey
 			
 		}
+		refreshLabelsGame();
 	}
 	private void browserViewBack(){
 		if(!isBrowserView)
@@ -321,6 +387,20 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			addLogsText("Back, moveList : "+moveList.size()+", cursor : "+moveListCursor);
 		}else{//put the arrow in grey
 			
+		}
+		refreshLabelsGame();
+	}
+	private void refreshLabelsGame(){
+		labelMoveListCursor.setText("Cursor : "+moveListCursor);
+		labelSizeOfMoveList.setText("Size : "+moveList.size());
+		refreshTestFrame();
+	}
+	//TODO remove test
+	private void refreshTestFrame(){
+		testFrameTextArea.setText("");
+		for (int i = 0; i < moveList.size(); i++) {
+			 //TODO improve display
+			testFrameTextArea.append((i+1)+" >"+moveList.get(i).getColor() + " : Déplacement " + moveList.get(i) + "\n\r");
 		}
 	}
 	public void loadGame() {
@@ -337,7 +417,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		gameId = gameSave.getGameId();
 		gameType = gameSave.getGameType();
 		System.out.println("Load game, id: " + gameId + ", type: " + gameType);
-		YACG.initEch("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+		YACG.makeDrawFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 		for (int i = 0; i < moveList.size(); i++) {
 			System.out.println("c =" + moveList.get(i).getColor() + ", p =" + moveList.get(i).getPiececode() + ", ("
 					+ moveList.get(i).getX1() + ", " + moveList.get(i).getY1() + ") -> (" + moveList.get(i).getX2()
@@ -347,7 +427,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 		}
 		moveListCursor = moveList.size()-1;
-		// TODO check if a piece was clicked on, which player have to play (??)
+		// TODO check if a piece was clicked on, which player has to play (??)
 
 	}
 
