@@ -335,7 +335,7 @@ public class Echiquier {
 	 *            Deplacement
 	 * @return true si valide sur l'echiquier false sinon
 	 */
-	public boolean estValideDeplacement(Deplacement d) {
+	public boolean Deplacement(Deplacement d) {
 
 		int x1 = d.getX1();
 		int y1 = d.getY1();
@@ -456,9 +456,7 @@ public class Echiquier {
 
 			// cas de la prise en passant
 			if (Character.toUpperCase(codePiece) == 'P' && y1 != y2 && c[x2][y2].estVide()) {
-
 				priseEnPassantEnCours = true;
-
 				c[x2][y1].vider();
 			}
 
@@ -843,31 +841,105 @@ public class Echiquier {
 				if (p != null) {
 					p.videAccessible();
 
-					if (p.getCode() == 'P') {
-						accessiblePionBlanc(i, j);
-					}
-					if (p.getCode() == 'p') {
-						accessiblePionNoir(i, j);
-					}
-					if (Character.toLowerCase(p.getCode()) == 'r') {
-						accessibleTour(i, j);
-					}
-					if (Character.toLowerCase(p.getCode()) == 'b') {
-						accessibleFou(i, j);
-					}
-					if (Character.toLowerCase(p.getCode()) == 'q') {
-						accessibleTour(i, j);
-						accessibleFou(i, j);
-					}
-					if (Character.toLowerCase(p.getCode()) == 'n') {
-						accessibleCavalier(i, j);
-					}
-					if (Character.toLowerCase(p.getCode()) == 'k') {
-						accessibleRoi(i, j);
+					Position posPiece = new Position(i, j);
+					int parcoursX = 0;
+					int parcoursY = 0;
+					int priseY = dimY;
+					int priseX = dimX;
+					Position parcours;
+					Deplacement dep;
+					boolean prise;
+
+					while (parcoursX < dimX && parcoursY < dimY) {
+						if (parcoursX == priseX && parcoursY > priseY) {
+						} else {
+							parcours = new Position(parcoursX, parcoursY);
+							prise = false;
+
+							// if the move is not ok
+							if (parcours != posPiece) {
+								dep = new Deplacement(posPiece, parcours);
+
+								// if there is a piece on the case
+								if ((!c[parcoursX][parcoursY].estVide()
+										&& ((p.estBlanc() && c[parcoursX][parcoursY].getPiece().estNoir())
+												|| (p.estNoir() && c[parcoursX][parcoursY].getPiece().estBlanc())))
+										&& accessiblePiece(dep)) {
+									p.addCaseAccessible(parcours);
+									prise = true;
+								}
+
+								else if (accessiblePiece(dep)) {
+									p.addCaseAccessible(parcours);
+									prise = false;
+								}
+
+								// if there was a capture, we stop the travel on
+								// the
+								// axis
+								if (prise) {
+									if (dep.deplacementHorizontal() != 0 && dep.deplacementDiagonal() == 0) {
+										if (parcoursX > i)
+											parcoursX = dimX;
+										else {
+											for (int a = 0; a < parcoursX; a++) {
+												if (p.getAccessible().contains(new Deplacement(new Position(i, j),
+														new Position(a, parcoursY))))
+													p.suppCaseAccessible(new Position(a, parcoursY));
+											}
+										}
+									}
+
+									if (dep.deplacementVertical() != 0 && dep.deplacementDiagonal() == 0) {
+										if (parcoursY > j) {
+											priseY = parcoursY;
+											priseX = parcoursX;
+										} else {
+											for (int a = 0; a < parcoursY; a++) {
+												if (p.getAccessible().contains(new Deplacement(new Position(i, j),
+														new Position(parcoursX, a))))
+													p.suppCaseAccessible(new Position(parcoursX, a));
+											}
+										}
+									}
+									if(dep.deplacementDiagonal() != 0){
+									//TODO si prise verticale
+										if(parcoursX < i){
+											
+										}
+									}
+								}
+							}
+						}
 					}
 				}
 			}
 		}
+	}
+
+	public boolean accessiblePiece(Deplacement move) {
+		int iDep = move.getDepart().getX();
+		int jDep = move.getDepart().getY();
+		int iArr = move.getArrive().getX();
+		int jArr = move.getArrive().getY();
+
+		//TODO rajouter deplacement cavalier, dans Piece aussi
+		
+		Piece piece = new Piece(c[iDep][jDep].getPiece());
+		// First step : check length
+		if ((piece.getMinX() <= Math.abs(move.deplacementHorizontal())
+				&& piece.getMaxX() >= Math.abs(move.deplacementHorizontal()))
+				&& (piece.getMinY() <= Math.abs(move.deplacementVertical())
+						&& piece.getMaxY() >= Math.abs(move.deplacementVertical()))
+				&& (piece.getMinDiag() <= move.deplacementDiagonal()
+						&& piece.getMaxDiag() >= move.deplacementDiagonal())) {
+
+			// Second step : check if backward and if allowed
+			if (move.backwardMove() && piece.getBackward())
+				return true;
+		}
+
+		return false;
 	}
 
 	public ArrayList<Position> affichePositionAccessibles(Position posPiece) {
@@ -875,7 +947,7 @@ public class Echiquier {
 		int y = posPiece.getY();
 		Piece p = c[x][y].getPiece();
 		for (int i = 0; i < p.getAccessible().size(); i++) {
-			if (!verifiePasEchecsApres(new Deplacement(posPiece, p.getAccessible().get(i)))){
+			if (!verifiePasEchecsApres(new Deplacement(posPiece, p.getAccessible().get(i)))) {
 				p.suppCaseAccessible(p.getAccessible().get(i));
 				i--;
 			}

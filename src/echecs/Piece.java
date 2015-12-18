@@ -73,6 +73,21 @@ public class Piece {
 		maxDiag = ((depDiag) ? 99 : 0);
 	}
 
+	Piece(String nom, char code, int minX, int maxX, int minY, int maxY, int minDiag, int maxDiag, boolean backward) {
+		this.nom = nom;
+		this.code = code;
+		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
+
+		this.backward = backward;
+		this.minX = minX;
+		this.maxX = maxX;
+		this.minY = minY;
+		this.maxY = maxY;
+		this.minDiag = minDiag;
+		this.maxDiag = maxDiag;
+	}
+
+	
 	Piece(Piece p) {
 		this.nom = new String(p.nom);
 		this.code = p.code;

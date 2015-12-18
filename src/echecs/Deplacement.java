@@ -62,8 +62,30 @@ public class Deplacement {
 		return new Position(x2, y2);
 	}
 
+	/**
+	 * panel de methodes donnant la taille d'un deplacement
+	 */
+
 	public int deplacementHorizontal() {
 		return x2 - x1;
+	}
+
+	public int deplacementVertical() {
+		return y2 - y1;
+	}
+
+	public int deplacementDiagonal() {
+		int depX = Math.abs(deplacementHorizontal());
+		int depY = Math.abs(deplacementVertical());
+
+		if (depX == depY) {
+			return depX;
+		}
+		return 0;
+	}
+	
+	public boolean backwardMove(){
+		return(y1>y2);
 	}
 
 	/**
