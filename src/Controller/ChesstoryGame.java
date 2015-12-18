@@ -294,7 +294,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		
 		
 		
-		//TODO remove test
+		//TODO remove test doute
 		testFrame=new JFrame();
 		testFrame.setTitle("Affichage dynamique de la moveList");
 		testFrame.setSize(300,800);
