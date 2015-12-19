@@ -391,22 +391,26 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		if (gameSave.getIsGameCorrupted()) {
 			System.out.println("---->FILE CORRUPTED\n---->Loading failed");
 		} else {
-			System.out.println("---->Loading successed");
+			System.out.println("---->Loading successful");
 		}
-		moveList = gameSave.getMoveList();
+		//moveList = gameSave.getMoveList();
 		gameId = gameSave.getGameId();
 		gameType = gameSave.getGameType();
+		moveListCursor=0;
+		moveList.clear();
 		System.out.println("Load game, id: " + gameId + ", type: " + gameType);
 		YACG.makeDrawFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
-		for (int i = 0; i < moveList.size(); i++) {
+		
+		for (int i = 0; i < gameSave.getMoveList().size(); i++) {
+			
+			//moveList.add(gameSave.getMoveList().get(i));
+			YACG.makeDeplacement(gameSave.getMoveList().get(i));
 			System.out.println("c =" + moveList.get(i).getColor() + ", p =" + moveList.get(i).getPiececode() + ", ("
 					+ moveList.get(i).getX1() + ", " + moveList.get(i).getY1() + ") -> (" + moveList.get(i).getX2()
 					+ ", " + moveList.get(i).getY2() + ")");
 
-			YACG.makeDeplacement(moveList.get(i));
-
 		}
-		moveListCursor = moveList.size()-1;
+		//moveListCursor = moveList.size()-1;
 		// TODO check if a piece was clicked on, which player has to play (??)
 
 	}
