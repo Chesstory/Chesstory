@@ -34,7 +34,7 @@ public class Piece {
 	 * @param code
 	 * @param couleur
 	 */
-	Piece(String nom, char code) {
+	public Piece(String nom, char code) {
 		this.nom = nom;
 		this.code = code;
 		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
@@ -54,12 +54,16 @@ public class Piece {
 	 * @param nom
 	 * @param code
 	 * @param couleur
-	 * @param depHor Whether it can move horizontally or not
-	 * @param depVer Whether it can move vertically or not
-	 * @param depDiag Whether it can move in diagonal or not
-	 * @param backward Whether it can move backward or not
+	 * @param depHor
+	 *            Whether it can move horizontally or not
+	 * @param depVer
+	 *            Whether it can move vertically or not
+	 * @param depDiag
+	 *            Whether it can move in diagonal or not
+	 * @param backward
+	 *            Whether it can move backward or not
 	 */
-	Piece(String nom, char code, boolean depHor, boolean depVer, boolean depDiag, boolean backward) {
+	public Piece(String nom, char code, boolean depHor, boolean depVer, boolean depDiag, boolean backward) {
 		this.nom = nom;
 		this.code = code;
 		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
@@ -73,7 +77,8 @@ public class Piece {
 		maxDiag = ((depDiag) ? 99 : 0);
 	}
 
-	Piece(String nom, char code, int minX, int maxX, int minY, int maxY, int minDiag, int maxDiag, boolean backward) {
+	public Piece(String nom, char code, int minX, int maxX, int minY, int maxY, int minDiag, int maxDiag,
+			boolean backward) {
 		this.nom = nom;
 		this.code = code;
 		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
@@ -87,19 +92,47 @@ public class Piece {
 		this.maxDiag = maxDiag;
 	}
 
-	
+	/**
+	 * Constructor that build a chess piece with the same caracs as the entered
+	 * one Useful for 'type' pieces (no color choice here)
+	 * 
+	 * @param p
+	 *            The piece to copy
+	 */
 	Piece(Piece p) {
 		this.nom = new String(p.nom);
 		this.code = p.code;
 		this.couleur = new String(p.couleur);
 
-		minX = 0;
-		maxX = 0;
-		minY = 0;
-		maxY = 0;
-		minDiag = 0;
-		maxDiag = 0;
-		backward = false;
+		this.minX = p.minX;
+		this.maxX = p.maxX;
+		this.minY = p.minY;
+		this.maxY = p.maxY;
+		this.minDiag = p.minDiag;
+		this.maxDiag = p.maxDiag;
+		this.backward = p.backward;
+	}
+
+	/**
+	 * Copy constructor, here we chose the color, and it's wonderful !
+	 * 
+	 * @param p
+	 *            The piece to copy
+	 * @param color
+	 *            The color of the new piece
+	 */
+	Piece(Piece p, char color) {
+		this.nom = new String(p.nom);
+		this.code = ((color == 'w') ?  Character.toUpperCase(p.code) : p.code);
+		this.couleur = ((color == 'w') ? "blanc" : "noir");
+
+		this.minX = p.minX;
+		this.maxX = p.maxX;
+		this.minY = p.minY;
+		this.maxY = p.maxY;
+		this.minDiag = p.minDiag;
+		this.maxDiag = p.maxDiag;
+		this.backward = p.backward;
 	}
 
 	/**
@@ -108,6 +141,7 @@ public class Piece {
 	 * @param code
 	 */
 	public Piece(char code) {
+		// TODO useless like this, the piece won't move
 		this.code = code;
 		switch (code) {
 		case 'k':

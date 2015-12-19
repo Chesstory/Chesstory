@@ -26,7 +26,7 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 
 public class YetAnotherChessGame extends JFrame implements MouseListener, MouseMotionListener {
-	
+
 	/**
 	 * Paneau de fond
 	 */
@@ -64,9 +64,9 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	/**
 	 * L'échiquier courrant
 	 */
-	static Echiquier ech;//TODO REMOVE STATIC
-	
-	private boolean isClickable=false;
+	static Echiquier ech;// TODO REMOVE STATIC
+
+	private boolean isClickable = false;
 	/**
 	 * First click or not
 	 */
@@ -193,13 +193,21 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	/**
 	 * Constructeur
 	 */
-	public YetAnotherChessGame(String fenDeDeapart, ChesstoryGame chesstoryGame ) {
-		this.chesstoryGame=chesstoryGame;
-		ech = new Echiquier();
-		ech.setFEN(fenDeDeapart);
+	public YetAnotherChessGame(String fenDeDeapart, ChesstoryGame chesstoryGame) {
+		// TODO a good looking shit to initialize pieces :3
 
+		this.chesstoryGame = chesstoryGame;
+		//ech = new Echiquier();
+
+		// This a test with the classical chess pieces
+		ech = new Echiquier(new Piece("pion", 'p', 0, 0, 1, 1, 0, 0, false), new Piece("dame", 'q', true, true, true, true),
+				new Piece("roi", 'k', 1, 1, 1, 1, 1, 1, true), new Piece("cavalier", 'n'),
+				new Piece("fou", 'b', false, false, true, true), new Piece("tour", 'r', true, true, false, true));
+		
+		ech.setFEN(fenDeDeapart);
+		
 		// Pour le test !
-		 //ech.setFEN("krq5/8/8/8/8/8/8/KQR5");
+		ech.setFEN("krq5/8/8/3r1q2/8/8/8/KQR5");
 
 		Dimension boardSize = new Dimension(600, 600);
 
@@ -212,7 +220,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 
 		// Add a chess board to the Layered Pane
 		chessBoard = new JPanel();
-		
+
 		layeredPane.add(chessBoard, JLayeredPane.DEFAULT_LAYER);
 		chessBoard.setLayout(new GridLayout(8, 8));
 		chessBoard.setPreferredSize(boardSize);
@@ -252,41 +260,43 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(isClickable){
+		if (isClickable) {
 			if (!first) {
 				chessPiece.setVisible(false);
-	
-				JPanel panel = (JPanel) chessBoard.getComponent((8 - depart.getY() - 1) * ech.getDimX() + depart.getX());
-	
+
+				JPanel panel = (JPanel) chessBoard
+						.getComponent((8 - depart.getY() - 1) * ech.getDimX() + depart.getX());
+
 				arrive = new Position((int) ((e.getX() / 600.0) * 8.0), (int) ((((600.0 - e.getY()) / 600.0) * 8.0)));
-				// here we have to save the color and the piece into d in order to
+				// here we have to save the color and the piece into d in order
+				// to
 				// later save it in the arraylist
-	
+
 				Deplacement d = new Deplacement(depart, arrive, ech.getPiece(depart).getCode(),
 						ech.getPiece(depart).getColor());
-	
+
 				System.out.println("==> Déplacement : " + d);
-	
+
 				if (makeDeplacement(d)) {
 					if ((winner = ech.verifiePartieTerminee()) != 'n') {
 						System.out.println("GG aux " + winner);
 						System.exit(0);
 					}
-					
+
 				} else {
 					// replacer sur la case de départ
 					panel.add(chessPiece);
 					chessPiece.setVisible(true);
 				}
-	
+
 				// Remettre la couleur d'origine
 				dessinEchiquier();
-				
-				//Put king in a yoloswaggy color if echec
-				if(ech.estEnEchec(ech.getTrait())){
+
+				// Put king in a yoloswaggy color if echec
+				if (ech.estEnEchec(ech.getTrait())) {
 					surbrillance(ech.rechercheRoi(ech.getTrait()), Color.MAGENTA);
 				}
-	
+
 				first = true;
 			} else {
 				chessPiece = null;
@@ -295,38 +305,42 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 				if (c instanceof JPanel) {
 					return;
 				}
-	
+
 				// retrouver la case correspondante
 				depart = new Position((int) ((e.getX() / 600.0) * 8.0), (int) ((((600.0 - e.getY()) / 600.0) * 8.0)));
-	
+
 				System.out.print(depart);
-	
+
 				chessPiece = (JLabel) c;
-	
+
 				// highlight the case
 				surbrillance(depart, (ech.getTrait() == ech.getPiece(depart).getColor()) ? Color.cyan : Color.red);
-	
-				if(ech.getTrait() == ech.getPiece(depart).getColor())
+
+				if (ech.getTrait() == ech.getPiece(depart).getColor())
 					afficheLesPositionsDansLeGUI(depart);
-	
-				if(ech.estEnEchec(ech.getTrait())){
+
+				if (ech.estEnEchec(ech.getTrait())) {
 					surbrillance(ech.rechercheRoi(ech.getTrait()), Color.MAGENTA);
 				}
-				
+
 				first = false;
 			}
 		}
 	}
-	public void switchBorder(boolean b){
-		if(b){
-			chessBoard.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(0, 255, 255), new Color(0, 255, 255), new Color(0, 255, 255), new Color(0, 255, 255)));
-		}else{
+
+	public void switchBorder(boolean b) {
+		if (b) {
+			chessBoard.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(0, 255, 255), new Color(0, 255, 255),
+					new Color(0, 255, 255), new Color(0, 255, 255)));
+		} else {
 			chessBoard.setBorder(new EmptyBorder(0, 0, 0, 0));
 		}
 	}
-	public void switchClickable(boolean b){
-		isClickable=b;
+
+	public void switchClickable(boolean b) {
+		isClickable = b;
 	}
+
 	@Override
 	public void mouseMoved(MouseEvent e) {
 

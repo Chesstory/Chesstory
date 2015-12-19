@@ -84,8 +84,12 @@ public class Deplacement {
 		return 0;
 	}
 	
-	public boolean backwardMove(){
-		return(y1>y2);
+	public boolean backwardMoveWhite(){
+		return (y1>y2);
+	}
+	
+	public boolean backwardMoveBlack(){
+		return (y2>y1);
 	}
 
 	/**

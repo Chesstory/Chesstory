@@ -37,6 +37,9 @@ public class Echiquier {
 	// position de la prise en passant éventuelle
 	Position priseEnPassant;
 
+	// 'Specimen' chessPieces
+	Piece pionType, tourType, dameType, roiType, fouType, cavalierType;
+
 	/**
 	 * Constructeur par défaut echiquier 8x8
 	 */
@@ -72,10 +75,22 @@ public class Echiquier {
 
 	}
 
+	public Echiquier(Piece pion, Piece dame, Piece roi, Piece cavalier, Piece fou, Piece tour) {
+		this(8, 8);
+		initPieces(pion, dame, roi, cavalier, fou, tour);
+	}
+
 	public Echiquier(Echiquier ech) {
 		this.dimX = ech.dimX;
 		this.dimY = ech.dimY;
 		this.trait = ech.trait;
+
+		this.pionType = ech.pionType;
+		this.fouType = ech.fouType;
+		this.roiType = ech.roiType;
+		this.dameType = ech.dameType;
+		this.tourType = ech.tourType;
+		this.cavalierType = ech.cavalierType;
 
 		existantPieces = new Piece[nbMaxPiece];
 
@@ -173,40 +188,40 @@ public class Echiquier {
 						int pos = j + (decal);
 						switch (l) {
 						case 'k':
-							c[pos][dimY - i - 1].setPiece(new Piece("roi", 'k'));
+							c[pos][dimY - i - 1].setPiece(new Piece(roiType, 'b'));
 							break;
 						case 'K':
-							c[pos][dimY - i - 1].setPiece(new Piece("roi", 'K'));
+							c[pos][dimY - i - 1].setPiece(new Piece(roiType, 'w'));
 							break;
 						case 'q':
-							c[pos][dimY - i - 1].setPiece(new Piece("dame", 'q'));
+							c[pos][dimY - i - 1].setPiece(new Piece(dameType, 'b'));
 							break;
 						case 'Q':
-							c[pos][dimY - i - 1].setPiece(new Piece("dame", 'Q'));
+							c[pos][dimY - i - 1].setPiece(new Piece(dameType, 'w'));
 							break;
 						case 'r':
-							c[pos][dimY - i - 1].setPiece(new Piece("tour", 'r'));
+							c[pos][dimY - i - 1].setPiece(new Piece(tourType, 'b'));
 							break;
 						case 'R':
-							c[pos][dimY - i - 1].setPiece(new Piece("tour", 'R'));
+							c[pos][dimY - i - 1].setPiece(new Piece(tourType, 'w'));
 							break;
 						case 'b':
-							c[pos][dimY - i - 1].setPiece(new Piece("fou", 'b'));
+							c[pos][dimY - i - 1].setPiece(new Piece(fouType, 'b'));
 							break;
 						case 'B':
-							c[pos][dimY - i - 1].setPiece(new Piece("fou", 'B'));
+							c[pos][dimY - i - 1].setPiece(new Piece(fouType, 'w'));
 							break;
 						case 'n':
-							c[pos][dimY - i - 1].setPiece(new Piece("cavalier", 'n'));
+							c[pos][dimY - i - 1].setPiece(new Piece(cavalierType, 'b'));
 							break;
 						case 'N':
-							c[pos][dimY - i - 1].setPiece(new Piece("cavalier", 'N'));
+							c[pos][dimY - i - 1].setPiece(new Piece(cavalierType, 'w'));
 							break;
 						case 'p':
-							c[pos][dimY - i - 1].setPiece(new Piece("pion", 'p'));
+							c[pos][dimY - i - 1].setPiece(new Piece(pionType, 'b'));
 							break;
 						case 'P':
-							c[pos][dimY - i - 1].setPiece(new Piece("pion", 'P'));
+							c[pos][dimY - i - 1].setPiece(new Piece(pionType, 'w'));
 							break;
 
 						}
@@ -432,16 +447,12 @@ public class Echiquier {
 			}
 
 			promotion = false;
-			// cas du pion noir sur première rangée
-			if (codePiece == 'p' && (y2 == 0)) {
-				promotion = true;
-				piece = new Piece("dame", 'q');
-			}
-			// cas du pion blanc sur dernière rangée
-			if (codePiece == 'P' && (y2 == 7)) {
-				promotion = true;
-				piece = new Piece("dame", 'Q');
-			}
+			/*
+			 * // cas du pion noir sur première rangée if (codePiece == 'p' &&
+			 * (y2 == 0)) { promotion = true; piece = new Piece("dame", 'q'); }
+			 * // cas du pion blanc sur dernière rangée if (codePiece == 'P' &&
+			 * (y2 == 7)) { promotion = true; piece = new Piece("dame", 'Q'); }
+			 */
 
 			// autoriser la prise en passant si et seulement si avance de 2 pour
 			// un pion
@@ -460,62 +471,30 @@ public class Echiquier {
 				c[x2][y1].vider();
 			}
 
-			// détection du roque
-			if (Character.toUpperCase(codePiece) == 'K') {
-				if (d.deplacementHorizontal() == 2) {
-					petitRoqueEnCours = true;
-
-					// petit roque blanc
-					if (codePiece == 'K') {
-						c[7][0].vider();
-						c[5][0].setPiece(new Piece("tour", 'R'));
-					}
-					// petit roque noir
-					if (codePiece == 'k') {
-						c[7][7].vider();
-						c[5][7].setPiece(new Piece("tour", 'r'));
-					}
-				} else
-					petitRoqueEnCours = false;
-
-				if (d.deplacementHorizontal() == -2) {
-					grandRoqueEnCours = true;
-
-					// grand roque blanc
-					if (codePiece == 'K') {
-						c[0][0].vider();
-						c[3][0].setPiece(new Piece("tour", 'R'));
-					}
-					// grand roque noir
-					if (codePiece == 'k') {
-						c[0][7].vider();
-						c[3][7].setPiece(new Piece("tour", 'r'));
-					}
-				} else
-					grandRoqueEnCours = false;
-			}
-
-			// Pour interdir les futurs roques...
-			if ((codePiece == 'R') && (x1 == 0)) {
-				roqueQ = false;
-			}
-			if ((codePiece == 'r') && (x1 == 0)) {
-				roqueq = false;
-			}
-			if ((codePiece == 'R') && (x1 == 7)) {
-				roqueK = false;
-			}
-			if ((codePiece == 'r') && (x1 == 7)) {
-				roquek = false;
-			}
-			if (codePiece == 'K') {
-				roqueQ = false;
-				roqueK = false;
-			}
-			if (codePiece == 'k') {
-				roqueq = false;
-				roquek = false;
-			}
+			/*
+			 * // détection du roque if (Character.toUpperCase(codePiece) ==
+			 * 'K') { if (d.deplacementHorizontal() == 2) { petitRoqueEnCours =
+			 * true;
+			 * 
+			 * // petit roque blanc if (codePiece == 'K') { c[7][0].vider();
+			 * c[5][0].setPiece(new Piece("tour", 'R')); } // petit roque noir
+			 * if (codePiece == 'k') { c[7][7].vider(); c[5][7].setPiece(new
+			 * Piece("tour", 'r')); } } else petitRoqueEnCours = false;
+			 * 
+			 * if (d.deplacementHorizontal() == -2) { grandRoqueEnCours = true;
+			 * 
+			 * // grand roque blanc if (codePiece == 'K') { c[0][0].vider();
+			 * c[3][0].setPiece(new Piece("tour", 'R')); } // grand roque noir
+			 * if (codePiece == 'k') { c[0][7].vider(); c[3][7].setPiece(new
+			 * Piece("tour", 'r')); } } else grandRoqueEnCours = false; }
+			 * 
+			 * // Pour interdir les futurs roques... if ((codePiece == 'R') &&
+			 * (x1 == 0)) { roqueQ = false; } if ((codePiece == 'r') && (x1 ==
+			 * 0)) { roqueq = false; } if ((codePiece == 'R') && (x1 == 7)) {
+			 * roqueK = false; } if ((codePiece == 'r') && (x1 == 7)) { roquek =
+			 * false; } if (codePiece == 'K') { roqueQ = false; roqueK = false;
+			 * } if (codePiece == 'k') { roqueq = false; roquek = false; }
+			 */
 
 			c[x2][y2].setPiece(piece);
 			c[x1][y1].vider();
@@ -526,6 +505,24 @@ public class Echiquier {
 
 		construitPositionsAccessibles();
 		System.out.println(this.getFEN());
+	}
+
+	/**
+	 * Check if a move is valid or not ; If it is in the piece's list of
+	 * accessible moves
+	 * 
+	 * @param d
+	 *            The move to check
+	 * @return True if ok, False if not
+	 */
+	public boolean estValideDeplacement(Deplacement d) {
+		Piece p = c[d.getX1()][d.getY1()].getPiece();
+		if (p.getColor() == trait) {
+			construitPositionsAccessibles();
+			if (p.getAccessible().contains(d.getArrive()))
+				return true;
+		}
+		return false;
 	}
 
 	/**
@@ -841,74 +838,174 @@ public class Echiquier {
 				if (p != null) {
 					p.videAccessible();
 
-					Position posPiece = new Position(i, j);
-					int parcoursX = 0;
-					int parcoursY = 0;
-					int priseY = dimY;
-					int priseX = dimX;
-					Position parcours;
-					Deplacement dep;
-					boolean prise;
+					// TODO cleaner way for that freaking knight
+					if (Character.toLowerCase(p.getCode()) == 'n') {
+						accessibleCavalier(i, j);
+					} else {
+						Position posPiece = new Position(i, j);
+						int parcoursX = i;
+						int parcoursY = j;
+						Position parcours;
+						Deplacement dep;
+						boolean continu = true;
 
-					while (parcoursX < dimX && parcoursY < dimY) {
-						if (parcoursX == priseX && parcoursY > priseY) {
-						} else {
-							parcours = new Position(parcoursX, parcoursY);
-							prise = false;
-
-							// if the move is not ok
-							if (parcours != posPiece) {
-								dep = new Deplacement(posPiece, parcours);
-
-								// if there is a piece on the case
-								if ((!c[parcoursX][parcoursY].estVide()
-										&& ((p.estBlanc() && c[parcoursX][parcoursY].getPiece().estNoir())
-												|| (p.estNoir() && c[parcoursX][parcoursY].getPiece().estBlanc())))
-										&& accessiblePiece(dep)) {
-									p.addCaseAccessible(parcours);
-									prise = true;
-								}
-
-								else if (accessiblePiece(dep)) {
-									p.addCaseAccessible(parcours);
-									prise = false;
-								}
-
-								// if there was a capture, we stop the travel on
-								// the
-								// axis
-								if (prise) {
-									if (dep.deplacementHorizontal() != 0 && dep.deplacementDiagonal() == 0) {
-										if (parcoursX > i)
-											parcoursX = dimX;
-										else {
-											for (int a = 0; a < parcoursX; a++) {
-												if (p.getAccessible().contains(new Deplacement(new Position(i, j),
-														new Position(a, parcoursY))))
-													p.suppCaseAccessible(new Position(a, parcoursY));
-											}
-										}
+						// Horizontal moves here
+						if (p.getMaxX() > 0) {
+							// To the right
+							while (continu) {
+								if (parcoursX < dimX) {
+									parcours = new Position(parcoursX, parcoursY);
+									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
+									if (accessiblePiece(dep)) {
+										p.addCaseAccessible(parcours);
+										if (!c[parcoursX][parcoursY].estVide())
+											continu = false;
 									}
+									parcoursX++;
+								} else
+									continu = false;
+							}
 
-									if (dep.deplacementVertical() != 0 && dep.deplacementDiagonal() == 0) {
-										if (parcoursY > j) {
-											priseY = parcoursY;
-											priseX = parcoursX;
-										} else {
-											for (int a = 0; a < parcoursY; a++) {
-												if (p.getAccessible().contains(new Deplacement(new Position(i, j),
-														new Position(parcoursX, a))))
-													p.suppCaseAccessible(new Position(parcoursX, a));
-											}
-										}
+							parcoursX = i;
+							continu = true;
+
+							// To the left
+							while (continu) {
+								if (parcoursX >= 0) {
+									parcours = new Position(parcoursX, parcoursY);
+									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
+									if (accessiblePiece(dep)) {
+										p.addCaseAccessible(parcours);
+										if (!c[parcoursX][parcoursY].estVide())
+											continu = false;
 									}
-									if(dep.deplacementDiagonal() != 0){
-									//TODO si prise verticale
-										if(parcoursX < i){
-											
-										}
+									parcoursX--;
+								} else
+									continu = false;
+							}
+						}
+
+						// Vertical checking here
+						if (p.getMaxY() > 0) {
+							parcoursX = i;
+							continu = true;
+							// To the bottom !
+							while (continu) {
+								if (parcoursY < dimY) {
+									parcours = new Position(parcoursX, parcoursY);
+									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
+									if (accessiblePiece(dep)) {
+										p.addCaseAccessible(parcours);
+										if (!c[parcoursX][parcoursY].estVide())
+											continu = false;
 									}
-								}
+									parcoursY++;
+								} else
+									continu = false;
+							}
+
+							parcoursY = j;
+							continu = true;
+
+							// To the top, to the stars !
+							while (continu) {
+								if (parcoursY >= 0) {
+									parcours = new Position(parcoursX, parcoursY);
+									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
+									if (accessiblePiece(dep)) {
+										p.addCaseAccessible(parcours);
+										if (!c[parcoursX][parcoursY].estVide())
+											continu = false;
+									}
+									parcoursY--;
+								} else
+									continu = false;
+							}
+						}
+
+						// Diagonal checking here ! 4 directions !
+						if (p.getMaxDiag() > 0) {
+							continu = true;
+							parcoursX = i;
+							parcoursY = j;
+
+							// First one ! bottom-right I think
+							while (continu) {
+								if (parcoursY < dimY && parcoursX < dimX) {
+									parcours = new Position(parcoursX, parcoursY);
+									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
+									if (accessiblePiece(dep)) {
+										p.addCaseAccessible(parcours);
+										if (!c[parcoursX][parcoursY].estVide())
+											continu = false;
+									}
+									parcoursX++;
+									parcoursY++;
+								} else
+									continu = false;
+							}
+							continu = true;
+							parcoursX = i;
+							parcoursY = j;
+
+							// Second one ! bottom-left normally
+							while (continu) {
+								if (parcoursY < dimY && parcoursX >= 0) {
+									parcours = new Position(parcoursX, parcoursY);
+									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
+									if (accessiblePiece(dep)) {
+										p.addCaseAccessible(parcours);
+										if (!c[parcoursX][parcoursY].estVide())
+											continu = false;
+									}
+									parcoursX--;
+									parcoursY++;
+								} else
+									continu = false;
+							}
+
+							continu = true;
+							parcoursX = i;
+							parcoursY = j;
+
+							// Third one ! top-right maybe, or top-chef ? Who
+							// knows
+							// ?
+							while (continu) {
+								if (parcoursY >= 0 && parcoursX >= 0) {
+									parcours = new Position(parcoursX, parcoursY);
+									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
+									if (accessiblePiece(dep)) {
+										p.addCaseAccessible(parcours);
+										if (!c[parcoursX][parcoursY].estVide())
+											continu = false;
+									}
+									parcoursX--;
+									parcoursY--;
+								} else
+									continu = false;
+							}
+
+							continu = true;
+							parcoursX = i;
+							parcoursY = j;
+
+							// Fourth one ! top-right if i'm right, got it ?
+							// right
+							// -> right !
+							while (continu) {
+								if (parcoursY >= 0 && parcoursX < dimX) {
+									parcours = new Position(parcoursX, parcoursY);
+									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
+									if (accessiblePiece(dep)) {
+										p.addCaseAccessible(parcours);
+										if (!c[parcoursX][parcoursY].estVide())
+											continu = false;
+									}
+									parcoursX++;
+									parcoursY--;
+								} else
+									continu = false;
 							}
 						}
 					}
@@ -920,11 +1017,9 @@ public class Echiquier {
 	public boolean accessiblePiece(Deplacement move) {
 		int iDep = move.getDepart().getX();
 		int jDep = move.getDepart().getY();
-		int iArr = move.getArrive().getX();
-		int jArr = move.getArrive().getY();
 
-		//TODO rajouter deplacement cavalier, dans Piece aussi
-		
+		// TODO rajouter deplacement cavalier, dans Piece aussi
+
 		Piece piece = new Piece(c[iDep][jDep].getPiece());
 		// First step : check length
 		if ((piece.getMinX() <= Math.abs(move.deplacementHorizontal())
@@ -935,10 +1030,11 @@ public class Echiquier {
 						&& piece.getMaxDiag() >= move.deplacementDiagonal())) {
 
 			// Second step : check if backward and if allowed
-			if (move.backwardMove() && piece.getBackward())
+			if (piece.getBackward()
+					|| (piece.estBlanc() && !move.backwardMoveWhite())
+					|| (piece.estNoir() && !move.backwardMoveBlack()))
 				return true;
 		}
-
 		return false;
 	}
 
@@ -1084,5 +1180,14 @@ public class Echiquier {
 			end = 'b';
 
 		return (end);
+	}
+
+	public void initPieces(Piece pion, Piece dame, Piece roi, Piece cavalier, Piece fou, Piece tour) {
+		this.pionType = new Piece(pion);
+		this.fouType = new Piece(fou);
+		this.roiType = new Piece(roi);
+		this.dameType = new Piece(dame);
+		this.tourType = new Piece(tour);
+		this.cavalierType = new Piece(cavalier);
 	}
 }
