@@ -1035,9 +1035,9 @@ public class Echiquier {
 		// First step : check length
 		if ((piece.getMinX() <= Math.abs(move.deplacementHorizontal())
 				&& piece.getMaxX() >= Math.abs(move.deplacementHorizontal()))
-				&& (piece.getMinY() <= Math.abs(move.deplacementVertical())
+				|| (piece.getMinY() <= Math.abs(move.deplacementVertical())
 						&& piece.getMaxY() >= Math.abs(move.deplacementVertical()))
-				&& (piece.getMinDiag() <= move.deplacementDiagonal()
+				|| (piece.getMinDiag() <= move.deplacementDiagonal()
 						&& piece.getMaxDiag() >= move.deplacementDiagonal())) {
 
 			// Second step : check if there is something to kill
