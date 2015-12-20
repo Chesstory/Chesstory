@@ -831,7 +831,7 @@ public class Echiquier {
 	 *
 	 */
 	public void construitPositionsAccessibles() {
-		// Premier parcours "naïf"
+		// TODO maybe separate this big thing into many little things
 		for (int j = 0; j < dimY; j++) {
 			for (int i = 0; i < dimX; i++) {
 				Piece p = c[i][j].getPiece();
@@ -843,8 +843,8 @@ public class Echiquier {
 						accessibleCavalier(i, j);
 					} else {
 						Position posPiece = new Position(i, j);
-						int parcoursX = i;
-						int parcoursY = j;
+						int parcoursX;
+						int parcoursY;
 						Position parcours;
 						Deplacement dep;
 						boolean continu = true;
@@ -852,21 +852,24 @@ public class Echiquier {
 						// Horizontal moves here
 						if (p.getMaxX() > 0) {
 							// To the right
+							parcoursX = i + 1;
+							parcoursY = j;
 							while (continu) {
 								if (parcoursX < dimX) {
 									parcours = new Position(parcoursX, parcoursY);
 									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
-									if (accessiblePiece(dep)) {
+									if (accessiblePiece(dep))
 										p.addCaseAccessible(parcours);
-										if (!c[parcoursX][parcoursY].estVide())
-											continu = false;
-									}
+									if (!c[parcoursX][parcoursY].estVide())
+										continu = false;
+
 									parcoursX++;
 								} else
 									continu = false;
 							}
 
-							parcoursX = i;
+							parcoursX = i - 1;
+							parcoursY = j;
 							continu = true;
 
 							// To the left
@@ -874,11 +877,11 @@ public class Echiquier {
 								if (parcoursX >= 0) {
 									parcours = new Position(parcoursX, parcoursY);
 									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
-									if (accessiblePiece(dep)) {
+									if (accessiblePiece(dep))
 										p.addCaseAccessible(parcours);
-										if (!c[parcoursX][parcoursY].estVide())
-											continu = false;
-									}
+									if (!c[parcoursX][parcoursY].estVide())
+										continu = false;
+
 									parcoursX--;
 								} else
 									continu = false;
@@ -887,6 +890,7 @@ public class Echiquier {
 
 						// Vertical checking here
 						if (p.getMaxY() > 0) {
+							parcoursY = j + 1;
 							parcoursX = i;
 							continu = true;
 							// To the bottom !
@@ -894,17 +898,18 @@ public class Echiquier {
 								if (parcoursY < dimY) {
 									parcours = new Position(parcoursX, parcoursY);
 									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
-									if (accessiblePiece(dep)) {
+									if (accessiblePiece(dep))
 										p.addCaseAccessible(parcours);
-										if (!c[parcoursX][parcoursY].estVide())
-											continu = false;
-									}
+									if (!c[parcoursX][parcoursY].estVide())
+										continu = false;
+
 									parcoursY++;
 								} else
 									continu = false;
 							}
 
-							parcoursY = j;
+							parcoursX = i;
+							parcoursY = j - 1;
 							continu = true;
 
 							// To the top, to the stars !
@@ -912,11 +917,11 @@ public class Echiquier {
 								if (parcoursY >= 0) {
 									parcours = new Position(parcoursX, parcoursY);
 									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
-									if (accessiblePiece(dep)) {
+									if (accessiblePiece(dep))
 										p.addCaseAccessible(parcours);
-										if (!c[parcoursX][parcoursY].estVide())
-											continu = false;
-									}
+									if (!c[parcoursX][parcoursY].estVide())
+										continu = false;
+
 									parcoursY--;
 								} else
 									continu = false;
@@ -926,38 +931,42 @@ public class Echiquier {
 						// Diagonal checking here ! 4 directions !
 						if (p.getMaxDiag() > 0) {
 							continu = true;
-							parcoursX = i;
-							parcoursY = j;
+							parcoursX = i + 1;
+							parcoursY = j + 1;
 
 							// First one ! bottom-right I think
 							while (continu) {
 								if (parcoursY < dimY && parcoursX < dimX) {
 									parcours = new Position(parcoursX, parcoursY);
 									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
-									if (accessiblePiece(dep)) {
+									if (accessiblePiece(dep))
 										p.addCaseAccessible(parcours);
-										if (!c[parcoursX][parcoursY].estVide())
-											continu = false;
-									}
+									if (!c[parcoursX][parcoursY].estVide())
+										continu = false;
+
 									parcoursX++;
 									parcoursY++;
 								} else
 									continu = false;
 							}
+
 							continu = true;
-							parcoursX = i;
-							parcoursY = j;
+							parcoursX = i - 1;
+							parcoursY = j + 1;
 
 							// Second one ! bottom-left normally
+							// Do you know why the chicken crossed the road ??
+							// Because road is human-made, chicken do not get
+							// it.
 							while (continu) {
 								if (parcoursY < dimY && parcoursX >= 0) {
 									parcours = new Position(parcoursX, parcoursY);
 									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
-									if (accessiblePiece(dep)) {
+									if (accessiblePiece(dep))
 										p.addCaseAccessible(parcours);
-										if (!c[parcoursX][parcoursY].estVide())
-											continu = false;
-									}
+									if (!c[parcoursX][parcoursY].estVide())
+										continu = false;
+
 									parcoursX--;
 									parcoursY++;
 								} else
@@ -965,8 +974,8 @@ public class Echiquier {
 							}
 
 							continu = true;
-							parcoursX = i;
-							parcoursY = j;
+							parcoursX = i - 1;
+							parcoursY = j - 1;
 
 							// Third one ! top-right maybe, or top-chef ? Who
 							// knows
@@ -975,11 +984,11 @@ public class Echiquier {
 								if (parcoursY >= 0 && parcoursX >= 0) {
 									parcours = new Position(parcoursX, parcoursY);
 									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
-									if (accessiblePiece(dep)) {
+									if (accessiblePiece(dep))
 										p.addCaseAccessible(parcours);
-										if (!c[parcoursX][parcoursY].estVide())
-											continu = false;
-									}
+									if (!c[parcoursX][parcoursY].estVide())
+										continu = false;
+
 									parcoursX--;
 									parcoursY--;
 								} else
@@ -987,8 +996,8 @@ public class Echiquier {
 							}
 
 							continu = true;
-							parcoursX = i;
-							parcoursY = j;
+							parcoursX = i + 1;
+							parcoursY = j - 1;
 
 							// Fourth one ! top-right if i'm right, got it ?
 							// right
@@ -997,11 +1006,11 @@ public class Echiquier {
 								if (parcoursY >= 0 && parcoursX < dimX) {
 									parcours = new Position(parcoursX, parcoursY);
 									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
-									if (accessiblePiece(dep)) {
+									if (accessiblePiece(dep))
 										p.addCaseAccessible(parcours);
-										if (!c[parcoursX][parcoursY].estVide())
-											continu = false;
-									}
+									if (!c[parcoursX][parcoursY].estVide())
+										continu = false;
+
 									parcoursX++;
 									parcoursY--;
 								} else
@@ -1017,6 +1026,8 @@ public class Echiquier {
 	public boolean accessiblePiece(Deplacement move) {
 		int iDep = move.getDepart().getX();
 		int jDep = move.getDepart().getY();
+		int iArr = move.getArrive().getX();
+		int jArr = move.getArrive().getY();
 
 		// TODO rajouter deplacement cavalier, dans Piece aussi
 
@@ -1029,11 +1040,15 @@ public class Echiquier {
 				&& (piece.getMinDiag() <= move.deplacementDiagonal()
 						&& piece.getMaxDiag() >= move.deplacementDiagonal())) {
 
-			// Second step : check if backward and if allowed
-			if (piece.getBackward()
-					|| (piece.estBlanc() && !move.backwardMoveWhite())
-					|| (piece.estNoir() && !move.backwardMoveBlack()))
-				return true;
+			// Second step : check if there is something to kill
+			if (c[iArr][jArr].estVide()
+					|| (!c[iArr][jArr].estVide() && c[iArr][jArr].getPiece().getColor() != piece.getColor())) {
+
+				// Third step : check if backward and if allowed
+				if (piece.getBackward() || (!piece.getBackward() && piece.estBlanc() && !move.backwardMoveWhite())
+						|| (!piece.getBackward() && piece.estNoir() && !move.backwardMoveBlack()))
+					return true;
+			}
 		}
 		return false;
 	}
