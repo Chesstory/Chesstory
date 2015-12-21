@@ -447,12 +447,17 @@ public class Echiquier {
 			}
 
 			promotion = false;
-			/*
-			 * // cas du pion noir sur première rangée if (codePiece == 'p' &&
-			 * (y2 == 0)) { promotion = true; piece = new Piece("dame", 'q'); }
-			 * // cas du pion blanc sur dernière rangée if (codePiece == 'P' &&
-			 * (y2 == 7)) { promotion = true; piece = new Piece("dame", 'Q'); }
-			 */
+
+			// cas du pion noir sur première rangée
+			if (codePiece == 'p' && (y2 == 0)) {
+				promotion = true;
+				piece = new Piece("dame", 'q');
+			}
+			// cas du pion blanc sur dernière rangée
+			if (codePiece == 'P' && (y2 == 7)) {
+				promotion = true;
+				piece = new Piece("dame", 'Q');
+			}
 
 			// autoriser la prise en passant si et seulement si avance de 2 pour
 			// un pion
@@ -832,6 +837,8 @@ public class Echiquier {
 	 */
 	public void construitPositionsAccessibles() {
 		// TODO maybe separate this big thing into many little things
+		
+		//TODO Eating capacity of the (dead) pion
 		for (int j = 0; j < dimY; j++) {
 			for (int i = 0; i < dimX; i++) {
 				Piece p = c[i][j].getPiece();
@@ -900,8 +907,11 @@ public class Echiquier {
 									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
 									if (accessiblePiece(dep))
 										p.addCaseAccessible(parcours);
-									if (!c[parcoursX][parcoursY].estVide())
+									if (!c[parcoursX][parcoursY].estVide()) {
 										continu = false;
+										if (Character.toLowerCase(p.getCode()) == 'p')
+											p.suppCaseAccessible(parcours);
+									}
 
 									parcoursY++;
 								} else
@@ -919,9 +929,11 @@ public class Echiquier {
 									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
 									if (accessiblePiece(dep))
 										p.addCaseAccessible(parcours);
-									if (!c[parcoursX][parcoursY].estVide())
+									if (!c[parcoursX][parcoursY].estVide()) {
 										continu = false;
-
+										if (Character.toLowerCase(p.getCode()) == 'p')
+											p.suppCaseAccessible(parcours);
+									}
 									parcoursY--;
 								} else
 									continu = false;
@@ -1033,12 +1045,13 @@ public class Echiquier {
 
 		Piece piece = new Piece(c[iDep][jDep].getPiece());
 		// First step : check length
-		if ((piece.getMinX() <= Math.abs(move.deplacementHorizontal())
-				&& piece.getMaxX() >= Math.abs(move.deplacementHorizontal()))
-				|| (piece.getMinY() <= Math.abs(move.deplacementVertical())
-						&& piece.getMaxY() >= Math.abs(move.deplacementVertical()))
-				|| (piece.getMinDiag() <= move.deplacementDiagonal()
-						&& piece.getMaxDiag() >= move.deplacementDiagonal())) {
+		if (((Math.abs(move.deplacementHorizontal()) == 0 && piece.getMinY() <= Math.abs(move.deplacementVertical())
+				&& piece.getMaxY() >= Math.abs(move.deplacementVertical()))
+				|| (Math.abs(move.deplacementVertical()) == 0
+						&& piece.getMinX() <= Math.abs(move.deplacementHorizontal())
+						&& piece.getMaxX() >= Math.abs(move.deplacementHorizontal())))
+				|| (Math.abs(move.deplacementDiagonal()) != 0 && (piece.getMinDiag() <= move.deplacementDiagonal()
+						&& piece.getMaxDiag() >= move.deplacementDiagonal()))) {
 
 			// Second step : check if there is something to kill
 			if (c[iArr][jArr].estVide()
