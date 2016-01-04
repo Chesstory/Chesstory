@@ -123,7 +123,7 @@ public class Piece {
 	 */
 	Piece(Piece p, char color) {
 		this.nom = new String(p.nom);
-		this.code = ((color == 'w') ?  Character.toUpperCase(p.code) : p.code);
+		this.code = ((color == 'w') ? Character.toUpperCase(p.code) : p.code);
 		this.couleur = ((color == 'w') ? "blanc" : "noir");
 
 		this.minX = p.minX;
@@ -133,6 +133,32 @@ public class Piece {
 		this.minDiag = p.minDiag;
 		this.maxDiag = p.maxDiag;
 		this.backward = p.backward;
+	}
+
+	/**
+	 * Constructor mainly used for the knight
+	 * 
+	 * @param nom
+	 *            Name of the piece
+	 * @param code
+	 *            Code of the piece
+	 * @param minX
+	 *            Its lower move choice
+	 * @param maxX
+	 *            Its bigger move choice
+	 */
+	public Piece(String nom, char code, int minX, int maxX) {
+		this.nom = nom;
+		this.code = code;
+		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
+
+		this.backward = true;
+		this.minX = minX;
+		this.maxX = maxX;
+		this.minY = 0;
+		this.maxY = 0;
+		this.minDiag = 0;
+		this.maxDiag = 0;
 	}
 
 	/**

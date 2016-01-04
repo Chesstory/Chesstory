@@ -644,37 +644,38 @@ public class Echiquier {
 
 	public void accessibleCavalier(int i, int j) {
 		boolean blanc = c[i][j].getPiece().estBlanc();
+		Piece knight = c[i][j].getPiece();
 
 		// Les 8 positions du cavalier
-		if (existeEtLibre(i + 1, j + 2, blanc)) {
+		if (existeEtLibre(i + knight.getMinX(), j + knight.getMaxX(), blanc)) {
 			c[i][j].getPiece().addCaseAccessible(new Position(i + 1, j + 2));
 		}
 
-		if (existeEtLibre(i + 2, j + 1, blanc)) {
+		if (existeEtLibre(i + knight.getMaxX(), j + knight.getMinX(), blanc)) {
 			c[i][j].getPiece().addCaseAccessible(new Position(i + 2, j + 1));
 		}
 
-		if (existeEtLibre(i - 1, j - 2, blanc)) {
+		if (existeEtLibre(i - knight.getMinX(), j - knight.getMaxX(), blanc)) {
 			c[i][j].getPiece().addCaseAccessible(new Position(i - 1, j - 2));
 		}
 
-		if (existeEtLibre(i - 2, j - 1, blanc)) {
+		if (existeEtLibre(i - knight.getMaxX(), j - knight.getMinX(), blanc)) {
 			c[i][j].getPiece().addCaseAccessible(new Position(i - 2, j - 1));
 		}
 
-		if (existeEtLibre(i + 1, j - 2, blanc)) {
+		if (existeEtLibre(i + knight.getMinX(), j - knight.getMaxX(), blanc)) {
 			c[i][j].getPiece().addCaseAccessible(new Position(i + 1, j - 2));
 		}
 
-		if (existeEtLibre(i + 2, j - 1, blanc)) {
+		if (existeEtLibre(i + knight.getMaxX(), j - knight.getMinX(), blanc)) {
 			c[i][j].getPiece().addCaseAccessible(new Position(i + 2, j - 1));
 		}
 
-		if (existeEtLibre(i - 1, j + 2, blanc)) {
+		if (existeEtLibre(i - knight.getMinX(), j + knight.getMaxX(), blanc)) {
 			c[i][j].getPiece().addCaseAccessible(new Position(i - 1, j + 2));
 		}
 
-		if (existeEtLibre(i - 2, j + 1, blanc)) {
+		if (existeEtLibre(i - knight.getMaxX(), j + knight.getMinX(), blanc)) {
 			c[i][j].getPiece().addCaseAccessible(new Position(i - 2, j + 1));
 		}
 
@@ -837,18 +838,34 @@ public class Echiquier {
 	 */
 	public void construitPositionsAccessibles() {
 		// TODO maybe separate this big thing into many little things
-		
-		//TODO Eating capacity of the (dead) pion
+
+		// TODO Eating capacity of the (dead) pawn
 		for (int j = 0; j < dimY; j++) {
 			for (int i = 0; i < dimX; i++) {
 				Piece p = c[i][j].getPiece();
 				if (p != null) {
 					p.videAccessible();
 
-					// TODO cleaner way for that freaking knight
+					// If it's a knight
 					if (Character.toLowerCase(p.getCode()) == 'n') {
 						accessibleCavalier(i, j);
 					} else {
+
+						// White pawn at 2nd line
+						if (p.getCode() == 'P' && !p.getBackward() && p.getMaxDiag() == 0 && p.getMaxX() == 0
+								&& j == 1 && p.getMaxY()<dimY) {
+							if (c[i][j+p.getMaxY()+1].estVide()) {
+								p.addCaseAccessible(new Position(i, j+p.getMaxY()+1));
+							}
+						}
+
+						// Black pawn at ANTEPENULTIEME(FDP) line
+						if (p.getCode() == 'p' && !p.getBackward() && p.getMaxDiag() == 0 && p.getMaxX() == 0
+								&& j == dimY-2 && p.getMaxY()<dimY) {
+							if (c[i][j-p.getMaxY()-1].estVide()) {
+								p.addCaseAccessible(new Position(i, j-p.getMaxY()-1));
+							}
+						}
 						Position posPiece = new Position(i, j);
 						int parcoursX;
 						int parcoursY;

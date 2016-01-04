@@ -201,7 +201,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 
 		// This a test with the classical chess pieces
 		ech = new Echiquier(new Piece("pion", 'p', 0, 0, 1, 1, 0, 0, false), new Piece("dame", 'q', true, true, true, true),
-				new Piece("roi", 'k', 1, 1, 1, 1, 1, 1, true), new Piece("cavalier", 'n'),
+				new Piece("roi", 'k', 1, 1, 1, 1, 1, 1, true), new Piece("cavalier", 'n',1,2),
 				new Piece("fou", 'b', false, false, true, true), new Piece("tour", 'r', true, true, false, true));
 		
 		ech.setFEN(fenDeDeapart);
