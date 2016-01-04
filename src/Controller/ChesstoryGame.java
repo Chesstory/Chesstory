@@ -266,7 +266,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		
 		
 		
-		
+		FENList=new ArrayList<String>();
 		//TODO remove test doute
 		testFrame=new JFrame();
 		testFrame.setTitle("Affichage dynamique de la moveList");
@@ -304,17 +304,18 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	public void addMove(Deplacement d) {//TODO this should be the main connexion : ech/yacg -> chesstory
 		moveList.add(d);
 		moveListCursor=moveList.size()-1;
-		refreshLabelsGame();
+		//TODO Figure out why this is here refreshLabelsGame();
 	}
 	public void addMoveMadeByPlayer(Deplacement d){
 		addMove(d);
 		addLogsMove(d, d.getPiececode(), d.getColor());
 		moveListCursor++;
+		// one turn = one move, this is for the browserView (back function)
+		FENList.add(YACG.getFEN());
 		refreshLabelsGame();
 		
-		// one turn = one move, this is for the browserView (back function)
-		//FENList.add(YACG.getFEN());
-		//addLogsText(YACG.getFEN());
+		
+		
 	}
 	private void enableBrowserView(){
 		YACG.switchClickable(false);
@@ -361,8 +362,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		if(moveListCursor>0){
 			
 			moveListCursor--;
-			YACG.forceMakeDeplacement(new Deplacement(moveList.get(moveListCursor).getArrive(),moveList.get(moveListCursor).getDepart()));
+			//YACG.forceMakeDeplacement(new Deplacement(moveList.get(moveListCursor).getArrive(),moveList.get(moveListCursor).getDepart()));
 			addLogsText("Back, moveList : "+moveList.size()+", cursor : "+moveListCursor);
+			YACG.makeDrawFen(FENList.get(moveListCursor-1));
 		}else{//put the arrow in grey
 			
 		}
@@ -384,9 +386,14 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	//TODO remove test
 	private void refreshTestFrame(){
 		testFrameTextArea.setText("");
-		for (int i = 0; i < moveList.size(); i++) {
-			 //TODO improve display
-			testFrameTextArea.append((i+1)+" >"+moveList.get(i).getColor() + " : Déplacement " + moveList.get(i) /*+ " ||FEN: "+FENList.get(i)*/ +"\n\r");
+		if(FENList.size()>0){
+			for (int i = 0; i < moveList.size(); i++) {
+				 //TODO improve display
+				
+				testFrameTextArea.append((i+1)+" >"+moveList.get(i).getColor() + " : Déplacement " + moveList.get(i) + " ||FEN: "+FENList.get(i) +"\n\r");
+			}
+		}else{
+			testFrameTextArea.append("FENList size is : "+FENList.size());
 		}
 	}
 	public void loadGame() {//TODO multiple moveLists I don't know why
