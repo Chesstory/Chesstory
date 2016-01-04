@@ -56,6 +56,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private int moveListCursor;
 	
 	private boolean isBrowserView=false;
+	private ArrayList<String> FENList;//one turn = one FEN
 	
 	private int gameId;
 	private int gameType;
@@ -310,6 +311,10 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		addLogsMove(d, d.getPiececode(), d.getColor());
 		moveListCursor++;
 		refreshLabelsGame();
+		
+		// one turn = one move, this is for the browserView (back function)
+		//FENList.add(YACG.getFEN());
+		//addLogsText(YACG.getFEN());
 	}
 	private void enableBrowserView(){
 		YACG.switchClickable(false);
@@ -317,6 +322,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		//TODO BORDER
 		YACG.switchBorder(false);
 		addLogsText("    > STATE ----> Browser view !");
+		//TODO get a table of FEN
 	}
 	private void disableBrowserView(){
 		YACG.switchClickable(true);
@@ -380,7 +386,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		testFrameTextArea.setText("");
 		for (int i = 0; i < moveList.size(); i++) {
 			 //TODO improve display
-			testFrameTextArea.append((i+1)+" >"+moveList.get(i).getColor() + " : Déplacement " + moveList.get(i) + "\n\r");
+			testFrameTextArea.append((i+1)+" >"+moveList.get(i).getColor() + " : Déplacement " + moveList.get(i) /*+ " ||FEN: "+FENList.get(i)*/ +"\n\r");
 		}
 	}
 	public void loadGame() {//TODO multiple moveLists I don't know why

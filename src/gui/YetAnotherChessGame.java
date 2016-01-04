@@ -341,7 +341,9 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	public void mouseExited(MouseEvent e) {
 
 	}
-
+	public String getFEN(){
+		return ech.getFEN();
+	}
 	public JLayeredPane CreationChessboard() {
 		return layeredPane;
 	}
