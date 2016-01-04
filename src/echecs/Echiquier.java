@@ -18,7 +18,7 @@ public class Echiquier {
 
 	char trait;
 
-	// false par défaut
+	// false par dï¿½faut
 	boolean roqueK;
 	boolean roquek;
 	boolean roqueQ;
@@ -34,11 +34,11 @@ public class Echiquier {
 	private boolean grandRoqueEnCours = false;
 	private boolean priseEnPassantEnCours = false;
 
-	// position de la prise en passant éventuelle
+	// position de la prise en passant ï¿½ventuelle
 	Position priseEnPassant;
 
 	/**
-	 * Constructeur par défaut echiquier 8x8
+	 * Constructeur par dï¿½faut echiquier 8x8
 	 */
 	public Echiquier() {
 		this(8, 8);
@@ -54,7 +54,7 @@ public class Echiquier {
 	}
 
 	/**
-	 * Construit un échiquier de taille spécifiée
+	 * Construit un ï¿½chiquier de taille spï¿½cifiï¿½e
 	 *
 	 * @param dimX
 	 * @param dimY
@@ -116,7 +116,7 @@ public class Echiquier {
 	}
 
 	/**
-	 * Positionne une pièce à une place
+	 * Positionne une piï¿½ce ï¿½ une place
 	 *
 	 * @param p
 	 *            La piece
@@ -130,13 +130,13 @@ public class Echiquier {
 	}
 
 	/**
-	 * Permet de retourner la pièce en fonction de la position
+	 * Permet de retourner la piï¿½ce en fonction de la position
 	 *
 	 * @param x
 	 *            colonne
 	 * @param y
 	 *            ligne
-	 * @return la pièce (null si la case est vide)
+	 * @return la piï¿½ce (null si la case est vide)
 	 */
 	public Piece getPiece(int x, int y) {
 		return c[x][y].getPiece();
@@ -147,19 +147,19 @@ public class Echiquier {
 	}
 
 	/**
-	 * Entrée du code FEN
+	 * Entrï¿½e du code FEN
 	 *
 	 * @param FENcode
 	 */
 	public void setFEN(String FENcode) {
-		// vider l'échiquier
+		// vider l'ï¿½chiquier
 		vider();
 
 		try {
 			String[] code = FENcode.split(" ");
 			String[] ligne = code[0].split("/");
 
-			// Traitement de la première partie du code
+			// Traitement de la premiï¿½re partie du code
 			for (int i = 0; i < ligne.length; i++) {
 
 				int decal = 0;
@@ -228,7 +228,7 @@ public class Echiquier {
 				trait = 'w';
 			}
 
-			// troisième partie
+			// troisiï¿½me partie
 			try {
 				if (code[2].contains("k")) {
 					roquek = true;
@@ -255,7 +255,7 @@ public class Echiquier {
 	/**
 	 * Sortie fen
 	 *
-	 * @return chaine fen qui représente l'échiquier
+	 * @return chaine fen qui reprï¿½sente l'ï¿½chiquier
 	 */
 	public String getFEN() {
 		String res = "";
@@ -314,7 +314,7 @@ public class Echiquier {
 	/**
 	 * Sortie texte
 	 *
-	 * @return chaine de caractère qui représente l'échiquier
+	 * @return chaine de caractï¿½re qui reprï¿½sente l'ï¿½chiquier
 	 */
 	@Override
 	public String toString() {
@@ -329,7 +329,7 @@ public class Echiquier {
 	}
 
 	/**
-	 * Méthode qui indique si un déplacement est valide ou non
+	 * Mï¿½thode qui indique si un dï¿½placement est valide ou non
 	 *
 	 * @param d
 	 *            Deplacement
@@ -342,12 +342,12 @@ public class Echiquier {
 		int x2 = d.getX2();
 		int y2 = d.getY2();
 
-		// si la case de départ = la case d'arrivée, ce n'est pas un déplacement
+		// si la case de dï¿½part = la case d'arrivï¿½e, ce n'est pas un dï¿½placement
 		if (x1 == x2 && y1 == y2) {
 			return false;
 		}
 
-		// si la case de départ est vide, ce n'est pas un déplacement
+		// si la case de dï¿½part est vide, ce n'est pas un dï¿½placement
 		if (c[x1][y1].getPiece() == null) {
 			return false;
 		}
@@ -364,7 +364,7 @@ public class Echiquier {
 		// partie verification pour la piece
 		if (c[x1][y1].getPiece().getAccessible().contains(new Position(x2, y2))) {
 
-			// vérification de la validité du roque
+			// vï¿½rification de la validitï¿½ du roque
 			if (Character.toUpperCase(c[x1][y1].getPiece().getCode()) == 'K') {
 
 				int depl = d.deplacementHorizontal();
@@ -406,11 +406,11 @@ public class Echiquier {
 	}
 
 	/**
-	 * Execute le déplacement (après avoir vérifié sa validité)
+	 * Execute le dï¿½placement (aprï¿½s avoir vï¿½rifiï¿½ sa validitï¿½)
 	 *
 	 *
 	 * @param d
-	 *            déplacement à executer
+	 *            dï¿½placement ï¿½ executer
 	 */
 	public void executeDeplacement(Deplacement d) {
 		if (estValideDeplacement(d)) {
@@ -432,15 +432,15 @@ public class Echiquier {
 			}
 
 			promotion = false;
-			// cas du pion noir sur première rangée
+			// cas du pion noir sur premiï¿½re rangï¿½e
 			if (codePiece == 'p' && (y2 == 0)) {
 				promotion = true;
-				piece = new Piece("dame", 'q');
+				//piece = new Piece("dame", 'q');
 			}
-			// cas du pion blanc sur dernière rangée
+			// cas du pion blanc sur derniï¿½re rangï¿½e
 			if (codePiece == 'P' && (y2 == 7)) {
 				promotion = true;
-				piece = new Piece("dame", 'Q');
+				//piece = new Piece("dame", 'Q');
 			}
 
 			// autoriser la prise en passant si et seulement si avance de 2 pour
@@ -462,7 +462,7 @@ public class Echiquier {
 				c[x2][y1].vider();
 			}
 
-			// détection du roque
+			// dï¿½tection du roque
 			if (Character.toUpperCase(codePiece) == 'K') {
 				if (d.deplacementHorizontal() == 2) {
 					petitRoqueEnCours = true;
@@ -529,13 +529,21 @@ public class Echiquier {
 		construitPositionsAccessibles();
 		System.out.println(this.getFEN());
 	}
+	
+	/**
+	 * 
+	 */
+	public void promotionEchiquier(char codePieceAPromouvoir, Position p){
+		Piece pieceAPromouvoir = new Piece(codePieceAPromouvoir);
+		c[p.getX()][p.getY()].setPiece(pieceAPromouvoir);
+	}
 
 	/**
-	 * effectue un déplacement sans contrôle de validité
+	 * effectue un dï¿½placement sans contrï¿½le de validitï¿½
 	 *
 	 *
 	 * @param d
-	 *            Déplacement qui doit être effectué
+	 *            Dï¿½placement qui doit ï¿½tre effectuï¿½
 	 */
 	public void forceDeplacement(Deplacement d) {
 		int x1 = d.getX1();
@@ -555,7 +563,7 @@ public class Echiquier {
 	}
 
 	/**
-	 * Retourne un échiquier sur lequel le déplacement a été réalisé
+	 * Retourne un ï¿½chiquier sur lequel le dï¿½placement a ï¿½tï¿½ rï¿½alisï¿½
 	 *
 	 * @param d
 	 * @return
@@ -568,8 +576,8 @@ public class Echiquier {
 	}
 
 	/**
-	 * Execute le déplacement (après avoir vérifié sa validité). La chaine de
-	 * caractère représente le dépoe
+	 * Execute le dï¿½placement (aprï¿½s avoir vï¿½rifiï¿½ sa validitï¿½). La chaine de
+	 * caractï¿½re reprï¿½sente le dï¿½poe
 	 *
 	 * @param s
 	 */
@@ -578,8 +586,8 @@ public class Echiquier {
 	}
 
 	/**
-	 * Ajoute à la case toutes les cases qui lui sont accessibles en ligne
-	 * droite dans une direction donnée
+	 * Ajoute ï¿½ la case toutes les cases qui lui sont accessibles en ligne
+	 * droite dans une direction donnï¿½e
 	 *
 	 * @param i
 	 * @param j
@@ -603,7 +611,7 @@ public class Echiquier {
 					posi += di;
 					posj += dj;
 				} else {
-					// si elle est occupée par une case de couleur différente
+					// si elle est occupï¿½e par une case de couleur diffï¿½rente
 					if ((c[i][j].getPiece().estBlanc() && c[posi][posj].getPiece().estNoir())
 							|| (c[i][j].getPiece().estNoir() && c[posi][posj].getPiece().estBlanc())) {
 						c[i][j].getPiece().addCaseAccessible(new Position(posi, posj));
@@ -637,8 +645,8 @@ public class Echiquier {
 	}
 
 	public boolean existeEtLibre(int i, int j, boolean blanc) {
-		// il faut que la case existe, soit libre ou occupée par une pièce
-		// de couleur différente
+		// il faut que la case existe, soit libre ou occupï¿½e par une piï¿½ce
+		// de couleur diffï¿½rente
 		return existeCase(i, j) && (c[i][j].estVide() || (c[i][j].getPiece().estBlanc() != blanc));
 	}
 
@@ -724,35 +732,35 @@ public class Echiquier {
 	}
 
 	public void accessiblePionBlanc(int i, int j) {
-		// déplacement normal
+		// dï¿½placement normal
 		if (existeEtVide(i, j + 1)) {
 			c[i][j].getPiece().addCaseAccessible(new Position(i, j + 1));
 
-			// premier déplacement
+			// premier dï¿½placement
 			if ((j == 1) && existeEtVide(i, j + 2)) {
 				c[i][j].getPiece().addCaseAccessible(new Position(i, j + 2));
 			}
 		}
 
-		// prise à gauche
+		// prise ï¿½ gauche
 		try {
 			if (c[i - 1][j + 1].getPiece().estNoir()) {
 				c[i][j].getPiece().addCaseAccessible(new Position(i - 1, j + 1));
 			}
 		} catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-			// rien à faire puisque la pièce ou la case n'existe pas...
+			// rien ï¿½ faire puisque la piï¿½ce ou la case n'existe pas...
 		}
 
-		// prise à droite
+		// prise ï¿½ droite
 		try {
 			if (c[i + 1][j + 1].getPiece().estNoir()) {
 				c[i][j].getPiece().addCaseAccessible(new Position(i + 1, j + 1));
 			}
 		} catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-			// rien à faire puisque la pièce ou la case n'existe pas...
+			// rien ï¿½ faire puisque la piï¿½ce ou la case n'existe pas...
 		}
 
-		// prise en passant à gauche
+		// prise en passant ï¿½ gauche
 		try {
 			if ((j == 4) && c[i - 1][4].getPiece().getCode() == 'p') {
 				Position pep = new Position(i - 1, 5);
@@ -761,10 +769,10 @@ public class Echiquier {
 				}
 			}
 		} catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-			// rien à faire puisque la pièce ou la case n'existe pas...
+			// rien ï¿½ faire puisque la piï¿½ce ou la case n'existe pas...
 		}
 
-		// prise en passant à droite
+		// prise en passant ï¿½ droite
 		try {
 			if ((j == 4) && c[i + 1][4].getPiece().getCode() == 'p') {
 				Position pep = new Position(i + 1, 5);
@@ -773,7 +781,7 @@ public class Echiquier {
 				}
 			}
 		} catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-			// rien à faire puisque la pièce ou la case n'existe pas...
+			// rien ï¿½ faire puisque la piï¿½ce ou la case n'existe pas...
 		}
 
 	}
@@ -787,25 +795,25 @@ public class Echiquier {
 			}
 		}
 
-		// prise à gauche
+		// prise ï¿½ gauche
 		try {
 			if (c[i - 1][j - 1].getPiece().estBlanc()) {
 				c[i][j].getPiece().addCaseAccessible(new Position(i - 1, j - 1));
 			}
 		} catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-			// rien à faire puisque la pièce ou la case n'existe pas...
+			// rien ï¿½ faire puisque la piï¿½ce ou la case n'existe pas...
 		}
 
-		// prise à droite
+		// prise ï¿½ droite
 		try {
 			if (c[i + 1][j - 1].getPiece().estBlanc()) {
 				c[i][j].getPiece().addCaseAccessible(new Position(i + 1, j - 1));
 			}
 		} catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-			// rien à faire puisque la pièce ou la case n'existe pas...
+			// rien ï¿½ faire puisque la piï¿½ce ou la case n'existe pas...
 		}
 
-		// prise en passant à gauche
+		// prise en passant ï¿½ gauche
 		try {
 			if ((j == 3) && c[i - 1][3].getPiece().getCode() == 'P') {
 				Position pep = new Position(i - 1, 2);
@@ -814,10 +822,10 @@ public class Echiquier {
 				}
 			}
 		} catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-			// rien à faire puisque la pièce ou la case n'existe pas...
+			// rien ï¿½ faire puisque la piï¿½ce ou la case n'existe pas...
 		}
 
-		// prise en passant à droite
+		// prise en passant ï¿½ droite
 		try {
 			if ((j == 3) && c[i + 1][3].getPiece().getCode() == 'P') {
 				Position pep = new Position(i + 1, 2);
@@ -826,17 +834,17 @@ public class Echiquier {
 				}
 			}
 		} catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-			// rien à faire puisque la pièce ou la case n'existe pas...
+			// rien ï¿½ faire puisque la piï¿½ce ou la case n'existe pas...
 		}
 	}
 
 	/**
-	 * est accessible "naivement" (sans vérification de l'échec)
+	 * est accessible "naivement" (sans vï¿½rification de l'ï¿½chec)
 	 *
 	 *
 	 */
 	public void construitPositionsAccessibles() {
-		// Premier parcours "naïf"
+		// Premier parcours "naï¿½f"
 		for (int j = 0; j < dimY; j++) {
 			for (int i = 0; i < dimX; i++) {
 				Piece p = c[i][j].getPiece();
@@ -884,8 +892,8 @@ public class Echiquier {
 	}
 
 	/**
-	 * Vérifie si le joueur est en échec ou non. On suppose que la liste des
-	 * positions possibles pour les pièces sont déjà calculées
+	 * Vï¿½rifie si le joueur est en ï¿½chec ou non. On suppose que la liste des
+	 * positions possibles pour les piï¿½ces sont dï¿½jï¿½ calculï¿½es
 	 *
 	 * @param couleur
 	 *            couleur du joueur
@@ -894,7 +902,7 @@ public class Echiquier {
 	public boolean estEnEchec(char couleur) {
 		Position pos = rechercheRoi(couleur);
 
-		// Pour toutes les pièces
+		// Pour toutes les piï¿½ces
 		for (int j = 0; j < dimY; j++) {
 			for (int i = 0; i < dimX; i++) {
 				Piece p = c[i][j].getPiece();
@@ -949,11 +957,11 @@ public class Echiquier {
 	}
 
 	/**
-	 * Permet de vérifier qu'un déplacement ne met pas en échec.
+	 * Permet de vï¿½rifier qu'un dï¿½placement ne met pas en ï¿½chec.
 	 *
 	 * @param d
-	 *            Déplacement considéré
-	 * @return vrai si le déplacement ne met pas en échec, faux sinon.
+	 *            Dï¿½placement considï¿½rï¿½
+	 * @return vrai si le dï¿½placement ne met pas en ï¿½chec, faux sinon.
 	 */
 	public boolean verifiePasEchecsApres(Deplacement d) {
 		Echiquier n = new Echiquier(this);

@@ -13,7 +13,7 @@ import echecs.Position;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+//Bonjour
 /**
  * Classe principale pour l'interface graphique
  *
@@ -38,31 +38,34 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	JPanel chessBoard;
 
 	/**
-	 * Une pièce
+	 * Une piï¿½ce
 	 */
 	JLabel chessPiece;
 
 	/**
-	 * Déplacement en x
+	 * Dï¿½placement en x
 	 */
 	int xDeplace;
 	/**
-	 * Déplacement en y
+	 * Dï¿½placement en y
 	 */
 	int yDeplace;
 
 	/**
-	 * position de départ
+	 * position de dï¿½part
 	 */
 	Position depart;
 	/**
-	 * position d'arrivée
+	 * position d'arrivï¿½e
 	 */
 	Position arrive;
+	
+	/** Code de la piece a promouvoir */
+	private char codePieceAPromouvoir;
 
 	private ChesstoryGame chesstoryGame;
 	/**
-	 * L'échiquier courrant
+	 * L'ï¿½chiquier courrant
 	 */
 	static Echiquier ech;//TODO REMOVE STATIC
 	
@@ -77,8 +80,9 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	 */
 	private char winner = 'n';
 
+
 	/**
-	 * Efface tout l'échiquier
+	 * Efface tout l'ï¿½chiquier
 	 */
 	private void videEchiquier() {
 		for (int j = 0; j < ech.getDimY(); j++) {
@@ -91,10 +95,10 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	}
 
 	/**
-	 * Dessine intégralement toutes les pièces de l'échiquier
+	 * Dessine intï¿½gralement toutes les piï¿½ces de l'ï¿½chiquier
 	 */
 	private void dessineToutesLesPieces() {
-		// dessin des pièces
+		// dessin des piï¿½ces
 		for (int j = 0; j < ech.getDimY(); j++) {
 			for (int i = 0; i < ech.getDimX(); i++) {
 				Piece p = ech.getPieceCase(i, 8 - j - 1);
@@ -117,6 +121,8 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	private void redessine() {
 		videEchiquier();
 		dessineToutesLesPieces();
+		chessBoard.revalidate();
+		chessBoard.repaint();
 	}
 
 	/**
@@ -151,9 +157,9 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 			for (int i = 0; i < ech.getDimX(); i++) {
 				JPanel panel = (JPanel) chessBoard.getComponent(j * ech.getDimX() + i);
 				if (i % 2 == 0) {
-					panel.setBackground(j % 2 == 0 ? Color.white : Color.getHSBColor(0.56f, 1.0f, 0.8f));
+					panel.setBackground(j % 2 == 0 ? Color.getHSBColor(0.10f, 0.82f, 0.88f) : Color.getHSBColor(0.10f, 0.82f, 0.59f));
 				} else {
-					panel.setBackground(j % 2 == 0 ? Color.getHSBColor(0.56f, 1.0f, 0.8f) : Color.white);
+					panel.setBackground(j % 2 == 0 ? Color.getHSBColor(0.10f, 0.82f, 0.59f) : Color.getHSBColor(0.10f, 0.82f, 0.88f));
 				}
 			}
 		}
@@ -183,6 +189,10 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 
 		if (ech.estValideDeplacement(move)) {
 			ech.executeDeplacement(move);
+			if(ech.isPromotion()){
+				promotionYACG();
+				ech.promotionEchiquier(codePieceAPromouvoir, move.getArrive());
+			}
 			redessine();
 			chesstoryGame.addMoveMadeByPlayer(move);
 			return true;
@@ -218,19 +228,46 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 		chessBoard.setPreferredSize(boardSize);
 		chessBoard.setBounds(0, 0, boardSize.width, boardSize.height);
 
-		// dessin de l'équiquier
+		// dessin de l'ï¿½quiquier
 		for (int i = 0; i < 64; i++) {
 			JPanel square = new JPanel(new BorderLayout());
 			chessBoard.add(square);
 
 			int row = (i / 8) % 2;
 			if (row == 0) {
-				square.setBackground(i % 2 == 0 ? Color.white : Color.getHSBColor(0.56f, 1.0f, 0.8f));
-			} else {
-				square.setBackground(i % 2 == 0 ? Color.getHSBColor(0.56f, 1.0f, 0.8f) : Color.white);
-			}
+                square.setBackground(i % 2 == 0 ? Color.getHSBColor(0.10f, 0.82f, 0.88f) : Color.getHSBColor(0.10f, 0.82f, 0.59f));
+            } else {
+                square.setBackground(i % 2 == 0 ? Color.getHSBColor(0.10f, 0.82f, 0.59f) : Color.getHSBColor(0.10f, 0.82f, 0.88f));
+            }
 		}
 		dessineToutesLesPieces();
+	}
+	
+	/**
+	 * Interface demandant la piece a promouvoir
+	 */
+	public void promotionYACG(){
+		String[] piecesPromo={"Dame","Cavalier","Tour","Fou"};
+        char[] codesPromo={'Q','N','R','B'};
+        int selected = JOptionPane.showOptionDialog(null,"Choisir une piÃ¨ce pour la promotion","Promotion",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null,piecesPromo,codesPromo[3]);
+        
+        switch(selected){
+        case 0:
+        	codePieceAPromouvoir=(codesPromo[0]);
+        	break;
+        case 1:
+        	codePieceAPromouvoir=(codesPromo[1]);
+			break;
+        case 2:
+        	codePieceAPromouvoir=(codesPromo[2]);
+			break;
+        case 3:
+        	codePieceAPromouvoir=(codesPromo[3]);
+			break;
+        }
+        if(ech.getTrait()=='w'){
+        	codePieceAPromouvoir=(Character.toLowerCase(codePieceAPromouvoir));
+        }
 	}
 
 	@Override
@@ -246,7 +283,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 	}
 
 	/**
-	 * Méthode appelée lorsque la souris est cliquée
+	 * Mï¿½thode appelï¿½e lorsque la souris est cliquï¿½e
 	 *
 	 * @param e
 	 */
@@ -265,7 +302,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 				Deplacement d = new Deplacement(depart, arrive, ech.getPiece(depart).getCode(),
 						ech.getPiece(depart).getColor());
 	
-				System.out.println("==> Déplacement : " + d);
+				System.out.println("==> Dï¿½placement : " + d);
 	
 				if (makeDeplacement(d)) {
 					if ((winner = ech.verifiePartieTerminee()) != 'n') {
@@ -274,7 +311,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 					}
 					
 				} else {
-					// replacer sur la case de départ
+					// replacer sur la case de dï¿½part
 					panel.add(chessPiece);
 					chessPiece.setVisible(true);
 				}
