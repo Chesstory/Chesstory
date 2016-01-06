@@ -689,8 +689,6 @@ public class Echiquier {
 	 *            The piece (of cake)
 	 */
 	public void accessiblePionBlanc(int i, int j, Piece p) {
-		boolean ate = false;
-
 		// On 2nd line maggle
 		if (j == 1 && c[i][j + p.getMaxY() + 1].estVide() && p.getMaxY() < dimY) {
 			p.addCaseAccessible(new Position(i, j + p.getMaxY() + 1));
@@ -874,8 +872,8 @@ public class Echiquier {
 				if (p != null) {
 					p.videAccessible();
 
-					// If it's a knight
-					if (Character.toLowerCase(p.getCode()) == 'n') {
+					// If it's a knight with basic move set
+					if (Character.toLowerCase(p.getCode()) == 'n' && p.getMaxY() == 0 && p.getMaxDiag() == 0) {
 						accessibleCavalier(i, j);
 					} else {
 

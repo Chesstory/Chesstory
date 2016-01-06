@@ -136,7 +136,11 @@ public class Piece {
 	}
 
 	/**
-	 * Constructor mainly used for the knight
+	 * Constructor mainly used for the knight. I call it : "The Horse builder",
+	 * it does sound kinda awesome for me ! And it's very ingenious cause a
+	 * knight is riding a horse, so when you construct (or build ;) ) a knight,
+	 * you have to build the horse too ! I could have call it "The Armorsmith"
+	 * too, following this
 	 * 
 	 * @param nom
 	 *            Name of the piece
