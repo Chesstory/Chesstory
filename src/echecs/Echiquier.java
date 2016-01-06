@@ -1208,6 +1208,8 @@ public class Echiquier {
 		// At start, we set those var true
 		boolean whiteKingAlone = true;
 		boolean blackKingAlone = true;
+		boolean whiteCantMove = true;
+		boolean blackCantMove = true;
 
 		int i;
 
@@ -1223,22 +1225,33 @@ public class Echiquier {
 		}
 
 		// Test if there only remains the king on one side
-		// If there is an other piece on one side of the board, it's king is not
-		// alone
+		// If there is an other piece on one side of the board, it means king is
+		// not alone
+		// Also test if there is a mat
 		i = 0;
 		while (i < k) {
-			if (existantPieces[i].estBlanc() && existantPieces[i].getCode() != 'K')
-				whiteKingAlone = false;
+			if (existantPieces[i].estBlanc()) {
+				if (existantPieces[i].getCode() != 'K')
+					whiteKingAlone = false;
 
-			if (existantPieces[i].estNoir() && existantPieces[i].getCode() != 'k')
-				blackKingAlone = false;
+				if (!existantPieces[i].getAccessible().isEmpty())
+					whiteCantMove = false;
+			}
 
+			if (existantPieces[i].estNoir()) {
+				if (existantPieces[i].getCode() != 'k')
+					blackKingAlone = false;
+
+				if (!existantPieces[i].getAccessible().isEmpty())
+					blackCantMove = false;
+
+			}
 			i++;
 		}
 
-		if (blackKingAlone)
+		if (blackKingAlone || blackCantMove)
 			end = 'w';
-		if (whiteKingAlone)
+		if (whiteKingAlone || whiteCantMove)
 			end = 'b';
 
 		return (end);
