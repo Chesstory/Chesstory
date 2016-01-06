@@ -436,6 +436,7 @@ public class Echiquier {
 
 			Piece piece = c[x1][y1].getPiece();
 			char codePiece = piece.getCode();
+			@SuppressWarnings("unused")
 			char joueur = 'e';
 
 			// test de la couleur
@@ -614,20 +615,6 @@ public class Echiquier {
 		}
 	}
 
-	public void accessibleTour(int i, int j) {
-		accessibleEnLigneDroite(i, j, 0, 1);
-		accessibleEnLigneDroite(i, j, 0, -1);
-		accessibleEnLigneDroite(i, j, 1, 0);
-		accessibleEnLigneDroite(i, j, -1, 0);
-	}
-
-	public void accessibleFou(int i, int j) {
-		accessibleEnLigneDroite(i, j, 1, 1);
-		accessibleEnLigneDroite(i, j, -1, -1);
-		accessibleEnLigneDroite(i, j, 1, -1);
-		accessibleEnLigneDroite(i, j, -1, 1);
-	}
-
 	public boolean existeCase(int i, int j) {
 		return (i >= 0 && i < dimX && j >= 0 && j < dimY);
 	}
@@ -683,40 +670,6 @@ public class Echiquier {
 
 	public void accessibleRoi(int i, int j) {
 		boolean blanc = c[i][j].getPiece().estBlanc();
-
-		// Les 8 positions du roi
-		if (existeEtLibre(i, j + 1, blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i, j + 1));
-		}
-
-		if (existeEtLibre(i, j - 1, blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i, j - 1));
-		}
-
-		if (existeEtLibre(i + 1, j, blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i + 1, j));
-		}
-
-		if (existeEtLibre(i - 1, j, blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i - 1, j));
-		}
-
-		if (existeEtLibre(i + 1, j + 1, blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i + 1, j + 1));
-		}
-
-		if (existeEtLibre(i + 1, j - 1, blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i + 1, j - 1));
-		}
-
-		if (existeEtLibre(i - 1, j - 1, blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i - 1, j - 1));
-		}
-
-		if (existeEtLibre(i - 1, j + 1, blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i - 1, j + 1));
-		}
-
 		// roques
 		if ((blanc && (i == 4) && (j == 0)) || (!blanc && (i == 4) && (j == 7))) {
 			c[i][j].getPiece().addCaseAccessible(new Position(i + 2, j));
@@ -724,111 +677,187 @@ public class Echiquier {
 		}
 	}
 
-	public void accessiblePionBlanc(int i, int j) {
-		// déplacement normal
-		if (existeEtVide(i, j + 1)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i, j + 1));
+	/**
+	 * Add 'special moves' of the white pawn (miamage & prise en passant (french
+	 * accent included))
+	 * 
+	 * @param i
+	 *            The X coordonate
+	 * @param j
+	 *            The Y coordonate (my english is very bon)
+	 * @param p
+	 *            The piece (of cake)
+	 */
+	public void accessiblePionBlanc(int i, int j, Piece p) {
+		boolean ate = false;
 
-			// premier déplacement
-			if ((j == 1) && existeEtVide(i, j + 2)) {
-				c[i][j].getPiece().addCaseAccessible(new Position(i, j + 2));
-			}
+		// On 2nd line maggle
+		if (j == 1 && c[i][j + p.getMaxY() + 1].estVide() && p.getMaxY() < dimY) {
+			p.addCaseAccessible(new Position(i, j + p.getMaxY() + 1));
 		}
 
-		// prise à gauche
-		try {
-			if (c[i - 1][j + 1].getPiece().estNoir()) {
-				c[i][j].getPiece().addCaseAccessible(new Position(i - 1, j + 1));
+		// Nomnom of the white pawn
+		int parcI, parcJ;
+		boolean fini;
+		// Left diag
+		parcI = i - 1;
+		parcJ = j + 1;
+		fini = false;
+		while (!fini) {
+			// If there is no case, stop
+			if (!existeCase(parcI, parcJ))
+				fini = true;
+			else {
+				if (!c[parcI][parcJ].estVide()) {
+					// If not empty, stop anyway and check
+					// if it can eat the piece
+					if (c[parcI][parcJ].getPiece().getColor() == 'b')
+						p.addCaseAccessible(new Position(parcI, parcJ));
+					fini = true;
+				}
+				// If its dep capacity is outmerged, stop
+				if ((parcJ - j) == p.getMaxY() || parcJ == dimY)
+					fini = true;
+				parcI--;
+				parcJ++;
 			}
-		} catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-			// rien à faire puisque la pièce ou la case n'existe pas...
 		}
-
-		// prise à droite
-		try {
-			if (c[i + 1][j + 1].getPiece().estNoir()) {
-				c[i][j].getPiece().addCaseAccessible(new Position(i + 1, j + 1));
+		// Right diag
+		parcI = i + 1;
+		parcJ = j + 1;
+		fini = false;
+		while (!fini) {
+			// If there is no case, stop
+			if (!existeCase(parcI, parcJ))
+				fini = true;
+			else {
+				if (!c[parcI][parcJ].estVide()) {
+					// If not empty, stop anyway and check
+					// if it can eat the piece
+					if (c[parcI][parcJ].getPiece().getColor() == 'b')
+						p.addCaseAccessible(new Position(parcI, parcJ));
+					fini = true;
+				}
+				// If its dep capacity is outmerged, stop
+				if ((parcJ - j) == p.getMaxY() || parcJ == dimY)
+					fini = true;
+				parcI++;
+				parcJ++;
 			}
-		} catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-			// rien à faire puisque la pièce ou la case n'existe pas...
 		}
 
 		// prise en passant à gauche
-		try {
-			if ((j == 4) && c[i - 1][4].getPiece().getCode() == 'p') {
-				Position pep = new Position(i - 1, 5);
-				if (pep.equals(priseEnPassant)) {
-					c[i][j].getPiece().addCaseAccessible(pep);
-				}
-			}
-		} catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-			// rien à faire puisque la pièce ou la case n'existe pas...
-		}
+		/*
+		 * try { if ((j == 4) && c[i - 1][4].getPiece().getCode() == 'p') {
+		 * Position pep = new Position(i - 1, 5); if
+		 * (pep.equals(priseEnPassant)) {
+		 * c[i][j].getPiece().addCaseAccessible(pep); } } } catch
+		 * (ArrayIndexOutOfBoundsException | NullPointerException e) {
+		 */
+		// rien à faire puisque la pièce ou la case n'existe pas...
+		// }
 
 		// prise en passant à droite
-		try {
-			if ((j == 4) && c[i + 1][4].getPiece().getCode() == 'p') {
-				Position pep = new Position(i + 1, 5);
-				if (pep.equals(priseEnPassant)) {
-					c[i][j].getPiece().addCaseAccessible(pep);
-				}
-			}
-		} catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-			// rien à faire puisque la pièce ou la case n'existe pas...
-		}
-
+		/*
+		 * try { if ((j == 4) && c[i + 1][4].getPiece().getCode() == 'p') {
+		 * Position pep = new Position(i + 1, 5); if
+		 * (pep.equals(priseEnPassant)) {
+		 * c[i][j].getPiece().addCaseAccessible(pep); } } } catch
+		 * (ArrayIndexOutOfBoundsException | NullPointerException e) {
+		 */
+		// rien à faire puisque la pièce ou la case n'existe pas...
+		// }
 	}
 
-	public void accessiblePionNoir(int i, int j) {
-		if (existeEtVide(i, j - 1)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i, j - 1));
-
-			if (j == (dimY - 2) && existeEtVide(i, j - 2)) {
-				c[i][j].getPiece().addCaseAccessible(new Position(i, j - 2));
-			}
+	/**
+	 * Add 'special moves' of the black pawn (miamage & prise en passant (french
+	 * accent included))
+	 * 
+	 * @param i
+	 *            Die X kohordone ! Ach !
+	 * @param j
+	 *            Coordonnee en Y (with french accent)
+	 * @param p
+	 *            The piece
+	 */
+	public void accessiblePionNoir(int i, int j, Piece p) {
+		// On ANTEPENULTIEME(FDP) line
+		if (j == (dimY - 2) && c[i][j - p.getMaxY() - 1].estVide() && p.getMaxY() < dimY) {
+			p.addCaseAccessible(new Position(i, j - p.getMaxY() - 1));
 		}
 
-		// prise à gauche
-		try {
-			if (c[i - 1][j - 1].getPiece().estBlanc()) {
-				c[i][j].getPiece().addCaseAccessible(new Position(i - 1, j - 1));
+		// Nomnom of the black pawn
+		int parcI, parcJ;
+		boolean fini;
+		// Left diag
+		parcI = i - 1;
+		parcJ = j - 1;
+		fini = false;
+		while (!fini) {
+			// If there is no case, stop
+			if (!existeCase(parcI, parcJ))
+				fini = true;
+			else {
+				if (!c[parcI][parcJ].estVide()) {
+					// If not empty, stop anyway and check
+					// if it can eat the piece
+					if (c[parcI][parcJ].getPiece().getColor() == 'w')
+						p.addCaseAccessible(new Position(parcI, parcJ));
+					fini = true;
+				}
+				// If its dep capacity is outmerged, stop
+				if ((j - parcJ) == p.getMaxY() || parcJ == dimY)
+					fini = true;
+				parcI--;
+				parcJ--;
 			}
-		} catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-			// rien à faire puisque la pièce ou la case n'existe pas...
 		}
-
-		// prise à droite
-		try {
-			if (c[i + 1][j - 1].getPiece().estBlanc()) {
-				c[i][j].getPiece().addCaseAccessible(new Position(i + 1, j - 1));
+		// Right diag
+		parcI = i + 1;
+		parcJ = j - 1;
+		fini = false;
+		while (!fini) {
+			// If there is no case, stop
+			if (!existeCase(parcI, parcJ))
+				fini = true;
+			else {
+				if (!c[parcI][parcJ].estVide()) {
+					// If not empty, stop anyway and check
+					// if it can eat the piece
+					if (c[parcI][parcJ].getPiece().getColor() == 'w')
+						p.addCaseAccessible(new Position(parcI, parcJ));
+					fini = true;
+				}
+				// If its dep capacity is outmerged, stop
+				if ((j - parcJ) == p.getMaxY() || parcJ == dimY)
+					fini = true;
+				parcI++;
+				parcJ--;
 			}
-		} catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-			// rien à faire puisque la pièce ou la case n'existe pas...
 		}
 
 		// prise en passant à gauche
-		try {
-			if ((j == 3) && c[i - 1][3].getPiece().getCode() == 'P') {
-				Position pep = new Position(i - 1, 2);
-				if (pep.equals(priseEnPassant)) {
-					c[i][j].getPiece().addCaseAccessible(pep);
-				}
-			}
-		} catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-			// rien à faire puisque la pièce ou la case n'existe pas...
-		}
+		/*
+		 * try { if ((j == 3) && c[i - 1][3].getPiece().getCode() == 'P') {
+		 * Position pep = new Position(i - 1, 2); if
+		 * (pep.equals(priseEnPassant)) {
+		 * c[i][j].getPiece().addCaseAccessible(pep); } } } catch
+		 * (ArrayIndexOutOfBoundsException | NullPointerException e) {
+		 */
+		// rien à faire puisque la pièce ou la case n'existe pas...
+		// }
 
 		// prise en passant à droite
-		try {
-			if ((j == 3) && c[i + 1][3].getPiece().getCode() == 'P') {
-				Position pep = new Position(i + 1, 2);
-				if (pep.equals(priseEnPassant)) {
-					c[i][j].getPiece().addCaseAccessible(pep);
-				}
-			}
-		} catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-			// rien à faire puisque la pièce ou la case n'existe pas...
-		}
+		/*
+		 * try
+		 * 
+		 * { if ((j == 3) && c[i + 1][3].getPiece().getCode() == 'P') { Position
+		 * pep = new Position(i + 1, 2); if (pep.equals(priseEnPassant)) {
+		 * c[i][j].getPiece().addCaseAccessible(pep); } } } catch
+		 * (ArrayIndexOutOfBoundsException | NullPointerException e) {
+		 */
+		// rien à faire puisque la pièce ou la case n'existe pas...
+		// }
 	}
 
 	/**
@@ -839,7 +868,6 @@ public class Echiquier {
 	public void construitPositionsAccessibles() {
 		// TODO maybe separate this big thing into many little things
 
-		// TODO Eating capacity of the (dead) pawn
 		for (int j = 0; j < dimY; j++) {
 			for (int i = 0; i < dimX; i++) {
 				Piece p = c[i][j].getPiece();
@@ -851,21 +879,14 @@ public class Echiquier {
 						accessibleCavalier(i, j);
 					} else {
 
-						// White pawn at 2nd line
-						if (p.getCode() == 'P' && !p.getBackward() && p.getMaxDiag() == 0 && p.getMaxX() == 0
-								&& j == 1 && p.getMaxY()<dimY) {
-							if (c[i][j+p.getMaxY()+1].estVide()) {
-								p.addCaseAccessible(new Position(i, j+p.getMaxY()+1));
-							}
-						}
+						// White pawn with 'normal' dep capacities
+						if (p.getCode() == 'P' && !p.getBackward() && p.getMaxDiag() == 0 && p.getMaxX() == 0)
+							accessiblePionBlanc(i, j, p);
 
-						// Black pawn at ANTEPENULTIEME(FDP) line
-						if (p.getCode() == 'p' && !p.getBackward() && p.getMaxDiag() == 0 && p.getMaxX() == 0
-								&& j == dimY-2 && p.getMaxY()<dimY) {
-							if (c[i][j-p.getMaxY()-1].estVide()) {
-								p.addCaseAccessible(new Position(i, j-p.getMaxY()-1));
-							}
-						}
+						// Black pawn with 'normal' dep capacities
+						if (p.getCode() == 'p' && !p.getBackward() && p.getMaxDiag() == 0 && p.getMaxX() == 0)
+							accessiblePionNoir(i, j, p);
+
 						Position posPiece = new Position(i, j);
 						int parcoursX;
 						int parcoursY;
@@ -1057,8 +1078,6 @@ public class Echiquier {
 		int jDep = move.getDepart().getY();
 		int iArr = move.getArrive().getX();
 		int jArr = move.getArrive().getY();
-
-		// TODO rajouter deplacement cavalier, dans Piece aussi
 
 		Piece piece = new Piece(c[iDep][jDep].getPiece());
 		// First step : check length
