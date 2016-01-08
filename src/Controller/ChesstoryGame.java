@@ -24,6 +24,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.border.LineBorder;
+import javax.swing.text.DefaultCaret;
+
 import java.awt.SystemColor;
 
 public class ChesstoryGame extends JFrame implements MouseListener {
@@ -250,6 +252,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		logsText.setColumns(30);
 		logsText.setTabSize(1);
 		logsText.setRows(32);
+		DefaultCaret caret= (DefaultCaret)logsText.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);//auto scrolling
 
 		logsTextScroll = new JScrollPane(logsText);
 		logsTextScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -338,6 +342,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			int i=moveListCursor;//the user has choosen a point in the game to return to
 			while(i<moveList.size()){//we delete all moves after this point/turn
 				moveList.remove(i);
+				FENList.remove(i);
 			}
 			disableBrowserView();
 			refreshLabelsGame();
@@ -349,8 +354,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		if(moveListCursor<moveList.size()){
 			
 			moveListCursor++;
-			YACG.makeDeplacement(moveList.get(moveListCursor-1));
+			//YACG.makeDeplacement(moveList.get(moveListCursor-1));
 			addLogsText("Next, moveList : "+moveList.size()+", cursor : "+moveListCursor);
+			YACG.makeDrawFen(FENList.get(moveListCursor-1));
 		}else{//put the arrow in grey
 			
 		}
@@ -359,12 +365,18 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private void browserViewBack(){
 		if(!isBrowserView)
 			enableBrowserView();
-		if(moveListCursor>0){
+		if(moveListCursor>=0){
 			
 			moveListCursor--;
 			//YACG.forceMakeDeplacement(new Deplacement(moveList.get(moveListCursor).getArrive(),moveList.get(moveListCursor).getDepart()));
+			//addLogsText("Back, moveList : "+moveList.size()+", cursor : "+moveListCursor); Useless ?
+			if(moveListCursor==0){//begining of the game so classic disposition
+				YACG.makeDrawFen(fenDeDepart);
+			}else{
+				
+				YACG.makeDrawFen(FENList.get(moveListCursor-1));
+			}
 			addLogsText("Back, moveList : "+moveList.size()+", cursor : "+moveListCursor);
-			YACG.makeDrawFen(FENList.get(moveListCursor-1));
 		}else{//put the arrow in grey
 			
 		}
@@ -372,15 +384,20 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	}
 	private void refreshArrows(){
 		if(moveListCursor==moveList.size()){
-			
+			if(arrowRight.isEnabled())		arrowRight.setEnabled(false);
+		}else{
+			if(!arrowRight.isEnabled())		arrowRight.setEnabled(true);
 		}
-		if(1==1){
-			
+		if(moveListCursor==0){
+			if(arrowLeft.isEnabled())		arrowLeft.setEnabled(false);
+		}else{
+			if(!arrowLeft.isEnabled())		arrowLeft.setEnabled(true);
 		}
 	}
 	private void refreshLabelsGame(){
 		labelMoveListCursor.setText("Cursor : "+moveListCursor);
 		labelSizeOfMoveList.setText("Size : "+moveList.size());
+		refreshArrows();
 		refreshTestFrame();
 	}
 	//TODO remove test
