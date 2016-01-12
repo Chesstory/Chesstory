@@ -646,88 +646,59 @@ public class Echiquier {
 	 * 
 	 */
 	public void geranceDuRoque(int i, int j) {
-		boolean blanc = c[i][j].getPiece().estBlanc();
-		char codePiece = c[i][j].getPiece().getCode();
-		boolean estBlanc = c[i][j].getPiece().estBlanc();
-		
-		
-	}	
-		// roques
-		/*
-		 * if ((blanc && (i == 4) && (j == 0)) || (!blanc && (i == 4) && (j ==
-		 * 7))) { c[i][j].getPiece().addCaseAccessible(new Position(i + 2, j));
-		 * c[i][j].getPiece().addCaseAccessible(new Position(i - 2, j)); }
-		 */
+		boolean useful, fini;
+		int a;
 
-		// détection du roque
-		/*if (Character.toUpperCase(codePiece) == 'K') {
-			if (d.deplacementHorizontal() == 2) {
-				petitRoqueEnCours = true;
-
-				// petit roque blanc
-				if (codePiece == 'K') {
-					c[7][0].vider();
-					c[5][0].setPiece(new Piece("tour", 'R'));
-				} // petit roque noir
-				if (codePiece == 'k') {
-					c[7][7].vider();
-					c[5][7].setPiece(new Piece("tour", 'r'));
+		// left side of the king
+		// We search for a rook and then allow the dep if all conditions are
+		// here
+		useful = true;
+		fini = false;
+		a = 0;
+		while (!fini) {
+			if (a == i)
+				fini = true;
+			else {
+				if (!c[a][j].estVide()) {
+					fini = true;
+					if (Character.toLowerCase(c[a][j].getPiece().getCode()) == 'r' && !c[a][j].getPiece().isMoved()) {
+						for (int b = i - 1; b > a; b--) {
+							if (!c[b][j].estVide())
+								useful = false;
+						}
+						if (useful)
+							c[i][j].getPiece().addCaseAccessible(new Position(i - 3, j));
+					}
 				}
-			} else
-				petitRoqueEnCours = false;
+				a++;
+			}
+		}
 
-			if (d.deplacementHorizontal() == -2) {
-				grandRoqueEnCours = true;
-
-				// grand roque blanc
-				if (codePiece == 'K') {
-					c[0][0].vider();
-					c[3][0].setPiece(new Piece("tour", 'R'));
-				} // grand roque noir
-				if (codePiece == 'k') {
-					c[0][7].vider();
-					c[3][7].setPiece(new Piece("tour", 'r'));
+		// Right side of the king
+		// We search for a rook and then allow the dep if all conditions are
+		// here
+		useful = true;
+		fini = false;
+		a = dimY-1;
+		while (!fini) {
+			if (a == i)
+				fini = true;
+			else {
+				if (!c[a][j].estVide()) {
+					fini = true;
+					if (Character.toLowerCase(c[a][j].getPiece().getCode()) == 'r' && !c[a][j].getPiece().isMoved()) {
+						for (int b = i + 1; b < a; b++) {
+							if (!c[b][j].estVide())
+								useful = false;
+						}
+						if (useful)
+							c[i][j].getPiece().addCaseAccessible(new Position(i + 2, j));
+					}
 				}
-			} else
-				grandRoqueEnCours = false;
-
+				a--;
+			}
 		}
-
-		// Pour interdir les futurs roques...
-		if ((codePiece == 'R') && (x1 == 0))
-
-		{
-			roqueQ = false;
-		}
-		if ((codePiece == 'r') && (x1 == 0))
-
-		{
-			roqueq = false;
-		}
-		if ((codePiece == 'R') && (x1 == 7))
-
-		{
-			roqueK = false;
-		}
-		if ((codePiece == 'r') && (x1 == 7))
-
-		{
-			roquek = false;
-		}
-		if (codePiece == 'K')
-
-		{
-			roqueQ = false;
-			roqueK = false;
-		}
-		if (codePiece == 'k')
-
-		{
-			roqueq = false;
-			roquek = false;
-		}
-
-	}*/
+	}
 
 	/**
 	 * Add 'special moves' of the white pawn (miamage & prise en passant (french
@@ -938,7 +909,7 @@ public class Echiquier {
 						if (p.getCode() == 'p' && !p.getBackward() && p.getMaxDiag() == 0 && p.getMaxX() == 0)
 							accessiblePionNoir(i, j, p);
 
-						if ((p.getCode() == 'k' && roquek) || (p.getCode() == 'K' && roqueK))
+						if (((p.getCode() == 'k' && roquek) || (p.getCode() == 'K' && roqueK)) && !p.isMoved())
 							geranceDuRoque(i, j);
 
 						Position posPiece = new Position(i, j);
