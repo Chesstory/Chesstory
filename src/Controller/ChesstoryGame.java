@@ -299,6 +299,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		testFrame.setVisible(true);
 		testFrame.validate();
 	}
+	//La
 
 	public void addLogsText(String s) {
 		logsText.append(s + "\n\r");

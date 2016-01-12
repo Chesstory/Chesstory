@@ -224,6 +224,7 @@ abstract class FileController {
 		}
 
 		// here we check if the game is correct : w,b,w,...
+		//Ici
 		char last = a.get(0).getColor();
 		for (int i = 1; i < a.size(); i++) {
 			if (last == a.get(i).getColor()) {
