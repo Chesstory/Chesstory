@@ -156,7 +156,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		// Icon icon =new ImageIcon(new
 		// ImageIcon(cl.getResource("arrow_left.png")).getImage().getScaledInstance(20,
 		// 60, Image.SCALE_DEFAULT));
-
+		//yolo
 		ClassLoader cl = this.getClass().getClassLoader();
 		/*Icon icon = new ImageIcon(
 				new ImageIcon("./bin/icons/arrow_left.png").getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));*/
