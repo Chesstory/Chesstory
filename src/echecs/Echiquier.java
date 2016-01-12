@@ -473,31 +473,6 @@ public class Echiquier {
 				c[x2][y1].vider();
 			}
 
-			/*
-			 * // détection du roque if (Character.toUpperCase(codePiece) ==
-			 * 'K') { if (d.deplacementHorizontal() == 2) { petitRoqueEnCours =
-			 * true;
-			 * 
-			 * // petit roque blanc if (codePiece == 'K') { c[7][0].vider();
-			 * c[5][0].setPiece(new Piece("tour", 'R')); } // petit roque noir
-			 * if (codePiece == 'k') { c[7][7].vider(); c[5][7].setPiece(new
-			 * Piece("tour", 'r')); } } else petitRoqueEnCours = false;
-			 * 
-			 * if (d.deplacementHorizontal() == -2) { grandRoqueEnCours = true;
-			 * 
-			 * // grand roque blanc if (codePiece == 'K') { c[0][0].vider();
-			 * c[3][0].setPiece(new Piece("tour", 'R')); } // grand roque noir
-			 * if (codePiece == 'k') { c[0][7].vider(); c[3][7].setPiece(new
-			 * Piece("tour", 'r')); } } else grandRoqueEnCours = false; }
-			 * 
-			 * // Pour interdir les futurs roques... if ((codePiece == 'R') &&
-			 * (x1 == 0)) { roqueQ = false; } if ((codePiece == 'r') && (x1 ==
-			 * 0)) { roqueq = false; } if ((codePiece == 'R') && (x1 == 7)) {
-			 * roqueK = false; } if ((codePiece == 'r') && (x1 == 7)) { roquek =
-			 * false; } if (codePiece == 'K') { roqueQ = false; roqueK = false;
-			 * } if (codePiece == 'k') { roqueq = false; roquek = false; }
-			 */
-
 			c[x2][y2].setPiece(piece);
 			c[x1][y1].vider();
 
@@ -664,14 +639,96 @@ public class Echiquier {
 
 	}
 
-	public void accessibleRoi(int i, int j) {
+	/**
+	 * Check for roque (and roll)
+	 * 
+	 * 
+	 * 
+	 */
+	public void geranceDuRoque(int i, int j) {
 		boolean blanc = c[i][j].getPiece().estBlanc();
+		char codePiece = c[i][j].getPiece().getCode();
+		boolean estBlanc = c[i][j].getPiece().estBlanc();
+		
+		
+		
+	}	
 		// roques
-		if ((blanc && (i == 4) && (j == 0)) || (!blanc && (i == 4) && (j == 7))) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i + 2, j));
-			c[i][j].getPiece().addCaseAccessible(new Position(i - 2, j));
+		/*
+		 * if ((blanc && (i == 4) && (j == 0)) || (!blanc && (i == 4) && (j ==
+		 * 7))) { c[i][j].getPiece().addCaseAccessible(new Position(i + 2, j));
+		 * c[i][j].getPiece().addCaseAccessible(new Position(i - 2, j)); }
+		 */
+
+		// détection du roque
+		/*if (Character.toUpperCase(codePiece) == 'K') {
+			if (d.deplacementHorizontal() == 2) {
+				petitRoqueEnCours = true;
+
+				// petit roque blanc
+				if (codePiece == 'K') {
+					c[7][0].vider();
+					c[5][0].setPiece(new Piece("tour", 'R'));
+				} // petit roque noir
+				if (codePiece == 'k') {
+					c[7][7].vider();
+					c[5][7].setPiece(new Piece("tour", 'r'));
+				}
+			} else
+				petitRoqueEnCours = false;
+
+			if (d.deplacementHorizontal() == -2) {
+				grandRoqueEnCours = true;
+
+				// grand roque blanc
+				if (codePiece == 'K') {
+					c[0][0].vider();
+					c[3][0].setPiece(new Piece("tour", 'R'));
+				} // grand roque noir
+				if (codePiece == 'k') {
+					c[0][7].vider();
+					c[3][7].setPiece(new Piece("tour", 'r'));
+				}
+			} else
+				grandRoqueEnCours = false;
+
 		}
-	}
+
+		// Pour interdir les futurs roques...
+		if ((codePiece == 'R') && (x1 == 0))
+
+		{
+			roqueQ = false;
+		}
+		if ((codePiece == 'r') && (x1 == 0))
+
+		{
+			roqueq = false;
+		}
+		if ((codePiece == 'R') && (x1 == 7))
+
+		{
+			roqueK = false;
+		}
+		if ((codePiece == 'r') && (x1 == 7))
+
+		{
+			roquek = false;
+		}
+		if (codePiece == 'K')
+
+		{
+			roqueQ = false;
+			roqueK = false;
+		}
+		if (codePiece == 'k')
+
+		{
+			roqueq = false;
+			roquek = false;
+		}
+
+	}*/
 
 	/**
 	 * Add 'special moves' of the white pawn (miamage & prise en passant (french
@@ -682,7 +739,7 @@ public class Echiquier {
 	 * @param j
 	 *            The Y coordonate (my english is very bon)
 	 * @param p
-	 *            The piece (of cake)
+	 *            The piece (of cake (which is a lie))
 	 */
 	public void accessiblePionBlanc(int i, int j, Piece p) {
 		// On 2nd line maggle
@@ -768,7 +825,7 @@ public class Echiquier {
 	 * accent included))
 	 * 
 	 * @param i
-	 *            Die X kohordone ! Ach !
+	 *            Die X kohordone ! Ach ! (with german accent my general)
 	 * @param j
 	 *            Coordonnee en Y (with french accent)
 	 * @param p
@@ -855,7 +912,8 @@ public class Echiquier {
 	}
 
 	/**
-	 * est accessible "naivement" (sans vérification de l'échec)
+	 * Try every possible moves for each piece ! Roque, pawn's, king's specif
+	 * and knight's one included cause we are muttafoking badass
 	 *
 	 *
 	 */
@@ -880,6 +938,9 @@ public class Echiquier {
 						// Black pawn with 'normal' dep capacities
 						if (p.getCode() == 'p' && !p.getBackward() && p.getMaxDiag() == 0 && p.getMaxX() == 0)
 							accessiblePionNoir(i, j, p);
+
+						/*if ((p.getCode() == 'k' && roquek) || (p.getCode() == 'K' && roqueK))
+							geranceDuRoque(i, j);*/
 
 						Position posPiece = new Position(i, j);
 						int parcoursX;
