@@ -32,6 +32,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.text.DefaultCaret;
 
 import java.awt.SystemColor;
+import static gui.YetAnotherChessGame.*;
 
 public class ChesstoryGame extends JFrame implements MouseListener {
 	// static YetAnotherChessGame YACG;
@@ -45,11 +46,11 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private JPanel panelLeftMenu;
 	private JPanel panelLeftMenuBrowse;
 	private JPanel panelLeftMenuMain;
-//DEBUT
+	
 	private JButton bLoad;
 	private JButton bSave;
 	private JButton bParameters;
-	private JButton bExit;
+	private JButton bExit; 
 	private JButton arrowLeft;
 	private JButton arrowMiddle;
 	private JButton arrowRight;
@@ -335,7 +336,22 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		refreshLabelsGame();
 
 	}
-
+	public void chessEvent(int i, String s){
+		switch(i){
+		case 1:addLogsText("EVENT ECHEC : "+s);
+		break;
+		case 2:addLogsText("EVENT MAT : "+s);
+		break;
+		case 3:addLogsText("EVENT PAT : "+s);
+		break;
+		case 4:addLogsText("EVENT ROQUE : "+s);
+		break;
+		case 5:addLogsText("EVENT PRISE EN PASSANT : "+s);
+		break;
+		default:addLogsText("Error : chessEvent (), this should not be displayed"+s);
+		break;
+		}
+	}
 	private void enableBrowserView() {
 		YACG.switchClickable(false);
 		isBrowserView = true;
@@ -471,6 +487,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		moveList.clear();
 		System.out.println("Load game, id: " + gameId + ", type: " + gameType);
 		YACG.makeDrawFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+		FENList.clear();
 
 		for (int i = 0; i < gameSave.getMoveList().size(); i++) {
 
