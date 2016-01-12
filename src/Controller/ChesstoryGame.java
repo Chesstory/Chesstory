@@ -45,7 +45,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private JPanel panelLeftMenu;
 	private JPanel panelLeftMenuBrowse;
 	private JPanel panelLeftMenuMain;
-	
+
 	private JButton bLoad;
 	private JButton bSave;
 	private JButton bParameters;
@@ -61,23 +61,23 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private JScrollPane logsTextScroll;
 	// <Interface
 
-	private ArrayList<Deplacement> moveList;// List of all the moves of the current game
+	private ArrayList<Deplacement> moveList;// List of all the moves of the
+											// current game
 	private int moveListCursor;
-	
-	private boolean isBrowserView=false;
-	private ArrayList<String> FENList;//one turn = one FEN
-	
+
+	private boolean isBrowserView = false;
+	private ArrayList<String> FENList;// one turn = one FEN
+
 	private int gameId;
 	private int gameType;
 	private String fenDeDepart = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 	private JLabel labelSizeOfMoveList;
 	private JLabel labelMoveListCursor;
-	
-	//TODO remove test
+
+	// TODO remove test
 	private JFrame testFrame;
 	private JTextArea testFrameTextArea;
-	
-	
+
 	public ChesstoryGame(String title, int gameType) {
 		this.gameType = gameType;
 
@@ -87,18 +87,19 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		 */
 
 		try {
-		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-		        if ("Nimbus".equals(info.getName())) {
-		            UIManager.setLookAndFeel(info.getClassName());
-		            break;
-		        }
-		    }
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
 		} catch (Exception e) {
-		    // If Nimbus is not available, you can set the GUI to another look and feel.
+			// If Nimbus is not available, you can set the GUI to another look
+			// and feel.
 		}
-		
+
 		f = new JFrame();
-		
+
 		// f.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		f.setSize(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width,
 				GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height);
@@ -107,7 +108,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		f.setVisible(true);
 		// Chessboard
 		YACG = new YetAnotherChessGame(fenDeDepart, this);
-		
+
 		f.setVisible(true);
 		panelLeft = new JPanel();
 		panelLeft.setBorder(new LineBorder(Color.GREEN));
@@ -156,24 +157,24 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		// ImageIcon(cl.getResource("arrow_left.png")).getImage().getScaledInstance(20,
 		// 60, Image.SCALE_DEFAULT));
 
-		Icon icon = new ImageIcon(
-				new ImageIcon("./bin/icons/arrow_left.png").getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
+		ClassLoader cl = this.getClass().getClassLoader();
+		/*Icon icon = new ImageIcon(
+				new ImageIcon("./bin/icons/arrow_left.png").getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));*/
+		Icon icon = new ImageIcon(new ImageIcon(cl.getResource("icons/arrow_left.png")).getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
 		arrowLeft = new JButton(icon);
 		panelLeftMenuBrowse.add(arrowLeft);
 
-		icon = new ImageIcon(
-				new ImageIcon("./bin/icons/arrow_play.png").getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
+		icon = new ImageIcon(new ImageIcon(cl.getResource("icons/arrow_play.png")).getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
 		arrowMiddle = new JButton(icon);
 		panelLeftMenuBrowse.add(arrowMiddle);
 
-		icon = new ImageIcon(
-				new ImageIcon("./bin/icons/arrow_right.png").getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
+		icon = new ImageIcon(new ImageIcon(cl.getResource("icons/arrow_right.png")).getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
 		arrowRight = new JButton(icon);
 		panelLeftMenuBrowse.add(arrowRight);
-		
+
 		labelSizeOfMoveList = new JLabel("Size : x");
 		panelLeftMenuBrowse.add(labelSizeOfMoveList);
-		
+
 		labelMoveListCursor = new JLabel("Current : x");
 		panelLeftMenuBrowse.add(labelMoveListCursor);
 
@@ -270,8 +271,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		logsText.setColumns(30);
 		logsText.setTabSize(1);
 		logsText.setRows(32);
-		DefaultCaret caret= (DefaultCaret)logsText.getCaret();
-		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);//auto scrolling
+		DefaultCaret caret = (DefaultCaret) logsText.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);// auto scrolling
 
 		logsTextScroll = new JScrollPane(logsText);
 		logsTextScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -279,21 +280,19 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		f.getContentPane().add(panelRight);
 
 		// <Chessboard
-		
-		disableBrowserView();//We are in a game
-		
+
+		disableBrowserView();// We are in a game
+
 		f.validate();
 
 		moveList = new ArrayList<Deplacement>();
-		
-		
-		
-		FENList=new ArrayList<String>();
-		//TODO remove test doute
-		testFrame=new JFrame();
+
+		FENList = new ArrayList<String>();
+		// TODO remove test doute
+		testFrame = new JFrame();
 		testFrame.setTitle("Affichage dynamique de la moveList");
-		testFrame.setSize(300,800);
-		testFrameTextArea=new JTextArea();
+		testFrame.setSize(300, 800);
+		testFrameTextArea = new JTextArea();
 		testFrameTextArea.setText("ARRAYLIST THIS IS NOT SUPPOSED TO BE DISPLAYED");
 		testFrame.getContentPane().add(testFrameTextArea);
 		testFrame.setAlwaysOnTop(true);
@@ -307,7 +306,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 	public void addLogsMove(Deplacement d, char piece, char joueur) {
 		String color;
-		//TODO addMove, WHY ?
+		// TODO addMove, WHY ?
 		if (joueur == 'b') {
 			color = "noir";
 		} else if (joueur == 'w') {
@@ -317,46 +316,50 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		}
 
 		// String s=color+" : Déplacement "+piece+", de "+x1+y1+" à "+x2+y2;
-		String s = color + " : Déplacement " + d;//TODO improve display
+		String s = color + " : Déplacement " + d;// TODO improve display
 		addLogsText(s);
 	}
 
 	public void addMove(Deplacement d) {
 		moveList.add(d);
-		moveListCursor=moveList.size()-1;
+		moveListCursor = moveList.size() - 1;
 	}
-	public void addMoveMadeByPlayer(Deplacement d){
+
+	public void addMoveMadeByPlayer(Deplacement d) {
 		addMove(d);
 		addLogsMove(d, d.getPiececode(), d.getColor());
 		moveListCursor++;
 		// one turn = one move, this is for the browserView (back function)
 		FENList.add(YACG.getFEN());
 		refreshLabelsGame();
-		
-		
-		
+
 	}
-	private void enableBrowserView(){
+
+	private void enableBrowserView() {
 		YACG.switchClickable(false);
-		isBrowserView=true;
+		isBrowserView = true;
 		switchBrowserViewBorder(true);
 		YACG.switchBorder(false);
 		addLogsText("    > STATE ----> Browser view !");
-		//TODO get a table of FEN, already done, I think...
+		// TODO get a table of FEN, already done, I think...
 	}
-	private void disableBrowserView(){
+
+	private void disableBrowserView() {
 		YACG.switchClickable(true);
-		isBrowserView=false;
+		isBrowserView = false;
 		switchBrowserViewBorder(false);
 		YACG.switchBorder(true);
 		addLogsText("    > STATE ----> Game view!");
 	}
-	private void browserViewPlay(){
-		if(!isBrowserView){
+
+	private void browserViewPlay() {
+		if (!isBrowserView) {
 			enableBrowserView();
-		}else{
-			int i=moveListCursor;//the user has choosen a point in the game to return to
-			while(i<moveList.size()){//we delete all moves after this point/turn
+		} else {
+			int i = moveListCursor;// the user has choosen a point in the game
+									// to return to
+			while (i < moveList.size()) {// we delete all moves after this
+											// point/turn
 				moveList.remove(i);
 				FENList.remove(i);
 			}
@@ -364,78 +367,94 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			refreshLabelsGame();
 		}
 	}
-	private void browserViewNext(){
-		if(!isBrowserView)
+
+	private void browserViewNext() {
+		if (!isBrowserView)
 			enableBrowserView();
-		if(moveListCursor<moveList.size()){
-			
+		if (moveListCursor < moveList.size()) {
+
 			moveListCursor++;
-			//YACG.makeDeplacement(moveList.get(moveListCursor-1));
-			addLogsText("Next, moveList : "+moveList.size()+", cursor : "+moveListCursor);
-			YACG.makeDrawFen(FENList.get(moveListCursor-1));
+			// YACG.makeDeplacement(moveList.get(moveListCursor-1));
+			addLogsText("Next, moveList : " + moveList.size() + ", cursor : " + moveListCursor);
+			YACG.makeDrawFen(FENList.get(moveListCursor - 1));
 		}
 		refreshLabelsGame();
 	}
-	private void browserViewBack(){
-		if(!isBrowserView)
+
+	private void browserViewBack() {
+		if (!isBrowserView)
 			enableBrowserView();
-		if(moveListCursor>=0){
-			
+		if (moveListCursor >= 0) {
+
 			moveListCursor--;
-			//YACG.forceMakeDeplacement(new Deplacement(moveList.get(moveListCursor).getArrive(),moveList.get(moveListCursor).getDepart()));
-			//addLogsText("Back, moveList : "+moveList.size()+", cursor : "+moveListCursor); Useless ?
-			if(moveListCursor==0){//begining of the game so classic disposition
+			// YACG.forceMakeDeplacement(new
+			// Deplacement(moveList.get(moveListCursor).getArrive(),moveList.get(moveListCursor).getDepart()));
+			// addLogsText("Back, moveList : "+moveList.size()+", cursor :
+			// "+moveListCursor); Useless ?
+			if (moveListCursor == 0) {// begining of the game so classic
+										// disposition
 				YACG.makeDrawFen(fenDeDepart);
-			}else{
-				
-				YACG.makeDrawFen(FENList.get(moveListCursor-1));
+			} else {
+
+				YACG.makeDrawFen(FENList.get(moveListCursor - 1));
 			}
-			addLogsText("Back, moveList : "+moveList.size()+", cursor : "+moveListCursor);
-		}else{//put the arrow in grey
-			
+			addLogsText("Back, moveList : " + moveList.size() + ", cursor : " + moveListCursor);
+		} else {// put the arrow in grey
+
 		}
 		refreshLabelsGame();
 	}
-	private void refreshArrows(){
-		if(moveListCursor==moveList.size()){
-			if(arrowRight.isEnabled())		arrowRight.setEnabled(false);
-		}else{
-			if(!arrowRight.isEnabled())		arrowRight.setEnabled(true);
+
+	private void refreshArrows() {
+		if (moveListCursor == moveList.size()) {
+			if (arrowRight.isEnabled())
+				arrowRight.setEnabled(false);
+		} else {
+			if (!arrowRight.isEnabled())
+				arrowRight.setEnabled(true);
 		}
-		if(moveListCursor==0){
-			if(arrowLeft.isEnabled())		arrowLeft.setEnabled(false);
-		}else{
-			if(!arrowLeft.isEnabled())		arrowLeft.setEnabled(true);
+		if (moveListCursor == 0) {
+			if (arrowLeft.isEnabled())
+				arrowLeft.setEnabled(false);
+		} else {
+			if (!arrowLeft.isEnabled())
+				arrowLeft.setEnabled(true);
 		}
 	}
-	private void refreshLabelsGame(){
-		labelMoveListCursor.setText("Cursor : "+moveListCursor);
-		labelSizeOfMoveList.setText("Size : "+moveList.size());
+
+	private void refreshLabelsGame() {
+		labelMoveListCursor.setText("Cursor : " + moveListCursor);
+		labelSizeOfMoveList.setText("Size : " + moveList.size());
 		refreshArrows();
 		refreshTestFrame();
 	}
-	//TODO remove test
-	private void refreshTestFrame(){
+
+	// TODO remove test
+	private void refreshTestFrame() {
 		testFrameTextArea.setText("");
-		if(FENList.size()>0){
+		if (FENList.size() > 0) {
 			for (int i = 0; i < moveList.size(); i++) {
-				 //TODO improve display
-				
-				testFrameTextArea.append((i+1)+" >"+moveList.get(i).getColor() + " : Déplacement " + moveList.get(i) + " ||FEN: "+FENList.get(i) +"\n\r");
+				// TODO improve display
+
+				testFrameTextArea.append((i + 1) + " >" + moveList.get(i).getColor() + " : Déplacement "
+						+ moveList.get(i) + " ||FEN: " + FENList.get(i) + "\n\r");
 			}
-		}else{
-			testFrameTextArea.append("FENList size is : "+FENList.size());
+		} else {
+			testFrameTextArea.append("FENList size is : " + FENList.size());
 		}
 	}
-	private void switchBrowserViewBorder(boolean b){
-		if(b){
-			panelLeftMenuBrowse.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(0, 255, 255), new Color(0, 255, 255), new Color(0, 255, 255), new Color(0, 255, 255)));
-		}else{
+
+	private void switchBrowserViewBorder(boolean b) {
+		if (b) {
+			panelLeftMenuBrowse.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(0, 255, 255),
+					new Color(0, 255, 255), new Color(0, 255, 255), new Color(0, 255, 255)));
+		} else {
 			panelLeftMenuBrowse.setBorder(new EmptyBorder(0, 0, 0, 0));
 		}
 	}
-	public void loadGame() {//TODO multiple moveLists I don't know why
-		disableBrowserView();//We are in a game
+
+	public void loadGame() {// TODO multiple moveLists I don't know why
+		disableBrowserView();// We are in a game
 		// moveList=new ArrayList<Deplacement>(FileController.loadFile());
 		System.out.println("---->Loading file");
 		GameSave gameSave = FileController.loadFile();
@@ -444,25 +463,24 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		} else {
 			System.out.println("---->Loading successful");
 		}
-		//moveList = gameSave.getMoveList();
+		// moveList = gameSave.getMoveList();
 		gameId = gameSave.getGameId();
 		gameType = gameSave.getGameType();
-		moveListCursor=0;
+		moveListCursor = 0;
 		moveList.clear();
 		System.out.println("Load game, id: " + gameId + ", type: " + gameType);
 		YACG.makeDrawFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
-		
+
 		for (int i = 0; i < gameSave.getMoveList().size(); i++) {
-			
-			//moveList.add(gameSave.getMoveList().get(i));
+
+			// moveList.add(gameSave.getMoveList().get(i));
 			YACG.makeDeplacement(gameSave.getMoveList().get(i));
 			System.out.println("c =" + moveList.get(i).getColor() + ", p =" + moveList.get(i).getPiececode() + ", ("
 					+ moveList.get(i).getX1() + ", " + moveList.get(i).getY1() + ") -> (" + moveList.get(i).getX2()
 					+ ", " + moveList.get(i).getY2() + ")");
 
 		}
-		//moveListCursor = moveList.size()-1;
-	
+		// moveListCursor = moveList.size()-1;
 
 	}
 
