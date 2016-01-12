@@ -343,7 +343,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		addLogsText("    > STATE ----> Browser view !");
 		// TODO get a table of FEN, already done, I think...
 	}
-	private void chessEvent(int i){
+	public void chessEvent(int i){
 		
 	}
 	private void disableBrowserView() {
