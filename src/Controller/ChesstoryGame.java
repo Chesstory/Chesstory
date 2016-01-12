@@ -45,7 +45,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private JPanel panelLeftMenu;
 	private JPanel panelLeftMenuBrowse;
 	private JPanel panelLeftMenuMain;
-
+//DEBUT
 	private JButton bLoad;
 	private JButton bSave;
 	private JButton bParameters;
