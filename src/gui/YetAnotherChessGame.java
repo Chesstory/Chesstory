@@ -250,6 +250,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 				square.setBackground(i % 2 == 0 ? Color.getHSBColor(0.56f, 1.0f, 0.8f) : Color.white);
 			}
 		}
+		//tu pues du cul
 		dessineToutesLesPieces();
 	}
 
