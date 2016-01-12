@@ -453,7 +453,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		}
 	}
 
-	public void loadGame() {// TODO multiple moveLists I don't know why
+	public void loadGame() {// TODO IN EXE JAR THERE IS NOT THE SAVES FILE
 		disableBrowserView();// We are in a game
 		// moveList=new ArrayList<Deplacement>(FileController.loadFile());
 		System.out.println("---->Loading file");
@@ -470,7 +470,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		moveList.clear();
 		System.out.println("Load game, id: " + gameId + ", type: " + gameType);
 		YACG.makeDrawFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
-
+		FENList.clear();
 		for (int i = 0; i < gameSave.getMoveList().size(); i++) {
 
 			// moveList.add(gameSave.getMoveList().get(i));
