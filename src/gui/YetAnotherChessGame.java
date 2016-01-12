@@ -26,7 +26,7 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 
 @SuppressWarnings("serial")
-public class YetAnotherChessGame extends JFrame implements MouseListener, MouseMotionListener {
+public final class YetAnotherChessGame extends JFrame implements MouseListener, MouseMotionListener {
 
 	
 	/**
@@ -307,6 +307,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 				// Put king in a yoloswaggy color if echec
 				if (ech.estEnEchec(ech.getTrait())) {
 					surbrillance(ech.rechercheRoi(ech.getTrait()), Color.MAGENTA);
+					chesstoryGame.chess
 				}
 
 				first = true;
