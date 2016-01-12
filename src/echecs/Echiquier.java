@@ -452,12 +452,12 @@ public class Echiquier {
 			// cas du pion noir sur première rangée
 			if (codePiece == 'p' && (y2 == 0)) {
 				promotion = true;
-				piece = new Piece("dame", 'q');
+				piece = new Piece(dameType, 'b');
 			}
 			// cas du pion blanc sur dernière rangée
-			if (codePiece == 'P' && (y2 == 7)) {
+			if (codePiece == 'P' && (y2 == dimY - 1)) {
 				promotion = true;
-				piece = new Piece("dame", 'Q');
+				piece = new Piece(dameType, 'w');
 			}
 
 			// autoriser la prise en passant si et seulement si avance de 2 pour
@@ -1203,11 +1203,13 @@ public class Echiquier {
 	 */
 	public char verifiePartieTerminee() {
 		// TODO Other tests, like king + one "big" piece
+		// TODO Fix the mat
 
 		char end = 'n';
 		// At start, we set those var true
 		boolean whiteKingAlone = true;
 		boolean blackKingAlone = true;
+
 		boolean whiteCantMove = true;
 		boolean blackCantMove = true;
 
