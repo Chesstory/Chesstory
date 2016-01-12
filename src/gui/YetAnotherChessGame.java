@@ -28,8 +28,19 @@ import javax.swing.border.BevelBorder;
 @SuppressWarnings("serial")
 public class YetAnotherChessGame extends JFrame implements MouseListener, MouseMotionListener {
 
+	
 	/**
-	 * Paneau de fond
+	 * Event gesture
+	 */
+	public final static int CHESS_EVENT_ECHEC = 1;
+	public final static int CHESS_EVENT_MAT = 2;
+	public final static int CHESS_EVENT_PAT = 3;
+	public final static int CHESS_EVENT_ROQUE = 4;
+	//Prise en passant (BEP des pauvres)
+	public final static int CHESS_EVENT_PEP = 5;
+	
+	/**
+	 * Paneau de fond111
 	 */
 	JLayeredPane layeredPane;
 
