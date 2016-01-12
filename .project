@@ -14,11 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>Chessory-0_3.jar</name>
-			<type>1</type>
-			<location>C:/Users/Roman/Desktop/Travail/S3/Projet Echec/v/Chessory-0_3.jar</location>
-		</link>
-	</linkedResources>
 </projectDescription>
