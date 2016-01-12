@@ -29,16 +29,6 @@ import javax.swing.border.BevelBorder;
 public class YetAnotherChessGame extends JFrame implements MouseListener, MouseMotionListener {
 
 	/**
-	 * Event gesture
-	 */
-	public static final int CHESS_EVENT_MAT = 1;
-	public static final int CHESS_EVENT_PAT = 2;
-	public static final int CHESS_EVENT_ECHEC = 3;
-	public static final int CHESS_EVENT_ROQUE = 4;
-	//Prise en passant
-	public static final int CHESS_EVENT_PEP = 5;
-	
-	/**
 	 * Paneau de fond
 	 */
 	JLayeredPane layeredPane;
@@ -211,14 +201,14 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 		//ech = new Echiquier();
 
 		// This a test with the classical chess pieces
-		ech = new Echiquier(new Piece("pion", 'p', 0, 0, 1, 2, 0, 0, false), new Piece("dame", 'q', true, true, true, true),
+		ech = new Echiquier(new Piece("pion", 'p', 0, 0, 1, 1, 0, 0, false), new Piece("dame", 'q', true, true, true, true),
 				new Piece("roi", 'k', 1, 1, 1, 1, 1, 1, true), new Piece("cavalier", 'n',1,2),
 				new Piece("fou", 'b', false, false, true, true), new Piece("tour", 'r', true, true, false, true));
 		
-		//ech.setFEN(fenDeDeapart);
+		ech.setFEN(fenDeDeapart);
 		
 		// Pour le test !
-		ech.setFEN("ppppkppp/8/8/3B1b2/8/8/8/R2KQR1");
+		//ech.setFEN("kqqqqqqq/8/8/3B1b2/8/8/8/K5QR");
 
 		Dimension boardSize = new Dimension(600, 600);
 

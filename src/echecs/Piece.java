@@ -142,7 +142,7 @@ public class Piece {
 		this.minDiag = p.minDiag;
 		this.maxDiag = p.maxDiag;
 		this.backward = p.backward;
-		this.moved = false;
+		this.setMoved(false);
 	}
 
 	/**
@@ -173,7 +173,7 @@ public class Piece {
 		this.maxY = 0;
 		this.minDiag = 0;
 		this.maxDiag = 0;
-		this.moved = false;
+		this.setMoved(false);
 	}
 
 	/**
@@ -242,7 +242,7 @@ public class Piece {
 		minDiag = 0;
 		maxDiag = 0;
 		backward = false;
-		moved = false;
+		setMoved(false);
 	}
 
 	/**
@@ -314,7 +314,61 @@ public class Piece {
 	/**
 	 * Getters & setters for moves capacity
 	 */
+	public int getMinX() {
+		return minX;
+	}
 
+	public void setMinX(int i) {
+		this.minX = i;
+	}
+
+	public int getMaxX() {
+		return maxX;
+	}
+
+	public void setMaxX(int i) {
+		this.maxX = i;
+	}
+
+	public int getMinY() {
+		return minY;
+	}
+
+	public void setMinY(int i) {
+		this.minY = i;
+	}
+
+	public int getMaxY() {
+		return maxY;
+	}
+
+	public void setMaxY(int i) {
+		this.maxY = i;
+	}
+
+	public int getMinDiag() {
+		return minDiag;
+	}
+
+	public void setMinDiag(int i) {
+		this.minDiag = i;
+	}
+
+	public int getMaxDiag() {
+		return maxDiag;
+	}
+
+	public void setMaxDiag(int i) {
+		this.maxDiag = i;
+	}
+
+	public boolean getBackward() {
+		return backward;
+	}
+
+	public void setBackward(boolean b) {
+		this.backward = b;
+	}
 
 	/**
 	 * @return the moved
@@ -322,68 +376,11 @@ public class Piece {
 	public boolean isMoved() {
 		return moved;
 	}
-	
+
 	/**
-	 * @param moved
-	 *            the moved to set
+	 * @param moved the moved to set
 	 */
 	public void setMoved(boolean moved) {
 		this.moved = moved;
-	}
-
-	public int getMinX() {
-		return minX;
-	}
-
-	public void setMinX(int minX) {
-		this.minX = minX;
-	}
-
-	public int getMaxX() {
-		return maxX;
-	}
-
-	public void setMaxX(int maxX) {
-		this.maxX = maxX;
-	}
-
-	public int getMinY() {
-		return minY;
-	}
-
-	public void setMinY(int minY) {
-		this.minY = minY;
-	}
-
-	public int getMaxY() {
-		return maxY;
-	}
-
-	public void setMaxY(int maxY) {
-		this.maxY = maxY;
-	}
-
-	public int getMinDiag() {
-		return minDiag;
-	}
-
-	public void setMinDiag(int minDiag) {
-		this.minDiag = minDiag;
-	}
-
-	public int getMaxDiag() {
-		return maxDiag;
-	}
-
-	public void setMaxDiag(int maxDiag) {
-		this.maxDiag = maxDiag;
-	}
-
-	public boolean isBackward() {
-		return backward;
-	}
-
-	public void setBackward(boolean backward) {
-		this.backward = backward;
 	}
 }
