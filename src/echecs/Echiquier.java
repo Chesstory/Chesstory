@@ -19,10 +19,10 @@ public class Echiquier {
 	char trait;
 
 	// false par défaut
-	boolean roqueK;
-	boolean roquek;
-	boolean roqueQ;
-	boolean roqueq;
+	boolean roqueq, roqueQ, roquek, roqueK;
+	boolean roque;
+	boolean roqueEncours;
+	int roqueL, roqueR, roquel, roquer;
 
 	// pour la fin de partie
 	private Piece[] existantPieces;
@@ -91,6 +91,8 @@ public class Echiquier {
 		this.dameType = ech.dameType;
 		this.tourType = ech.tourType;
 		this.cavalierType = ech.cavalierType;
+
+		roque = true;
 
 		existantPieces = new Piece[nbMaxPiece];
 
@@ -257,7 +259,7 @@ public class Echiquier {
 				}
 			} catch (ArrayIndexOutOfBoundsException e) {
 				// sans indication, les roques sont possibles
-				roquek = roqueK = roqueq = roqueQ = true;
+				roque = roquek = roqueK = roqueq = roqueQ = true;
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
 			throw (new MalformedFENException("le code " + FENcode + " n'est pas un code FEN valide"));
@@ -473,6 +475,32 @@ public class Echiquier {
 				c[x2][y1].vider();
 			}
 
+			// cas du roque
+			if (Character.toLowerCase(codePiece) == 'k' && y1 == y2 && Math.abs(d.deplacementHorizontal()) > piece.getMaxX()) {
+				Piece tour;
+				if (x2 > x1) {
+					if (piece.estBlanc()) {
+						tour = c[roqueR][y1].getPiece();
+						c[x1 + 1][y1].setPiece(tour);
+						c[roqueR][y1].vider();
+					} else {
+						tour = c[roquer][y1].getPiece();
+						c[x1 + 1][y1].setPiece(tour);
+						c[roquer][y1].vider();
+					}
+				} else {
+					if (piece.estBlanc()) {
+						tour = c[roqueL][y1].getPiece();
+						c[x1 - 1][y1].setPiece(tour);
+						c[roqueL][y1].vider();
+					} else{
+						tour = c[roquel][y1].getPiece();
+						c[x1 - 1][y1].setPiece(tour);
+						c[roquel][y1].vider();
+					}
+				}
+			}
+
 			c[x2][y2].setPiece(piece);
 			c[x1][y1].vider();
 
@@ -662,6 +690,11 @@ public class Echiquier {
 				if (!c[a][j].estVide()) {
 					fini = true;
 					if (Character.toLowerCase(c[a][j].getPiece().getCode()) == 'r' && !c[a][j].getPiece().isMoved()) {
+						if (c[i][j].getPiece().estBlanc())
+							roqueL = a;
+						else
+							roquel = a;
+
 						for (int b = i - 1; b > a; b--) {
 							if (!c[b][j].estVide())
 								useful = false;
@@ -679,7 +712,7 @@ public class Echiquier {
 		// here
 		useful = true;
 		fini = false;
-		a = dimY-1;
+		a = dimY - 1;
 		while (!fini) {
 			if (a == i)
 				fini = true;
@@ -687,6 +720,11 @@ public class Echiquier {
 				if (!c[a][j].estVide()) {
 					fini = true;
 					if (Character.toLowerCase(c[a][j].getPiece().getCode()) == 'r' && !c[a][j].getPiece().isMoved()) {
+						if (c[i][j].getPiece().estBlanc())
+							roqueR = a;
+						else
+							roquer = a;
+
 						for (int b = i + 1; b < a; b++) {
 							if (!c[b][j].estVide())
 								useful = false;
@@ -909,7 +947,7 @@ public class Echiquier {
 						if (p.getCode() == 'p' && !p.getBackward() && p.getMaxDiag() == 0 && p.getMaxX() == 0)
 							accessiblePionNoir(i, j, p);
 
-						if (((p.getCode() == 'k' && (roquek || roqueq)) || (p.getCode() == 'K' && (roqueK || roqueQ))) && !p.isMoved())
+						if (roque && Character.toLowerCase(p.getCode()) == 'k' && !p.isMoved() && p.getMaxX() == 1)
 							geranceDuRoque(i, j);
 
 						Position posPiece = new Position(i, j);
