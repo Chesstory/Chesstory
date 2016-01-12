@@ -667,7 +667,7 @@ public class Echiquier {
 								useful = false;
 						}
 						if (useful)
-							c[i][j].getPiece().addCaseAccessible(new Position(i - 3, j));
+							c[i][j].getPiece().addCaseAccessible(new Position(i - 2, j));
 					}
 				}
 				a++;
@@ -909,7 +909,7 @@ public class Echiquier {
 						if (p.getCode() == 'p' && !p.getBackward() && p.getMaxDiag() == 0 && p.getMaxX() == 0)
 							accessiblePionNoir(i, j, p);
 
-						if (((p.getCode() == 'k' && roquek) || (p.getCode() == 'K' && roqueK)) && !p.isMoved())
+						if (((p.getCode() == 'k' && (roquek || roqueq)) || (p.getCode() == 'K' && (roqueK || roqueQ))) && !p.isMoved())
 							geranceDuRoque(i, j);
 
 						Position posPiece = new Position(i, j);
