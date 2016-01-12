@@ -100,6 +100,8 @@ public class Echiquier {
 				c[i][j] = new Case(ech.getCase(i, j));
 			}
 		}
+
+		roquek = roqueK = true;
 	}
 
 	public Piece getPieceCase(int i, int j) {
@@ -475,6 +477,7 @@ public class Echiquier {
 
 			c[x2][y2].setPiece(piece);
 			c[x1][y1].vider();
+			c[x2][y2].getPiece().setMoved(true);
 
 		}
 		// on change le trait
@@ -645,89 +648,64 @@ public class Echiquier {
 	 * 
 	 * 
 	 */
-	public void geranceDuRoque(int i, int j) {
-		boolean blanc = c[i][j].getPiece().estBlanc();
-		char codePiece = c[i][j].getPiece().getCode();
-		boolean estBlanc = c[i][j].getPiece().estBlanc();
-		
-		
-	}	
-		// roques
-		/*
-		 * if ((blanc && (i == 4) && (j == 0)) || (!blanc && (i == 4) && (j ==
-		 * 7))) { c[i][j].getPiece().addCaseAccessible(new Position(i + 2, j));
-		 * c[i][j].getPiece().addCaseAccessible(new Position(i - 2, j)); }
-		 */
+	private void geranceDuRoque(int i, int j) {
+		Piece king = c[i][j].getPiece();
+		boolean estBlanc = king.estBlanc();
+		boolean useful;
 
-		// détection du roque
-		/*if (Character.toUpperCase(codePiece) == 'K') {
-			if (d.deplacementHorizontal() == 2) {
-				petitRoqueEnCours = true;
-
-				// petit roque blanc
-				if (codePiece == 'K') {
-					c[7][0].vider();
-					c[5][0].setPiece(new Piece("tour", 'R'));
-				} // petit roque noir
-				if (codePiece == 'k') {
-					c[7][7].vider();
-					c[5][7].setPiece(new Piece("tour", 'r'));
+		// Search the left rook and test needs
+		useful = true;
+		for (int a = 0; a < i; a++) {
+			if (!c[a][j].estVide()) {
+				if (Character.toLowerCase(c[a][j].getPiece().getCode()) == 'r' && !c[a][j].getPiece().isMoved()) {
+					king.addCaseAccessible(new Position(a + 1, j));
 				}
-			} else
-				petitRoqueEnCours = false;
-
-			if (d.deplacementHorizontal() == -2) {
-				grandRoqueEnCours = true;
-
-				// grand roque blanc
-				if (codePiece == 'K') {
-					c[0][0].vider();
-					c[3][0].setPiece(new Piece("tour", 'R'));
-				} // grand roque noir
-				if (codePiece == 'k') {
-					c[0][7].vider();
-					c[3][7].setPiece(new Piece("tour", 'r'));
-				}
-			} else
-				grandRoqueEnCours = false;
-
+			}
 		}
+	}
+	// roques
+	/*
+	 * if ((blanc && (i == 4) && (j == 0)) || (!blanc && (i == 4) && (j == 7)))
+	 * { c[i][j].getPiece().addCaseAccessible(new Position(i + 2, j));
+	 * c[i][j].getPiece().addCaseAccessible(new Position(i - 2, j)); }
+	 */
 
-		// Pour interdir les futurs roques...
-		if ((codePiece == 'R') && (x1 == 0))
-
-		{
-			roqueQ = false;
-		}
-		if ((codePiece == 'r') && (x1 == 0))
-
-		{
-			roqueq = false;
-		}
-		if ((codePiece == 'R') && (x1 == 7))
-
-		{
-			roqueK = false;
-		}
-		if ((codePiece == 'r') && (x1 == 7))
-
-		{
-			roquek = false;
-		}
-		if (codePiece == 'K')
-
-		{
-			roqueQ = false;
-			roqueK = false;
-		}
-		if (codePiece == 'k')
-
-		{
-			roqueq = false;
-			roquek = false;
-		}
-
-	}*/
+	// détection du roque
+	/*
+	 * if (Character.toUpperCase(codePiece) == 'K') { if
+	 * (d.deplacementHorizontal() == 2) { petitRoqueEnCours = true;
+	 * 
+	 * // petit roque blanc if (codePiece == 'K') { c[7][0].vider();
+	 * c[5][0].setPiece(new Piece("tour", 'R')); } // petit roque noir if
+	 * (codePiece == 'k') { c[7][7].vider(); c[5][7].setPiece(new Piece("tour",
+	 * 'r')); } } else petitRoqueEnCours = false;
+	 * 
+	 * if (d.deplacementHorizontal() == -2) { grandRoqueEnCours = true;
+	 * 
+	 * // grand roque blanc if (codePiece == 'K') { c[0][0].vider();
+	 * c[3][0].setPiece(new Piece("tour", 'R')); } // grand roque noir if
+	 * (codePiece == 'k') { c[0][7].vider(); c[3][7].setPiece(new Piece("tour",
+	 * 'r')); } } else grandRoqueEnCours = false;
+	 * 
+	 * }
+	 * 
+	 * // Pour interdir les futurs roques... if ((codePiece == 'R') && (x1 ==
+	 * 0))
+	 * 
+	 * { roqueQ = false; } if ((codePiece == 'r') && (x1 == 0))
+	 * 
+	 * { roqueq = false; } if ((codePiece == 'R') && (x1 == 7))
+	 * 
+	 * { roqueK = false; } if ((codePiece == 'r') && (x1 == 7))
+	 * 
+	 * { roquek = false; } if (codePiece == 'K')
+	 * 
+	 * { roqueQ = false; roqueK = false; } if (codePiece == 'k')
+	 * 
+	 * { roqueq = false; roquek = false; }
+	 * 
+	 * }
+	 */
 
 	/**
 	 * Add 'special moves' of the white pawn (miamage & prise en passant (french
@@ -931,14 +909,15 @@ public class Echiquier {
 					} else {
 
 						// White pawn with 'normal' dep capacities
-						if (p.getCode() == 'P' && !p.getBackward() && p.getMaxDiag() == 0 && p.getMaxX() == 0)
+						if (p.getCode() == 'P' && !p.isBackward() && p.getMaxDiag() == 0 && p.getMaxX() == 0)
 							accessiblePionBlanc(i, j, p);
 
 						// Black pawn with 'normal' dep capacities
-						if (p.getCode() == 'p' && !p.getBackward() && p.getMaxDiag() == 0 && p.getMaxX() == 0)
+						if (p.getCode() == 'p' && !p.isBackward() && p.getMaxDiag() == 0 && p.getMaxX() == 0)
 							accessiblePionNoir(i, j, p);
 
-						if ((p.getCode() == 'k' && roquek) || (p.getCode() == 'K' && roqueK))
+						// For the roque
+						if (((p.getCode() == 'k' && roquek) || (p.getCode() == 'K' && roqueK)) && !p.isMoved())
 							geranceDuRoque(i, j);
 
 						Position posPiece = new Position(i, j);
@@ -1148,8 +1127,8 @@ public class Echiquier {
 					|| (!c[iArr][jArr].estVide() && c[iArr][jArr].getPiece().getColor() != piece.getColor())) {
 
 				// Third step : check if backward and if allowed
-				if (piece.getBackward() || (!piece.getBackward() && piece.estBlanc() && !move.backwardMoveWhite())
-						|| (!piece.getBackward() && piece.estNoir() && !move.backwardMoveBlack()))
+				if (piece.isBackward() || (!piece.isBackward() && piece.estBlanc() && !move.backwardMoveWhite())
+						|| (!piece.isBackward() && piece.estNoir() && !move.backwardMoveBlack()))
 					return true;
 			}
 		}

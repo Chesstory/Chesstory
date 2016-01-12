@@ -29,6 +29,16 @@ import javax.swing.border.BevelBorder;
 public class YetAnotherChessGame extends JFrame implements MouseListener, MouseMotionListener {
 
 	/**
+	 * Event gesture
+	 */
+	public static final int CHESS_EVENT_MAT = 1;
+	public static final int CHESS_EVENT_PAT = 2;
+	public static final int CHESS_EVENT_ECHEC = 3;
+	public static final int CHESS_EVENT_ROQUE = 4;
+	//Prise en passant
+	public static final int CHESS_EVENT_PEP = 5;
+	
+	/**
 	 * Paneau de fond
 	 */
 	JLayeredPane layeredPane;
@@ -208,7 +218,7 @@ public class YetAnotherChessGame extends JFrame implements MouseListener, MouseM
 		//ech.setFEN(fenDeDeapart);
 		
 		// Pour le test !
-		ech.setFEN("kqqqqqqq/8/8/3B1b2/8/8/8/K5QR");
+		ech.setFEN("ppppkppp/8/8/3B1b2/8/8/8/R2KQR1");
 
 		Dimension boardSize = new Dimension(600, 600);
 
