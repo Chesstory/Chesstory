@@ -176,10 +176,8 @@ public class Echiquier {
 
 			// Traitement de la première partie du code
 			for (int i = 0; i < ligne.length; i++) {
-
 				int decal = 0;
 				for (int j = 0; j < ligne[i].length(); j++) {
-
 					char l = ligne[i].charAt(j);
 
 					if (Character.isDigit(l)) {
@@ -281,7 +279,6 @@ public class Echiquier {
 				Piece p = c[i][j].getPiece();
 
 				if (c[i][j].getPiece() != null) {
-
 					if (compteVide != 0) {
 						res += compteVide;
 					}
@@ -320,7 +317,6 @@ public class Echiquier {
 		}
 
 		res += " ";
-
 		res += priseEnPassant == null ? "-" : priseEnPassant;
 
 		return res;

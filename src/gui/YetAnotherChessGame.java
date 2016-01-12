@@ -25,6 +25,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 
+@SuppressWarnings("serial")
 public class YetAnotherChessGame extends JFrame implements MouseListener, MouseMotionListener {
 
 	/**
