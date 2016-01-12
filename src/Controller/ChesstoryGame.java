@@ -1,6 +1,9 @@
 package Controller;
 
 import java.awt.event.ActionEvent;
+
+import javax.swing.UIManager.*;
+
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -23,6 +26,8 @@ import echecs.Deplacement;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.text.DefaultCaret;
 
@@ -35,10 +40,12 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	// >Interface
 	public static JFrame f;
 	private JPanel panelLeft;
-	// private float panelLeftRatio=(2/3);
 	private JPanel panelRight;
 	private JPanel panelLeftChessboard;
 	private JPanel panelLeftMenu;
+	private JPanel panelLeftMenuBrowse;
+	private JPanel panelLeftMenuMain;
+	
 	private JButton bLoad;
 	private JButton bSave;
 	private JButton bParameters;
@@ -79,6 +86,17 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		 * widthRightPanel=(int)(width*(0.66));
 		 */
 
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {
+		    // If Nimbus is not available, you can set the GUI to another look and feel.
+		}
+		
 		f = new JFrame();
 		
 		// f.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -112,7 +130,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		panelLeft.add(panelLeftMenu, gbc_panelLeftMenu);
 		panelLeftMenu.setLayout(new GridLayout(2, 1, 0, 0));
 
-		JPanel panelLeftMenuMain = new JPanel();
+		panelLeftMenuMain = new JPanel();
 		panelLeftMenu.add(panelLeftMenuMain);
 
 		bLoad = new JButton("Load");
@@ -127,7 +145,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		bExit = new JButton("Exit");
 		panelLeftMenuMain.add(bExit);
 
-		JPanel panelLeftMenuBrowse = new JPanel();
+		panelLeftMenuBrowse = new JPanel();
 		panelLeftMenu.add(panelLeftMenuBrowse);
 
 		/*
@@ -289,9 +307,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 	public void addLogsMove(Deplacement d, char piece, char joueur) {
 		String color;
-		//int indexMovelist=
-		//TODO rework all that shit
-		//TODO addMove
+		//TODO addMove, WHY ?
 		if (joueur == 'b') {
 			color = "noir";
 		} else if (joueur == 'w') {
@@ -305,10 +321,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		addLogsText(s);
 	}
 
-	public void addMove(Deplacement d) {//TODO this should be the main connexion : ech/yacg -> chesstory
+	public void addMove(Deplacement d) {
 		moveList.add(d);
 		moveListCursor=moveList.size()-1;
-		//TODO Figure out why this is here refreshLabelsGame();
 	}
 	public void addMoveMadeByPlayer(Deplacement d){
 		addMove(d);
@@ -324,14 +339,15 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private void enableBrowserView(){
 		YACG.switchClickable(false);
 		isBrowserView=true;
-		//TODO BORDER
+		switchBrowserViewBorder(true);
 		YACG.switchBorder(false);
 		addLogsText("    > STATE ----> Browser view !");
-		//TODO get a table of FEN
+		//TODO get a table of FEN, already done, I think...
 	}
 	private void disableBrowserView(){
 		YACG.switchClickable(true);
 		isBrowserView=false;
+		switchBrowserViewBorder(false);
 		YACG.switchBorder(true);
 		addLogsText("    > STATE ----> Game view!");
 	}
@@ -348,7 +364,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			refreshLabelsGame();
 		}
 	}
-	private void browserViewNext(){//TODO fix this shit
+	private void browserViewNext(){
 		if(!isBrowserView)
 			enableBrowserView();
 		if(moveListCursor<moveList.size()){
@@ -357,8 +373,6 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			//YACG.makeDeplacement(moveList.get(moveListCursor-1));
 			addLogsText("Next, moveList : "+moveList.size()+", cursor : "+moveListCursor);
 			YACG.makeDrawFen(FENList.get(moveListCursor-1));
-		}else{//put the arrow in grey
-			
 		}
 		refreshLabelsGame();
 	}
@@ -413,6 +427,13 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			testFrameTextArea.append("FENList size is : "+FENList.size());
 		}
 	}
+	private void switchBrowserViewBorder(boolean b){
+		if(b){
+			panelLeftMenuBrowse.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(0, 255, 255), new Color(0, 255, 255), new Color(0, 255, 255), new Color(0, 255, 255)));
+		}else{
+			panelLeftMenuBrowse.setBorder(new EmptyBorder(0, 0, 0, 0));
+		}
+	}
 	public void loadGame() {//TODO multiple moveLists I don't know why
 		disableBrowserView();//We are in a game
 		// moveList=new ArrayList<Deplacement>(FileController.loadFile());
@@ -441,7 +462,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 		}
 		//moveListCursor = moveList.size()-1;
-		// TODO check if a piece was clicked on, which player has to play (??)
+	
 
 	}
 
