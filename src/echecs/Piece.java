@@ -17,11 +17,14 @@ public class Piece {
 	private String nom;
 	private char code;
 	private String couleur;
+	// Tell if the piece moved during the game, useful for roque,
+	// prise-en-passant (omelette du fromage, etc
+	private boolean moved;
+
 	/**
 	 * Various rules
 	 * 
-	 * min and max for each directions
-	 * boolean to (dis)allow backward moves
+	 * min and max for each directions boolean to (dis)allow backward moves
 	 */
 	private int minX, maxX, minY, maxY, minDiag, maxDiag;
 	private boolean backward;
@@ -29,22 +32,148 @@ public class Piece {
 	ArrayList<Position> accessible = new ArrayList<>();
 
 	/**
-	 * Définit une pièce en fonction de son non, son code et sa couleur
+	 * Create a piece by its name, code and color
 	 * 
 	 * @param nom
 	 * @param code
 	 * @param couleur
 	 */
-	Piece(String nom, char code) {
+	public Piece(String nom, char code) {
 		this.nom = nom;
 		this.code = code;
 		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
+
+		minX = 0;
+		maxX = 0;
+		minY = 0;
+		maxY = 0;
+		minDiag = 0;
+		maxDiag = 0;
+		setMoved(backward = false);
 	}
 
+	/**
+	 * Build a chess piece with a name, a code, a color, and its possible moves
+	 * 
+	 * @param nom
+	 * @param code
+	 * @param couleur
+	 * @param depHor
+	 *            Whether it can move horizontally or not
+	 * @param depVer
+	 *            Whether it can move vertically or not
+	 * @param depDiag
+	 *            Whether it can move in diagonal or not
+	 * @param backward
+	 *            Whether it can move backward or not
+	 */
+	public Piece(String nom, char code, boolean depHor, boolean depVer, boolean depDiag, boolean backward) {
+		this.nom = nom;
+		this.code = code;
+		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
+
+		this.backward = backward;
+		this.setMoved(false);
+
+		minX = 0;
+		maxX = ((depHor) ? 99 : 0);
+		minY = 0;
+		maxY = ((depVer) ? 99 : 0);
+		minDiag = 0;
+		maxDiag = ((depDiag) ? 99 : 0);
+	}
+
+	public Piece(String nom, char code, int minX, int maxX, int minY, int maxY, int minDiag, int maxDiag,
+			boolean backward) {
+		this.nom = nom;
+		this.code = code;
+		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
+
+		this.backward = backward;
+		this.setMoved(false);
+
+		this.minX = minX;
+		this.maxX = maxX;
+		this.minY = minY;
+		this.maxY = maxY;
+		this.minDiag = minDiag;
+		this.maxDiag = maxDiag;
+	}
+
+	/**
+	 * Constructor that build a chess piece with the same caracs as the entered
+	 * one Useful for 'type' pieces (no color choice here)
+	 * 
+	 * @param p
+	 *            The piece to copy
+	 */
 	Piece(Piece p) {
 		this.nom = new String(p.nom);
 		this.code = p.code;
 		this.couleur = new String(p.couleur);
+
+		this.minX = p.minX;
+		this.maxX = p.maxX;
+		this.minY = p.minY;
+		this.maxY = p.maxY;
+		this.minDiag = p.minDiag;
+		this.maxDiag = p.maxDiag;
+		this.backward = p.backward;
+		this.setMoved(false);
+	}
+
+	/**
+	 * Copy constructor, here we chose the color, and it's wonderful !
+	 * 
+	 * @param p
+	 *            The piece to copy
+	 * @param color
+	 *            The color of the new piece
+	 */
+	Piece(Piece p, char color) {
+		this.nom = new String(p.nom);
+		this.code = ((color == 'w') ? Character.toUpperCase(p.code) : p.code);
+		this.couleur = ((color == 'w') ? "blanc" : "noir");
+
+		this.minX = p.minX;
+		this.maxX = p.maxX;
+		this.minY = p.minY;
+		this.maxY = p.maxY;
+		this.minDiag = p.minDiag;
+		this.maxDiag = p.maxDiag;
+		this.backward = p.backward;
+		this.setMoved(false);
+	}
+
+	/**
+	 * Constructor mainly used for the knight. I call it : "The Horse builder",
+	 * it does sound kinda awesome for me ! And it's very ingenious cause a
+	 * knight is riding a horse, so when you construct (or build ;) ) a knight,
+	 * you have to build the horse too ! I could have call it "The Armorsmith"
+	 * too, following this
+	 * 
+	 * @param nom
+	 *            Name of the piece
+	 * @param code
+	 *            Code of the piece
+	 * @param minX
+	 *            Its lower move cap
+	 * @param maxX
+	 *            Its bigger move cap
+	 */
+	public Piece(String nom, char code, int minX, int maxX) {
+		this.nom = nom;
+		this.code = code;
+		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
+
+		this.backward = true;
+		this.minX = minX;
+		this.maxX = maxX;
+		this.minY = 0;
+		this.maxY = 0;
+		this.minDiag = 0;
+		this.maxDiag = 0;
+		this.setMoved(false);
 	}
 
 	/**
@@ -53,6 +182,7 @@ public class Piece {
 	 * @param code
 	 */
 	public Piece(char code) {
+		// TODO useless like this, the piece won't move
 		this.code = code;
 		switch (code) {
 		case 'k':
@@ -104,6 +234,15 @@ public class Piece {
 			couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 			break;
 		}
+
+		minX = 0;
+		maxX = 0;
+		minY = 0;
+		maxY = 0;
+		minDiag = 0;
+		maxDiag = 0;
+		backward = false;
+		setMoved(false);
 	}
 
 	/**
@@ -158,9 +297,9 @@ public class Piece {
 	public void addCaseAccessible(Position p) {
 		accessible.add(p);
 	}
-	
-	public void suppCaseAccessible(Position p){
-		if(accessible.contains(p))
+
+	public void suppCaseAccessible(Position p) {
+		if (accessible.contains(p))
 			accessible.remove(p);
 	}
 
@@ -171,69 +310,77 @@ public class Piece {
 	public void videAccessible() {
 		accessible = new ArrayList<>();
 	}
-	
+
 	/**
 	 * Getters & setters for moves capacity
 	 */
-	public int getMinX(){
+	public int getMinX() {
 		return minX;
 	}
-	
-	public void setMinX(int i){
+
+	public void setMinX(int i) {
 		this.minX = i;
 	}
-	
-	
-	public int getMaxX(){
+
+	public int getMaxX() {
 		return maxX;
 	}
-	
-	public void setMaxX(int i){
+
+	public void setMaxX(int i) {
 		this.maxX = i;
 	}
-	
-	
-	public int getMinY(){
+
+	public int getMinY() {
 		return minY;
 	}
-	
-	public void setMinY(int i){
+
+	public void setMinY(int i) {
 		this.minY = i;
 	}
-	
-	
-	public int getMaxY(){
+
+	public int getMaxY() {
 		return maxY;
 	}
-	
-	public void setMaxY(int i){
+
+	public void setMaxY(int i) {
 		this.maxY = i;
 	}
-	
-	
-	public int getMinDiag(){
+
+	public int getMinDiag() {
 		return minDiag;
 	}
-	
-	public void setMinDiag(int i){
+
+	public void setMinDiag(int i) {
 		this.minDiag = i;
 	}
-	
-	
-	public int getMaxDiag(){
+
+	public int getMaxDiag() {
 		return maxDiag;
 	}
-	
-	public void setMaxDiag(int i){
+
+	public void setMaxDiag(int i) {
 		this.maxDiag = i;
 	}
-	
-	
-	public boolean getBackward(){
+
+	public boolean getBackward() {
 		return backward;
 	}
-	
-	public void setBackward(boolean b){
+
+	public void setBackward(boolean b) {
 		this.backward = b;
+	}
+
+	/**
+	 * @return the moved
+	 */
+	public boolean isMoved() {
+		return moved;
+	}
+
+	/**
+	 * @param moved the moved to set
+	 */
+	public void setMoved(boolean moved) {
+		this.moved = moved;
 	}
 }
