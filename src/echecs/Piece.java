@@ -49,7 +49,7 @@ public class Piece {
 		maxY = 0;
 		minDiag = 0;
 		maxDiag = 0;
-		setMoved(backward = false);
+		moved = backward = false;
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class Piece {
 		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 
 		this.backward = backward;
-		this.setMoved(false);
+		this.moved = false;
 
 		minX = 0;
 		maxX = ((depHor) ? 99 : 0);
@@ -90,7 +90,7 @@ public class Piece {
 		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 
 		this.backward = backward;
-		this.setMoved(false);
+		this.moved = false;
 
 		this.minX = minX;
 		this.maxX = maxX;
@@ -119,7 +119,7 @@ public class Piece {
 		this.minDiag = p.minDiag;
 		this.maxDiag = p.maxDiag;
 		this.backward = p.backward;
-		this.setMoved(false);
+		this.moved = false;
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class Piece {
 		this.minDiag = p.minDiag;
 		this.maxDiag = p.maxDiag;
 		this.backward = p.backward;
-		this.setMoved(false);
+		this.moved = false;
 	}
 
 	/**
@@ -173,7 +173,7 @@ public class Piece {
 		this.maxY = 0;
 		this.minDiag = 0;
 		this.maxDiag = 0;
-		this.setMoved(false);
+		this.moved = false;
 	}
 
 	/**
@@ -242,7 +242,7 @@ public class Piece {
 		minDiag = 0;
 		maxDiag = 0;
 		backward = false;
-		setMoved(false);
+		moved = false;;
 	}
 
 	/**
