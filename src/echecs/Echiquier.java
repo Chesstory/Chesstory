@@ -651,7 +651,6 @@ public class Echiquier {
 		boolean estBlanc = c[i][j].getPiece().estBlanc();
 		
 		
-		
 	}	
 		// roques
 		/*
@@ -939,8 +938,8 @@ public class Echiquier {
 						if (p.getCode() == 'p' && !p.getBackward() && p.getMaxDiag() == 0 && p.getMaxX() == 0)
 							accessiblePionNoir(i, j, p);
 
-						/*if ((p.getCode() == 'k' && roquek) || (p.getCode() == 'K' && roqueK))
-							geranceDuRoque(i, j);*/
+						if ((p.getCode() == 'k' && roquek) || (p.getCode() == 'K' && roqueK))
+							geranceDuRoque(i, j);
 
 						Position posPiece = new Position(i, j);
 						int parcoursX;

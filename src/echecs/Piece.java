@@ -17,6 +17,10 @@ public class Piece {
 	private String nom;
 	private char code;
 	private String couleur;
+	// Tell if the piece moved during the game, useful for roque,
+	// prise-en-passant (omelette du fromage, etc
+	private boolean moved;
+
 	/**
 	 * Various rules
 	 * 
@@ -28,7 +32,7 @@ public class Piece {
 	ArrayList<Position> accessible = new ArrayList<>();
 
 	/**
-	 * Définit une pièce en fonction de son non, son code et sa couleur
+	 * Create a piece by its name, code and color
 	 * 
 	 * @param nom
 	 * @param code
@@ -45,7 +49,7 @@ public class Piece {
 		maxY = 0;
 		minDiag = 0;
 		maxDiag = 0;
-		backward = false;
+		setMoved(backward = false);
 	}
 
 	/**
@@ -69,6 +73,8 @@ public class Piece {
 		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 
 		this.backward = backward;
+		this.setMoved(false);
+
 		minX = 0;
 		maxX = ((depHor) ? 99 : 0);
 		minY = 0;
@@ -84,6 +90,8 @@ public class Piece {
 		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 
 		this.backward = backward;
+		this.setMoved(false);
+
 		this.minX = minX;
 		this.maxX = maxX;
 		this.minY = minY;
@@ -111,6 +119,7 @@ public class Piece {
 		this.minDiag = p.minDiag;
 		this.maxDiag = p.maxDiag;
 		this.backward = p.backward;
+		this.setMoved(false);
 	}
 
 	/**
@@ -133,6 +142,7 @@ public class Piece {
 		this.minDiag = p.minDiag;
 		this.maxDiag = p.maxDiag;
 		this.backward = p.backward;
+		this.setMoved(false);
 	}
 
 	/**
@@ -147,9 +157,9 @@ public class Piece {
 	 * @param code
 	 *            Code of the piece
 	 * @param minX
-	 *            Its lower move choice
+	 *            Its lower move cap
 	 * @param maxX
-	 *            Its bigger move choice
+	 *            Its bigger move cap
 	 */
 	public Piece(String nom, char code, int minX, int maxX) {
 		this.nom = nom;
@@ -163,6 +173,7 @@ public class Piece {
 		this.maxY = 0;
 		this.minDiag = 0;
 		this.maxDiag = 0;
+		this.setMoved(false);
 	}
 
 	/**
@@ -231,6 +242,7 @@ public class Piece {
 		minDiag = 0;
 		maxDiag = 0;
 		backward = false;
+		setMoved(false);
 	}
 
 	/**
@@ -356,5 +368,19 @@ public class Piece {
 
 	public void setBackward(boolean b) {
 		this.backward = b;
+	}
+
+	/**
+	 * @return the moved
+	 */
+	public boolean isMoved() {
+		return moved;
+	}
+
+	/**
+	 * @param moved the moved to set
+	 */
+	public void setMoved(boolean moved) {
+		this.moved = moved;
 	}
 }
