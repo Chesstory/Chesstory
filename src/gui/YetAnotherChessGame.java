@@ -308,7 +308,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 				// Put king in a yoloswaggy color if echec
 				if (ech.estEnEchec(ech.getTrait())) {
 					surbrillance(ech.rechercheRoi(ech.getTrait()), Color.MAGENTA);
-					chesstoryGame.chess
+				//	chesstoryGame.chess
 				}
 
 				first = true;
