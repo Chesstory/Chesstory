@@ -458,25 +458,18 @@ public class Echiquier {
 				piece = new Piece(dameType, 'w');
 			}
 
-			// autoriser la prise en passant si et seulement si avance de 2 pour
-			// un pion
-			priseEnPassant = null;
-
-			if ((codePiece == 'P') && y1 == 1 && y2 == 3) {
-				priseEnPassant = new Position(x1, y1 + 1);
-			}
-			if ((codePiece == 'p') && y1 == 6 && y2 == 4) {
-				priseEnPassant = new Position(x1, y1 - 1);
-			}
-
-			// cas de la prise en passant
-			if (Character.toUpperCase(codePiece) == 'P' && y1 != y2 && c[x2][y2].estVide()) {
-				priseEnPassantEnCours = true;
+			// Prise en passant (i'vre written this word so many times ... Still
+			// doesn't know him in english :( )
+			// So : it has to be a pawn, with pawn's deplacements who try to go
+			// where he could not go
+			if (Character.toLowerCase(codePiece) == 'p' && piece.getMaxDiag() == 0 && piece.getMaxX() == 0
+					&& !piece.getBackward() && d.deplacementDiagonal() == 1)
 				c[x2][y1].vider();
-			}
 
-			// cas du roque
-			if (Character.toLowerCase(codePiece) == 'k' && y1 == y2 && Math.abs(d.deplacementHorizontal()) > piece.getMaxX()) {
+			// In case of : roque (king, on the same line, which move further
+			// than it can
+			if (Character.toLowerCase(codePiece) == 'k' && y1 == y2
+					&& Math.abs(d.deplacementHorizontal()) > piece.getMaxX()) {
 				Piece tour;
 				if (x2 > x1) {
 					if (piece.estBlanc()) {
@@ -493,7 +486,7 @@ public class Echiquier {
 						tour = c[roqueL][y1].getPiece();
 						c[x1 - 1][y1].setPiece(tour);
 						c[roqueL][y1].vider();
-					} else{
+					} else {
 						tour = c[roquel][y1].getPiece();
 						c[x1 - 1][y1].setPiece(tour);
 						c[roquel][y1].vider();
@@ -504,6 +497,18 @@ public class Echiquier {
 			c[x2][y2].setPiece(piece);
 			c[x1][y1].vider();
 
+			// We do our business with this little boolean that help a lot for
+			// roque and prise-en-passant (srsly i have to search those words in
+			// english ... jambon-beurre)
+
+			// Here, if the king or tower moved (roque)
+			if (Character.toLowerCase(codePiece) == 'k' || Character.toLowerCase(codePiece) == 'r')
+				piece.setMoved(true);
+
+			// Here for the pawns, if they jump one more case, for the PeP(si)
+			if (Character.toLowerCase(codePiece) == 'p' && piece.getMaxDiag() == 0 && piece.getMaxX() == 0
+					&& !piece.getBackward())
+				piece.setMoved(Math.abs(d.deplacementVertical()) == piece.getMaxY() + 1);
 		}
 		// on change le trait
 		trait = (trait == 'w' ? 'b' : 'w');
@@ -804,28 +809,15 @@ public class Echiquier {
 				parcJ++;
 			}
 		}
-
-		// prise en passant à gauche
-		/*
-		 * try { if ((j == 4) && c[i - 1][4].getPiece().getCode() == 'p') {
-		 * Position pep = new Position(i - 1, 5); if
-		 * (pep.equals(priseEnPassant)) {
-		 * c[i][j].getPiece().addCaseAccessible(pep); } } } catch
-		 * (ArrayIndexOutOfBoundsException | NullPointerException e) {
-		 */
-		// rien à faire puisque la pièce ou la case n'existe pas...
-		// }
-
-		// prise en passant à droite
-		/*
-		 * try { if ((j == 4) && c[i + 1][4].getPiece().getCode() == 'p') {
-		 * Position pep = new Position(i + 1, 5); if
-		 * (pep.equals(priseEnPassant)) {
-		 * c[i][j].getPiece().addCaseAccessible(pep); } } } catch
-		 * (ArrayIndexOutOfBoundsException | NullPointerException e) {
-		 */
-		// rien à faire puisque la pièce ou la case n'existe pas...
-		// }
+		// Prise en passant (baguette)
+		// Right one
+		if (existeCase(i + 1, j) && !c[i + 1][j].estVide() && c[i + 1][j].getPiece().getCode() == 'p'
+				&& c[i + 1][j].getPiece().isMoved() && c[i + 1][j + 1].estVide())
+			p.addCaseAccessible(new Position(i + 1, j + 1));
+		// Left one
+		if (existeCase(i - 1, j) && !c[i - 1][j].estVide() && c[i - 1][j].getPiece().getCode() == 'p'
+				&& c[i - 1][j].getPiece().isMoved() && c[i - 1][j + 1].estVide())
+			p.addCaseAccessible(new Position(i - 1, j + 1));
 	}
 
 	/**
@@ -894,29 +886,15 @@ public class Echiquier {
 				parcJ--;
 			}
 		}
-
-		// prise en passant à gauche
-		/*
-		 * try { if ((j == 3) && c[i - 1][3].getPiece().getCode() == 'P') {
-		 * Position pep = new Position(i - 1, 2); if
-		 * (pep.equals(priseEnPassant)) {
-		 * c[i][j].getPiece().addCaseAccessible(pep); } } } catch
-		 * (ArrayIndexOutOfBoundsException | NullPointerException e) {
-		 */
-		// rien à faire puisque la pièce ou la case n'existe pas...
-		// }
-
-		// prise en passant à droite
-		/*
-		 * try
-		 * 
-		 * { if ((j == 3) && c[i + 1][3].getPiece().getCode() == 'P') { Position
-		 * pep = new Position(i + 1, 2); if (pep.equals(priseEnPassant)) {
-		 * c[i][j].getPiece().addCaseAccessible(pep); } } } catch
-		 * (ArrayIndexOutOfBoundsException | NullPointerException e) {
-		 */
-		// rien à faire puisque la pièce ou la case n'existe pas...
-		// }
+		// Prise en passant (baguette)
+		// Right one
+		if (existeCase(i + 1, j) && !c[i + 1][j].estVide() && c[i + 1][j].getPiece().getCode() == 'P'
+				&& c[i + 1][j].getPiece().isMoved() && c[i + 1][j - 1].estVide())
+			p.addCaseAccessible(new Position(i + 1, j - 1));
+		// Left one
+		if (existeCase(i - 1, j) && !c[i - 1][j].estVide() && c[i - 1][j].getPiece().getCode() == 'P'
+				&& c[i - 1][j].getPiece().isMoved() && c[i - 1][j - 1].estVide())
+			p.addCaseAccessible(new Position(i - 1, j - 1));
 	}
 
 	/**
