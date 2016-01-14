@@ -413,11 +413,13 @@ public class Echiquier {
 			if (codePiece == 'p' && (y2 == 0)) {
 				promotion = true;
 				piece = new Piece(dameType, 'b');
+				yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_PROM, "Promotion noir");
 			}
 			// cas du pion blanc sur dernière rangée
 			if (codePiece == 'P' && (y2 == dimY - 1)) {
 				promotion = true;
 				piece = new Piece(dameType, 'w');
+				yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_PROM, "Promotion blanc");
 			}
 
 			// Prise en passant (i'vre written this word so many times ... Still

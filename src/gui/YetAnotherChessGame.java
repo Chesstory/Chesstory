@@ -37,6 +37,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	public final static int CHESS_EVENT_ROQUE = 4;
 	// Prise en passant (BEP des pauvres)
 	public final static int CHESS_EVENT_PEP = 5;
+	public final static int CHESS_EVENT_PROM = 6;
 
 	/**
 	 * Paneau de fond111
