@@ -36,7 +36,8 @@ import static gui.YetAnotherChessGame.*;
 
 public class ChesstoryGame extends JFrame implements MouseListener {
 	// static YetAnotherChessGame YACG;
-
+	public static final int GAMETYPE_CLASSICAL=1;
+	
 	private YetAnotherChessGame YACG;
 	// >Interface
 	public static JFrame f;
@@ -79,7 +80,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private JFrame testFrame;
 	private JTextArea testFrameTextArea;
 
-	public ChesstoryGame(String title, int gameType) {
+	public ChesstoryGame(String title, int gameType, JFrame f) {
 		this.gameType = gameType;
 
 		/*
@@ -99,15 +100,16 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			// and feel.
 		}
 
-		f = new JFrame();
+		/*f = new JFrame();
 
 		// f.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		f.setSize(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width,
 				GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height);
 		f.setForeground(Color.BLUE);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setVisible(true);
+		f.setVisible(true);*/
 		// Chessboard
+		this.f=f;
 		YACG = new YetAnotherChessGame(fenDeDepart, this);
 
 		f.setVisible(true);
@@ -337,15 +339,17 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	}
 	public void chessEvent(int i, String s){
 		switch(i){
-		case 1:addLogsText("EVENT ECHEC : "+s);
+		case CHESS_EVENT_ECHEC:addLogsText("EVENT ECHEC : "+s);
 		break;
-		case 2:addLogsText("EVENT MAT : "+s);
+		case CHESS_EVENT_MAT:addLogsText("EVENT MAT : "+s);
 		break;
-		case 3:addLogsText("EVENT PAT : "+s);
+		case CHESS_EVENT_PAT:addLogsText("EVENT PAT : "+s);
 		break;
-		case 4:addLogsText("EVENT ROQUE : "+s);
+		case CHESS_EVENT_ROQUE:addLogsText("EVENT ROQUE : "+s);
 		break;
-		case 5:addLogsText("EVENT PRISE EN PASSANT : "+s);
+		case CHESS_EVENT_PEP:addLogsText("EVENT PRISE EN PASSANT : "+s);
+		break;
+		case CHESS_EVENT_PROM:addLogsText("EVENT PROMOTION : "+s);
 		break;
 		default:addLogsText("Error : chessEvent (), this should not be displayed"+s);
 		break;
