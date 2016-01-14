@@ -28,7 +28,6 @@ import javax.swing.border.BevelBorder;
 @SuppressWarnings("serial")
 public final class YetAnotherChessGame extends JFrame implements MouseListener, MouseMotionListener {
 
-	
 	/**
 	 * Event gesture
 	 */
@@ -36,9 +35,9 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	public final static int CHESS_EVENT_MAT = 2;
 	public final static int CHESS_EVENT_PAT = 3;
 	public final static int CHESS_EVENT_ROQUE = 4;
-	//Prise en passant (BEP des pauvres)
+	// Prise en passant (BEP des pauvres)
 	public final static int CHESS_EVENT_PEP = 5;
-	
+
 	/**
 	 * Paneau de fond111
 	 */
@@ -209,17 +208,18 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		// TODO a good looking shit to initialize pieces :3
 
 		this.chesstoryGame = chesstoryGame;
-		//ech = new Echiquier();
+		// ech = new Echiquier();
 
 		// This a test with the classical chess pieces
-		ech = new Echiquier(new Piece("pion", 'p', 0, 0, 1, 1, 0, 0, false), new Piece("dame", 'q', true, true, true, true),
-				new Piece("roi", 'k', 1, 1, 1, 1, 1, 1, true), new Piece("cavalier", 'n',1,2),
-				new Piece("fou", 'b', false, false, true, true), new Piece("tour", 'r', true, true, false, true));
-		
+		ech = new Echiquier(new Piece("pion", 'p', 0, 0, 1, 1, 0, 0, false),
+				new Piece("dame", 'q', true, true, true, true), new Piece("roi", 'k', 1, 1, 1, 1, 1, 1, true),
+				new Piece("cavalier", 'n', 1, 2), new Piece("fou", 'b', false, false, true, true),
+				new Piece("tour", 'r', true, true, false, true));
+
 		ech.setFEN(fenDeDeapart);
-		
+
 		// Pour le test !
-		//ech.setFEN("kqqqqqqq/8/8/3B1b2/8/8/8/K5QR");
+		// ech.setFEN("kqqqqqqq/8/8/3B1b2/8/8/8/K5QR");
 
 		Dimension boardSize = new Dimension(600, 600);
 
@@ -250,7 +250,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 				square.setBackground(i % 2 == 0 ? Color.getHSBColor(0.56f, 1.0f, 0.8f) : Color.white);
 			}
 		}
-		//tu pues du cul
+		// tu pues du cul
 		dessineToutesLesPieces();
 	}
 
@@ -308,7 +308,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 				// Put king in a yoloswaggy color if echec
 				if (ech.estEnEchec(ech.getTrait())) {
 					surbrillance(ech.rechercheRoi(ech.getTrait()), Color.MAGENTA);
-				//	chesstoryGame.chess
+					// chesstoryGame.chess
 				}
 
 				first = true;
@@ -342,6 +342,10 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		}
 	}
 
+	public void eventInter(int event, String s) {
+		chesstoryGame.chessEvent(event, s);
+	}
+
 	public void switchBorder(boolean b) {
 		if (b) {
 			chessBoard.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(0, 255, 255), new Color(0, 255, 255),
@@ -369,9 +373,11 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	public void mouseExited(MouseEvent e) {
 
 	}
-	public String getFEN(){
+
+	public String getFEN() {
 		return ech.getFEN();
 	}
+
 	public JLayeredPane CreationChessboard() {
 		return layeredPane;
 	}
