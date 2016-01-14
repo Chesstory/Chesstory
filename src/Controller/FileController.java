@@ -118,6 +118,7 @@ abstract class FileController {
 		// int retrival = chooser.showSaveDialog(null);
 		if (retrival == JFileChooser.APPROVE_OPTION) {
 			try (FileReader fileReader = new FileReader(chooser.getSelectedFile())) {
+				@SuppressWarnings("resource")
 				BufferedReader bufferedReader = new BufferedReader(fileReader);
 				while ((line[nbLine] = bufferedReader.readLine()) != null && !isFileCorrupted) {// Reading
 																								// of

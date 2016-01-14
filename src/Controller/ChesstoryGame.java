@@ -12,13 +12,12 @@ import javax.swing.*;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GraphicsEnvironment;
+
 import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.GridLayout;
 import java.util.ArrayList;
-import java.util.concurrent.BrokenBarrierException;
+
 
 import gui.YetAnotherChessGame;
 import echecs.Deplacement;
@@ -31,10 +30,15 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.text.DefaultCaret;
 
-import java.awt.SystemColor;
+
 import static gui.YetAnotherChessGame.*;
 
 public class ChesstoryGame extends JFrame implements MouseListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	// static YetAnotherChessGame YACG;
 	public static final int GAMETYPE_CLASSICAL=1;
 	
@@ -80,6 +84,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private JFrame testFrame;
 	private JTextArea testFrameTextArea;
 
+	@SuppressWarnings("static-access")
 	public ChesstoryGame(String title, int gameType, JFrame f) {
 		this.gameType = gameType;
 
@@ -227,7 +232,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		panelLeftChessboard = new JPanel();
 		panelLeftChessboard.setSize(new Dimension(600, 600));
 		panelLeftChessboard.setMinimumSize(new Dimension(600, 600));
-		FlowLayout flowLayout = (FlowLayout) panelLeftChessboard.getLayout();
+		//FlowLayout flowLayout = (FlowLayout) panelLeftChessboard.getLayout();
 		GridBagConstraints gbc_panelLeftChessboard = new GridBagConstraints();
 		gbc_panelLeftChessboard.insets = new Insets(0, 0, 5, 0);
 		gbc_panelLeftChessboard.fill = GridBagConstraints.BOTH;
@@ -239,7 +244,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		f.getContentPane().add(panelLeft);
 
 		panelRight = new JPanel();
-		FlowLayout flowLayout_1 = (FlowLayout) panelRight.getLayout();
+		//FlowLayout flowLayout_1 = (FlowLayout) panelRight.getLayout();
 		panelRight.setBorder(new LineBorder(Color.RED));
 		panelRight.setBackground(Color.darkGray);
 
@@ -478,7 +483,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		}
 	}
 
-	public void loadGame() {// TODO multiple moveLists I don't know why
+	public void loadGame() {
 		disableBrowserView();// We are in a game
 		// moveList=new ArrayList<Deplacement>(FileController.loadFile());
 		System.out.println("---->Loading file");
@@ -494,7 +499,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		moveListCursor = 0;
 		moveList.clear();
 		System.out.println("Load game, id: " + gameId + ", type: " + gameType);
-		YACG.makeDrawFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+		YACG.makeDrawFen(gameSave.getFEN());
+		//TODO set rules
 		FENList.clear();
 
 		for (int i = 0; i < gameSave.getMoveList().size(); i++) {
@@ -513,7 +519,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	public void saveGame() {
 		// TODO game id generator
 		gameId = 1;
-		GameSave g = new GameSave(true, gameId, gameType, moveList);
+		GameSave g = new GameSave(true, gameId, gameType, moveList," ", new String[6]);
+		//TODO get FEN and array of rules
+		
 		FileController.saveFile(g);
 	}
 

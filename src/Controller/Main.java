@@ -16,6 +16,7 @@ public class Main {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.revalidate();
+		@SuppressWarnings("unused")
 		ChesstoryGame c = new ChesstoryGame("Test 1", 1, frame);
 	}
 
