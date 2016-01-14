@@ -45,7 +45,7 @@ public class Echiquier {
 	 */
 	public Echiquier() {
 		this(8, 8);
-		
+
 		existantPieces = new Piece[nbMaxPiece];
 	}
 
@@ -76,9 +76,10 @@ public class Echiquier {
 
 	}
 
-	public Echiquier(Piece pion, Piece dame, Piece roi, Piece cavalier, Piece fou, Piece tour,YetAnotherChessGame yacg) {
+	public Echiquier(Piece pion, Piece dame, Piece roi, Piece cavalier, Piece fou, Piece tour,
+			YetAnotherChessGame yacg) {
 		this(8, 8);
-		this.yacg=yacg;
+		this.yacg = yacg;
 		initPieces(pion, dame, roi, cavalier, fou, tour);
 	}
 
@@ -1147,8 +1148,9 @@ public class Echiquier {
 				if (p != null) {
 					if (p.getColor() != couleur) {
 						if (p.getAccessible().contains(pos)) {
-							yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_ECHEC,
-									((couleur == 'w') ? "blanc" : "noir"));
+							// TODO fix that
+							// yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_ECHEC,
+							// ((couleur == 'w') ? "blanc" : "noir"));
 							return true;
 						}
 					}
@@ -1254,9 +1256,6 @@ public class Echiquier {
 				if (!existantPieces[i].getAccessible().isEmpty())
 					blackCantMove = false;
 			}
-			if(whiteCantMove || blackCantMove || blackKingAlone || whiteKingAlone)
-				i = k;
-			
 			i++;
 		}
 
