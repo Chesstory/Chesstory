@@ -7,6 +7,9 @@ package echecs;
 
 import java.util.ArrayList;
 
+import Controller.ChesstoryGame;
+import gui.YetAnotherChessGame;
+
 /**
  *
  * @author samuel
@@ -16,12 +19,12 @@ public class Echiquier {
 	private Case[][] c;
 	private int dimX, dimY;
 
+	private YetAnotherChessGame yacg;
+
 	char trait;
 
 	// false par défaut
-	boolean roqueq, roqueQ, roquek, roqueK;
 	boolean roque;
-	boolean roqueEncours;
 	int roqueL, roqueR, roquel, roquer;
 
 	// pour la fin de partie
@@ -30,9 +33,6 @@ public class Echiquier {
 
 	// pour la promotion
 	boolean promotion = false;
-	private boolean petitRoqueEnCours = false;
-	private boolean grandRoqueEnCours = false;
-	private boolean priseEnPassantEnCours = false;
 
 	// position de la prise en passant éventuelle
 	Position priseEnPassant;
@@ -245,21 +245,11 @@ public class Echiquier {
 
 			// troisième partie
 			try {
-				if (code[2].contains("k")) {
-					roquek = true;
-				}
-				if (code[2].contains("K")) {
-					roqueK = true;
-				}
-				if (code[2].contains("q")) {
-					roqueq = true;
-				}
-				if (code[2].contains("Q")) {
-					roqueQ = true;
-				}
+				if (code[2].contains("r"))
+					roque = true;
 			} catch (ArrayIndexOutOfBoundsException e) {
 				// sans indication, les roques sont possibles
-				roque = roquek = roqueK = roqueq = roqueQ = true;
+				roque = true;
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
 			throw (new MalformedFENException("le code " + FENcode + " n'est pas un code FEN valide"));
@@ -301,22 +291,10 @@ public class Echiquier {
 		res += (trait == 'w' ? " w" : " b");
 		res += " ";
 
-		if (roquek || roqueK || roqueq || roqueQ) {
-			if (roqueK) {
-				res += "K";
-			}
-			if (roqueQ) {
-				res += "Q";
-			}
-			if (roquek) {
-				res += "k";
-			}
-			if (roqueq) {
-				res += "q";
-			}
-		} else {
+		if (roque)
+			res += "r";
+		else
 			res += "-";
-		}
 
 		res += " ";
 		res += priseEnPassant == null ? "-" : priseEnPassant;
@@ -395,22 +373,6 @@ public class Echiquier {
 					if (!estVideCase(caseDePassage)) {
 						return false;
 					}
-
-					if (depl == 2 && c[x1][y1].getPiece().estBlanc() && !roqueK) {
-						return false;
-					}
-
-					if (depl == 2 && c[x1][y1].getPiece().estNoir() && !roquek) {
-						return false;
-					}
-
-					if (depl == -2 && c[x1][y1].getPiece().estBlanc() && !roqueQ) {
-						return false;
-					}
-
-					if (depl == -2 && c[x1][y1].getPiece().estNoir() && !roqueq) {
-						return false;
-					}
 				}
 			}
 			return verifiePasEchecsApres(d);
@@ -463,8 +425,11 @@ public class Echiquier {
 			// So : it has to be a pawn, with pawn's deplacements who try to go
 			// where he could not go
 			if (Character.toLowerCase(codePiece) == 'p' && piece.getMaxDiag() == 0 && piece.getMaxX() == 0
-					&& !piece.getBackward() && d.deplacementDiagonal() == 1)
+					&& !piece.getBackward() && d.deplacementDiagonal() == 1) {
 				c[x2][y1].vider();
+				yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_ROQUE,
+						((piece.getCode() == 'P') ? "Prise en passant blanc" : "Prise en passant noir"));
+			}
 
 			// In case of : roque (king, on the same line, which move further
 			// than it can
@@ -476,20 +441,24 @@ public class Echiquier {
 						tour = c[roqueR][y1].getPiece();
 						c[x1 + 1][y1].setPiece(tour);
 						c[roqueR][y1].vider();
+						yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_ROQUE, "Petit roque blanc");
 					} else {
 						tour = c[roquer][y1].getPiece();
 						c[x1 + 1][y1].setPiece(tour);
 						c[roquer][y1].vider();
+						yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_ROQUE, "Petit roque noir");
 					}
 				} else {
 					if (piece.estBlanc()) {
 						tour = c[roqueL][y1].getPiece();
 						c[x1 - 1][y1].setPiece(tour);
 						c[roqueL][y1].vider();
+						yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_ROQUE, "Grand roque blanc");
 					} else {
 						tour = c[roquel][y1].getPiece();
 						c[x1 - 1][y1].setPiece(tour);
 						c[roquel][y1].vider();
+						yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_ROQUE, "Grand roque noir");
 					}
 				}
 			}
@@ -1174,6 +1143,8 @@ public class Echiquier {
 				if (p != null) {
 					if (p.getColor() != couleur) {
 						if (p.getAccessible().contains(pos)) {
+							yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_ECHEC,
+									((couleur == 'w') ? "blanc" : "noir"));
 							return true;
 						}
 					}
@@ -1207,18 +1178,6 @@ public class Echiquier {
 
 	public boolean isPromotion() {
 		return promotion;
-	}
-
-	public boolean petitRoqueEnCours() {
-		return petitRoqueEnCours;
-	}
-
-	public boolean grandRoqueEnCours() {
-		return grandRoqueEnCours;
-	}
-
-	public boolean priseEnPassantEnCours() {
-		return priseEnPassantEnCours;
 	}
 
 	/**
