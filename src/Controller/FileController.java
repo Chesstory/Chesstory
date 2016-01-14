@@ -214,31 +214,33 @@ abstract class FileController {
 				ex.printStackTrace();
 				System.out.println("Unable to open file '" + fileName + "'");
 			}
-		}
-		// here we check if the number on line is correct
-		if (expectedNbOfLine == (nbLine - nbParaLine - 1)) {// 2 is the header
-															// and footer
-			isFileCorrupted = true;
-			System.out.println("ErrorFileLoad: expected nb of line: " + expectedNbOfLine + ", received :"
-					+ (nbLine - nbParaLine - 1));
-		}
-
-		// here we check if the game is correct : w,b,w,...
-		char last = a.get(0).getColor();
-		for (int i = 1; i < a.size(); i++) {
-			if (last == a.get(i).getColor()) {
+			// here we check if the number on line is correct
+			if (expectedNbOfLine == (nbLine - nbParaLine - 1)) {// 2 is the header
+																// and footer
 				isFileCorrupted = true;
-				System.out.print("ErrorFileLoad: The game is not correct at line: " + (i + 1 + nbParaLine)
-						+ ", because there is two consecutive turn of :" + last + "\n");
+				System.out.println("ErrorFileLoad: expected nb of line: " + expectedNbOfLine + ", received :"
+						+ (nbLine - nbParaLine - 1));
 			}
-			last = a.get(i).getColor();
-		}
 
-		// here we check is the footer was found
-		if (!foundFooter) {
-			isFileCorrupted = true;
-			System.out.println("ErrorFileLoad: Footer not found at the begining of the file");
+			// here we check if the game is correct : w,b,w,...
+			//Ici
+			char last = a.get(0).getColor();
+			for (int i = 1; i < a.size(); i++) {
+				if (last == a.get(i).getColor()) {
+					isFileCorrupted = true;
+					System.out.print("ErrorFileLoad: The game is not correct at line: " + (i + 1 + nbParaLine)
+							+ ", because there is two consecutive turn of :" + last + "\n");
+				}
+				last = a.get(i).getColor();
+			}
+
+			// here we check is the footer was found
+			if (!foundFooter) {
+				isFileCorrupted = true;
+				System.out.println("ErrorFileLoad: Footer not found at the begining of the file");
+			}
 		}
+		
 
 		return new GameSave(isFileCorrupted, game_id, game_type, a);
 	}

@@ -1,0 +1,11 @@
+>>>>||----Chesstory_SaveFile_Header--|
+1
+1
+6
+w P 5 1 5 2
+b p 6 6 6 4
+w N 6 0 7 2
+b b 5 7 7 5
+w N 7 2 6 4
+b b 7 5 6 4
+|--Chesstory_SaveFile_Footer----||<<<<
