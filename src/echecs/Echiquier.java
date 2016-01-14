@@ -255,6 +255,7 @@ public class Echiquier {
 				roque = true;
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
+			// TODO remove => dialog
 			throw (new MalformedFENException("le code " + FENcode + " n'est pas un code FEN valide"));
 		}
 		construitPositionsAccessibles();
@@ -503,7 +504,6 @@ public class Echiquier {
 	public boolean estValideDeplacement(Deplacement d) {
 		Piece p = c[d.getX1()][d.getY1()].getPiece();
 		if (p.getColor() == trait) {
-			construitPositionsAccessibles();
 			if (p.getAccessible().contains(d.getArrive()))
 				return true;
 		}
@@ -1128,6 +1128,7 @@ public class Echiquier {
 	}
 
 	public ArrayList<Position> affichePositionAccessibles(Position posPiece) {
+		// TODO Change name
 		int x = posPiece.getX();
 		int y = posPiece.getY();
 		Piece p = c[x][y].getPiece();
@@ -1222,9 +1223,9 @@ public class Echiquier {
 	public char verifiePartieTerminee() {
 		// TODO Other tests, like king + one "big" piece
 		// TODO Fix the mat Damon
-		construitPositionsAccessibles();
 
 		char end = 'n';
+		
 		// At start, we set those var true
 		boolean whiteKingAlone = true;
 		boolean blackKingAlone = true;
@@ -1234,12 +1235,15 @@ public class Echiquier {
 
 		int i;
 
+		construitPositionsAccessibles();
+		
 		// Check the existing pieces on the board
 		int k = 0;
 		for (i = 0; i < dimX; i++) {
 			for (int j = 0; j < dimY; j++) {
 				if (c[i][j].getPiece() != null) {
 					existantPieces[k] = c[i][j].getPiece();
+					affichePositionAccessibles(new Position(i,j));
 					k++;
 				}
 			}
@@ -1269,6 +1273,20 @@ public class Echiquier {
 			i++;
 		}
 
+		if(blackCantMove){
+			if(estEnEchec('b'))
+				yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_MAT, "Echec et mat en faveur des blancs");
+			else
+				yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_PAT, "Pat en faveur des blancs");
+		}
+		
+		if(whiteCantMove){
+			if(estEnEchec('w'))
+				yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_MAT, "Echec et mat en faveur des noirs");
+			else
+				yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_PAT, "Pat en faveur des noirs");
+		}
+		
 		if (blackKingAlone || blackCantMove)
 			end = 'w';
 		if (whiteKingAlone || whiteCantMove)

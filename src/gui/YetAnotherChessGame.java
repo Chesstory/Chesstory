@@ -217,10 +217,10 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 				new Piece("cavalier", 'n', 1, 2), new Piece("fou", 'b', false, false, true, true),
 				new Piece("tour", 'r', true, true, false, true),this);
 
-		ech.setFEN(fenDeDeapart);
+		//ech.setFEN(fenDeDeapart);
 
 		// Pour le test !
-		//ech.setFEN("kqqqqqqq/8/8/5b2/8/pppppppp/8/K5PP");
+		ech.setFEN("kqqqqqqq/8/8/5b2/pppppppp/8/8/K5PP");
 
 		Dimension boardSize = new Dimension(600, 600);
 
