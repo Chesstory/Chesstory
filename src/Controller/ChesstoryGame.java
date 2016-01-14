@@ -317,7 +317,6 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			color = "ERREUR_COULEUR";
 		}
 
-		// String s=color+" : Déplacement "+piece+", de "+x1+y1+" à "+x2+y2;
 		String s = color + " : Déplacement " + d;// TODO improve display
 		addLogsText(s);
 	}
