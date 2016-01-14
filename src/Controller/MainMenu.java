@@ -59,7 +59,7 @@ public class MainMenu {
 		bChooseClassical.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				leaveMainMenu();
+				panel.removeAll();
 				MainExe.switchToChesstoryGame(GAMETYPE_CLASSICAL);
 			}
 		});
@@ -72,9 +72,7 @@ public class MainMenu {
 		f.revalidate();
 		
 	}
-	private void leaveMainMenu(){
-		panel=null;
-	}
+	
 	
 
 }

@@ -178,10 +178,25 @@ abstract class FileController {
 							}
 						} else {
 							isFileCorrupted = true;
-							System.out.println("ErrorFileLoad: Fourth line should be a unique component -> game_type");
+							System.out.println("ErrorFileLoad: Fourth line should be a unique component -> number");
 						}
 						break;
-
+					case 4://FEN
+						if(splitted.length==1){
+							//TODO setFEN
+						}else {
+							isFileCorrupted = true;
+							System.out.println("ErrorFileLoad: Fift line should be a unique component -> game_type");
+						}
+						break;
+					case 5://FEN
+						if(splitted.length==1){
+							//TODO setFEN
+						}else {
+							isFileCorrupted = true;
+							System.out.println("ErrorFileLoad: Fift line should be a unique component -> game_type");
+						}
+						break;
 					default:// the list of moves
 						if (!splitted[0].equals("|--Chesstory_SaveFile_Footer----||<<<<")) {// test
 																							// if

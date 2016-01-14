@@ -1,12 +1,22 @@
 package Controller;
 
+import java.awt.Color;
+import java.awt.GraphicsEnvironment;
+
 import javax.swing.JFrame;
 
 public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		ChesstoryGame c = new ChesstoryGame("Test 1", 1, new JFrame());
+		JFrame frame=new JFrame();
+		frame.setSize(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width,
+				GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height);
+		frame.setForeground(Color.BLUE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+		frame.revalidate();
+		ChesstoryGame c = new ChesstoryGame("Test 1", 1, frame);
 	}
 
 }
