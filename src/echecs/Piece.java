@@ -242,7 +242,8 @@ public class Piece {
 		minDiag = 0;
 		maxDiag = 0;
 		backward = false;
-		moved = false;;
+		moved = false;
+		;
 	}
 
 	/**
@@ -378,9 +379,15 @@ public class Piece {
 	}
 
 	/**
-	 * @param moved the moved to set
+	 * @param moved
+	 *            the moved to set
 	 */
 	public void setMoved(boolean moved) {
 		this.moved = moved;
+	}
+
+	public String getMoveSet() {
+		return new String(nom + "," + code + "," + minX + "," + maxX + "," + minY + "," + maxY + "," + minDiag + ","
+				+ maxDiag + "," + backward);
 	}
 }

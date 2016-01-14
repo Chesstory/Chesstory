@@ -1209,7 +1209,8 @@ public class Echiquier {
 	 */
 	public char verifiePartieTerminee() {
 		// TODO Other tests, like king + one "big" piece
-		// TODO Fix the mat
+		// TODO Fix the mat Damon
+		construitPositionsAccessibles();
 
 		char end = 'n';
 		// At start, we set those var true
@@ -1252,8 +1253,10 @@ public class Echiquier {
 
 				if (!existantPieces[i].getAccessible().isEmpty())
 					blackCantMove = false;
-
 			}
+			if(whiteCantMove || blackCantMove || blackKingAlone || whiteKingAlone)
+				i = k;
+			
 			i++;
 		}
 
