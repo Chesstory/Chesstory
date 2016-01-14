@@ -215,9 +215,9 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		ech = new Echiquier(new Piece("pion", 'p', 0, 0, 1, 1, 0, 0, false),
 				new Piece("dame", 'q', true, true, true, true), new Piece("roi", 'k', 1, 1, 1, 1, 1, 1, true),
 				new Piece("cavalier", 'n', 1, 2), new Piece("fou", 'b', false, false, true, true),
-				new Piece("tour", 'r', true, true, false, true),this);
+				new Piece("tour", 'r', true, true, false, true), this);
 
-		//ech.setFEN(fenDeDeapart);
+		// ech.setFEN(fenDeDeapart);
 
 		// Pour le test !
 		ech.setFEN("kqqqqqqq/8/8/5b2/pppppppp/8/8/K5PP");
@@ -277,7 +277,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		if (isClickable) {
 			if (!first) {
 				chessPiece.setVisible(false);
-				//TODO PLUS RAPIDE FDP
+				// TODO PLUS RAPIDE FDP
 
 				JPanel panel = (JPanel) chessBoard
 						.getComponent((8 - depart.getY() - 1) * ech.getDimX() + depart.getX());
@@ -309,6 +309,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 
 				// Put king in a yoloswaggy color if echec
 				if (ech.estEnEchec(ech.getTrait())) {
+					eventInter(YetAnotherChessGame.CHESS_EVENT_ECHEC, ((ech.getTrait() == 'w') ? "blanc" : "noir"));
 					surbrillance(ech.rechercheRoi(ech.getTrait()), Color.MAGENTA);
 					// chesstoryGame.chess
 				}

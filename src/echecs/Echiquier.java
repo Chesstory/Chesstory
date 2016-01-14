@@ -523,8 +523,6 @@ public class Echiquier {
 		int x2 = d.getX2();
 		int y2 = d.getY2();
 
-		// TODO Check for captured piece
-
 		Piece piece = c[x1][y1].getPiece();
 		c[x2][y2].setPiece(piece);
 		c[x1][y1].vider();
@@ -888,8 +886,6 @@ public class Echiquier {
 	 *
 	 */
 	public void construitPositionsAccessibles() {
-		// TODO maybe separate this big thing into many little things
-
 		for (int j = 0; j < dimY; j++) {
 			for (int i = 0; i < dimX; i++) {
 				Piece p = c[i][j].getPiece();
@@ -1159,9 +1155,6 @@ public class Echiquier {
 				if (p != null) {
 					if (p.getColor() != couleur) {
 						if (p.getAccessible().contains(pos)) {
-							// TODO fix that
-							// yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_ECHEC,
-							// ((couleur == 'w') ? "blanc" : "noir"));
 							return true;
 						}
 					}
@@ -1225,7 +1218,7 @@ public class Echiquier {
 		// TODO Fix the mat Damon
 
 		char end = 'n';
-		
+
 		// At start, we set those var true
 		boolean whiteKingAlone = true;
 		boolean blackKingAlone = true;
@@ -1236,14 +1229,14 @@ public class Echiquier {
 		int i;
 
 		construitPositionsAccessibles();
-		
+
 		// Check the existing pieces on the board
 		int k = 0;
 		for (i = 0; i < dimX; i++) {
 			for (int j = 0; j < dimY; j++) {
 				if (c[i][j].getPiece() != null) {
 					existantPieces[k] = c[i][j].getPiece();
-					affichePositionAccessibles(new Position(i,j));
+					affichePositionAccessibles(new Position(i, j));
 					k++;
 				}
 			}
@@ -1273,20 +1266,20 @@ public class Echiquier {
 			i++;
 		}
 
-		if(blackCantMove){
-			if(estEnEchec('b'))
+		if (blackCantMove) {
+			if (estEnEchec('b'))
 				yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_MAT, "Echec et mat en faveur des blancs");
 			else
 				yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_PAT, "Pat en faveur des blancs");
 		}
-		
-		if(whiteCantMove){
-			if(estEnEchec('w'))
+
+		if (whiteCantMove) {
+			if (estEnEchec('w'))
 				yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_MAT, "Echec et mat en faveur des noirs");
 			else
 				yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_PAT, "Pat en faveur des noirs");
 		}
-		
+
 		if (blackKingAlone || blackCantMove)
 			end = 'w';
 		if (whiteKingAlone || whiteCantMove)
