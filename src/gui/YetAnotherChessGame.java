@@ -277,6 +277,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		if (isClickable) {
 			if (!first) {
 				chessPiece.setVisible(false);
+				//TODO PLUS RAPIDE FDP
 
 				JPanel panel = (JPanel) chessBoard
 						.getComponent((8 - depart.getY() - 1) * ech.getDimX() + depart.getX());

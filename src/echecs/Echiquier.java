@@ -430,7 +430,8 @@ public class Echiquier {
 			// So : it has to be a pawn, with pawn's deplacements who try to go
 			// where he could not go
 			if (Character.toLowerCase(codePiece) == 'p' && piece.getMaxDiag() == 0 && piece.getMaxX() == 0
-					&& !piece.getBackward() && d.deplacementDiagonal() == 1) {
+					&& !piece.getBackward() && d.deplacementDiagonal() == 1 && !c[x2][y1].estVide()
+					&& c[x2][y1].getPiece().getColor() != c[x1][y1].getPiece().getColor()) {
 				c[x2][y1].vider();
 				yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_ROQUE,
 						((piece.getCode() == 'P') ? "Prise en passant blanc" : "Prise en passant noir"));
@@ -806,14 +807,23 @@ public class Echiquier {
 	 *            The piece
 	 */
 	public void accessiblePionNoir(int i, int j, Piece p) {
+		boolean fini;
+		int parcI, parcJ;
 		// On ANTEPENULTIEME(FDP) line
 		if (j == (dimY - 2) && c[i][j - p.getMaxY() - 1].estVide() && p.getMaxY() < dimY) {
-			p.addCaseAccessible(new Position(i, j - p.getMaxY() - 1));
+			parcJ = j;
+			fini = false;
+			while (!fini && parcJ < (j + p.getMaxY())) {
+				if (!existeCase(i, parcJ))
+					fini = true;
+				else if (!c[i][parcJ].estVide())
+					fini = true;
+			}
+			if (fini)
+				p.addCaseAccessible(new Position(i, j - p.getMaxY() - 1));
 		}
 
 		// Nomnom of the black pawn
-		int parcI, parcJ;
-		boolean fini;
 		// Left diag
 		parcI = i - 1;
 		parcJ = j - 1;
