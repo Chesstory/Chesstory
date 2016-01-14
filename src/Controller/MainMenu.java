@@ -1,11 +1,13 @@
 package Controller;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import static Controller.ChesstoryGame.GAMETYPE_CLASSICAL;
 public class MainMenu {
 	private JFrame f;
@@ -51,6 +53,7 @@ public class MainMenu {
 	private void gameChooser(){
 		panel.removeAll();
 		panel=new JPanel();
+		panel.setBackground(Color.gray);
 		f.getContentPane().add(panel);
 		bChooseClassical=new JButton("Cassical");
 		panel.add(bChooseClassical);
@@ -60,6 +63,9 @@ public class MainMenu {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				panel.removeAll();
+				panel.setVisible(false);
+				f.remove(panel);
+				panel=null;
 				MainExe.switchToChesstoryGame(GAMETYPE_CLASSICAL);
 			}
 		});

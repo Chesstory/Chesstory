@@ -178,7 +178,7 @@ abstract class FileController {
 							}
 						} else {
 							isFileCorrupted = true;
-							System.out.println("ErrorFileLoad: Fourth line should be a unique component -> number");
+							System.out.println("ErrorFileLoad: Fourth line should be a unique component -> number of lines");
 						}
 						break;
 					case 4://FEN
@@ -186,15 +186,16 @@ abstract class FileController {
 							//TODO setFEN
 						}else {
 							isFileCorrupted = true;
-							System.out.println("ErrorFileLoad: Fift line should be a unique component -> game_type");
+							System.out.println("ErrorFileLoad: Fifth line should be a unique component -> FEN");
 						}
 						break;
-					case 5://FEN
+					case 5://1 pion
 						if(splitted.length==1){
-							//TODO setFEN
+							String[] param = splitted[0].split(",", -1);
+							//TODO bind
 						}else {
 							isFileCorrupted = true;
-							System.out.println("ErrorFileLoad: Fift line should be a unique component -> game_type");
+							System.out.println("ErrorFileLoad: Sixth line should be a unique component -> 1 pion");
 						}
 						break;
 					default:// the list of moves
