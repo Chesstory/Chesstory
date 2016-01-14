@@ -101,8 +101,11 @@ abstract class FileController {
 		int game_id = -1;
 		int game_type = -1;
 		int expectedNbOfLine = -1;
-
+		String FEN="-1";
+		String[] arrayRulePiece=new String[6];
+		
 		// TODO the case where there is a " " at the end of a line
+		
 		// file chooser
 		JFileChooser chooser = new JFileChooser();
 		chooser.setCurrentDirectory(new File(directory));
@@ -183,19 +186,58 @@ abstract class FileController {
 						break;
 					case 4://FEN
 						if(splitted.length==1){
-							//TODO setFEN
+							FEN=splitted[0];
 						}else {
 							isFileCorrupted = true;
 							System.out.println("ErrorFileLoad: Fifth line should be a unique component -> FEN");
 						}
 						break;
-					case 5://1 pion
+					case 5://1 pawn
 						if(splitted.length==1){
-							String[] param = splitted[0].split(",", -1);
-							//TODO bind
+							arrayRulePiece[0]=splitted[0];
 						}else {
 							isFileCorrupted = true;
-							System.out.println("ErrorFileLoad: Sixth line should be a unique component -> 1 pion");
+							System.out.println("ErrorFileLoad: Sixth line should be a unique component -> 1 pawn");
+						}
+						break;
+					case 6://2 rook
+						if(splitted.length==1){
+							arrayRulePiece[1]=splitted[0];
+						}else {
+							isFileCorrupted = true;
+							System.out.println("ErrorFileLoad: Sixth line should be a unique component -> 2 rook");
+						}
+						break;
+					case 7://3 queen
+						if(splitted.length==1){
+							arrayRulePiece[2]=splitted[0];
+						}else {
+							isFileCorrupted = true;
+							System.out.println("ErrorFileLoad: Sixth line should be a unique component -> 3 queen");
+						}
+						break;
+					case 8://4 king
+						if(splitted.length==1){
+							arrayRulePiece[3]=splitted[0];
+						}else {
+							isFileCorrupted = true;
+							System.out.println("ErrorFileLoad: Sixth line should be a unique component -> 4 king");
+						}
+						break;
+					case 9://5 bishop
+						if(splitted.length==1){
+							arrayRulePiece[4]=splitted[0];
+						}else {
+							isFileCorrupted = true;
+							System.out.println("ErrorFileLoad: Sixth line should be a unique component -> 5 bishop");
+						}
+						break;
+					case 10://6 knight
+						if(splitted.length==1){
+							arrayRulePiece[5]=splitted[0];
+						}else {
+							isFileCorrupted = true;
+							System.out.println("ErrorFileLoad: Sixth line should be a unique component -> 6 pion");
 						}
 						break;
 					default:// the list of moves
@@ -258,6 +300,6 @@ abstract class FileController {
 		}
 		
 
-		return new GameSave(isFileCorrupted, game_id, game_type, a);
+		return new GameSave(isFileCorrupted, game_id, game_type, a, FEN, arrayRulePiece);
 	}
 }

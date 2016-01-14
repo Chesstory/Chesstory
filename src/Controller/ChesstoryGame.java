@@ -72,7 +72,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 	private int gameId;
 	private int gameType;
-	private String fenDeDepart = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+	private String departureFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 	private JLabel labelSizeOfMoveList;
 	private JLabel labelMoveListCursor;
 
@@ -110,8 +110,14 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		f.setVisible(true);*/
 		// Chessboard
 		this.f=f;
-		YACG = new YetAnotherChessGame(fenDeDepart, this);
+		
+		
+		//YACG = new YetAnotherChessGame(departureFEN, this);
 
+		moveList = new ArrayList<Deplacement>();
+
+		FENList = new ArrayList<String>();
+		
 		f.setVisible(true);
 		panelLeft = new JPanel();
 		panelLeft.setBorder(new LineBorder(Color.GREEN));
@@ -228,6 +234,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		gbc_panelLeftChessboard.gridx = 0;
 		gbc_panelLeftChessboard.gridy = 1;
 		panelLeft.add(panelLeftChessboard, gbc_panelLeftChessboard);
+		YACG = new YetAnotherChessGame(departureFEN, this);
 		panelLeftChessboard.add(YACG.CreationChessboard());
 		f.getContentPane().add(panelLeft);
 
@@ -288,9 +295,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 		f.validate();
 
-		moveList = new ArrayList<Deplacement>();
-
-		FENList = new ArrayList<String>();
+		
 		// TODO remove test doute
 		testFrame = new JFrame();
 		testFrame.setTitle("Affichage dynamique de la moveList");
@@ -413,7 +418,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			// "+moveListCursor); Useless ?
 			if (moveListCursor == 0) {// begining of the game so classic
 										// disposition
-				YACG.makeDrawFen(fenDeDepart);
+				YACG.makeDrawFen(departureFEN);
 			} else {
 
 				YACG.makeDrawFen(FENList.get(moveListCursor - 1));
