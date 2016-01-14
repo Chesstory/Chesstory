@@ -49,7 +49,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	
 	private JButton bLoad;
 	private JButton bSave;
-	private JButton bParameters;
+	private JButton bDesign;
 	private JButton bExit; 
 	private JButton arrowLeft;
 	private JButton arrowMiddle;
@@ -141,8 +141,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		bSave = new JButton("Save");
 		panelLeftMenuMain.add(bSave);
 
-		bParameters = new JButton("Parameters");
-		panelLeftMenuMain.add(bParameters);
+		bDesign = new JButton("Design");
+		panelLeftMenuMain.add(bDesign);
 
 		bExit = new JButton("Exit");
 		panelLeftMenuMain.add(bExit);
@@ -189,6 +189,14 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				loadGame();
+			}
+		});
+		bDesign.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				String[] listeDesign = { "Thème classique", "Thème bleu", "Thème vert", "Thème jaune" };
+				int selected = JOptionPane.showOptionDialog(null, "Modifier le design du plateau", "Design",
+						JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, listeDesign, listeDesign[0]);
 			}
 		});
 		bExit.addActionListener(new ActionListener() {
@@ -242,7 +250,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		rulesText.setColumns(30);
 		rulesText.setTabSize(1);
 		rulesText.setRows(15);
-		rulesText.setText("This is an editable JrulesText. " + "A text area is a \"plain\" text component, "
+		rulesText.setText("Bonjour je suis la partie règle. " + "A text area is a \"plain\" text component, "
 				+ "which means that although it can display text " + "in any font, all of the text is in the same font."
 				+ "A text area is a \"plain\" text component, " + "which means that although it can display text "
 				+ "in any font, all of the text is in the same font." + "A text area is a \"plain\" text component, "
