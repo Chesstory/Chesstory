@@ -71,6 +71,9 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	 * position d'arrivée
 	 */
 	Position arrive;
+	
+	/** Code de la piece a promouvoir */
+	private char codePieceAPromouvoir;
 
 	private ChesstoryGame chesstoryGame;
 	/**
@@ -195,6 +198,11 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 
 		if (ech.estValideDeplacement(move)) {
 			ech.executeDeplacement(move);
+			//rajouté par Emilien pour la promotion
+			if(ech.isPromotion()){
+				promotionYACG();
+				ech.promotionEchiquier(codePieceAPromouvoir, move.getArrive());
+			}
 			redessine();
 			chesstoryGame.addMoveMadeByPlayer(move);
 			return true;
@@ -252,6 +260,33 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		}
 		//tu pues du cul
 		dessineToutesLesPieces();
+	}
+	
+	/**
+	 * Interface demandant la piece a promouvoir
+	 */
+	public void promotionYACG(){
+		String[] piecesPromo={"Dame","Cavalier","Tour","Fou"};
+        char[] codesPromo={'Q','N','R','B'};
+        int selected = JOptionPane.showOptionDialog(null,"Choisir une pièce pour la promotion","Promotion",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null,piecesPromo,codesPromo[3]);
+        
+        switch(selected){
+        case 0:
+        	codePieceAPromouvoir=(codesPromo[0]);
+        	break;
+        case 1:
+        	codePieceAPromouvoir=(codesPromo[1]);
+			break;
+        case 2:
+        	codePieceAPromouvoir=(codesPromo[2]);
+			break;
+        case 3:
+        	codePieceAPromouvoir=(codesPromo[3]);
+			break;
+        }
+        if(ech.getTrait()=='w'){
+        	codePieceAPromouvoir=(Character.toLowerCase(codePieceAPromouvoir));
+        }
 	}
 
 	@Override
