@@ -450,12 +450,12 @@ public class Echiquier {
 			// cas du pion noir sur première rangée
 			if (codePiece == 'p' && (y2 == 0)) {
 				promotion = true;
-				//piece = new Piece(dameType, 'b');
+				// piece = new Piece(dameType, 'b');
 			}
 			// cas du pion blanc sur dernière rangée
 			if (codePiece == 'P' && (y2 == dimY - 1)) {
 				promotion = true;
-				//piece = new Piece(dameType, 'w');
+				// piece = new Piece(dameType, 'w');
 			}
 
 			// Prise en passant (i'vre written this word so many times ... Still
@@ -516,12 +516,34 @@ public class Echiquier {
 		construitPositionsAccessibles();
 		System.out.println(this.getFEN());
 	}
-	
+
 	/**
 	 * 
 	 */
-	public void promotionEchiquier(char codePieceAPromouvoir, Position p){
-		Piece pieceAPromouvoir = new Piece(codePieceAPromouvoir);
+	public void promotionEchiquier(char codePieceAPromouvoir, Position p) {
+		Piece pieceAPromouvoir;
+		switch (Character.toLowerCase(codePieceAPromouvoir)) {
+		case 'b':
+			pieceAPromouvoir = new Piece(fouType,
+					((Character.toLowerCase(codePieceAPromouvoir) == codePieceAPromouvoir) ? 'b' : 'w'));
+			break;
+		case 'r':
+			pieceAPromouvoir = new Piece(tourType,
+					((Character.toLowerCase(codePieceAPromouvoir) == codePieceAPromouvoir) ? 'b' : 'w'));
+			break;
+		case 'q':
+			pieceAPromouvoir = new Piece(dameType,
+					((Character.toLowerCase(codePieceAPromouvoir) == codePieceAPromouvoir) ? 'b' : 'w'));
+			break;
+		case 'n':
+			pieceAPromouvoir = new Piece(cavalierType,
+					((Character.toLowerCase(codePieceAPromouvoir) == codePieceAPromouvoir) ? 'b' : 'w'));
+			break;
+		default:
+			pieceAPromouvoir = new Piece(dameType,
+					((Character.toLowerCase(codePieceAPromouvoir) == codePieceAPromouvoir) ? 'b' : 'w'));
+			break;
+		}
 		c[p.getX()][p.getY()].setPiece(pieceAPromouvoir);
 	}
 
