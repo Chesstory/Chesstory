@@ -7,7 +7,7 @@ public class MainMenu {
 
 	}
 	private MainMenu(){
-		//commen
+		
 	}
 
 }
