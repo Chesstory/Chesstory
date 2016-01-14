@@ -28,7 +28,6 @@ import javax.swing.border.BevelBorder;
 @SuppressWarnings("serial")
 public final class YetAnotherChessGame extends JFrame implements MouseListener, MouseMotionListener {
 
-	
 	/**
 	 * Event gesture
 	 */
@@ -36,9 +35,9 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	public final static int CHESS_EVENT_MAT = 2;
 	public final static int CHESS_EVENT_PAT = 3;
 	public final static int CHESS_EVENT_ROQUE = 4;
-	//Prise en passant (BEP des pauvres)
+	// Prise en passant (BEP des pauvres)
 	public final static int CHESS_EVENT_PEP = 5;
-	
+
 	/**
 	 * Paneau de fond111
 	 */
@@ -71,7 +70,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	 * position d'arrivée
 	 */
 	Position arrive;
-	
+
 	/** Code de la piece a promouvoir */
 	private char codePieceAPromouvoir;
 
@@ -166,9 +165,11 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 			for (int i = 0; i < ech.getDimX(); i++) {
 				JPanel panel = (JPanel) chessBoard.getComponent(j * ech.getDimX() + i);
 				if (i % 2 == 0) {
-					panel.setBackground(j % 2 == 0 ? Color.getHSBColor(0.10f, 0.82f, 0.88f) : Color.getHSBColor(0.10f, 0.82f, 0.59f));
+					panel.setBackground(j % 2 == 0 ? Color.getHSBColor(0.10f, 0.82f, 0.88f)
+							: Color.getHSBColor(0.10f, 0.82f, 0.59f));
 				} else {
-					panel.setBackground(j % 2 == 0 ? Color.getHSBColor(0.10f, 0.82f, 0.59f) : Color.getHSBColor(0.10f, 0.82f, 0.88f));
+					panel.setBackground(j % 2 == 0 ? Color.getHSBColor(0.10f, 0.82f, 0.59f)
+							: Color.getHSBColor(0.10f, 0.82f, 0.88f));
 				}
 			}
 		}
@@ -198,8 +199,8 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 
 		if (ech.estValideDeplacement(move)) {
 			ech.executeDeplacement(move);
-			//rajouté par Emilien pour la promotion
-			if(ech.isPromotion()){
+			// promotion
+			if (ech.isPromotion()) {
 				promotionYACG();
 				ech.promotionEchiquier(codePieceAPromouvoir, move.getArrive());
 			}
@@ -217,17 +218,18 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		// TODO a good looking shit to initialize pieces :3
 
 		this.chesstoryGame = chesstoryGame;
-		//ech = new Echiquier();
+		// ech = new Echiquier();
 
 		// This a test with the classical chess pieces
-		ech = new Echiquier(new Piece("pion", 'p', 0, 0, 1, 1, 0, 0, false), new Piece("dame", 'q', true, true, true, true),
-				new Piece("roi", 'k', 1, 1, 1, 1, 1, 1, true), new Piece("cavalier", 'n',1,2),
-				new Piece("fou", 'b', false, false, true, true), new Piece("tour", 'r', true, true, false, true));
-		
+		ech = new Echiquier(new Piece("pion", 'p', 0, 0, 1, 1, 0, 0, false),
+				new Piece("dame", 'q', true, true, true, true), new Piece("roi", 'k', 1, 1, 1, 1, 1, 1, true),
+				new Piece("cavalier", 'n', 1, 2), new Piece("fou", 'b', false, false, true, true),
+				new Piece("tour", 'r', true, true, false, true));
+
 		ech.setFEN(fenDeDeapart);
-		
+
 		// Pour le test !
-		//ech.setFEN("kqqqqqqq/8/8/3B1b2/8/8/8/K5QR");
+		// ech.setFEN("kqqqqqqq/8/8/3B1b2/8/8/8/K5QR");
 
 		Dimension boardSize = new Dimension(600, 600);
 
@@ -253,40 +255,42 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 
 			int row = (i / 8) % 2;
 			if (row == 0) {
-                square.setBackground(i % 2 == 0 ? Color.getHSBColor(0.10f, 0.82f, 0.88f) : Color.getHSBColor(0.10f, 0.82f, 0.59f));
-            } else {
-                square.setBackground(i % 2 == 0 ? Color.getHSBColor(0.10f, 0.82f, 0.59f) : Color.getHSBColor(0.10f, 0.82f, 0.88f));
-            }
+				square.setBackground(
+						i % 2 == 0 ? Color.getHSBColor(0.10f, 0.82f, 0.88f) : Color.getHSBColor(0.10f, 0.82f, 0.59f));
+			} else {
+				square.setBackground(
+						i % 2 == 0 ? Color.getHSBColor(0.10f, 0.82f, 0.59f) : Color.getHSBColor(0.10f, 0.82f, 0.88f));
+			}
 		}
-		//tu pues du cul
 		dessineToutesLesPieces();
 	}
-	
+
 	/**
 	 * Interface demandant la piece a promouvoir
 	 */
-	public void promotionYACG(){
-		String[] piecesPromo={"Dame","Cavalier","Tour","Fou"};
-        char[] codesPromo={'Q','N','R','B'};
-        int selected = JOptionPane.showOptionDialog(null,"Choisir une pièce pour la promotion","Promotion",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null,piecesPromo,codesPromo[3]);
-        
-        switch(selected){
-        case 0:
-        	codePieceAPromouvoir=(codesPromo[0]);
-        	break;
-        case 1:
-        	codePieceAPromouvoir=(codesPromo[1]);
+	public void promotionYACG() {
+		String[] piecesPromo = { "Dame", "Cavalier", "Tour", "Fou" };
+		char[] codesPromo = { 'Q', 'N', 'R', 'B' };
+		int selected = JOptionPane.showOptionDialog(null, "Choisir une pièce pour la promotion", "Promotion",
+				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, piecesPromo, codesPromo[3]);
+
+		switch (selected) {
+		case 0:
+			codePieceAPromouvoir = (codesPromo[0]);
 			break;
-        case 2:
-        	codePieceAPromouvoir=(codesPromo[2]);
+		case 1:
+			codePieceAPromouvoir = (codesPromo[1]);
 			break;
-        case 3:
-        	codePieceAPromouvoir=(codesPromo[3]);
+		case 2:
+			codePieceAPromouvoir = (codesPromo[2]);
 			break;
-        }
-        if(ech.getTrait()=='w'){
-        	codePieceAPromouvoir=(Character.toLowerCase(codePieceAPromouvoir));
-        }
+		case 3:
+			codePieceAPromouvoir = (codesPromo[3]);
+			break;
+		}
+		if (ech.getTrait() == 'w') {
+			codePieceAPromouvoir = (Character.toLowerCase(codePieceAPromouvoir));
+		}
 	}
 
 	@Override
@@ -343,7 +347,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 				// Put king in a yoloswaggy color if echec
 				if (ech.estEnEchec(ech.getTrait())) {
 					surbrillance(ech.rechercheRoi(ech.getTrait()), Color.MAGENTA);
-				//	chesstoryGame.chess
+					// chesstoryGame.chess
 				}
 
 				first = true;
@@ -404,9 +408,11 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	public void mouseExited(MouseEvent e) {
 
 	}
-	public String getFEN(){
+
+	public String getFEN() {
 		return ech.getFEN();
 	}
+
 	public JLayeredPane CreationChessboard() {
 		return layeredPane;
 	}
