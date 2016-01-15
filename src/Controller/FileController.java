@@ -140,7 +140,6 @@ abstract class FileController {
 		if (retrival == JFileChooser.APPROVE_OPTION) {
 			System.out.println("FILE :::::::: "+file.getName());
 			try (FileReader fileReader = new FileReader(file)) {
-				@SuppressWarnings("resource")
 				BufferedReader bufferedReader = new BufferedReader(fileReader);
 				while ((line[nbLine] = bufferedReader.readLine()) != null && !isFileCorrupted) {// Reading
 																								// of
