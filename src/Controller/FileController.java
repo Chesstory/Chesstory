@@ -48,6 +48,10 @@ abstract class FileController {
 				System.out.println("    >type : " + g.getGameType());
 				bufferedWriter.newLine();
 				
+				ArrayList<Deplacement> temp = g.getMoveList();
+				bufferedWriter.write(Integer.toString(temp.size()));//Size of the arraylist expected
+				bufferedWriter.newLine();
+				
 				bufferedWriter.write(g.getFEN());
 				System.out.println("    >departureFEN : "+g.getFEN());
 				bufferedWriter.newLine();
@@ -57,9 +61,6 @@ abstract class FileController {
 					System.out.println("    >rule "+i+" : "+g.getArrayRulePiece());
 				}
 				
-				ArrayList<Deplacement> temp = g.getMoveList();
-				bufferedWriter.write(Integer.toString(temp.size()));
-				bufferedWriter.newLine();
 				for (int i = 0; i < temp.size(); i++) {
 					bufferedWriter.write(
 							temp.get(i).getColor() + " " + temp.get(i).getPiececode() + " " + temp.get(i).getX1() + " "
@@ -112,7 +113,7 @@ abstract class FileController {
 		int nbLine = 0;
 		int game_id = -1;
 		int game_type = -1;
-		int expectedNbOfLine = -1;
+		int expectedNbOfMoves = -1;
 		String FEN="-1";
 		String[] arrayRulePiece=new String[6];
 		
@@ -187,7 +188,7 @@ abstract class FileController {
 						if (splitted.length == 1) {
 							if (splitted[0].matches("^-?\\d+$")) {// test if
 																	// integer
-								expectedNbOfLine = Integer.parseInt(splitted[0]);
+								expectedNbOfMoves = Integer.parseInt(splitted[0]);
 							} else {
 								isFileCorrupted = true;
 								System.out.println("ErrorFileLoad: Fourth line should be an integer");
@@ -283,27 +284,33 @@ abstract class FileController {
 				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
-				System.out.println("Unable to open file '" + fileName + "'");
+				System.out.println("ErrorFileLoad: Unable to open file '" + fileName + "'");
 			}
 			// here we check if the number on line is correct
-			if (expectedNbOfLine == (nbLine - nbParaLine - 1)) {// 2 is the header
+			if (expectedNbOfMoves == (nbLine - nbParaLine - 1)) {// 2 is the header
 																// and footer
 				isFileCorrupted = true;
-				System.out.println("ErrorFileLoad: expected nb of line: " + expectedNbOfLine + ", received :"
+				System.out.println("ErrorFileLoad: expected nb of line: " + expectedNbOfMoves + ", received :"
 						+ (nbLine - nbParaLine - 1));
 			}
 			
-			if()
-			// here we check if the game is correct : w,b,w,...
-			char last = a.get(0).getColor();
-			for (int i = 1; i < a.size(); i++) {
-				if (last == a.get(i).getColor()) {
-					isFileCorrupted = true;
-					System.out.print("ErrorFileLoad: The game is not correct at line: " + (i + 1 + nbParaLine)
-							+ ", because there is two consecutive turn of :" + last + "\n");
+			if(expectedNbOfMoves>0){
+				// here we check if the game is correct : w,b,w,...
+				char last = a.get(0).getColor();
+				for (int i = 1; i < a.size(); i++) {
+					if (last == a.get(i).getColor()) {
+						isFileCorrupted = true;
+						System.out.print("ErrorFileLoad: The game is not correct at line: " + (i + 1 + nbParaLine)
+								+ ", because there is two consecutive turn of :" + last + "\n");
+					}
+					last = a.get(i).getColor();
 				}
-				last = a.get(i).getColor();
+			}else{
+				if(expectedNbOfMoves<0){
+					System.out.println("ErrorFileLoad: Something went wrong with the number or moves expected :"+expectedNbOfMoves);
+				}
 			}
+			
 
 			// here we check is the footer was found
 			if (!foundFooter) {
