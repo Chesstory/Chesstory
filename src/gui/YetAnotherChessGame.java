@@ -317,7 +317,6 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 				if (ech.estEnEchec(ech.getTrait())) {
 					eventInter(YetAnotherChessGame.CHESS_EVENT_ECHEC, ((ech.getTrait() == 'w') ? "blanc" : "noir"));
 					surbrillance(ech.rechercheRoi(ech.getTrait()), Color.MAGENTA);
-					// chesstoryGame.chess
 				}
 
 				first = true;
