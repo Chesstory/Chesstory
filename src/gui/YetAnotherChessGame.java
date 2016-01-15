@@ -348,8 +348,8 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	public void eventInter(int event, String s) {
 		chesstoryGame.chessEvent(event, s);
 	}
-	
-	public void eventHighlight(Position pos){
+
+	public void eventHighlight(Position pos) {
 		surbrillance(pos, Color.yellow);
 	}
 
@@ -407,7 +407,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 			ex.printStackTrace();
 			System.out.println("Error : Setting rules of pieces.");
 		}
-		
+
 		ech.initPieces(arrayPieces[0], arrayPieces[1], arrayPieces[2], arrayPieces[3], arrayPieces[4], arrayPieces[5]);
 	}
 
