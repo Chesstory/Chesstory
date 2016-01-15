@@ -499,10 +499,11 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		moveListCursor = 0;
 		moveList.clear();
 		System.out.println("Load game, id: " + gameId + ", type: " + gameType);
-		YACG.makeDrawFen(gameSave.getFEN());
-		//TODO set rules
 		FENList.clear();
-
+		departureFEN=gameSave.getFEN();
+		YACG.makeDrawFen(departureFEN);
+		YACG.changeRules(gameSave.getArrayRulePiece());
+		
 		for (int i = 0; i < gameSave.getMoveList().size(); i++) {
 
 			// moveList.add(gameSave.getMoveList().get(i));
@@ -512,6 +513,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 					+ ", " + moveList.get(i).getY2() + ")");
 
 		}
+		System.out.println(gameSave.getArrayRulePiece()[0]);
 		// moveListCursor = moveList.size()-1;
 
 	}
@@ -519,8 +521,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	public void saveGame() {
 		// TODO game id generator
 		gameId = 1;
-		GameSave g = new GameSave(true, gameId, gameType, moveList," ", new String[6]);
-		//TODO get FEN and array of rules
+		
+		GameSave g = new GameSave(true, gameId, gameType, moveList, departureFEN, YACG.getArrayRulePiece());
+		
 		
 		FileController.saveFile(g);
 	}

@@ -31,7 +31,7 @@ abstract class FileController {
 					suffix = "";
 				} else {
 					suffix = ".txt";
-					System.out.println("leche mon anus");
+					System.out.println("xxxxxx");
 				}
 			}
 			try (FileWriter fileWriter = new FileWriter(chooser.getSelectedFile() + suffix)) {
@@ -39,12 +39,24 @@ abstract class FileController {
 				BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 				bufferedWriter.write(">>>>||----Chesstory_SaveFile_Header--|");
 				bufferedWriter.newLine();
+				
 				bufferedWriter.write(Integer.toString(g.getGameId()));
 				System.out.println("    >id : " + g.getGameId());
 				bufferedWriter.newLine();
+				
 				bufferedWriter.write(Integer.toString(g.getGameType()));
 				System.out.println("    >type : " + g.getGameType());
 				bufferedWriter.newLine();
+				
+				bufferedWriter.write(g.getFEN());
+				System.out.println("    >departureFEN : "+g.getFEN());
+				bufferedWriter.newLine();
+				
+				for(int i=0;i<6;i++){
+					bufferedWriter.write(g.getArrayRulePiece()[i]);
+					System.out.println("    >rule "+i+" : "+g.getArrayRulePiece());
+				}
+				
 				ArrayList<Deplacement> temp = g.getMoveList();
 				bufferedWriter.write(Integer.toString(temp.size()));
 				bufferedWriter.newLine();
@@ -92,7 +104,7 @@ abstract class FileController {
 		// var used for establishing if the line read is a Deplacement or
 		// something else, like the number of move expected or, later, the name,
 		// the type and date of the game
-		int nbParaLine = 3;// test var for the parameters : game_id,
+		int nbParaLine = 10;// test var for the parameters : game_id,
 							// game_type...
 		boolean isFileCorrupted = false;
 		boolean foundFooter = false;
@@ -280,9 +292,9 @@ abstract class FileController {
 				System.out.println("ErrorFileLoad: expected nb of line: " + expectedNbOfLine + ", received :"
 						+ (nbLine - nbParaLine - 1));
 			}
-
+			
+			if()
 			// here we check if the game is correct : w,b,w,...
-			//Ici
 			char last = a.get(0).getColor();
 			for (int i = 1; i < a.size(); i++) {
 				if (last == a.get(i).getColor()) {
