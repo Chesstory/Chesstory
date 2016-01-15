@@ -58,7 +58,8 @@ abstract class FileController {
 				
 				for(int i=0;i<6;i++){
 					bufferedWriter.write(g.getArrayRulePiece()[i]);
-					System.out.println("    >rule "+i+" : "+g.getArrayRulePiece());
+					System.out.println("    >rule "+i+" : "+g.getArrayRulePiece()[i]);
+					bufferedWriter.newLine();
 				}
 				
 				for (int i = 0; i < temp.size(); i++) {
@@ -141,7 +142,6 @@ abstract class FileController {
 					switch (nbLine) {
 					case 0:
 						if (splitted.length == 1) {
-							// System.out.println("Ini :"+splitted[0]);
 							if (!splitted[0].equals(">>>>||----Chesstory_SaveFile_Header--|")) {
 								isFileCorrupted = true;
 								System.out.println("ErrorFileLoad: Header not found at the begining of the file");
@@ -150,7 +150,6 @@ abstract class FileController {
 							isFileCorrupted = true;
 							System.out.println("ErrorFileLoad: First line should be an unique component -> header");
 						}
-						;
 						break;
 					case 1:// id of the game
 						if (splitted.length == 1) {
@@ -166,7 +165,6 @@ abstract class FileController {
 							isFileCorrupted = true;
 							System.out.println("ErrorFileLoad: Second line should be a unique component -> game_id");
 						}
-						;
 						break;
 					case 2:// type of the game
 						if (splitted.length == 1) {
@@ -182,9 +180,8 @@ abstract class FileController {
 							isFileCorrupted = true;
 							System.out.println("ErrorFileLoad: Third line should be a unique component -> game_type");
 						}
-						;
 						break;
-					case 3:// Number of line expected
+					case 3:// Number of moves lines expeted
 						if (splitted.length == 1) {
 							if (splitted[0].matches("^-?\\d+$")) {// test if
 																	// integer
@@ -261,22 +258,22 @@ abstract class FileController {
 																							// not
 																							// the
 																							// footer
+							System.out.println("Footer :"+splitted[0]);
 							if (splitted.length == 6) {// there is 6 parameter,
 														// no more, no less
 								// TODO test if the first and all the others are
 								// in fact the color, piece, pos1, pos2
+								
 								a.add(new Deplacement(
 										new Position(Integer.parseInt(splitted[2]), Integer.parseInt(splitted[3])),
 										new Position(Integer.parseInt(splitted[4]), Integer.parseInt(splitted[5])),
 										splitted[1].toCharArray()[0], splitted[0].toCharArray()[0]));
 							} else {
 								isFileCorrupted = true;
-								System.out
-										.println("ErrorFileLoad: Move parameters incorrect, at line: " + (nbLine + 1));
+								System.out.println("ErrorFileLoad: Move parameters incorrect, at line: " + (nbLine + 1));
 							}
 						} else {
 							foundFooter = true;
-							// System.out.println("Eni :"+splitted[0]);
 						}
 						break;
 					}
@@ -287,11 +284,11 @@ abstract class FileController {
 				System.out.println("ErrorFileLoad: Unable to open file '" + fileName + "'");
 			}
 			// here we check if the number on line is correct
-			if (expectedNbOfMoves == (nbLine - nbParaLine - 1)) {// 2 is the header
+			if (expectedNbOfMoves != (nbLine - nbParaLine - 2)) {// 2 is the header
 																// and footer
 				isFileCorrupted = true;
-				System.out.println("ErrorFileLoad: expected nb of line: " + expectedNbOfMoves + ", received :"
-						+ (nbLine - nbParaLine - 1));
+				System.out.println("ErrorFileLoad: expected nb of moves " + expectedNbOfMoves + ", received : "
+						+ (nbLine - nbParaLine - 1)+" = nbline "+nbLine+" + nbparaline "+nbParaLine);
 			}
 			
 			if(expectedNbOfMoves>0){
@@ -315,7 +312,7 @@ abstract class FileController {
 			// here we check is the footer was found
 			if (!foundFooter) {
 				isFileCorrupted = true;
-				System.out.println("ErrorFileLoad: Footer not found at the begining of the file");
+				System.out.println("ErrorFileLoad: Footer not found at the end of the file");
 			}
 		}
 		

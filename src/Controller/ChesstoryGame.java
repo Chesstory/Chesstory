@@ -493,30 +493,29 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		} else {
 			System.out.println("---->Loading successful");
 		}
+		System.out.println("---->Processing save");
 		// moveList = gameSave.getMoveList();
 		gameId = gameSave.getGameId();
 		gameType = gameSave.getGameType();
-		moveListCursor = 0;
-		moveList.clear();
-		System.out.println("Load game, id: " + gameId + ", type: " + gameType);
-		FENList.clear();
-		YACG.changeRules(gameSave.getArrayRulePiece());
-		departureFEN=gameSave.getFEN();
-		YACG.makeDrawFen(departureFEN);
-		
 		for (int i = 0; i < gameSave.getMoveList().size(); i++) {
-
-			// moveList.add(gameSave.getMoveList().get(i));
 			YACG.makeDeplacement(gameSave.getMoveList().get(i));
 			System.out.println("c =" + moveList.get(i).getColor() + ", p =" + moveList.get(i).getPiececode() + ", ("
 					+ moveList.get(i).getX1() + ", " + moveList.get(i).getY1() + ") -> (" + moveList.get(i).getX2()
 					+ ", " + moveList.get(i).getY2() + ")");
-
 		}
 		for(int i=0;i<gameSave.getArrayRulePiece().length;i++){
 			System.out.println(gameSave.getArrayRulePiece()[i]);
 		}
-			// moveListCursor = moveList.size()-1;
+		moveListCursor = 0;
+		moveList.clear();
+		System.out.println("Load game, id: " + gameId + ", type: " + gameType);
+		FENList.clear();
+		//YACG.changeRules(gameSave.getArrayRulePiece());
+		departureFEN=gameSave.getFEN();
+		YACG.makeDrawFen(departureFEN);
+		System.out.println("---->Processing successful");
+		
+		
 
 	}
 
