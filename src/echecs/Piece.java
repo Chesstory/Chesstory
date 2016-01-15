@@ -32,6 +32,7 @@ public class Piece {
 	private boolean backward;
 
 	ArrayList<Position> accessible = new ArrayList<>();
+	ArrayList<Position> accessibleSpec = new ArrayList<>();
 
 	/**
 	 * Create a piece by its name, code and color
@@ -300,18 +301,29 @@ public class Piece {
 	public void addCaseAccessible(Position p) {
 		accessible.add(p);
 	}
-
 	public void suppCaseAccessible(Position p) {
 		if (accessible.contains(p))
 			accessible.remove(p);
 	}
-
 	public ArrayList<Position> getAccessible() {
 		return accessible;
 	}
-
 	public void videAccessible() {
 		accessible = new ArrayList<>();
+	}
+	
+	public void addCaseSpec(Position p) {
+		accessibleSpec.add(p);
+	}
+	public void suppCaseSpec(Position p) {
+		if (accessibleSpec.contains(p))
+			accessibleSpec.remove(p);
+	}
+	public ArrayList<Position> getSpec() {
+		return accessibleSpec;
+	}
+	public void videSpec() {
+		accessibleSpec = new ArrayList<>();
 	}
 
 	/**

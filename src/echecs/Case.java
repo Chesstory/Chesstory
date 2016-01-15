@@ -12,71 +12,69 @@ package echecs;
 
 class Case {
 
-	private Piece contenu;
+	private Piece content;
 
 	/**
 	 * Create a case with a piece
 	 * 
-	 * @param contenu
+	 * @param content
 	 */
-	public Case(Piece contenu) {
-		this.contenu = contenu;
+	public Case(Piece content) {
+		this.content = content;
 	}
 
 	/**
 	 * Create an empty case
 	 */
 	public Case() {
-		this.contenu = null;
+		this.content = null;
 	}
 
 	public Case(Case c) {
-		if (c.contenu == null) {
-			this.contenu = null;
+		if (c.content == null) {
+			this.content = null;
 		} else {
-			this.contenu = new Piece(c.contenu);
+			this.content = new Piece(c.content);
 		}
 	}
 
 	/**
-	 * Retourne la pièce
+	 * Return the case (what is within)
 	 * 
-	 * @return
+	 * @return Content of the case
 	 */
 	public Piece getPiece() {
-		return contenu;
+		return content;
 	}
 
 	/**
-	 * Affecte une pièce
+	 * Set the content of a case
 	 * 
 	 * @param p
 	 *            piece
 	 */
 	public void setPiece(Piece p) {
-		contenu = p;
+		content = p;
 	}
 
 	/**
-	 * Indique si la case est vide
-	 * 
-	 * @return
+	 * @return Emptiness of the case
 	 */
-	public boolean estVide() {
-		return (contenu == null);
+	public boolean isEmpty() {
+		return (content == null);
 	}
 
 	/**
-	 * Vide la case
+	 * Empty a case
 	 */
-	public void vider() {
-		contenu = null;
+	public void empty() {
+		content = null;
 	}
 
 	@Override
 	public String toString() {
-		if (contenu != null)
-			return contenu.toString();
+		if (content != null)
+			return content.toString();
 
 		return " ";
 	}
