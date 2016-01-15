@@ -1,5 +1,5 @@
 >>>>||----Chesstory_SaveFile_Header--|
--1
+1
 1
 0
 rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR

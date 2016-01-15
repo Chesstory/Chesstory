@@ -123,7 +123,6 @@ abstract class FileController {
 		int retrival;
 		File file;
 		if(fileToLoad=="choosingAFile"){
-			System.out.println("PENIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIS");
 			JFileChooser chooser = new JFileChooser();
 			chooser.setCurrentDirectory(new File(directory));
 			chooser.setDialogType(JFileChooser.SAVE_DIALOG);
