@@ -12,11 +12,14 @@ import javax.swing.*;
 
 import java.awt.Color;
 import java.awt.Dimension;
-
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+
+
 
 
 import gui.YetAnotherChessGame;
@@ -29,6 +32,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.text.DefaultCaret;
+
+
 
 
 import static gui.YetAnotherChessGame.*;
@@ -242,12 +247,13 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		YACG = new YetAnotherChessGame(departureFEN, this);
 		panelLeftChessboard.add(YACG.CreationChessboard());
 		f.getContentPane().add(panelLeft);
-
+		
+		
 		panelRight = new JPanel();
 		//FlowLayout flowLayout_1 = (FlowLayout) panelRight.getLayout();
 		panelRight.setBorder(new LineBorder(Color.RED));
 		panelRight.setBackground(Color.darkGray);
-
+		
 		// RULES
 		rulesText = new JTextArea();
 		rulesText.setWrapStyleWord(true);
@@ -293,13 +299,16 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		logsTextScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		panelRight.add(logsTextScroll);
 		f.getContentPane().add(panelRight);
-
-		// <Chessboard
-
+		
 		disableBrowserView();// We are in a game
 
 		f.validate();
-
+		
+		switch(gameType){
+		case GAMETYPE_CLASSICAL:loadGame();
+		break;
+		default://TODO custom game;
+		}
 		
 		// TODO remove test doute
 		testFrame = new JFrame();
@@ -309,10 +318,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		testFrameTextArea.setText("ARRAYLIST THIS IS NOT SUPPOSED TO BE DISPLAYED");
 		testFrame.getContentPane().add(testFrameTextArea);
 		testFrame.setAlwaysOnTop(true);
-		testFrame.setVisible(true);
+		testFrame.setVisible(false);
 		testFrame.validate();
 	}
-	//La
 
 	public void addLogsText(String s) {
 		logsText.append(s + "\n\r");
