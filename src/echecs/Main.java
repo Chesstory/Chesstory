@@ -43,7 +43,7 @@ public class Main {
         System.out.println(e);
         System.out.println(e.getFEN());
         
-        e.construitPositionsAccessibles();
+        e.buildAccessiblePositions();
         //e.affichePositionAccessibles();
     }
 }

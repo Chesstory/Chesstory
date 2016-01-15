@@ -206,7 +206,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	 */
 	public boolean makeDeplacement(Deplacement move) {
 
-		if (ech.estValideDeplacement(move)) {
+		if (ech.isValidMove(move)) {
 			ech.executeDeplacement(move);
 			redessine();
 			chesstoryGame.addMoveMadeByPlayer(move);
@@ -308,7 +308,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 				System.out.println("==> Déplacement : " + d);
 
 				if (makeDeplacement(d)) {
-					if ((winner = ech.verifiePartieTerminee()) != 'n') {
+					if ((winner = ech.checkGameIsEnded()) != 'n') {
 						System.out.println("GG aux " + winner);
 						System.exit(0);
 					}
@@ -323,9 +323,9 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 				dessinEchiquier();
 
 				// Put king in a yoloswaggy color if echec
-				if (ech.estEnEchec(ech.getTrait())) {
+				if (ech.isInCheck(ech.getTrait())) {
 					eventInter(YetAnotherChessGame.CHESS_EVENT_ECHEC, ((ech.getTrait() == 'w') ? "blanc" : "noir"));
-					surbrillance(ech.rechercheRoi(ech.getTrait()), Color.MAGENTA);
+					surbrillance(ech.searchKing(ech.getTrait()), Color.MAGENTA);
 				}
 
 				first = true;
@@ -351,8 +351,8 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 				if (ech.getTrait() == ech.getPiece(depart).getColor())
 					afficheLesPositionsDansLeGUI(depart);
 
-				if (ech.estEnEchec(ech.getTrait())) {
-					surbrillance(ech.rechercheRoi(ech.getTrait()), Color.MAGENTA);
+				if (ech.isInCheck(ech.getTrait())) {
+					surbrillance(ech.searchKing(ech.getTrait()), Color.MAGENTA);
 				}
 
 				first = !(ech.getTrait() == ech.getPiece(depart).getColor());
