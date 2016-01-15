@@ -1,15 +1,12 @@
 >>>>||----Chesstory_SaveFile_Header--|
 1000
 1
-10
-w r 666 13 169 333
-b p 12 3 15 3
-w l 1 23 15 6
-b c 48 45 2 6
-w f 4 5 65 6
-b t 98 8 9 45
-w a 5 65 56 5
-b b 45 2 6 5
-w c 15 1 5 6
-b m 4 5 6 3
+0
+rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR
+pion,p,0,0,1,4,0,0,false
+tour,r,1,99,1,99,0,0,true
+reine,q,1,99,1,99,1,99,true
+roi,k,1,1,1,1,1,1,true
+fou,b,0,0,0,0,1,99,true
+cavalier,n,1,2,0,0,0,0,true
 |--Chesstory_SaveFile_Footer----||<<<<
