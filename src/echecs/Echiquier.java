@@ -1296,4 +1296,46 @@ public class Echiquier {
 		this.tourType = new Piece(tour);
 		this.cavalierType = new Piece(cavalier);
 	}
+
+	/**
+	 * @return the pionType
+	 */
+	public Piece getPionType() {
+		return pionType;
+	}
+
+	/**
+	 * @return the tourType
+	 */
+	public Piece getTourType() {
+		return tourType;
+	}
+
+	/**
+	 * @return the dameType
+	 */
+	public Piece getDameType() {
+		return dameType;
+	}
+
+	/**
+	 * @return the roiType
+	 */
+	public Piece getRoiType() {
+		return roiType;
+	}
+
+	/**
+	 * @return the fouType
+	 */
+	public Piece getFouType() {
+		return fouType;
+	}
+
+	/**
+	 * @return the cavalierType
+	 */
+	public Piece getCavalierType() {
+		return cavalierType;
+	}
 }

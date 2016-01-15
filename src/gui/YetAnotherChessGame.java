@@ -377,22 +377,22 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 
 	}
 
-public void changeRules(Object[][] arrayRulePiece) {
-		//TODO wait for Roro's thing
-		Piece[] arrayPieces = new Piece[6];
+	public void changeRules(Object[][] arrayRulePiece) {
+		// TODO wait for Roro's thing
+		/*Piece[] arrayPieces = new Piece[6];
 		String name;
 		char code;
 		int minX, maxX, minY, maxY, minDiag, maxDiag;
 		boolean backward;
-		
+
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 9; j++) {
-				switch (j){
-				//case 0 : name=;
+				switch (j) {
+				// case 0 : name=;
 				}
 			}
 			arrayPieces[i] = new Piece(name, code, minX, maxX, minY, maxY, minDiag, maxDiag, backward);
-		}
+		}*/
 	}
 
 	public String getFEN() {
@@ -401,5 +401,21 @@ public void changeRules(Object[][] arrayRulePiece) {
 
 	public JLayeredPane CreationChessboard() {
 		return layeredPane;
+	}
+
+	
+	/**
+	 * @return An array with the pieces move set
+	 */
+	public String[] getArrayRulePiece() {
+		String[] arrayPiece = new String[6];
+		arrayPiece[0] = ech.getPionType().getMoveSet();
+		arrayPiece[1] = ech.getTourType().getMoveSet();
+		arrayPiece[2] = ech.getDameType().getMoveSet();
+		arrayPiece[3] = ech.getRoiType().getMoveSet();
+		arrayPiece[4] = ech.getFouType().getMoveSet();
+		arrayPiece[5] = ech.getCavalierType().getMoveSet();
+		
+		return arrayPiece;
 	}
 }
