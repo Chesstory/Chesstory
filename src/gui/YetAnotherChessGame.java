@@ -377,7 +377,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 
 	}
 
-	/*public void changeRules(Object[][] arrayRulePiece) {
+public void changeRules(Object[][] arrayRulePiece) {
 		//TODO wait for Roro's thing
 		Piece[] arrayPieces = new Piece[6];
 		String name;
@@ -388,12 +388,12 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 9; j++) {
 				switch (j){
-				case 0 : name=;
+				//case 0 : name=;
 				}
 			}
 			arrayPieces[i] = new Piece(name, code, minX, maxX, minY, maxY, minDiag, maxDiag, backward);
 		}
-	}*/
+	}
 
 	public String getFEN() {
 		return ech.getFEN();

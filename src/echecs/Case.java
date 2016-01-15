@@ -5,6 +5,8 @@
  */
 package echecs;
 
+//TODO jdoc
+
 /**
  *
  * @author samuel
