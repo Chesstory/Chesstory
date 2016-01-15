@@ -72,6 +72,13 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	 */
 	Position arrive;
 
+	/**
+	 * Color themes
+	 */
+	Color backgroundOne, backgroundTwo, caseSpec, caseAccessible;
+	private final static Color[] DEFAULT = {Color.getHSBColor(0.56f, 1.0f, 0.8f), Color.white, Color.YELLOW, Color.ORANGE};
+
+	
 	private ChesstoryGame chesstoryGame;
 	/**
 	 * L'échiquier courrant
@@ -153,14 +160,14 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	public void afficheLesPositionsDansLeGUI(Position p) {
 		ArrayList<Position> array = ech.affichePositionAccessibles(p);
 		ArrayList<Position> arraySpec = ech.showSpecPositions(p);
-		
-		//NORMAL
+
+		// NORMAL
 		for (int i = 0; i < array.size(); i++) {
-			surbrillance(array.get(i), Color.YELLOW/*new Color(0xfc913a*//*0x74d600*//*)*/);
+			surbrillance(array.get(i), caseAccessible/* new Color(0xfc913a *//* 0x74d600 *//* ) */);
 		}
-		//TRISOMIQUE
+		// TRISOMIQUE
 		for (int i = 0; i < arraySpec.size(); i++) {
-			surbrillance(arraySpec.get(i), Color.ORANGE /*new Color(*//*0xf9d62e*//*0xadff00*//*)*/);
+			surbrillance(arraySpec.get(i), caseSpec /* new Color( *//* 0xf9d62e *//* 0xadff00 *//* ) */);
 		}
 	}
 
@@ -169,9 +176,9 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 			for (int i = 0; i < ech.getDimX(); i++) {
 				JPanel panel = (JPanel) chessBoard.getComponent(j * ech.getDimX() + i);
 				if (i % 2 == 0) {
-					panel.setBackground(j % 2 == 0 ? Color.white : Color.getHSBColor(0.56f, 1.0f, 0.8f));
+					panel.setBackground(j % 2 == 0 ? backgroundTwo : backgroundOne);
 				} else {
-					panel.setBackground(j % 2 == 0 ? Color.getHSBColor(0.56f, 1.0f, 0.8f) : Color.white);
+					panel.setBackground(j % 2 == 0 ? backgroundOne : backgroundTwo);
 				}
 			}
 		}
@@ -217,6 +224,8 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		this.chesstoryGame = chesstoryGame;
 		// ech = new Echiquier();
 
+		changeThem(0);
+		
 		// This a test with the classical chess pieces
 		ech = new Echiquier(new Piece("pion", 'p', 0, 0, 1, 1, 0, 0, false),
 				new Piece("dame", 'q', true, true, true, true), new Piece("roi", 'k', 1, 1, 1, 1, 1, 1, true),
@@ -252,9 +261,9 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 
 			int row = (i / 8) % 2;
 			if (row == 0) {
-				square.setBackground(i % 2 == 0 ? Color.white : Color.getHSBColor(0.56f, 1.0f, 0.8f));
+				square.setBackground(i % 2 == 0 ? backgroundTwo : backgroundOne);
 			} else {
-				square.setBackground(i % 2 == 0 ? Color.getHSBColor(0.56f, 1.0f, 0.8f) : Color.white);
+				square.setBackground(i % 2 == 0 ? backgroundOne : backgroundTwo);
 			}
 		}
 		// tu pues du cul
@@ -355,9 +364,6 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		chesstoryGame.chessEvent(event, s);
 	}
 
-	public void eventHighlight(Position pos) {
-		surbrillance(pos, Color.yellow);
-	}
 
 	public void switchBorder(boolean b) {
 		if (b) {
@@ -438,5 +444,12 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		arrayPiece[5] = ech.getKnightSpec().getMoveSet();
 
 		return arrayPiece;
+	}
+	
+	public void changeThem(int them){
+		backgroundOne = DEFAULT[0];
+		backgroundTwo = DEFAULT[1];
+		caseAccessible = DEFAULT[2];
+		caseSpec = DEFAULT[3];
 	}
 }
