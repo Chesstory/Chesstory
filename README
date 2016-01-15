@@ -1,0 +1,37 @@
+# Chesstory
+Mutliple Chess games, this is a school project.
+Goal : Create a chess game which include several variants and is really customable.
+Support : Written in JAVA => should be compatible for every OS !
+
+What has been asked :
+  - Chess game with graphic interface
+  - Including historical variants
+  - Allowing to chose for every pieces the move set and, if possible, recreate our own chess board.
+  
+What is already done :
+  - 'Basic' chess game
+  - Graphic interface :
+    * Visual hints like in case of 'echec', accessible positions, etc
+    * Chessboard and colors are customable
+    * Browser view which includes :
+      ~ Time travel (through the game only, sorry)
+      ~ If you do this, to avoid time paradox, you must say that you want to do an action
+    
+  - Save & Load :
+    * Work one commit every two
+    
+  - Rules :
+    * Pieces and deplacement rules are customable really easily
+    
+What is in progress :
+  - We are in a period where save & load feature do not work all the time (since we changed rules), so fix that.
+  - Graphic interface to select rules
+  - Do a (user-friendly) jdoc and put all the code in the same language
+
+What remains to do (not exhaustiv list) :
+  - Add a timer (one for each player (like real chess)) (we know the principe (new thread itout itout))
+  - Add some beautiful and shiny color themes !
+  - See if we can rotate the chessboard (utopia)
+  
+If you have any question or request or just want to thank us, please send me an email at :
+b.guillemot95@gmail.com
