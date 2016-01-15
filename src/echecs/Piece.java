@@ -5,18 +5,15 @@
  */
 package echecs;
 
-//TODO jdoc
-
 import java.util.ArrayList;
 
 /**
  *
  * @author samuel
  */
-
 public class Piece {
 
-	private String nom;
+	private String name;
 	private char code;
 	private String couleur;
 	// Tell if the piece moved during the game, useful for roque,
@@ -37,12 +34,15 @@ public class Piece {
 	/**
 	 * Create a piece by its name, code and color
 	 * 
-	 * @param nom
+	 * @param name
+	 *            Name of the piece
 	 * @param code
+	 *            Code of the piece
 	 * @param couleur
+	 *            Color of the piece
 	 */
-	public Piece(String nom, char code) {
-		this.nom = nom;
+	public Piece(String name, char code) {
+		this.name = name;
 		this.code = code;
 		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 
@@ -57,10 +57,14 @@ public class Piece {
 
 	/**
 	 * Build a chess piece with a name, a code, a color, and its possible moves
+	 * Used to create the specimen pieces in the chessboard easily
 	 * 
-	 * @param nom
+	 * @param name
+	 *            Name of the piece
 	 * @param code
+	 *            Code of the piece
 	 * @param couleur
+	 *            Color of the piece
 	 * @param depHor
 	 *            Whether it can move horizontally or not
 	 * @param depVer
@@ -70,8 +74,8 @@ public class Piece {
 	 * @param backward
 	 *            Whether it can move backward or not
 	 */
-	public Piece(String nom, char code, boolean depHor, boolean depVer, boolean depDiag, boolean backward) {
-		this.nom = nom;
+	public Piece(String name, char code, boolean depHor, boolean depVer, boolean depDiag, boolean backward) {
+		this.name = name;
 		this.code = code;
 		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 
@@ -86,9 +90,32 @@ public class Piece {
 		maxDiag = ((depDiag) ? 99 : 0);
 	}
 
-	public Piece(String nom, char code, int minX, int maxX, int minY, int maxY, int minDiag, int maxDiag,
+	/**
+	 * Build a chess piece with a name, a code, a color, and its possible moves
+	 * Used to create the specimen pieces in the chessboard
+	 * 
+	 * @param name
+	 *            Name of the piece
+	 * @param code
+	 *            Code of the piece
+	 * @param minX
+	 *            Minimum horizontal dep capacity
+	 * @param maxX
+	 *            Maximum horizontal dep capacity
+	 * @param minY
+	 *            Minimum vertical dep capacity
+	 * @param maxY
+	 *            Maximum vertical dep capacity
+	 * @param minDiag
+	 *            Minimum diagonal dep capacity
+	 * @param maxDiag
+	 *            Maximum diagonal dep capacity
+	 * @param backward
+	 *            Whether it can move backward
+	 */
+	public Piece(String name, char code, int minX, int maxX, int minY, int maxY, int minDiag, int maxDiag,
 			boolean backward) {
-		this.nom = nom;
+		this.name = name;
 		this.code = code;
 		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 
@@ -111,7 +138,7 @@ public class Piece {
 	 *            The piece to copy
 	 */
 	Piece(Piece p) {
-		this.nom = new String(p.nom);
+		this.name = new String(p.name);
 		this.code = p.code;
 		this.couleur = new String(p.couleur);
 
@@ -134,7 +161,7 @@ public class Piece {
 	 *            The color of the new piece
 	 */
 	Piece(Piece p, char color) {
-		this.nom = new String(p.nom);
+		this.name = new String(p.name);
 		this.code = ((color == 'w') ? Character.toUpperCase(p.code) : p.code);
 		this.couleur = ((color == 'w') ? "blanc" : "noir");
 
@@ -155,7 +182,7 @@ public class Piece {
 	 * you have to build the horse too ! I could have call it "The Armorsmith"
 	 * too, following this
 	 * 
-	 * @param nom
+	 * @param name
 	 *            Name of the piece
 	 * @param code
 	 *            Code of the piece
@@ -164,8 +191,8 @@ public class Piece {
 	 * @param maxX
 	 *            Its bigger move cap
 	 */
-	public Piece(String nom, char code, int minX, int maxX) {
-		this.nom = nom;
+	public Piece(String name, char code, int minX, int maxX) {
+		this.name = name;
 		this.code = code;
 		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 
@@ -189,51 +216,51 @@ public class Piece {
 		this.code = code;
 		switch (code) {
 		case 'k':
-			this.nom = "roi";
+			this.name = "roi";
 			couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 			break;
 		case 'K':
-			this.nom = "roi";
+			this.name = "roi";
 			couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 			break;
 		case 'q':
-			this.nom = "dame";
+			this.name = "dame";
 			couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 			break;
 		case 'Q':
-			this.nom = "dame";
+			this.name = "dame";
 			couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 			break;
 		case 'r':
-			this.nom = "tour";
+			this.name = "tour";
 			couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 			break;
 		case 'R':
-			this.nom = "tour";
+			this.name = "tour";
 			couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 			break;
 		case 'b':
-			this.nom = "fou";
+			this.name = "fou";
 			couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 			break;
 		case 'B':
-			this.nom = "fou";
+			this.name = "fou";
 			couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 			break;
 		case 'n':
-			this.nom = "cavalier";
+			this.name = "cavalier";
 			couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 			break;
 		case 'N':
-			this.nom = "cavalier";
+			this.name = "cavalier";
 			couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 			break;
 		case 'p':
-			this.nom = "pion";
+			this.name = "pion";
 			couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 			break;
 		case 'P':
-			this.nom = "pion";
+			this.name = "pion";
 			couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 			break;
 		}
@@ -250,78 +277,111 @@ public class Piece {
 	}
 
 	/**
-	 * Retourne le nom
-	 * 
-	 * @return le nom de la pièce
+	 * @return Name of the piece
 	 */
-	public String getNom() {
-		return nom + "_" + couleur;
+	public String getName() {
+		return name + "_" + couleur;
 	}
 
+	/**
+	 * @return The color of the piece
+	 */
 	public char getColor() {
 		return couleur.equals("blanc") ? 'w' : 'b';
 	}
 
 	/**
-	 * Retourne le code
-	 * 
-	 * @return code de la pièce
+	 * @return The code of the piece
 	 */
 	public char getCode() {
 		return code;
 	}
 
 	/**
-	 * Retroune vrai si la pièce est blanche faux sinon
-	 * 
-	 * @return
+	 * @return Whether the piece is white
 	 */
 	public boolean estBlanc() {
 		return (couleur.equals("blanc"));
 	}
 
 	/**
-	 * Retroune vrai si la pièce est noire faux sinon
-	 * 
-	 * @return
+	 * @return Whether the piece is black
 	 */
 	public boolean estNoir() {
 		return (couleur.equals("noir"));
 	}
 
 	/**
-	 * Chaine de caractères qui représenta la pièce
-	 * 
-	 * @return
+	 * @return A string that represents the piece
 	 */
 	public String toString() {
 		return Character.toString(code);
 	}
 
+	/**
+	 * Add an accessible pos to the piece
+	 * 
+	 * @param p
+	 *            The position to add
+	 */
 	public void addCaseAccessible(Position p) {
 		accessible.add(p);
 	}
+
+	/**
+	 * Delete an accessible pos to the piece (if it is already in the list)
+	 * 
+	 * @param p
+	 *            The position to delete
+	 */
 	public void suppCaseAccessible(Position p) {
 		if (accessible.contains(p))
 			accessible.remove(p);
 	}
+
+	/**
+	 * @return The list of the accessible position of the piece
+	 */
 	public ArrayList<Position> getAccessible() {
 		return accessible;
 	}
+
+	/**
+	 * Empty the list of accessibleble position of the piece
+	 */
 	public void videAccessible() {
 		accessible = new ArrayList<>();
 	}
-	
+
+	/**
+	 * @param p
+	 *            The position to add to the 'special' accessible positions of
+	 *            the piece
+	 */
 	public void addCaseSpec(Position p) {
 		accessibleSpec.add(p);
 	}
+
+	/**
+	 * @param p
+	 *            The position to delete from the 'special' accessible positions
+	 *            of the piece
+	 */
 	public void suppCaseSpec(Position p) {
 		if (accessibleSpec.contains(p))
 			accessibleSpec.remove(p);
 	}
+
+	/**
+	 * @return The list of the the 'special' accessible positions of the piece
+	 */
 	public ArrayList<Position> getSpec() {
 		return accessibleSpec;
 	}
+
+	/**
+	 * Empty the list of the 'special' accessible positions of the piece
+	 */
 	public void videSpec() {
 		accessibleSpec = new ArrayList<>();
 	}
@@ -329,64 +389,113 @@ public class Piece {
 	/**
 	 * Getters & setters for moves capacity
 	 */
+	/**
+	 * @return The littlest horizontal dep capacity
+	 */
 	public int getMinX() {
 		return minX;
 	}
 
+	/**
+	 * @param i
+	 *            The new littlest horizontal dep capacity
+	 */
 	public void setMinX(int i) {
 		this.minX = i;
 	}
 
+	/**
+	 * @return The biggest horizontal dep capacity
+	 */
 	public int getMaxX() {
 		return maxX;
 	}
 
+	/**
+	 * @param i
+	 *            The new biggest horizontal dep capacity
+	 */
 	public void setMaxX(int i) {
 		this.maxX = i;
 	}
 
+	/**
+	 * @return The littlest vertical move capacity
+	 */
 	public int getMinY() {
 		return minY;
 	}
 
+	/**
+	 * @param i
+	 *            The new littlest vertical move capacity
+	 */
 	public void setMinY(int i) {
 		this.minY = i;
 	}
 
+	/**
+	 * @return The biggest vertical move possibility
+	 */
 	public int getMaxY() {
 		return maxY;
 	}
 
+	/**
+	 * @param i
+	 *            The new biggest vertical move possibility
+	 */
 	public void setMaxY(int i) {
 		this.maxY = i;
 	}
 
+	/**
+	 * @return The littlest diagonal move possibility
+	 */
 	public int getMinDiag() {
 		return minDiag;
 	}
 
+	/**
+	 * @param i
+	 *            The new littlest diagonal move possibilty
+	 */
 	public void setMinDiag(int i) {
 		this.minDiag = i;
 	}
 
+	/**
+	 * @return The biggest diagonal move possibility
+	 */
 	public int getMaxDiag() {
 		return maxDiag;
 	}
 
+	/**
+	 * @param i
+	 *            The new biggest diagonal move possibility
+	 */
 	public void setMaxDiag(int i) {
 		this.maxDiag = i;
 	}
 
+	/**
+	 * @return Whether the piece can go backward
+	 */
 	public boolean getBackward() {
 		return backward;
 	}
 
+	/**
+	 * @param b
+	 *            If the piece can go backward
+	 */
 	public void setBackward(boolean b) {
 		this.backward = b;
 	}
 
 	/**
-	 * @return the moved
+	 * @return Whether this boolean useful for many things has been changed
 	 */
 	public boolean isMoved() {
 		return moved;
@@ -400,8 +509,11 @@ public class Piece {
 		this.moved = moved;
 	}
 
+	/**
+	 * @return A string useful for saving games
+	 */
 	public String getMoveSet() {
-		return new String(nom + "," + code + "," + minX + "," + maxX + "," + minY + "," + maxY + "," + minDiag + ","
+		return new String(name + "," + code + "," + minX + "," + maxX + "," + minY + "," + maxY + "," + minDiag + ","
 				+ maxDiag + "," + backward);
 	}
 }

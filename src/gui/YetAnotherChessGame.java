@@ -40,7 +40,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	public final static int CHESS_EVENT_PROM = 6;
 
 	/**
-	 * Paneau de fond111
+	 * Paneau de fond
 	 */
 	JLayeredPane layeredPane;
 
@@ -76,7 +76,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	 * Color themes
 	 */
 	Color backgroundOne, backgroundTwo, caseSpec, caseAccessible;
-	private final static Color[] DEFAULT = {Color.getHSBColor(0.56f, 1.0f, 0.8f), Color.white, Color.YELLOW, Color.ORANGE};
+	private final static Color[] DEFAULT_THEM = {Color.getHSBColor(0.56f, 1.0f, 0.8f), Color.white, Color.YELLOW, Color.ORANGE};
 
 	
 	private ChesstoryGame chesstoryGame;
@@ -119,7 +119,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 				Piece p = ech.getPieceCase(i, 8 - j - 1);
 
 				if (p != null) {
-					String nom = p.getNom();
+					String nom = p.getName();
 					String nomComplet = "icons/" + nom + ".png";
 					ClassLoader cl = this.getClass().getClassLoader();
 					JLabel piece = new JLabel(new ImageIcon(cl.getResource(nomComplet)));
@@ -224,7 +224,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		this.chesstoryGame = chesstoryGame;
 		// ech = new Echiquier();
 
-		changeThem(0);
+		changeTheme(DEFAULT_THEM);
 		
 		// This a test with the classical chess pieces
 		ech = new Echiquier(new Piece("pion", 'p', 0, 0, 1, 1, 0, 0, false),
@@ -446,10 +446,10 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		return arrayPiece;
 	}
 	
-	public void changeThem(int them){
-		backgroundOne = DEFAULT[0];
-		backgroundTwo = DEFAULT[1];
-		caseAccessible = DEFAULT[2];
-		caseSpec = DEFAULT[3];
+	public void changeTheme(Color[] theme){
+		backgroundOne = theme[0];
+		backgroundTwo = theme[1];
+		caseAccessible = theme[2];
+		caseSpec = theme[3];
 	}
 }
