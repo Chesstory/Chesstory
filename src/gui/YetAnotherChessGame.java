@@ -377,7 +377,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 
 	}
 
-	public void changeRules(Object[][] arrayRulePiece) {
+	public void changeRules(String[] arrayRulePiece) {
 		// TODO wait for Roro's thing
 		/*Piece[] arrayPieces = new Piece[6];
 		String name;
