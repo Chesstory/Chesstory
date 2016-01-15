@@ -321,6 +321,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 
 				first = true;
 			} else {
+				dessinEchiquier();
 				chessPiece = null;
 				Component c = chessBoard.findComponentAt(e.getX(), e.getY());
 				// if it is empty : do nothing
@@ -345,7 +346,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 					surbrillance(ech.rechercheRoi(ech.getTrait()), Color.MAGENTA);
 				}
 
-				first = false;
+				first = !(ech.getTrait() == ech.getPiece(depart).getColor());
 			}
 		}
 	}
