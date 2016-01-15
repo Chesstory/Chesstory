@@ -305,7 +305,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		f.validate();
 		
 		switch(gameType){
-		case GAMETYPE_CLASSICAL:loadGame();
+		case GAMETYPE_CLASSICAL:loadGame("default_CLASSICAL");
 		break;
 		default://TODO custom game;
 		}
@@ -490,12 +490,14 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			panelLeftMenuBrowse.setBorder(new EmptyBorder(0, 0, 0, 0));
 		}
 	}
-
-	public void loadGame() {
+	public void loadGame(){
+		loadGame("choosingAFile");
+	}
+	public void loadGame(String nameOfTheFileToLoad) {
 		disableBrowserView();// We are in a game
 		// moveList=new ArrayList<Deplacement>(FileController.loadFile());
 		System.out.println("---->Loading file");
-		GameSave gameSave = FileController.loadFile();
+		GameSave gameSave = FileController.loadFile(nameOfTheFileToLoad);
 		if (gameSave.getIsGameCorrupted()) {
 			System.out.println("---->FILE CORRUPTED\n---->Loading failed");
 		} else {

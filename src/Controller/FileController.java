@@ -8,6 +8,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -94,9 +95,8 @@ abstract class FileController {
 		return true;
 	}
 
-	static GameSave loadFile() {
+	static GameSave loadFile(String fileToLoad) {
 		ArrayList<Deplacement> a = new ArrayList<Deplacement>();
-		String fileName = "./Saves/save1.txt";// not used anymore
 		String directory = "./Saves/";
 		String line[];
 		line = new String[100];
@@ -120,18 +120,27 @@ abstract class FileController {
 		
 		// TODO the case where there is a " " at the end of a line
 		
-		// file chooser
-		JFileChooser chooser = new JFileChooser();
-		chooser.setCurrentDirectory(new File(directory));
-		chooser.setDialogType(JFileChooser.SAVE_DIALOG);
-		chooser.setDialogTitle("Load your chess game");
-		chooser.setFileFilter(new FileNameExtensionFilter("text file", "txt"));
-		// chooser.setAcceptAllFileFilterUsed(false); // remove the accept-all
-		// (.*) file filter
-		int retrival = chooser.showDialog(ChesstoryGame.f, "LOAD...");
-		// int retrival = chooser.showSaveDialog(null);
+		int retrival;
+		File file;
+		if(fileToLoad=="choosingAFile"){
+			System.out.println("PENIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIS");
+			JFileChooser chooser = new JFileChooser();
+			chooser.setCurrentDirectory(new File(directory));
+			chooser.setDialogType(JFileChooser.SAVE_DIALOG);
+			chooser.setDialogTitle("Load your chess game");
+			chooser.setFileFilter(new FileNameExtensionFilter("text file", "txt"));
+			// chooser.setAcceptAllFileFilterUsed(false); // remove the accept-all
+			// (.*) file filter
+			retrival = chooser.showDialog(ChesstoryGame.f, "LOAD...");
+			file=chooser.getSelectedFile();
+		}else{
+			retrival=JFileChooser.APPROVE_OPTION;
+			file=new File("src/data/defaultSaves/"+fileToLoad+".txt");
+			//file=Class.getResource("./data/defaultSaves/"+fileToLoad).getFile();
+		}
 		if (retrival == JFileChooser.APPROVE_OPTION) {
-			try (FileReader fileReader = new FileReader(chooser.getSelectedFile())) {
+			System.out.println("FILE :::::::: "+file.getName());
+			try (FileReader fileReader = new FileReader(file)) {
 				@SuppressWarnings("resource")
 				BufferedReader bufferedReader = new BufferedReader(fileReader);
 				while ((line[nbLine] = bufferedReader.readLine()) != null && !isFileCorrupted) {// Reading
@@ -281,7 +290,7 @@ abstract class FileController {
 				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
-				System.out.println("ErrorFileLoad: Unable to open file '" + fileName + "'");
+				System.out.println("ErrorFileLoad: Unable to open file '" + file + "'");
 			}
 			// here we check if the number on line is correct
 			if (expectedNbOfMoves != (nbLine - nbParaLine - 2)) {// 2 is the header
