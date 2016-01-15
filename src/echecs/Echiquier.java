@@ -38,7 +38,7 @@ public class Echiquier {
 	Position priseEnPassant;
 
 	// 'Specimen' chessPieces
-	Piece pionType, tourType, dameType, roiType, fouType, cavalierType;
+	Piece pawnSpec, rookSpec, queenSpec, kingSpec, bishopSpec, knightSpec;
 
 	/**
 	 * Constructeur par défaut echiquier 8x8
@@ -80,7 +80,7 @@ public class Echiquier {
 			YetAnotherChessGame yacg) {
 		this(8, 8);
 		this.yacg = yacg;
-		initPieces(pion, dame, roi, cavalier, fou, tour);
+		initPieces(pion, tour, dame, roi, fou, cavalier);
 	}
 
 	public Echiquier(Echiquier ech) {
@@ -88,12 +88,12 @@ public class Echiquier {
 		this.dimY = ech.dimY;
 		this.trait = ech.trait;
 
-		this.pionType = ech.pionType;
-		this.fouType = ech.fouType;
-		this.roiType = ech.roiType;
-		this.dameType = ech.dameType;
-		this.tourType = ech.tourType;
-		this.cavalierType = ech.cavalierType;
+		this.pawnSpec = ech.pawnSpec;
+		this.bishopSpec = ech.bishopSpec;
+		this.kingSpec = ech.kingSpec;
+		this.queenSpec = ech.queenSpec;
+		this.rookSpec = ech.rookSpec;
+		this.knightSpec = ech.knightSpec;
 
 		roque = true;
 
@@ -191,40 +191,40 @@ public class Echiquier {
 						int pos = j + (decal);
 						switch (l) {
 						case 'k':
-							c[pos][dimY - i - 1].setPiece(new Piece(roiType, 'b'));
+							c[pos][dimY - i - 1].setPiece(new Piece(kingSpec, 'b'));
 							break;
 						case 'K':
-							c[pos][dimY - i - 1].setPiece(new Piece(roiType, 'w'));
+							c[pos][dimY - i - 1].setPiece(new Piece(kingSpec, 'w'));
 							break;
 						case 'q':
-							c[pos][dimY - i - 1].setPiece(new Piece(dameType, 'b'));
+							c[pos][dimY - i - 1].setPiece(new Piece(queenSpec, 'b'));
 							break;
 						case 'Q':
-							c[pos][dimY - i - 1].setPiece(new Piece(dameType, 'w'));
+							c[pos][dimY - i - 1].setPiece(new Piece(queenSpec, 'w'));
 							break;
 						case 'r':
-							c[pos][dimY - i - 1].setPiece(new Piece(tourType, 'b'));
+							c[pos][dimY - i - 1].setPiece(new Piece(rookSpec, 'b'));
 							break;
 						case 'R':
-							c[pos][dimY - i - 1].setPiece(new Piece(tourType, 'w'));
+							c[pos][dimY - i - 1].setPiece(new Piece(rookSpec, 'w'));
 							break;
 						case 'b':
-							c[pos][dimY - i - 1].setPiece(new Piece(fouType, 'b'));
+							c[pos][dimY - i - 1].setPiece(new Piece(bishopSpec, 'b'));
 							break;
 						case 'B':
-							c[pos][dimY - i - 1].setPiece(new Piece(fouType, 'w'));
+							c[pos][dimY - i - 1].setPiece(new Piece(bishopSpec, 'w'));
 							break;
 						case 'n':
-							c[pos][dimY - i - 1].setPiece(new Piece(cavalierType, 'b'));
+							c[pos][dimY - i - 1].setPiece(new Piece(knightSpec, 'b'));
 							break;
 						case 'N':
-							c[pos][dimY - i - 1].setPiece(new Piece(cavalierType, 'w'));
+							c[pos][dimY - i - 1].setPiece(new Piece(knightSpec, 'w'));
 							break;
 						case 'p':
-							c[pos][dimY - i - 1].setPiece(new Piece(pionType, 'b'));
+							c[pos][dimY - i - 1].setPiece(new Piece(pawnSpec, 'b'));
 							break;
 						case 'P':
-							c[pos][dimY - i - 1].setPiece(new Piece(pionType, 'w'));
+							c[pos][dimY - i - 1].setPiece(new Piece(pawnSpec, 'w'));
 							break;
 
 						}
@@ -416,13 +416,13 @@ public class Echiquier {
 			// cas du pion noir sur première rangée
 			if (codePiece == 'p' && (y2 == 0)) {
 				promotion = true;
-				piece = new Piece(dameType, 'b');
+				piece = new Piece(queenSpec, 'b');
 				yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_PROM, "Promotion noir");
 			}
 			// cas du pion blanc sur dernière rangée
 			if (codePiece == 'P' && (y2 == dimY - 1)) {
 				promotion = true;
-				piece = new Piece(dameType, 'w');
+				piece = new Piece(queenSpec, 'w');
 				yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_PROM, "Promotion blanc");
 			}
 
@@ -677,8 +677,10 @@ public class Echiquier {
 							if (!c[b][j].estVide())
 								useful = false;
 						}
-						if (useful)
+						if (useful){
 							c[i][j].getPiece().addCaseAccessible(new Position(i - 2, j));
+							yacg.eventHighlight(new Position(i - 2, j));
+						}
 					}
 				}
 				a++;
@@ -1287,55 +1289,55 @@ public class Echiquier {
 
 		return (end);
 	}
-
-	public void initPieces(Piece pion, Piece dame, Piece roi, Piece cavalier, Piece fou, Piece tour) {
-		this.pionType = new Piece(pion);
-		this.fouType = new Piece(fou);
-		this.roiType = new Piece(roi);
-		this.dameType = new Piece(dame);
-		this.tourType = new Piece(tour);
-		this.cavalierType = new Piece(cavalier);
+	
+	public void initPieces(Piece pion, Piece tour, Piece dame, Piece roi, Piece fou, Piece cavalier) {
+		this.pawnSpec = new Piece(pion);
+		this.bishopSpec = new Piece(fou);
+		this.kingSpec = new Piece(roi);
+		this.queenSpec = new Piece(dame);
+		this.rookSpec = new Piece(tour);
+		this.knightSpec = new Piece(cavalier);
 	}
 
 	/**
-	 * @return the pionType
+	 * @return the pawnSpec
 	 */
-	public Piece getPionType() {
-		return pionType;
+	public Piece getPawnSpec() {
+		return pawnSpec;
 	}
 
 	/**
-	 * @return the tourType
+	 * @return the rookSpec
 	 */
-	public Piece getTourType() {
-		return tourType;
+	public Piece getRookSpec() {
+		return rookSpec;
 	}
 
 	/**
-	 * @return the dameType
+	 * @return the queenSpec
 	 */
-	public Piece getDameType() {
-		return dameType;
+	public Piece getQueenSpec() {
+		return queenSpec;
 	}
 
 	/**
-	 * @return the roiType
+	 * @return the kingSpec
 	 */
-	public Piece getRoiType() {
-		return roiType;
+	public Piece getKingSpec() {
+		return kingSpec;
 	}
 
 	/**
-	 * @return the fouType
+	 * @return the bishopSpec
 	 */
-	public Piece getFouType() {
-		return fouType;
+	public Piece getBishopSpec() {
+		return bishopSpec;
 	}
 
 	/**
-	 * @return the cavalierType
+	 * @return the knightSpec
 	 */
-	public Piece getCavalierType() {
-		return cavalierType;
+	public Piece getKnightSpec() {
+		return knightSpec;
 	}
 }

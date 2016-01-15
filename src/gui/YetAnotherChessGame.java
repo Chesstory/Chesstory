@@ -348,6 +348,10 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	public void eventInter(int event, String s) {
 		chesstoryGame.chessEvent(event, s);
 	}
+	
+	public void eventHighlight(Position pos){
+		surbrillance(pos, Color.yellow);
+	}
 
 	public void switchBorder(boolean b) {
 		if (b) {
@@ -378,21 +382,33 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	}
 
 	public void changeRules(String[] arrayRulePiece) {
-		// TODO wait for Roro's thing
-		/*Piece[] arrayPieces = new Piece[6];
+		Piece[] arrayPieces = new Piece[6];
 		String name;
 		char code;
 		int minX, maxX, minY, maxY, minDiag, maxDiag;
 		boolean backward;
 
-		for (int i = 0; i < 6; i++) {
-			for (int j = 0; j < 9; j++) {
-				switch (j) {
-				// case 0 : name=;
-				}
+		try {
+			for (int i = 0; i < 6; i++) {
+				String[] inter = arrayRulePiece[i].split(",");
+				name = inter[0];
+				code = inter[1].charAt(0);
+				minX = Integer.parseInt(inter[2]);
+				maxX = Integer.parseInt(inter[3]);
+				minY = Integer.parseInt(inter[4]);
+				maxY = Integer.parseInt(inter[5]);
+				minDiag = Integer.parseInt(inter[6]);
+				maxDiag = Integer.parseInt(inter[7]);
+				backward = Boolean.parseBoolean(inter[8]);
+
+				arrayPieces[i] = new Piece(name, code, minX, maxX, minY, maxY, minDiag, maxDiag, backward);
 			}
-			arrayPieces[i] = new Piece(name, code, minX, maxX, minY, maxY, minDiag, maxDiag, backward);
-		}*/
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("Error : Setting rules of pieces.");
+		}
+		
+		ech.initPieces(arrayPieces[0], arrayPieces[1], arrayPieces[2], arrayPieces[3], arrayPieces[4], arrayPieces[5]);
 	}
 
 	public String getFEN() {
@@ -403,19 +419,18 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		return layeredPane;
 	}
 
-	
 	/**
 	 * @return An array with the pieces move set
 	 */
 	public String[] getArrayRulePiece() {
 		String[] arrayPiece = new String[6];
-		arrayPiece[0] = ech.getPionType().getMoveSet();
-		arrayPiece[1] = ech.getTourType().getMoveSet();
-		arrayPiece[2] = ech.getDameType().getMoveSet();
-		arrayPiece[3] = ech.getRoiType().getMoveSet();
-		arrayPiece[4] = ech.getFouType().getMoveSet();
-		arrayPiece[5] = ech.getCavalierType().getMoveSet();
-		
+		arrayPiece[0] = ech.getPawnSpec().getMoveSet();
+		arrayPiece[1] = ech.getRookSpec().getMoveSet();
+		arrayPiece[2] = ech.getQueenSpec().getMoveSet();
+		arrayPiece[3] = ech.getKingSpec().getMoveSet();
+		arrayPiece[4] = ech.getBishopSpec().getMoveSet();
+		arrayPiece[5] = ech.getKnightSpec().getMoveSet();
+
 		return arrayPiece;
 	}
 }

@@ -15,7 +15,7 @@ class Case {
 	private Piece contenu;
 
 	/**
-	 * Défini une case qui contient une pièce
+	 * Create a case with a piece
 	 * 
 	 * @param contenu
 	 */
@@ -24,7 +24,7 @@ class Case {
 	}
 
 	/**
-	 * Défini une case vide
+	 * Create an empty case
 	 */
 	public Case() {
 		this.contenu = null;
