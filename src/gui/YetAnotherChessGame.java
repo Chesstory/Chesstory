@@ -152,9 +152,15 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 
 	public void afficheLesPositionsDansLeGUI(Position p) {
 		ArrayList<Position> array = ech.affichePositionAccessibles(p);
-
+		ArrayList<Position> arraySpec = ech.showSpecPositions(p);
+		
+		//NORMAL
 		for (int i = 0; i < array.size(); i++) {
-			surbrillance(array.get(i), Color.ORANGE);
+			surbrillance(array.get(i), Color.YELLOW/*new Color(0xfc913a*//*0x74d600*//*)*/);
+		}
+		//TRISOMIQUE
+		for (int i = 0; i < arraySpec.size(); i++) {
+			surbrillance(arraySpec.get(i), Color.ORANGE /*new Color(*//*0xf9d62e*//*0xadff00*//*)*/);
 		}
 	}
 
@@ -217,10 +223,10 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 				new Piece("cavalier", 'n', 1, 2), new Piece("fou", 'b', false, false, true, true),
 				new Piece("tour", 'r', true, true, false, true), this);
 
-		// ech.setFEN(fenDeDeapart);
+		ech.setFEN(fenDeDeapart);
 
 		// Pour le test !
-		ech.setFEN("kqqqqqqq/8/8/5b2/pppppppp/8/8/K5PP");
+		// ech.setFEN("kqqqqqqq/8/8/5b2/pppppppp/8/8/K5PP");
 
 		Dimension boardSize = new Dimension(600, 600);
 

@@ -14,6 +14,10 @@ import gui.YetAnotherChessGame;
  *
  * @author samuel
  */
+/**
+ * @author HiJohn
+ *
+ */
 public class Echiquier {
 
 	private Case[][] c;
@@ -678,7 +682,7 @@ public class Echiquier {
 						}
 						if (useful) {
 							c[i][j].getPiece().addCaseAccessible(new Position(i - 2, j));
-							yacg.eventHighlight(new Position(i - 2, j));
+							c[i][j].getPiece().addCaseSpec(new Position(i - 2, j));
 						}
 					}
 				}
@@ -708,8 +712,10 @@ public class Echiquier {
 							if (!c[b][j].isEmpty())
 								useful = false;
 						}
-						if (useful)
+						if (useful) {
 							c[i][j].getPiece().addCaseAccessible(new Position(i + 2, j));
+							c[i][j].getPiece().addCaseSpec(new Position(i + 2, j));
+						}
 					}
 				}
 				a--;
@@ -732,6 +738,7 @@ public class Echiquier {
 		// On 2nd line maggle
 		if (j == 1 && c[i][j + p.getMaxY() + 1].isEmpty() && p.getMaxY() < dimY) {
 			p.addCaseAccessible(new Position(i, j + p.getMaxY() + 1));
+			p.addCaseSpec(new Position(i, j + p.getMaxY() + 1));
 		}
 
 		// Nomnom of the white pawn
@@ -786,12 +793,16 @@ public class Echiquier {
 		// Prise en passant (baguette)
 		// Right one
 		if (existeCase(i + 1, j) && !c[i + 1][j].isEmpty() && c[i + 1][j].getPiece().getCode() == 'p'
-				&& c[i + 1][j].getPiece().isMoved() && c[i + 1][j + 1].isEmpty())
+				&& c[i + 1][j].getPiece().isMoved() && c[i + 1][j + 1].isEmpty()) {
 			p.addCaseAccessible(new Position(i + 1, j + 1));
+			p.addCaseSpec(new Position(i + 1, j + 1));
+		}
 		// Left one
 		if (existeCase(i - 1, j) && !c[i - 1][j].isEmpty() && c[i - 1][j].getPiece().getCode() == 'p'
-				&& c[i - 1][j].getPiece().isMoved() && c[i - 1][j + 1].isEmpty())
+				&& c[i - 1][j].getPiece().isMoved() && c[i - 1][j + 1].isEmpty()) {
 			p.addCaseAccessible(new Position(i - 1, j + 1));
+			p.addCaseSpec(new Position(i - 1, j + 1));
+		}
 	}
 
 	/**
@@ -818,8 +829,10 @@ public class Echiquier {
 				else if (!c[i][parcJ].isEmpty())
 					fini = true;
 			}
-			if (fini)
+			if (fini) {
 				p.addCaseAccessible(new Position(i, j - p.getMaxY() - 1));
+				p.addCaseSpec(new Position(i, j - p.getMaxY() - 1));
+			}
 		}
 
 		// Nomnom of the black pawn
@@ -872,12 +885,16 @@ public class Echiquier {
 		// Prise en passant (baguette)
 		// Right one
 		if (existeCase(i + 1, j) && !c[i + 1][j].isEmpty() && c[i + 1][j].getPiece().getCode() == 'P'
-				&& c[i + 1][j].getPiece().isMoved() && c[i + 1][j - 1].isEmpty())
+				&& c[i + 1][j].getPiece().isMoved() && c[i + 1][j - 1].isEmpty()){
 			p.addCaseAccessible(new Position(i + 1, j - 1));
+			p.addCaseSpec(new Position(i + 1, j - 1));
+		}
 		// Left one
 		if (existeCase(i - 1, j) && !c[i - 1][j].isEmpty() && c[i - 1][j].getPiece().getCode() == 'P'
-				&& c[i - 1][j].getPiece().isMoved() && c[i - 1][j - 1].isEmpty())
+				&& c[i - 1][j].getPiece().isMoved() && c[i - 1][j - 1].isEmpty()){
 			p.addCaseAccessible(new Position(i - 1, j - 1));
+			p.addCaseSpec(new Position(i - 1, j - 1));
+		}
 	}
 
 	/**
@@ -892,6 +909,7 @@ public class Echiquier {
 				Piece p = c[i][j].getPiece();
 				if (p != null) {
 					p.videAccessible();
+					p.videSpec();
 
 					// If it's a knight with basic move set
 					if (Character.toLowerCase(p.getCode()) == 'n' && p.getMaxY() == 0 && p.getMaxDiag() == 0) {
@@ -1131,11 +1149,27 @@ public class Echiquier {
 		Piece p = c[x][y].getPiece();
 		for (int i = 0; i < p.getAccessible().size(); i++) {
 			if (!verifiePasEchecsApres(new Deplacement(posPiece, p.getAccessible().get(i)))) {
+				p.suppCaseSpec(p.getAccessible().get(i));
 				p.suppCaseAccessible(p.getAccessible().get(i));
 				i--;
 			}
 		}
 		return p.getAccessible();
+	}
+	
+	
+	/**
+	 * To be called AFTER previous method
+	 * 
+	 * @param posPiece Position of the piece
+	 * @return The special positions allowed for this piece
+	 */
+	public ArrayList<Position> showSpecPositions(Position posPiece) {
+		int x = posPiece.getX();
+		int y = posPiece.getY();
+		Piece p = c[x][y].getPiece();
+		
+		return p.getSpec();
 	}
 
 	/**
