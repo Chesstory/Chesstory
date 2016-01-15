@@ -24,12 +24,13 @@ What is already done :
     * Pieces and deplacement rules are customable really easily
     
 What is in progress :
-  - We are in a period where save & load feature do not work all the time (since we changed rules), so fix that.
+  - We are in a period where save & load feature do not work all the time (since we changed rules), so fix that (one set of rules = one file)
   - Graphic interface to select rules
   - Do a (user-friendly) jdoc and put all the code in the same language
 
 What remains to do (not exhaustiv list) :
   - Add a timer (one for each player (like real chess)) (we know the principe (new thread itout itout))
+  - Save parameters (for all games)
   - Add some beautiful and shiny color themes !
   - See if we can rotate the chessboard (utopia)
   
