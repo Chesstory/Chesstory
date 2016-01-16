@@ -109,6 +109,7 @@ abstract class FileController {
 		int nbParaLine = 10;// test var for the parameters : game_id,
 							// game_type...
 		boolean isFileCorrupted = false;
+		boolean wasTheWindowClosedBeforeSelection=false;
 		boolean foundFooter = false;
 
 		int nbLine = 0;
@@ -321,8 +322,12 @@ abstract class FileController {
 				isFileCorrupted = true;
 				System.out.println("ErrorFileLoad: Footer not found at the end of the file");
 			}
+		}else{
+			wasTheWindowClosedBeforeSelection=true;
 		}
-		
+		if(wasTheWindowClosedBeforeSelection){
+			return null;
+		}
 
 		return new GameSave(isFileCorrupted, game_id, game_type, a, FEN, arrayRulePiece);
 	}

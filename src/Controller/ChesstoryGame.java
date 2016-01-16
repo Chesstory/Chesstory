@@ -12,8 +12,6 @@ import javax.swing.*;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.GridLayout;
@@ -318,7 +316,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		testFrameTextArea.setText("ARRAYLIST THIS IS NOT SUPPOSED TO BE DISPLAYED");
 		testFrame.getContentPane().add(testFrameTextArea);
 		testFrame.setAlwaysOnTop(true);
-		testFrame.setVisible(true);
+		testFrame.setVisible(false);
 		testFrame.validate();
 	}
 
@@ -490,41 +488,50 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			panelLeftMenuBrowse.setBorder(new EmptyBorder(0, 0, 0, 0));
 		}
 	}
+
 	public void loadGame(){
 		loadGame("choosingAFile");
 	}
 	public void loadGame(String nameOfTheFileToLoad) {
 		disableBrowserView();// We are in a game
-		// moveList=new ArrayList<Deplacement>(FileController.loadFile());
-		System.out.println("---->Loading file");
+		System.out.println("---->Init load");
 		GameSave gameSave = FileController.loadFile(nameOfTheFileToLoad);
+		System.out.println("---->Loading file");
+		try{
+			if(gameSave.getGameId()!=-1){//tricky way to test if null
+				
+			}
+		}catch(Exception e){
+			System.out.println("---->Loading canceled");
+			return;
+		}
+		
 		if (gameSave.getIsGameCorrupted()) {
 			System.out.println("---->FILE CORRUPTED\n---->Loading failed");
 		} else {
 			System.out.println("---->Loading successful");
+			System.out.println("---->Processing save");
+			gameId = gameSave.getGameId();
+			gameType = gameSave.getGameType();
+			moveListCursor = 0;
+			moveList.clear();
+			System.out.println("Load game, id: " + gameId + ", type: " + gameType);
+			FENList.clear();
+			YACG.changeRules(gameSave.getArrayRulePiece());
+			departureFEN=gameSave.getFEN();
+			YACG.makeDrawFen(departureFEN);
+			for(int i=0;i<gameSave.getArrayRulePiece().length;i++){
+				System.out.println(gameSave.getArrayRulePiece()[i]);
+			}
+			for (int i = 0; i < gameSave.getMoveList().size(); i++) {
+				YACG.makeDeplacement(gameSave.getMoveList().get(i));
+				System.out.println("c =" + moveList.get(i).getColor() + ", p =" + moveList.get(i).getPiececode() + ", ("
+						+ moveList.get(i).getX1() + ", " + moveList.get(i).getY1() + ") -> (" + moveList.get(i).getX2()
+						+ ", " + moveList.get(i).getY2() + ")");
+			}
+			
+			System.out.println("---->Processing successful");
 		}
-		System.out.println("---->Processing save");
-		// moveList = gameSave.getMoveList();
-		gameId = gameSave.getGameId();
-		gameType = gameSave.getGameType();
-		for(int i=0;i<gameSave.getArrayRulePiece().length;i++){
-			System.out.println(gameSave.getArrayRulePiece()[i]);
-		}
-		for (int i = 0; i < gameSave.getMoveList().size(); i++) {
-			YACG.makeDeplacement(gameSave.getMoveList().get(i));
-			System.out.println("c =" + moveList.get(i).getColor() + ", p =" + moveList.get(i).getPiececode() + ", ("
-					+ moveList.get(i).getX1() + ", " + moveList.get(i).getY1() + ") -> (" + moveList.get(i).getX2()
-					+ ", " + moveList.get(i).getY2() + ")");
-		}
-		moveListCursor = 0;
-		moveList.clear();
-		System.out.println("Load game, id: " + gameId + ", type: " + gameType);
-		FENList.clear();
-		//YACG.changeRules(gameSave.getArrayRulePiece());
-		departureFEN=gameSave.getFEN();
-		YACG.makeDrawFen(departureFEN);
-		System.out.println("---->Processing successful");
-		
 		
 
 	}
