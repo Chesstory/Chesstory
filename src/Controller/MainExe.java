@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 public class MainExe {
 	static MainMenu mainMenu;
 	static ChesstoryGame chesstoryGame;
+	static RulesEditor rulesEditor;
 	static JFrame frame;
 	public static void main(String[] args) {
 		frame=new JFrame();
@@ -17,7 +18,7 @@ public class MainExe {
 	
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		mainMenu=new MainMenu(frame);
+		mainMenu=new MainMenu(frame,false);
 		frame.revalidate();
 	}
 	static void switchToChesstoryGame(int gameType){
@@ -25,8 +26,13 @@ public class MainExe {
 		chesstoryGame=new ChesstoryGame("Classical game", gameType, frame);
 		//TODO fix the left border, it seems that the panel is still here
 	}
+	static void switchToEditor(){
+		clearChesstoryGame();
+		rulesEditor=new RulesEditor(frame);
+	}
 	static void switchToMainMenu(){
 		clearChesstoryGame();
+		clearEditor();
 	}
 	static void clearMainMenu(){
 		mainMenu=null;
@@ -34,7 +40,7 @@ public class MainExe {
 	static void clearChesstoryGame(){
 		chesstoryGame=null;
 	}
-	static void clearEitor(){
+	static void clearEditor(){
 		
 	}
 	static void refreshFrame(){

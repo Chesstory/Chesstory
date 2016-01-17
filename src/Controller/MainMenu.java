@@ -17,38 +17,40 @@ public class MainMenu {
 	private JButton bExit;
 	private JButton bChooseBack;
 	private JButton bChooseClassical;
-	public MainMenu(JFrame f){
+	private JButton bChooseCustom;
+	public MainMenu(JFrame f, boolean startToGameChooser){
 		this.f=f;
-		mainMenu();
-	}
-	private void mainMenu(){
 		panel=new JPanel();
 		f.getContentPane().add(panel);
-		bPlayGame=new JButton("Play Game");
-		panel.add(bPlayGame);
-		bParameters=new JButton("Parameters");
-		panel.add(bParameters);
-		bExit=new JButton("Exit");
-		panel.add(bExit);
-		bPlayGame.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				gameChooser();
-			}
-		});
-		bParameters.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//TODO parameters
-			}
-		});
-		bExit.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//TODO confirm dialogbox
-				System.exit(0);
-			}
-		});
+		if(startToGameChooser){
+			gameChooser();
+		}else{
+			bPlayGame=new JButton("Play Game");
+			panel.add(bPlayGame);
+			bParameters=new JButton("Parameters");
+			panel.add(bParameters);
+			bExit=new JButton("Exit");
+			panel.add(bExit);
+			bPlayGame.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					gameChooser();
+				}
+			});
+			bParameters.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					//TODO parameters
+				}
+			});
+			bExit.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					//TODO confirm dialogbox
+					System.exit(0);
+				}
+			});
+		}
 	}
 	private void gameChooser(){
 		panel.removeAll();
@@ -57,22 +59,33 @@ public class MainMenu {
 		f.getContentPane().add(panel);
 		bChooseClassical=new JButton("Cassical");
 		panel.add(bChooseClassical);
+		bChooseCustom=new JButton("Custom");
+		panel.add(bChooseCustom);
 		bChooseBack=new JButton("Back");
 		panel.add(bChooseBack);
 		bChooseClassical.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {	
+				panel.removeAll();
+				panel.setVisible(false);
+				f.remove(panel);
+				panel=null;
+				MainExe.switchToChesstoryGame(GAMETYPE_CLASSICAL);	
+			}
+		});
+		bChooseCustom.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				panel.removeAll();
 				panel.setVisible(false);
 				f.remove(panel);
 				panel=null;
-				MainExe.switchToChesstoryGame(GAMETYPE_CLASSICAL);
+				MainExe.switchToEditor();	
 			}
 		});
 		bChooseBack.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO confirm dialogbox
 			}
 		});
 		f.revalidate();
