@@ -11,6 +11,10 @@ import Controller.ChesstoryGame;
 import gui.YetAnotherChessGame;
 
 /**
+ * This is where everything is done. This class builds the chess board and
+ * checks all the moves possibility, etc. Everything that is not graphic occurs
+ * here. It contains a set of boolean to adjusts rules, the specimen chess
+ * pieces, the width and height of the chess board, etc
  *
  * @author samuel
  */
@@ -36,6 +40,7 @@ public class Echiquier {
 
 	// position de la prise en passant éventuelle
 	Position priseEnPassant;
+	boolean priseEnPass;
 
 	// 'Specimen' chessPieces
 	Piece pawnSpec, rookSpec, queenSpec, kingSpec, bishopSpec, knightSpec;
@@ -312,9 +317,12 @@ public class Echiquier {
 			try {
 				if (code[2].contains("r"))
 					roque = true;
+				if (code[2].contains("p"))
+					priseEnPass = true;
 			} catch (ArrayIndexOutOfBoundsException e) {
 				// without indications, roque is allowed
 				roque = true;
+				priseEnPass = true;
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
 			// TODO remove => dialog
@@ -357,6 +365,11 @@ public class Echiquier {
 
 		if (roque)
 			res += "r";
+		else
+			res += "-";
+
+		if (priseEnPass)
+			res += "p";
 		else
 			res += "-";
 
@@ -444,7 +457,7 @@ public class Echiquier {
 	 *
 	 *
 	 * @param d
-	 *            Dep to do
+	 *            Move to do
 	 */
 	public void executeDeplacement(Deplacement d) {
 		if (isValidMove(d)) {
@@ -484,9 +497,9 @@ public class Echiquier {
 			// doesn't know him in english :( )
 			// So : it has to be a pawn, with pawn's deplacements who try to go
 			// where he could not go
-			if (Character.toLowerCase(codePiece) == 'p' && piece.getMaxDiag() == 0 && piece.getMaxX() == 0
-					&& !piece.getBackward() && d.deplacementDiagonal() == 1 && !c[x2][y1].isEmpty()
-					&& c[x2][y1].getPiece().getColor() != c[x1][y1].getPiece().getColor()) {
+			if (priseEnPass && Character.toLowerCase(codePiece) == 'p' && piece.getMaxDiag() == 0
+					&& piece.getMaxX() == 0 && !piece.getBackward() && d.deplacementDiagonal() == 1
+					&& !c[x2][y1].isEmpty() && c[x2][y1].getPiece().getColor() != c[x1][y1].getPiece().getColor()) {
 				c[x2][y1].empty();
 				yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_PEP,
 						((piece.getCode() == 'P') ? "Prise en passant blanc" : "Prise en passant noir"));
@@ -494,7 +507,7 @@ public class Echiquier {
 
 			// In case of : roque (king, on the same line, which move further
 			// than it can
-			if (Character.toLowerCase(codePiece) == 'k' && y1 == y2
+			if (roque && Character.toLowerCase(codePiece) == 'k' && y1 == y2
 					&& Math.abs(d.deplacementHorizontal()) > piece.getMaxX()) {
 				Piece tour;
 				if (x2 > x1) {
@@ -836,17 +849,19 @@ public class Echiquier {
 			}
 		}
 		// Prise en passant (baguette)
-		// Right one
-		if (existCase(i + 1, j) && !c[i + 1][j].isEmpty() && c[i + 1][j].getPiece().getCode() == 'p'
-				&& c[i + 1][j].getPiece().isMoved() && c[i + 1][j + 1].isEmpty()) {
-			p.addCaseAccessible(new Position(i + 1, j + 1));
-			p.addCaseSpec(new Position(i + 1, j + 1));
-		}
-		// Left one
-		if (existCase(i - 1, j) && !c[i - 1][j].isEmpty() && c[i - 1][j].getPiece().getCode() == 'p'
-				&& c[i - 1][j].getPiece().isMoved() && c[i - 1][j + 1].isEmpty()) {
-			p.addCaseAccessible(new Position(i - 1, j + 1));
-			p.addCaseSpec(new Position(i - 1, j + 1));
+		if (priseEnPass) {
+			// Right one
+			if (existCase(i + 1, j) && !c[i + 1][j].isEmpty() && c[i + 1][j].getPiece().getCode() == 'p'
+					&& c[i + 1][j].getPiece().isMoved() && c[i + 1][j + 1].isEmpty()) {
+				p.addCaseAccessible(new Position(i + 1, j + 1));
+				p.addCaseSpec(new Position(i + 1, j + 1));
+			}
+			// Left one
+			if (existCase(i - 1, j) && !c[i - 1][j].isEmpty() && c[i - 1][j].getPiece().getCode() == 'p'
+					&& c[i - 1][j].getPiece().isMoved() && c[i - 1][j + 1].isEmpty()) {
+				p.addCaseAccessible(new Position(i - 1, j + 1));
+				p.addCaseSpec(new Position(i - 1, j + 1));
+			}
 		}
 	}
 
@@ -928,17 +943,19 @@ public class Echiquier {
 			}
 		}
 		// Prise en passant (baguette)
-		// Right one
-		if (existCase(i + 1, j) && !c[i + 1][j].isEmpty() && c[i + 1][j].getPiece().getCode() == 'P'
-				&& c[i + 1][j].getPiece().isMoved() && c[i + 1][j - 1].isEmpty()) {
-			p.addCaseAccessible(new Position(i + 1, j - 1));
-			p.addCaseSpec(new Position(i + 1, j - 1));
-		}
-		// Left one
-		if (existCase(i - 1, j) && !c[i - 1][j].isEmpty() && c[i - 1][j].getPiece().getCode() == 'P'
-				&& c[i - 1][j].getPiece().isMoved() && c[i - 1][j - 1].isEmpty()) {
-			p.addCaseAccessible(new Position(i - 1, j - 1));
-			p.addCaseSpec(new Position(i - 1, j - 1));
+		if (priseEnPass) {
+			// Right one
+			if (existCase(i + 1, j) && !c[i + 1][j].isEmpty() && c[i + 1][j].getPiece().getCode() == 'P'
+					&& c[i + 1][j].getPiece().isMoved() && c[i + 1][j - 1].isEmpty()) {
+				p.addCaseAccessible(new Position(i + 1, j - 1));
+				p.addCaseSpec(new Position(i + 1, j - 1));
+			}
+			// Left one
+			if (existCase(i - 1, j) && !c[i - 1][j].isEmpty() && c[i - 1][j].getPiece().getCode() == 'P'
+					&& c[i - 1][j].getPiece().isMoved() && c[i - 1][j - 1].isEmpty()) {
+				p.addCaseAccessible(new Position(i - 1, j - 1));
+				p.addCaseSpec(new Position(i - 1, j - 1));
+			}
 		}
 	}
 
@@ -1377,12 +1394,18 @@ public class Echiquier {
 	/**
 	 * Init the specimen pieces of the chess board (its rules)
 	 * 
-	 * @param pawn New specimen pawn
-	 * @param rook New specimen rook
-	 * @param queen New specimen queen
-	 * @param king New specimen king
-	 * @param bishop New specimen bishop
-	 * @param knight New specimen knight
+	 * @param pawn
+	 *            New specimen pawn
+	 * @param rook
+	 *            New specimen rook
+	 * @param queen
+	 *            New specimen queen
+	 * @param king
+	 *            New specimen king
+	 * @param bishop
+	 *            New specimen bishop
+	 * @param knight
+	 *            New specimen knight
 	 */
 	public void initPieces(Piece pawn, Piece rook, Piece queen, Piece king, Piece bishop, Piece knight) {
 		this.pawnSpec = new Piece(pawn);

@@ -8,6 +8,8 @@ package echecs;
 import java.util.ArrayList;
 
 /**
+ * Representation of a chess piece. A piece has a name, a code, a color and a
+ * set of move possibility.
  *
  * @author samuel
  */
