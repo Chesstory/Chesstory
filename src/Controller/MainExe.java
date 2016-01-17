@@ -27,8 +27,8 @@ public class MainExe {
 		//TODO fix the left border, it seems that the panel is still here
 	}
 	static void switchToEditor(){
-		clearChesstoryGame();
-		rulesEditor=new RulesEditor(frame);
+		clearMainMenu();
+		rulesEditor=RulesEditor.getInstance(frame);
 	}
 	static void switchToMainMenu(){
 		clearChesstoryGame();

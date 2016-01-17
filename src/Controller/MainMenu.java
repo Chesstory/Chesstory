@@ -36,7 +36,7 @@ public class MainMenu {
 				public void actionPerformed(ActionEvent e) {
 					gameChooser();
 				}
-			});
+			});																																																
 			bParameters.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -55,7 +55,7 @@ public class MainMenu {
 	private void gameChooser(){
 		panel.removeAll();
 		panel=new JPanel();
-		panel.setBackground(Color.gray);
+		panel.setBackground(Color.blue);
 		f.getContentPane().add(panel);
 		bChooseClassical=new JButton("Cassical");
 		panel.add(bChooseClassical);
