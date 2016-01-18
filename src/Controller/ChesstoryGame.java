@@ -81,11 +81,13 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private JTextArea testFrameTextArea;
 
 	// Timer
-	boolean timer;
-	private Timer playerW, playerB;
-	int initialTime, playerWTimeLeft, playerBTimeLeft;
-	JPanel panelTimerW, panelTimerB;
-	JTextField textTimerW, textTimerB;
+	private boolean timer;
+	private boolean timerW;
+	private Timer playerW, playerB, refreshTimer;
+	private int initialTime, playerWTimeLeft, playerBTimeLeft;
+	private JPanel panelTimerW, panelTimerB;
+	private JTextField textTimerW, textTimerB;
+	private int affPlayerWSec, affPlayerBSec, affPlayerWMin, affPlayerBMin, affPlayerWHou, affPlayerBHou;
 
 	@SuppressWarnings("static-access")
 	public ChesstoryGame(String title, int gameType, JFrame f) {
@@ -124,14 +126,15 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 		// YACG = new YetAnotherChessGame(departureFEN, this);
 
-
-		//TODO See for the boolean init and the length of timer
+		// TODO See for the boolean init and the length of timer
 		timer = true;
 		if (timer) {
-			initialTime = 600;
+			timerW = true;
+			initialTime = 3600000;
+			playerWTimeLeft = playerBTimeLeft = initialTime / 1000;
 			initTimer();
 		}
-		
+
 		moveList = new ArrayList<Deplacement>();
 		moveListCursor = -1;
 
@@ -179,7 +182,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 		panelTimerW = new JPanel();
 		panelLeftMenuBrowse.add(panelTimerW);
-		
+
 		/*
 		 * arrowLeft.setBorder(BorderFactory.createEmptyBorder());
 		 * arrowLeft.setContentAreaFilled(false);
@@ -251,18 +254,18 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 				browserViewNext();
 			}
 		});
-		
+
 		panelTimerB = new JPanel();
 		panelLeftMenuBrowse.add(panelTimerB);
-		
-		//TODO Nb col
-		textTimerW = new JTextField(Integer.toString(initialTime), 9);
-		textTimerB = new JTextField(Integer.toString(initialTime), 9);
+
+		// TODO Nb col
+		textTimerW = new JTextField(Integer.toString(initialTime), 8);
+		textTimerB = new JTextField(Integer.toString(initialTime), 8);
 		textTimerW.setEditable(false);
 		textTimerB.setEditable(false);
 		panelTimerW.add(textTimerW);
 		panelTimerB.add(textTimerB);
-		
+
 		f.getContentPane().setLayout(new BoxLayout(f.getContentPane(), BoxLayout.X_AXIS));
 		panelLeftChessboard = new JPanel();
 		panelLeftChessboard.setSize(new Dimension(600, 600));
@@ -605,17 +608,43 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			}
 		});
 		playerB.setRepeats(false);
-		
+
+		refreshTimer = new Timer(1000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (timerW)
+					playerWTimeLeft--;
+				else
+					playerBTimeLeft--;
+
+				affPlayerWHou = (int) playerWTimeLeft / 3600;
+				affPlayerWMin = (int) (playerWTimeLeft % 3600) / 60;
+				affPlayerWSec = (int) (playerWTimeLeft % 3600) % 60;
+
+				affPlayerBHou = (int) playerBTimeLeft / 3600;
+				affPlayerBMin = (int) (playerBTimeLeft % 3600) / 60;
+				affPlayerBSec = (int) (playerBTimeLeft % 3600) % 60;
+
+				textTimerW.setText(Integer.toString(affPlayerWHou) + "h" + Integer.toString(affPlayerWMin) + "m"
+						+ Integer.toString(affPlayerWSec) + "s");
+				textTimerB.setText(Integer.toString(affPlayerBHou) + "h" + Integer.toString(affPlayerBMin) + "m"
+						+ Integer.toString(affPlayerBSec) + "s");
+			}
+		});
+
+		refreshTimer.start();
 		playerW.start();
 	}
 
 	private void switchTimer(char color) {
-		//TODO print new val each sec
+		// TODO print new val each sec
 		if (color == 'w') {
 			playerW.stop();
+			timerW = false;
 			playerB.start();
 		} else if (color == 'b') {
 			playerB.stop();
+			timerW = true;
 			playerW.start();
 		}
 	}
