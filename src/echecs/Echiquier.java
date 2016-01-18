@@ -628,6 +628,10 @@ public class Echiquier {
 			if (Character.toLowerCase(codePiece) == 'p' && piece.getMaxDiag() == 0 && piece.getMaxX() == 0
 					&& !piece.getBackward())
 				piece.setMoved(Math.abs(d.deplacementVertical()) == piece.getMaxY() + 1);
+			
+			// Here for the rajah, (chaturanga) if it used its special ability
+			if(Character.toLowerCase(codePiece) == 'h' && (Math.abs(d.deplacementHorizontal()) == 2 || Math.abs(d.deplacementVertical()) == 2))
+				piece.setMoved(true);
 		}
 		// Change the trait
 		trait = (trait == 'w' ? 'b' : 'w');
@@ -745,38 +749,41 @@ public class Echiquier {
 	public void accessibleKnight(int i, int j) {
 		boolean blanc = c[i][j].getPiece().estBlanc();
 		Piece knight = c[i][j].getPiece();
+		// In case of Chaturanga
+		int minX = ((Character.toLowerCase(knight.getCode()) == 'h') ? 2 : knight.getMinX());
+		int maxX = ((Character.toLowerCase(knight.getCode()) == 'h') ? 2 : knight.getMaxX());
 
 		// Les 8 positions du cavalier
-		if (existAndFree(i + knight.getMinX(), j + knight.getMaxX(), blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i + 1, j + 2));
+		if (existAndFree(i + minX, j + maxX, blanc)) {
+			c[i][j].getPiece().addCaseAccessible(new Position(i + minX, j + maxX));
 		}
 
-		if (existAndFree(i + knight.getMaxX(), j + knight.getMinX(), blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i + 2, j + 1));
+		if (existAndFree(i + maxX, j + minX, blanc)) {
+			c[i][j].getPiece().addCaseAccessible(new Position(i + maxX, j + minX));
 		}
 
-		if (existAndFree(i - knight.getMinX(), j - knight.getMaxX(), blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i - 1, j - 2));
+		if (existAndFree(i - minX, j - maxX, blanc)) {
+			c[i][j].getPiece().addCaseAccessible(new Position(i - minX, j - maxX));
 		}
 
-		if (existAndFree(i - knight.getMaxX(), j - knight.getMinX(), blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i - 2, j - 1));
+		if (existAndFree(i - maxX, j - minX, blanc)) {
+			c[i][j].getPiece().addCaseAccessible(new Position(i - maxX, j - minX));
 		}
 
-		if (existAndFree(i + knight.getMinX(), j - knight.getMaxX(), blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i + 1, j - 2));
+		if (existAndFree(i + minX, j - maxX, blanc)) {
+			c[i][j].getPiece().addCaseAccessible(new Position(i + minX, j - maxX));
 		}
 
-		if (existAndFree(i + knight.getMaxX(), j - knight.getMinX(), blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i + 2, j - 1));
+		if (existAndFree(i + maxX, j - minX, blanc)) {
+			c[i][j].getPiece().addCaseAccessible(new Position(i + maxX, j - minX));
 		}
 
-		if (existAndFree(i - knight.getMinX(), j + knight.getMaxX(), blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i - 1, j + 2));
+		if (existAndFree(i - minX, j + maxX, blanc)) {
+			c[i][j].getPiece().addCaseAccessible(new Position(i - minX, j + maxX));
 		}
 
-		if (existAndFree(i - knight.getMaxX(), j + knight.getMinX(), blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i - 2, j + 1));
+		if (existAndFree(i - maxX, j + minX, blanc)) {
+			c[i][j].getPiece().addCaseAccessible(new Position(i - maxX, j + minX));
 		}
 	}
 
@@ -1064,6 +1071,10 @@ public class Echiquier {
 
 						if (roque && Character.toLowerCase(p.getCode()) == 'k' && !p.isMoved() && p.getMaxX() == 1)
 							geranceDuRoque(i, j);
+
+						// Chaturanga's special rule for rajah
+						if (Character.toLowerCase(p.getCode()) == 'h' && !p.isMoved() && !isInCheck(p.getColor()))
+							accessibleKnight(i, j);
 
 						Position posPiece = new Position(i, j);
 						int parcoursX;
