@@ -80,6 +80,13 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private JFrame testFrame;
 	private JTextArea testFrameTextArea;
 
+	// Timer
+	boolean timer;
+	private Timer playerW, playerB;
+	int initialTime, playerWTimeLeft, playerBTimeLeft;
+	JPanel panelTimerW, panelTimerB;
+	JTextField textTimerW, textTimerB;
+
 	@SuppressWarnings("static-access")
 	public ChesstoryGame(String title, int gameType, JFrame f) {
 		this.gameType = gameType;
@@ -117,9 +124,17 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 		// YACG = new YetAnotherChessGame(departureFEN, this);
 
-		moveList = new ArrayList<Deplacement>();
-		moveListCursor=-1;
+
+		//TODO See for the boolean init and the length of timer
+		timer = true;
+		if (timer) {
+			initialTime = 600;
+			initTimer();
+		}
 		
+		moveList = new ArrayList<Deplacement>();
+		moveListCursor = -1;
+
 		FENList = new ArrayList<String>();
 
 		f.setVisible(true);
@@ -132,8 +147,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		gbl_panelLeft.columnWidths = new int[] { 1000, 0 };
 		gbl_panelLeft.rowHeights = new int[] { 10, 600, 0, 0, 0 };
 		gbl_panelLeft.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gbl_panelLeft.rowWeights = new double[] { 0.0, 0.0, 1.0, 1.0,
-				Double.MIN_VALUE };
+		gbl_panelLeft.rowWeights = new double[] { 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE };
 		panelLeft.setLayout(gbl_panelLeft);
 
 		panelLeftMenu = new JPanel();
@@ -163,6 +177,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		panelLeftMenuBrowse = new JPanel();
 		panelLeftMenu.add(panelLeftMenuBrowse);
 
+		panelTimerW = new JPanel();
+		panelLeftMenuBrowse.add(panelTimerW);
+		
 		/*
 		 * arrowLeft.setBorder(BorderFactory.createEmptyBorder());
 		 * arrowLeft.setContentAreaFilled(false);
@@ -177,21 +194,18 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		 * ImageIcon("./bin/icons/arrow_left.png")
 		 * .getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
 		 */
-		Icon icon = new ImageIcon(new ImageIcon(
-				cl.getResource("icons/arrow_left.png")).getImage()
-				.getScaledInstance(60, 40, Image.SCALE_DEFAULT));
+		Icon icon = new ImageIcon(new ImageIcon(cl.getResource("icons/arrow_left.png")).getImage().getScaledInstance(60,
+				40, Image.SCALE_DEFAULT));
 		arrowLeft = new JButton(icon);
 		panelLeftMenuBrowse.add(arrowLeft);
 
-		icon = new ImageIcon(new ImageIcon(
-				cl.getResource("icons/arrow_play.png")).getImage()
-				.getScaledInstance(60, 40, Image.SCALE_DEFAULT));
+		icon = new ImageIcon(new ImageIcon(cl.getResource("icons/arrow_play.png")).getImage().getScaledInstance(60, 40,
+				Image.SCALE_DEFAULT));
 		arrowMiddle = new JButton(icon);
 		panelLeftMenuBrowse.add(arrowMiddle);
 
-		icon = new ImageIcon(new ImageIcon(
-				cl.getResource("icons/arrow_right.png")).getImage()
-				.getScaledInstance(60, 40, Image.SCALE_DEFAULT));
+		icon = new ImageIcon(new ImageIcon(cl.getResource("icons/arrow_right.png")).getImage().getScaledInstance(60, 40,
+				Image.SCALE_DEFAULT));
 		arrowRight = new JButton(icon);
 		panelLeftMenuBrowse.add(arrowRight);
 
@@ -237,8 +251,19 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 				browserViewNext();
 			}
 		});
-		f.getContentPane().setLayout(
-				new BoxLayout(f.getContentPane(), BoxLayout.X_AXIS));
+		
+		panelTimerB = new JPanel();
+		panelLeftMenuBrowse.add(panelTimerB);
+		
+		//TODO Nb col
+		textTimerW = new JTextField(Integer.toString(initialTime), 9);
+		textTimerB = new JTextField(Integer.toString(initialTime), 9);
+		textTimerW.setEditable(false);
+		textTimerB.setEditable(false);
+		panelTimerW.add(textTimerW);
+		panelTimerB.add(textTimerB);
+		
+		f.getContentPane().setLayout(new BoxLayout(f.getContentPane(), BoxLayout.X_AXIS));
 		panelLeftChessboard = new JPanel();
 		panelLeftChessboard.setSize(new Dimension(600, 600));
 		panelLeftChessboard.setMinimumSize(new Dimension(600, 600));
@@ -266,41 +291,25 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		rulesText.setColumns(30);
 		rulesText.setTabSize(1);
 		rulesText.setRows(15);
-		rulesText.setText("This is an editable JrulesText. "
-				+ "A text area is a \"plain\" text component, "
-				+ "which means that although it can display text "
-				+ "in any font, all of the text is in the same font."
-				+ "A text area is a \"plain\" text component, "
-				+ "which means that although it can display text "
-				+ "in any font, all of the text is in the same font."
-				+ "A text area is a \"plain\" text component, "
-				+ "which means that although it can display text "
-				+ "in any font, all of the text is in the same font."
-				+ "A text area is a \"plain\" text component, "
-				+ "which means that although it can display text "
-				+ "in any font, all of the text is in the same font."
-				+ "A text area is a \"plain\" text component, "
-				+ "which means that although it can display text "
-				+ "in any font, all of the text is in the same font."
-				+ "A text area is a \"plain\" text component, "
-				+ "which means that although it can display text "
-				+ "in any font, all of the text is in the same font."
-				+ "A text area is a \"plain\" text component, "
-				+ "which means that although it can display text "
-				+ "in any font, all of the text is in the same font."
-				+ "A text area is a \"plain\" text component, "
-				+ "which means that although it can display text "
-				+ "in any font, all of the text is in the same font."
-				+ "A text area is a \"plain\" text component, "
-				+ "which means that although it can display text "
-				+ "in any font, all of the text is in the same font."
-				+ "A text area is a \"plain\" text component, "
-				+ "which means that although it can display text "
+		rulesText.setText("This is an editable JrulesText. " + "A text area is a \"plain\" text component, "
+				+ "which means that although it can display text " + "in any font, all of the text is in the same font."
+				+ "A text area is a \"plain\" text component, " + "which means that although it can display text "
+				+ "in any font, all of the text is in the same font." + "A text area is a \"plain\" text component, "
+				+ "which means that although it can display text " + "in any font, all of the text is in the same font."
+				+ "A text area is a \"plain\" text component, " + "which means that although it can display text "
+				+ "in any font, all of the text is in the same font." + "A text area is a \"plain\" text component, "
+				+ "which means that although it can display text " + "in any font, all of the text is in the same font."
+				+ "A text area is a \"plain\" text component, " + "which means that although it can display text "
+				+ "in any font, all of the text is in the same font." + "A text area is a \"plain\" text component, "
+				+ "which means that although it can display text " + "in any font, all of the text is in the same font."
+				+ "A text area is a \"plain\" text component, " + "which means that although it can display text "
+				+ "in any font, all of the text is in the same font." + "A text area is a \"plain\" text component, "
+				+ "which means that although it can display text " + "in any font, all of the text is in the same font."
+				+ "A text area is a \"plain\" text component, " + "which means that although it can display text "
 				+ "in any font, all of the text is in the same font.");
 
 		rulesTextScroll = new JScrollPane(rulesText);
-		rulesTextScroll
-				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		rulesTextScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		panelRight.add(rulesTextScroll);
 		// < RULES
 
@@ -316,8 +325,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);// auto scrolling
 
 		logsTextScroll = new JScrollPane(logsText);
-		logsTextScroll
-				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		logsTextScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		panelRight.add(logsTextScroll);
 		f.getContentPane().add(panelRight);
 
@@ -337,8 +345,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		testFrame.setTitle("Affichage dynamique de la moveList");
 		testFrame.setSize(300, 800);
 		testFrameTextArea = new JTextArea();
-		testFrameTextArea
-				.setText("ARRAYLIST THIS IS NOT SUPPOSED TO BE DISPLAYED");
+		testFrameTextArea.setText("ARRAYLIST THIS IS NOT SUPPOSED TO BE DISPLAYED");
 		testFrame.getContentPane().add(testFrameTextArea);
 		testFrame.setAlwaysOnTop(true);
 		testFrame.setVisible(false);
@@ -364,7 +371,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		addLogsText(s);
 	}
 
-	public void addMove(Deplacement d) {
+	private void addMove(Deplacement d) {
 		moveList.add(d);
 		moveListCursor = moveList.size() - 1;
 	}
@@ -377,6 +384,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		FENList.add(YACG.getFEN());
 		refreshLabelsGame();
 
+		if (timer)
+			switchTimer(d.getColor());
 	}
 
 	public void chessEvent(int i, String s) {
@@ -399,9 +408,11 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		case CHESS_EVENT_PROM:
 			addLogsText("EVENT PROMOTION : " + s);
 			break;
+		case CHESS_EVENT_ELAPSE_TIME:
+			addLogsText("EVENT ELAPSED TIME : " + s);
+			break;
 		default:
-			addLogsText("Error : chessEvent (), this should not be displayed"
-					+ s);
+			addLogsText("Error : chessEvent (), this should not be displayed" + s);
 			break;
 		}
 	}
@@ -445,8 +456,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 			moveListCursor++;
 			// YACG.makeDeplacement(moveList.get(moveListCursor-1));
-			addLogsText("Next, moveList : " + moveList.size() + ", cursor : "
-					+ moveListCursor);
+			addLogsText("Next, moveList : " + moveList.size() + ", cursor : " + moveListCursor);
 			YACG.makeDrawFen(FENList.get(moveListCursor - 1));
 		}
 		refreshLabelsGame();
@@ -469,8 +479,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 				YACG.makeDrawFen(FENList.get(moveListCursor - 1));
 			}
-			addLogsText("Back, moveList : " + moveList.size() + ", cursor : "
-					+ moveListCursor);
+			addLogsText("Back, moveList : " + moveList.size() + ", cursor : " + moveListCursor);
 		} else {// put the arrow in grey
 
 		}
@@ -503,26 +512,21 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 	// TODO remove test
 	private void refreshTestFrame() {
-		/*testFrameTextArea.setText("");
-		if (FENList.size() > 0) {
-			for (int i = 0; i < moveList.size(); i++) {
-				// TODO improve display
-
-				testFrameTextArea.append((i + 1) + " >"
-						+ moveList.get(i).getColor() + " : Déplacement "
-						+ moveList.get(i) + " ||FEN: " + FENList.get(i)
-						+ "\n\r");
-			}
-		} else {
-			testFrameTextArea.append("FENList size is : " + FENList.size());
-		}*/
+		/*
+		 * testFrameTextArea.setText(""); if (FENList.size() > 0) { for (int i =
+		 * 0; i < moveList.size(); i++) { // TODO improve display
+		 * 
+		 * testFrameTextArea.append((i + 1) + " >" + moveList.get(i).getColor()
+		 * + " : Déplacement " + moveList.get(i) + " ||FEN: " + FENList.get(i) +
+		 * "\n\r"); } } else { testFrameTextArea.append("FENList size is : " +
+		 * FENList.size()); }
+		 */
 	}
 
 	private void switchBrowserViewBorder(boolean b) {
 		if (b) {
-			panelLeftMenuBrowse.setBorder(new BevelBorder(BevelBorder.LOWERED,
-					new Color(0, 255, 255), new Color(0, 255, 255), new Color(
-							0, 255, 255), new Color(0, 255, 255)));
+			panelLeftMenuBrowse.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(0, 255, 255),
+					new Color(0, 255, 255), new Color(0, 255, 255), new Color(0, 255, 255)));
 		} else {
 			panelLeftMenuBrowse.setBorder(new EmptyBorder(0, 0, 0, 0));
 		}
@@ -555,8 +559,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			gameType = gameSave.getGameType();
 			moveListCursor = 0;
 			moveList.clear();
-			System.out.println("Load game, id: " + gameId + ", type: "
-					+ gameType);
+			System.out.println("Load game, id: " + gameId + ", type: " + gameType);
 			FENList.clear();
 			YACG.changeRules(gameSave.getArrayRulePiece());
 			departureFEN = gameSave.getFEN();
@@ -566,18 +569,14 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			}
 			for (int i = 0; i < gameSave.getMoveList().size(); i++) {
 				YACG.makeDeplacement(gameSave.getMoveList().get(i));
-				System.out.println("c =" + moveList.get(i).getColor() + ", p ="
-						+ moveList.get(i).getPiececode() + ", ("
-						+ moveList.get(i).getX1() + ", "
-						+ moveList.get(i).getY1() + ") -> ("
-						+ moveList.get(i).getX2() + ", "
-						+ moveList.get(i).getY2() + ")");
+				System.out.println("c =" + moveList.get(i).getColor() + ", p =" + moveList.get(i).getPiececode() + ", ("
+						+ moveList.get(i).getX1() + ", " + moveList.get(i).getY1() + ") -> (" + moveList.get(i).getX2()
+						+ ", " + moveList.get(i).getY2() + ")");
 			}
 
 			System.out.println("---->Processing successful\n");
 		}
 		refreshLabelsGame();
-		
 
 	}
 
@@ -585,10 +584,40 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		// TODO game id generator
 		gameId = 1;
 
-		GameSave g = new GameSave(true, gameId, gameType, moveList,
-				departureFEN, YACG.getArrayRulePiece());
+		GameSave g = new GameSave(true, gameId, gameType, moveList, departureFEN, YACG.getArrayRulePiece());
 
 		FileController.saveFile(g);
+	}
+
+	private void initTimer() {
+		playerW = new Timer(initialTime, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				chessEvent(CHESS_EVENT_ELAPSE_TIME, "White player has no time left.");
+			}
+		});
+		playerW.setRepeats(false);
+
+		playerB = new Timer(initialTime, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				chessEvent(CHESS_EVENT_ELAPSE_TIME, "Black player has no time left.");
+			}
+		});
+		playerB.setRepeats(false);
+		
+		playerW.start();
+	}
+
+	private void switchTimer(char color) {
+		//TODO print new val each sec
+		if (color == 'w') {
+			playerW.stop();
+			playerB.start();
+		} else if (color == 'b') {
+			playerB.stop();
+			playerW.start();
+		}
 	}
 
 	@Override
