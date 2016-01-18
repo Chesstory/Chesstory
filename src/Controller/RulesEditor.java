@@ -1,5 +1,6 @@
 package Controller;
-								
+	
+import static Controller.ChesstoryConstants.*;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,6 +25,9 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 	private ItemSliderChecked iV;
 	private ItemSliderChecked iH;
 	private ItemSliderChecked iD;
+	private GameSave loadedRules;
+	private String[][] pieceRules;
+	
 	
 	private static RulesEditor INSTANCE=null;
 	public static RulesEditor getInstance(JFrame f){
@@ -39,17 +43,18 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 		panel=new JPanel();
 		panel.setBackground(new Color(0x234F6E));
 		f.getContentPane().add(panel);
+		loadedRules=FileController.loadFile(FILE_DEFAULT_CLASSICAL);
+		for(int p=0;p<NB_PIECE;p++){
+			for(int r=0;r<NB_RULE_PER_PIECE;r++){
+				pieceRules[p][r]=loadedRules.getArrayRulePiece()[p];
+			}
+		}
 		iV=new ItemSliderChecked("Vertical");
 		iH=new ItemSliderChecked("Horizontal");
 		iD=new ItemSliderChecked("Diagonal");
+		
 	}
 
-	/*@Override
-	public void itemStateChanged(ItemEvent arg0) {
-		 iV.refreshIsChecked();
-		 iH.refreshIsChecked();
-		 iD.refreshIsChecked();
-	}*/
 	class ItemSliderChecked{
 		private JPanel p;
 		private JLabel label;
@@ -68,12 +73,6 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 			p.add(label);
 			
 			checkBox=new JCheckBox();
-			/*checkBox.addActionListener(new ActionListener() {			
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					System.out.println("HELLOW IS THIS WORKING ?");			
-				}
-			});*/
 			checkBox.addItemListener(new ItemListener() {
 				
 				@Override
