@@ -294,6 +294,82 @@ public class Echiquier {
 						case 'P':
 							c[pos][dimY - i - 1].setPiece(new Piece(pawnSpec, 'w'));
 							break;
+
+						// Shatranj
+						case 'a':
+							c[pos][dimY - i - 1].setPiece(new Piece(kingSpec, 'b'));
+							break;
+						case 'A':
+							c[pos][dimY - i - 1].setPiece(new Piece(kingSpec, 'w'));
+							break;
+						case 'c':
+							c[pos][dimY - i - 1].setPiece(new Piece(queenSpec, 'b'));
+							break;
+						case 'C':
+							c[pos][dimY - i - 1].setPiece(new Piece(queenSpec, 'w'));
+							break;
+						case 'd':
+							c[pos][dimY - i - 1].setPiece(new Piece(bishopSpec, 'b'));
+							break;
+						case 'D':
+							c[pos][dimY - i - 1].setPiece(new Piece(bishopSpec, 'w'));
+							break;
+						case 'e':
+							c[pos][dimY - i - 1].setPiece(new Piece(knightSpec, 'b'));
+							break;
+						case 'E':
+							c[pos][dimY - i - 1].setPiece(new Piece(knightSpec, 'w'));
+							break;
+						case 'f':
+							c[pos][dimY - i - 1].setPiece(new Piece(rookSpec, 'b'));
+							break;
+						case 'F':
+							c[pos][dimY - i - 1].setPiece(new Piece(rookSpec, 'w'));
+							break;
+						case 'g':
+							c[pos][dimY - i - 1].setPiece(new Piece(pawnSpec, 'b'));
+							break;
+						case 'G':
+							c[pos][dimY - i - 1].setPiece(new Piece(pawnSpec, 'w'));
+							break;
+
+						// Chaturanga
+						case 'h':
+							c[pos][dimY - i - 1].setPiece(new Piece(kingSpec, 'b'));
+							break;
+						case 'H':
+							c[pos][dimY - i - 1].setPiece(new Piece(kingSpec, 'w'));
+							break;
+						case 'i':
+							c[pos][dimY - i - 1].setPiece(new Piece(queenSpec, 'b'));
+							break;
+						case 'I':
+							c[pos][dimY - i - 1].setPiece(new Piece(queenSpec, 'w'));
+							break;
+						case 'j':
+							c[pos][dimY - i - 1].setPiece(new Piece(bishopSpec, 'b'));
+							break;
+						case 'J':
+							c[pos][dimY - i - 1].setPiece(new Piece(bishopSpec, 'w'));
+							break;
+						case 'l':
+							c[pos][dimY - i - 1].setPiece(new Piece(knightSpec, 'b'));
+							break;
+						case 'L':
+							c[pos][dimY - i - 1].setPiece(new Piece(knightSpec, 'w'));
+							break;
+						case 'm':
+							c[pos][dimY - i - 1].setPiece(new Piece(rookSpec, 'b'));
+							break;
+						case 'M':
+							c[pos][dimY - i - 1].setPiece(new Piece(rookSpec, 'w'));
+							break;
+						case 'o':
+							c[pos][dimY - i - 1].setPiece(new Piece(pawnSpec, 'b'));
+							break;
+						case 'O':
+							c[pos][dimY - i - 1].setPiece(new Piece(pawnSpec, 'w'));
+							break;
 						}
 					}
 				}
@@ -1414,6 +1490,42 @@ public class Echiquier {
 		this.queenSpec = new Piece(queen);
 		this.rookSpec = new Piece(rook);
 		this.knightSpec = new Piece(knight);
+	}
+
+	/**
+	 * Initialize the chess piece with the basical chess rules
+	 */
+	private void initChess() {
+		this.pawnSpec = new Piece("pion", 'p', 0, 0, 1, 1, 0, 0, false);
+		this.bishopSpec = new Piece("fou", 'b', false, false, true, true);
+		this.kingSpec = new Piece("roi", 'k', 1, 1, 1, 1, 1, 1, true);
+		this.queenSpec = new Piece("dame", 'q', true, true, true, true);
+		this.rookSpec = new Piece("tour", 'r', true, true, false, true);
+		this.knightSpec = new Piece("cavalier", 'n', 1, 2);
+	}
+
+	/**
+	 * Initialize the chess piece with the shatranj rules
+	 */
+	private void initShatranj() {
+		this.pawnSpec = new Piece("baidaq", 'g', 0, 0, 1, 1, 0, 0, false);
+		this.bishopSpec = new Piece("fil", 'd', 0, 0, 0, 0, 2, 2, true);
+		this.kingSpec = new Piece("shah", 'a', 1, 1, 1, 1, 1, 1, true);
+		this.queenSpec = new Piece("farzin", 'c', 0, 0, 0, 0, 1, 1, true);
+		this.rookSpec = new Piece("roukh", 'f', true, true, false, true);
+		this.knightSpec = new Piece("faras", 'e', 1, 2);
+	}
+
+	/**
+	 * Initialize the chess piece with the shatranj rules
+	 */
+	private void initChaturanga() {
+		this.pawnSpec = new Piece("padati", 'o', 0, 0, 1, 1, 0, 0, false);
+		this.bishopSpec = new Piece("gaja", 'j', 0, 0, 0, 0, 2, 2, true);
+		this.kingSpec = new Piece("rajah", 'h', 1, 1, 1, 1, 1, 1, true);
+		this.queenSpec = new Piece("mantri", 'i', 0, 0, 0, 0, 1, 1, true);
+		this.rookSpec = new Piece("ratha", 'm', true, true, false, true);
+		this.knightSpec = new Piece("ma", 'l', 1, 2);
 	}
 
 	/**

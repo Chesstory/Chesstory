@@ -10,6 +10,14 @@ import java.util.ArrayList;
 /**
  * Representation of a chess piece. A piece has a name, a code, a color and a
  * set of move possibility.
+ * 
+ * Code description : k : King q : Queen b : Bishop r : Rook n : Knight p : Pawn
+ * 
+ * Shatranj : a : Shah (king) ; c : Farzin (queen) ; d : Fil (bishop) ; e :
+ * Faras (knight) ; f : Roukh (rook) ; g : Baidaq (pawn)
+ * 
+ * Chaturanga : h : Rajag (king) ; i : Mantri (queen) ; j : Gaja (bishop) ; l :
+ * Ma (knight) ; m : Ratha (rook) ; o : Padati (pawn)
  *
  * @author samuel
  */

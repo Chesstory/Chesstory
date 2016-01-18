@@ -77,7 +77,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	 */
 	Color backgroundOne, backgroundTwo, caseSpec, caseAccessible;
 	private final static Color[] DEFAULT_THEM = {Color.getHSBColor(0.56f, 1.0f, 0.8f), Color.white, Color.YELLOW, Color.ORANGE};
-
+	private final static Color[] SHATRANJ_THEM = {Color.white, Color.white, Color.YELLOW, Color.ORANGE};
 	
 	private ChesstoryGame chesstoryGame;
 	/**
