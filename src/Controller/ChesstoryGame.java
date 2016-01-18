@@ -118,7 +118,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		// YACG = new YetAnotherChessGame(departureFEN, this);
 
 		moveList = new ArrayList<Deplacement>();
-
+		moveListCursor=-1;
+		
 		FENList = new ArrayList<String>();
 
 		f.setVisible(true);
@@ -411,7 +412,6 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		switchBrowserViewBorder(true);
 		YACG.switchBorder(false);
 		addLogsText("    > STATE ----> Browser view !");
-		// TODO get a table of FEN, already done, I think...
 	}
 
 	private void disableBrowserView() {
@@ -503,7 +503,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 	// TODO remove test
 	private void refreshTestFrame() {
-		testFrameTextArea.setText("");
+		/*testFrameTextArea.setText("");
 		if (FENList.size() > 0) {
 			for (int i = 0; i < moveList.size(); i++) {
 				// TODO improve display
@@ -515,7 +515,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			}
 		} else {
 			testFrameTextArea.append("FENList size is : " + FENList.size());
-		}
+		}*/
 	}
 
 	private void switchBrowserViewBorder(boolean b) {
@@ -576,9 +576,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 			System.out.println("---->Processing successful\n");
 		}
-		if(moveListCursor==-1){
-			
-		}
+		refreshLabelsGame();
+		
 
 	}
 
