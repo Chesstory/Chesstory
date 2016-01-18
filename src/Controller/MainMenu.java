@@ -21,6 +21,7 @@ public class MainMenu {
 	public MainMenu(JFrame f, boolean startToGameChooser){
 		this.f=f;
 		panel=new JPanel();
+		panel.setBackground(new Color(0x234F6E));
 		f.getContentPane().add(panel);
 		if(startToGameChooser){
 			gameChooser();
@@ -34,6 +35,7 @@ public class MainMenu {
 			bPlayGame.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					f.remove(panel);
 					gameChooser();
 				}
 			});																																																
@@ -55,7 +57,7 @@ public class MainMenu {
 	private void gameChooser(){
 		panel.removeAll();
 		panel=new JPanel();
-		panel.setBackground(Color.blue);
+		panel.setBackground(new Color(0x0F3855));
 		f.getContentPane().add(panel);
 		bChooseClassical=new JButton("Cassical");
 		panel.add(bChooseClassical);
@@ -91,7 +93,6 @@ public class MainMenu {
 		f.revalidate();
 		
 	}
-	
 	
 
 }
