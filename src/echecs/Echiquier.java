@@ -1557,7 +1557,7 @@ public class Echiquier {
 	}
 
 	/**
-	 * Initialize the chess piece with the shatranj rules
+	 * Initialize the chess piece with the chaturanga rules
 	 */
 	private void initChaturanga() {
 		this.pawnSpec = new Piece("padati", 'o', 0, 0, 1, 1, 0, 0, false);

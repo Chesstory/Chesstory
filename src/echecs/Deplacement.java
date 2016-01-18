@@ -6,7 +6,7 @@
 package echecs;
 
 /**
- * Representation of a deplacement
+ * Representation of a move
  * 
  * @author samuel
  */
@@ -19,7 +19,7 @@ public class Deplacement {
 	private final int y2;
 
 	/**
-	 * Create a deplacement with two positions, the code of the piece concerned
+	 * Create a move with two positions, the code of the piece concerned
 	 * and the color of this piece Used in YetAnotherChessGame mainly
 	 * 
 	 * @param p1
@@ -97,7 +97,7 @@ public class Deplacement {
 	}
 
 	/**
-	 * @return Length of the dep, certically
+	 * @return Length of the dep, vertically
 	 */
 	public int deplacementVertical() {
 		return y2 - y1;
