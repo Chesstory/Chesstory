@@ -19,6 +19,7 @@ public class MainExe {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		mainMenu=new MainMenu(frame,false);
+		frame.repaint();
 		frame.revalidate();
 	}
 	static void switchToChesstoryGame(int gameType){
@@ -29,6 +30,8 @@ public class MainExe {
 	static void switchToEditor(){
 		clearMainMenu();
 		rulesEditor=RulesEditor.getInstance(frame);
+		frame.repaint();
+		frame.revalidate();
 	}
 	static void switchToMainMenu(){
 		clearChesstoryGame();

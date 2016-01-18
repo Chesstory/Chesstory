@@ -12,6 +12,10 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.MouseInputListener;
 
 public class RulesEditor extends JFrame implements ItemListener, MouseInputListener{
@@ -33,7 +37,7 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 	private RulesEditor(JFrame f){
 		this.f=f;
 		panel=new JPanel();
-		panel.setBackground(Color.red);
+		panel.setBackground(new Color(0x234F6E));
 		f.getContentPane().add(panel);
 		iV=new ItemSliderChecked("Vertical");
 		iH=new ItemSliderChecked("Horizontal");
@@ -50,30 +54,57 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 		private JPanel p;
 		private JLabel label;
 		private JCheckBox checkBox;
-		private JLabel test;
+		private JSlider sliderMin;
+		private JSlider sliderMax;
+		private JTextField textFieldMin;
+		private JTextField textFieldMax;
 		private boolean isChecked;
 		public ItemSliderChecked(String s){
 			isChecked=false;
 			p=new JPanel();
-			p.setBackground(Color.yellow);
+			p.setBackground(new Color(0x8EACC1));
 			panel.add(p);
 			label=new JLabel(s);
 			p.add(label);
+			
 			checkBox=new JCheckBox();
-			checkBox.addActionListener(new ActionListener() {
-				
+			checkBox.addActionListener(new ActionListener() {			
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					System.out.println("PENI");
-					
+					System.out.println("HELLOW IS THIS WORKING ?");			
 				}
 			});
 			p.add(checkBox);
-			test=new JLabel("test");
-			test.setEnabled(false);
-			p.add(test);
-			JButton b=new JButton("BOUTON");
-			p.add(b);
+			
+			sliderMin=new JSlider(JSlider.HORIZONTAL, 0, 8, 1);
+			sliderMin.setMinorTickSpacing(1);
+			sliderMin.setMajorTickSpacing(1);
+			sliderMin.setPaintTicks(true);
+			sliderMin.setPaintLabels(true);
+			sliderMin.setLabelTable(sliderMin.createStandardLabels(1));
+			sliderMin.addChangeListener(new ChangeListener() {		
+				@Override
+				public void stateChanged(ChangeEvent e) {
+					// TODO Auto-generated method stub
+				}
+			});
+			
+			p.add(sliderMin);
+			
+			sliderMax=new JSlider(JSlider.HORIZONTAL, 0, 8, 1);
+			sliderMax.setMinorTickSpacing(1);
+			sliderMax.setMajorTickSpacing(1);
+			sliderMax.setPaintTicks(true);
+			sliderMax.setPaintLabels(true);
+			sliderMax.setLabelTable(sliderMax.createStandardLabels(1));
+			sliderMax.addChangeListener(new ChangeListener() {		
+				@Override
+				public void stateChanged(ChangeEvent e) {
+					// TODO Auto-generated method stub
+				}
+			});
+			p.add(sliderMax);
+			
 			f.repaint();
 			f.revalidate();
 		}
@@ -83,13 +114,13 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 					isChecked=true;
 					
 					//TODO show
-					test.setEnabled(true);
+					
 				}
 			}else{
 				if(!checkBox.isSelected()){
 					isChecked=false;
 					//TODO hide
-					test.setEnabled(false);
+			
 				}
 			}
 		}
