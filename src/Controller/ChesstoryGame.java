@@ -83,7 +83,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	// Timer
 	private boolean timer;
 	private boolean timerW;
-	private Timer playerW, playerB, refreshTimer;
+	private Timer adventureTimer;
 	private int initialTime, playerWTimeLeft, playerBTimeLeft;
 	private JPanel panelTimerW, panelTimerB;
 	private JTextField textTimerW, textTimerB;
@@ -259,8 +259,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		panelLeftMenuBrowse.add(panelTimerB);
 
 		// TODO Nb col
-		textTimerW = new JTextField(Integer.toString(initialTime), 8);
-		textTimerB = new JTextField(Integer.toString(initialTime), 8);
+		textTimerW = new JTextField("0h00m00s", 8);
+		textTimerB = new JTextField("0h00m00s", 8);
 		textTimerW.setEditable(false);
 		textTimerB.setEditable(false);
 		panelTimerW.add(textTimerW);
@@ -593,23 +593,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	}
 
 	private void initTimer() {
-		playerW = new Timer(initialTime, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				chessEvent(CHESS_EVENT_ELAPSE_TIME, "White player has no time left.");
-			}
-		});
-		playerW.setRepeats(false);
-
-		playerB = new Timer(initialTime, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				chessEvent(CHESS_EVENT_ELAPSE_TIME, "Black player has no time left.");
-			}
-		});
-		playerB.setRepeats(false);
-
-		refreshTimer = new Timer(1000, new ActionListener() {
+		adventureTimer = new Timer(1000, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (timerW)
@@ -629,24 +613,34 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 						+ Integer.toString(affPlayerWSec) + "s");
 				textTimerB.setText(Integer.toString(affPlayerBHou) + "h" + Integer.toString(affPlayerBMin) + "m"
 						+ Integer.toString(affPlayerBSec) + "s");
+
+				if (playerWTimeLeft <= 0)
+					chessEvent(CHESS_EVENT_ELAPSE_TIME, "White player has no time left.");
+				if (playerBTimeLeft <= 0)
+					chessEvent(CHESS_EVENT_ELAPSE_TIME, "Black player has no time left.");
 			}
 		});
 
-		refreshTimer.start();
-		playerW.start();
+		adventureTimer.start();
 	}
 
 	private void switchTimer(char color) {
-		// TODO print new val each sec
-		if (color == 'w') {
-			playerW.stop();
+		if (color == 'w')
 			timerW = false;
-			playerB.start();
-		} else if (color == 'b') {
-			playerB.stop();
+		else if (color == 'b')
 			timerW = true;
-			playerW.start();
-		}
+		else
+			addLogsText("ERROR : Wrong color for timer switch.");
+	}
+	
+	@SuppressWarnings("unused")
+	private void pauseTimer(){
+		adventureTimer.stop();
+	}
+	
+	@SuppressWarnings("unused")
+	private void startTimer(){
+		adventureTimer.start();
 	}
 
 	@Override
