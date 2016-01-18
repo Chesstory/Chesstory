@@ -7,7 +7,12 @@ package echecs;
 
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
+
+import org.omg.CORBA.SetOverrideTypeHelper;
+
 import Controller.ChesstoryGame;
+import Controller.RulesEditor;
 import gui.YetAnotherChessGame;
 
 /**
@@ -108,6 +113,10 @@ public class Echiquier {
 		this(8, 8);
 		this.yacg = yacg;
 		initPieces(pawn, rook, queen, king, bishop, knight);
+	}
+
+	public Echiquier(int a) {
+
 	}
 
 	/**
@@ -242,6 +251,8 @@ public class Echiquier {
 	 */
 	public void setFEN(String FENcode) {
 		empty();
+
+		// TODO allow change width and height
 
 		try {
 			String[] code = FENcode.split(" ");
@@ -628,9 +639,10 @@ public class Echiquier {
 			if (Character.toLowerCase(codePiece) == 'p' && piece.getMaxDiag() == 0 && piece.getMaxX() == 0
 					&& !piece.getBackward())
 				piece.setMoved(Math.abs(d.deplacementVertical()) == piece.getMaxY() + 1);
-			
+
 			// Here for the rajah, (chaturanga) if it used its special ability
-			if(Character.toLowerCase(codePiece) == 'h' && (Math.abs(d.deplacementHorizontal()) == 2 || Math.abs(d.deplacementVertical()) == 2))
+			if (Character.toLowerCase(codePiece) == 'h'
+					&& (Math.abs(d.deplacementHorizontal()) == 2 || Math.abs(d.deplacementVertical()) == 2))
 				piece.setMoved(true);
 		}
 		// Change the trait
@@ -749,41 +761,58 @@ public class Echiquier {
 	public void accessibleKnight(int i, int j) {
 		boolean blanc = c[i][j].getPiece().estBlanc();
 		Piece knight = c[i][j].getPiece();
+		boolean rajah = Character.toLowerCase(knight.getCode()) == 'h';
 		// In case of Chaturanga
-		int minX = ((Character.toLowerCase(knight.getCode()) == 'h') ? 2 : knight.getMinX());
-		int maxX = ((Character.toLowerCase(knight.getCode()) == 'h') ? 2 : knight.getMaxX());
+		int minX = ((rajah) ? 2 : knight.getMinX());
+		int maxX = ((rajah) ? 2 : knight.getMaxX());
 
 		// Les 8 positions du cavalier
 		if (existAndFree(i + minX, j + maxX, blanc)) {
 			c[i][j].getPiece().addCaseAccessible(new Position(i + minX, j + maxX));
+			if (rajah)
+				c[i][j].getPiece().addCaseSpec(new Position(i + minX, j + maxX));
 		}
 
 		if (existAndFree(i + maxX, j + minX, blanc)) {
 			c[i][j].getPiece().addCaseAccessible(new Position(i + maxX, j + minX));
+			if (rajah)
+				c[i][j].getPiece().addCaseSpec(new Position(i + maxX, j + minX));
 		}
 
 		if (existAndFree(i - minX, j - maxX, blanc)) {
 			c[i][j].getPiece().addCaseAccessible(new Position(i - minX, j - maxX));
+			if (rajah)
+				c[i][j].getPiece().addCaseSpec(new Position(i - minX, j - maxX));
 		}
 
 		if (existAndFree(i - maxX, j - minX, blanc)) {
 			c[i][j].getPiece().addCaseAccessible(new Position(i - maxX, j - minX));
+			if (rajah)
+				c[i][j].getPiece().addCaseSpec(new Position(i - maxX, j - minX));
 		}
 
 		if (existAndFree(i + minX, j - maxX, blanc)) {
 			c[i][j].getPiece().addCaseAccessible(new Position(i + minX, j - maxX));
+			if (rajah)
+				c[i][j].getPiece().addCaseSpec(new Position(i + minX, j - maxX));
 		}
 
 		if (existAndFree(i + maxX, j - minX, blanc)) {
 			c[i][j].getPiece().addCaseAccessible(new Position(i + maxX, j - minX));
+			if (rajah)
+				c[i][j].getPiece().addCaseSpec(new Position(i + maxX, j - minX));
 		}
 
 		if (existAndFree(i - minX, j + maxX, blanc)) {
 			c[i][j].getPiece().addCaseAccessible(new Position(i - minX, j + maxX));
+			if (rajah)
+				c[i][j].getPiece().addCaseSpec(new Position(i - minX, j + maxX));
 		}
 
 		if (existAndFree(i - maxX, j + minX, blanc)) {
 			c[i][j].getPiece().addCaseAccessible(new Position(i - maxX, j + minX));
+			if (rajah)
+				c[i][j].getPiece().addCaseSpec(new Position(i - maxX, j + minX));
 		}
 	}
 
@@ -1136,7 +1165,7 @@ public class Echiquier {
 										p.addCaseAccessible(parcours);
 									if (!c[parcoursX][parcoursY].isEmpty()) {
 										continu = false;
-										if (Character.toLowerCase(p.getCode()) == 'p')
+										if (Character.toLowerCase(p.getCode()) == 'p' || Character.toLowerCase(p.getCode()) == 'g')
 											p.suppCaseAccessible(parcours);
 									}
 

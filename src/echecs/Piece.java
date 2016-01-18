@@ -9,15 +9,15 @@ import java.util.ArrayList;
 
 /**
  * Representation of a chess piece. A piece has a name, a code, a color and a
- * set of move possibility.
+ * set of move possibility.<br /><br />
  * 
- * Code description : k : King q : Queen b : Bishop r : Rook n : Knight p : Pawn
+ * Code description : <br />k : King <br />q : Queen <br />b : Bishop <br />r : Rook <br />n : Knight <br />p : Pawn
  * 
- * Shatranj : a : Shah (king) ; c : Farzin (queen) ; d : Fil (bishop) ; e :
- * Faras (knight) ; f : Roukh (rook) ; g : Baidaq (pawn)
+ * <br /><br />Shatranj : <br />a : Shah (king)<br />c : Farzin (queen)<br />d : Fil (bishop)<br />e :
+ * Faras (knight)<br />f : Roukh (rook)<br />g : Baidaq (pawn)
  * 
- * Chaturanga : h : Rajag (king) ; i : Mantri (queen) ; j : Gaja (bishop) ; l :
- * Ma (knight) ; m : Ratha (rook) ; o : Padati (pawn)
+ * <br /><br />Chaturanga : <br />h : Rajag (king)<br />i : Mantri (queen)<br />j : Gaja (bishop)<br />l :
+ * Ma (knight)<br />m : Ratha (rook)<br />o : Padati (pawn)
  *
  * @author samuel
  */
