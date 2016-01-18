@@ -68,10 +68,17 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 			p.add(label);
 			
 			checkBox=new JCheckBox();
-			checkBox.addActionListener(new ActionListener() {			
+			/*checkBox.addActionListener(new ActionListener() {			
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					System.out.println("HELLOW IS THIS WORKING ?");			
+				}
+			});*/
+			checkBox.addItemListener(new ItemListener() {
+				
+				@Override
+				public void itemStateChanged(ItemEvent e) {
+					refreshIsChecked();
 				}
 			});
 			p.add(checkBox);
@@ -82,14 +89,11 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 			sliderMin.setPaintTicks(true);
 			sliderMin.setPaintLabels(true);
 			sliderMin.setLabelTable(sliderMin.createStandardLabels(1));
-			sliderMin.addChangeListener(new ChangeListener() {		
-				@Override
-				public void stateChanged(ChangeEvent e) {
-					// TODO Auto-generated method stub
-				}
-			});
-			
+			textFieldMin=new JTextField(sliderMin.getValue());
+			textFieldMin.setEditable(false);
+			sliderMin.setEnabled(false);
 			p.add(sliderMin);
+			p.add(textFieldMin);
 			
 			sliderMax=new JSlider(JSlider.HORIZONTAL, 0, 8, 1);
 			sliderMax.setMinorTickSpacing(1);
@@ -97,14 +101,28 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 			sliderMax.setPaintTicks(true);
 			sliderMax.setPaintLabels(true);
 			sliderMax.setLabelTable(sliderMax.createStandardLabels(1));
+			textFieldMax=new JTextField(sliderMax.getValue());
+			textFieldMax.setEditable(false);
+			sliderMax.setEnabled(false);
+			p.add(sliderMax);
+			p.add(textFieldMax);
+			
+			sliderMin.addChangeListener(new ChangeListener() {		
+				@Override
+				public void stateChanged(ChangeEvent e) {
+					textFieldMin.setText(""+sliderMin.getValue());
+					if(sliderMin.getValue()>sliderMax.getValue())
+						sliderMax.setValue(sliderMin.getValue());
+				}
+			});
 			sliderMax.addChangeListener(new ChangeListener() {		
 				@Override
 				public void stateChanged(ChangeEvent e) {
-					// TODO Auto-generated method stub
+					textFieldMax.setText(""+sliderMax.getValue());
+					if(sliderMax.getValue()<sliderMin.getValue())
+						sliderMin.setValue(sliderMax.getValue());
 				}
 			});
-			p.add(sliderMax);
-			
 			f.repaint();
 			f.revalidate();
 		}
@@ -112,15 +130,14 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 			if(!isChecked){
 				if(checkBox.isSelected()){
 					isChecked=true;
-					
-					//TODO show
-					
+					sliderMin.setEnabled(true);
+					sliderMax.setEnabled(true);
 				}
 			}else{
 				if(!checkBox.isSelected()){
 					isChecked=false;
-					//TODO hide
-			
+					sliderMin.setEnabled(false);
+					sliderMax.setEnabled(false);
 				}
 			}
 		}

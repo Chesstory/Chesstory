@@ -576,6 +576,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 			System.out.println("---->Processing successful\n");
 		}
+		if(moveListCursor==-1){
+			
+		}
 
 	}
 
