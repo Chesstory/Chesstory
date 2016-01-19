@@ -3,6 +3,7 @@ package Controller;
 import java.awt.Color;
 import java.awt.GraphicsEnvironment;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 
 public class MainExe {
@@ -14,6 +15,7 @@ public class MainExe {
 		frame=new JFrame();
 		frame.setSize(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width,
 				GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height);
+		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.PAGE_AXIS));
 		frame.setForeground(Color.BLUE);
 	
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

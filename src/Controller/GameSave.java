@@ -37,4 +37,12 @@ public class GameSave {
 	public ArrayList<Deplacement> getMoveList(){
 		return moveList;
 	}
+	public String toString(){
+		String s="_";
+		for(int i=0;i<arrayRulePiece.length;i++){
+			s+=arrayRulePiece[i];
+			s+=",";
+		}
+		return s;
+	}
 }
