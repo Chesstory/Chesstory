@@ -1,10 +1,17 @@
 package Controller;
 
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
 public class ChesstoryConstants {
 	public static final String FILE_DEFAULT_CLASSICAL = "default_CLASSICAL";
-	public static final int NB_RULE_PER_PIECE=9;
-	public static final int NB_PIECE=6;
-	
+	public static final int NB_RULE_PER_PIECE = 9;
+	public static final int NB_PIECE = 6;
+
 	/**
 	 * Event gesture
 	 */

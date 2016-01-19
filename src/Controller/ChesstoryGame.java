@@ -234,7 +234,12 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		bExit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to leave ?",
+						"Warning you are about to leave", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+				if (response == JOptionPane.YES_OPTION) {
+					System.exit(0);
+				}
 			}
 		});
 		arrowLeft.addActionListener(new ActionListener() {
