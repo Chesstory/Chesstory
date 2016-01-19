@@ -427,14 +427,37 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	}
 
 	private void enableBrowserView() {
-		YACG.switchClickable(false);
-		isBrowserView = true;
-		switchBrowserViewBorder(true);
-		YACG.switchBorder(false);
-		addLogsText("    > STATE ----> Browser view !");
+		int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to enter browse mode ?",
+				"Warning you are about to activate browse mode", JOptionPane.YES_NO_OPTION,
+				JOptionPane.WARNING_MESSAGE);
+
+		if (response == JOptionPane.YES_OPTION) {
+			adventureTimer.stop();
+			YACG.switchClickable(false);
+			isBrowserView = true;
+			switchBrowserViewBorder(true);
+			YACG.switchBorder(false);
+			addLogsText("    > STATE ----> Browser view !");
+		}
 	}
 
 	private void disableBrowserView() {
+		if (playerWTimeLeft <= initialTime / 1000 - 2) {
+
+			if (timer) {
+				int response = JOptionPane.showConfirmDialog(null,
+						"You are about to go back to the game, do you want to delete timers ? They could have been fucked up ...",
+						"Warning you are about to go back in play mode", JOptionPane.YES_NO_CANCEL_OPTION,
+						JOptionPane.WARNING_MESSAGE);
+
+				if (response == JOptionPane.CANCEL_OPTION)
+					return;
+				else if (response == JOptionPane.YES_OPTION)
+					deleteTimer();
+			}
+		}
+
+		adventureTimer.start();
 		YACG.switchClickable(true);
 		isBrowserView = false;
 		switchBrowserViewBorder(false);
@@ -644,14 +667,11 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			addLogsText("ERROR : Wrong color for timer switch.");
 	}
 
-	@SuppressWarnings("unused")
-	private void pauseTimer() {
+	public void deleteTimer() {
 		adventureTimer.stop();
-	}
-
-	@SuppressWarnings("unused")
-	private void startTimer() {
-		adventureTimer.start();
+		textTimerB.setVisible(false);
+		textTimerW.setVisible(false);
+		timer = false;
 	}
 
 	@Override

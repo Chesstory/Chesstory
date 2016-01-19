@@ -526,4 +526,8 @@ public class Piece {
 		return new String(name + "," + code + "," + minX + "," + maxX + "," + minY + "," + maxY + "," + minDiag + ","
 				+ maxDiag + "," + backward);
 	}
+	
+	public String getNameAlone(){
+		return name;
+	}
 }

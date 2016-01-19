@@ -281,74 +281,91 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (isClickable) {
-			if (!first) {
-				chessPiece.setVisible(false);
-				// TODO PLUS RAPIDE FDP
+		if ((e.getModifiers() & InputEvent.BUTTON1_MASK) == InputEvent.BUTTON1_MASK) {
+			if (isClickable) {
+				if (!first) {
+					chessPiece.setVisible(false);
+					// TODO PLUS RAPIDE FDP
 
-				JPanel panel = (JPanel) chessBoard
-						.getComponent((8 - depart.getY() - 1) * ech.getDimX() + depart.getX());
+					JPanel panel = (JPanel) chessBoard
+							.getComponent((8 - depart.getY() - 1) * ech.getDimX() + depart.getX());
 
-				arrive = new Position((int) ((e.getX() / 600.0) * 8.0), (int) ((((600.0 - e.getY()) / 600.0) * 8.0)));
-				// here we have to save the color and the piece into d in order
-				// to
-				// later save it in the arraylist
+					arrive = new Position((int) ((e.getX() / 600.0) * 8.0),
+							(int) ((((600.0 - e.getY()) / 600.0) * 8.0)));
+					// here we have to save the color and the piece into d in
+					// order
+					// to
+					// later save it in the arraylist
 
-				Deplacement d = new Deplacement(depart, arrive, ech.getPiece(depart).getCode(),
-						ech.getPiece(depart).getColor());
+					Deplacement d = new Deplacement(depart, arrive, ech.getPiece(depart).getCode(),
+							ech.getPiece(depart).getColor());
 
-				System.out.println("==> Déplacement : " + d);
+					System.out.println("==> Déplacement : " + d);
 
-				if (makeDeplacement(d)) {
-					if ((winner = ech.checkGameIsEnded()) != 'n') {
-						System.out.println("GG aux " + winner);
-						System.exit(0);
+					if (makeDeplacement(d)) {
+						if ((winner = ech.checkGameIsEnded()) != 'n') {
+							System.out.println("GG aux " + winner);
+							System.exit(0);
+						}
+
+					} else {
+						// replacer sur la case de départ
+						panel.add(chessPiece);
+						chessPiece.setVisible(true);
 					}
 
+					// Remettre la couleur d'origine
+					dessinEchiquier();
+
+					// Put king in a yoloswaggy color if echec
+					if (ech.isInCheck(ech.getTrait())) {
+						eventInter(CHESS_EVENT_ECHEC, ((ech.getTrait() == 'w') ? "blanc" : "noir"));
+						surbrillance(ech.searchKing(ech.getTrait()), Color.MAGENTA);
+					}
+					first = true;
 				} else {
-					// replacer sur la case de départ
-					panel.add(chessPiece);
-					chessPiece.setVisible(true);
+					dessinEchiquier();
+					chessPiece = null;
+					Component c = chessBoard.findComponentAt(e.getX(), e.getY());
+					// if it is empty : do nothing
+					if (c instanceof JPanel) {
+						return;
+					}
+
+					// retrouver la case correspondante
+					depart = new Position((int) ((e.getX() / 600.0) * 8.0),
+							(int) ((((600.0 - e.getY()) / 600.0) * 8.0)));
+
+					System.out.print(depart);
+
+					chessPiece = (JLabel) c;
+
+					// highlight the case
+					surbrillance(depart, (ech.getTrait() == ech.getPiece(depart).getColor()) ? Color.cyan : Color.red);
+
+					if (ech.getTrait() == ech.getPiece(depart).getColor())
+						afficheLesPositionsDansLeGUI(depart);
+
+					if (ech.isInCheck(ech.getTrait())) {
+						surbrillance(ech.searchKing(ech.getTrait()), Color.MAGENTA);
+					}
+
+					first = !(ech.getTrait() == ech.getPiece(depart).getColor());
 				}
-
-				// Remettre la couleur d'origine
-				dessinEchiquier();
-
-				// Put king in a yoloswaggy color if echec
-				if (ech.isInCheck(ech.getTrait())) {
-					eventInter(CHESS_EVENT_ECHEC, ((ech.getTrait() == 'w') ? "blanc" : "noir"));
-					surbrillance(ech.searchKing(ech.getTrait()), Color.MAGENTA);
-				}
-
-				first = true;
-			} else {
-				dessinEchiquier();
-				chessPiece = null;
-				Component c = chessBoard.findComponentAt(e.getX(), e.getY());
-				// if it is empty : do nothing
-				if (c instanceof JPanel) {
-					return;
-				}
-
-				// retrouver la case correspondante
-				depart = new Position((int) ((e.getX() / 600.0) * 8.0), (int) ((((600.0 - e.getY()) / 600.0) * 8.0)));
-
-				System.out.print(depart);
-
-				chessPiece = (JLabel) c;
-
-				// highlight the case
-				surbrillance(depart, (ech.getTrait() == ech.getPiece(depart).getColor()) ? Color.cyan : Color.red);
-
-				if (ech.getTrait() == ech.getPiece(depart).getColor())
-					afficheLesPositionsDansLeGUI(depart);
-
-				if (ech.isInCheck(ech.getTrait())) {
-					surbrillance(ech.searchKing(ech.getTrait()), Color.MAGENTA);
-				}
-
-				first = !(ech.getTrait() == ech.getPiece(depart).getColor());
 			}
+		} else {
+			Piece chessPieceInfo = null;
+			Component c = chessBoard.findComponentAt(e.getX(), e.getY());
+			// if it is empty : do nothing
+			if (c instanceof JPanel) {
+				return;
+			}
+			depart = new Position((int) ((e.getX() / 600.0) * 8.0), (int) ((((600.0 - e.getY()) / 600.0) * 8.0)));
+
+			chessPieceInfo = ech.getPiece(depart);
+
+			chesstoryGame.addLogsText("Bravo son of bitch, you clicked on a " + chessPieceInfo.getNameAlone()
+					+ " its code is " + chessPieceInfo.getCode() + ". Et elle te chie dans le nez.");
 		}
 	}
 
