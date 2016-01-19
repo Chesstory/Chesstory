@@ -596,10 +596,15 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		adventureTimer = new Timer(1000, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (timerW)
+				if (timerW) {
 					playerWTimeLeft--;
-				else
+					textTimerW.setBackground(Color.WHITE);
+					textTimerB.setBackground(Color.GRAY);
+				} else {
 					playerBTimeLeft--;
+					textTimerB.setBackground(Color.WHITE);
+					textTimerW.setBackground(Color.GRAY);
+				}
 
 				affPlayerWHou = (int) playerWTimeLeft / 3600;
 				affPlayerWMin = (int) (playerWTimeLeft % 3600) / 60;
@@ -632,14 +637,14 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		else
 			addLogsText("ERROR : Wrong color for timer switch.");
 	}
-	
+
 	@SuppressWarnings("unused")
-	private void pauseTimer(){
+	private void pauseTimer() {
 		adventureTimer.stop();
 	}
-	
+
 	@SuppressWarnings("unused")
-	private void startTimer(){
+	private void startTimer() {
 		adventureTimer.start();
 	}
 
