@@ -15,6 +15,8 @@ import Controller.ChesstoryGame;
 import Controller.RulesEditor;
 import gui.YetAnotherChessGame;
 
+import static Controller.ChesstoryConstants.*;
+
 /**
  * This is where everything is done. This class builds the chess board and
  * checks all the moves possibility, etc. Everything that is not graphic occurs
@@ -571,13 +573,13 @@ public class Echiquier {
 			if (codePiece == 'p' && (y2 == 0)) {
 				promotion = true;
 				piece = new Piece(queenSpec, 'b');
-				yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_PROM, "Promotion noir");
+				yacg.eventInter(CHESS_EVENT_PROM, "Promotion noir");
 			}
 			// White pawn on last line
 			if (codePiece == 'P' && (y2 == dimY - 1)) {
 				promotion = true;
 				piece = new Piece(queenSpec, 'w');
-				yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_PROM, "Promotion blanc");
+				yacg.eventInter(CHESS_EVENT_PROM, "Promotion blanc");
 			}
 
 			// Prise en passant (i'vre written this word so many times ... Still
@@ -588,7 +590,7 @@ public class Echiquier {
 					&& piece.getMaxX() == 0 && !piece.getBackward() && d.deplacementDiagonal() == 1
 					&& !c[x2][y1].isEmpty() && c[x2][y1].getPiece().getColor() != c[x1][y1].getPiece().getColor()) {
 				c[x2][y1].empty();
-				yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_PEP,
+				yacg.eventInter(CHESS_EVENT_PEP,
 						((piece.getCode() == 'P') ? "Prise en passant blanc" : "Prise en passant noir"));
 			}
 
@@ -602,24 +604,24 @@ public class Echiquier {
 						tour = c[roqueR][y1].getPiece();
 						c[x1 + 1][y1].setPiece(tour);
 						c[roqueR][y1].empty();
-						yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_ROQUE, "Petit roque blanc");
+						yacg.eventInter(CHESS_EVENT_ROQUE, "Petit roque blanc");
 					} else {
 						tour = c[roquer][y1].getPiece();
 						c[x1 + 1][y1].setPiece(tour);
 						c[roquer][y1].empty();
-						yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_ROQUE, "Petit roque noir");
+						yacg.eventInter(CHESS_EVENT_ROQUE, "Petit roque noir");
 					}
 				} else {
 					if (piece.estBlanc()) {
 						tour = c[roqueL][y1].getPiece();
 						c[x1 - 1][y1].setPiece(tour);
 						c[roqueL][y1].empty();
-						yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_ROQUE, "Grand roque blanc");
+						yacg.eventInter(CHESS_EVENT_ROQUE, "Grand roque blanc");
 					} else {
 						tour = c[roquel][y1].getPiece();
 						c[x1 - 1][y1].setPiece(tour);
 						c[roquel][y1].empty();
-						yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_ROQUE, "Grand roque noir");
+						yacg.eventInter(CHESS_EVENT_ROQUE, "Grand roque noir");
 					}
 				}
 			}
@@ -1487,16 +1489,16 @@ public class Echiquier {
 
 		if (blackCantMove) {
 			if (isInCheck('b'))
-				yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_MAT, "Echec et mat en faveur des blancs");
+				yacg.eventInter(CHESS_EVENT_MAT, "Echec et mat en faveur des blancs");
 			else
-				yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_PAT, "Pat en faveur des blancs");
+				yacg.eventInter(CHESS_EVENT_PAT, "Pat en faveur des blancs");
 		}
 
 		if (whiteCantMove) {
 			if (isInCheck('w'))
-				yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_MAT, "Echec et mat en faveur des noirs");
+				yacg.eventInter(CHESS_EVENT_MAT, "Echec et mat en faveur des noirs");
 			else
-				yacg.eventInter(YetAnotherChessGame.CHESS_EVENT_PAT, "Pat en faveur des noirs");
+				yacg.eventInter(CHESS_EVENT_PAT, "Pat en faveur des noirs");
 		}
 
 		if (blackKingAlone || blackCantMove)

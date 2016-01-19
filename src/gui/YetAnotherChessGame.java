@@ -25,20 +25,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 
+import static Controller.ChesstoryConstants.*;
+
 @SuppressWarnings("serial")
 public final class YetAnotherChessGame extends JFrame implements MouseListener, MouseMotionListener {
-
-	/**
-	 * Event gesture
-	 */
-	public final static int CHESS_EVENT_ECHEC = 1;
-	public final static int CHESS_EVENT_MAT = 2;
-	public final static int CHESS_EVENT_PAT = 3;
-	public final static int CHESS_EVENT_ROQUE = 4;
-	// Prise en passant (BEP des pauvres)
-	public final static int CHESS_EVENT_PEP = 5;
-	public final static int CHESS_EVENT_PROM = 6;
-	public final static int CHESS_EVENT_ELAPSE_TIME = 7;
 
 	/**
 	 * Paneau de fond
@@ -77,9 +67,10 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	 * Color themes
 	 */
 	Color backgroundOne, backgroundTwo, caseSpec, caseAccessible;
-	private final static Color[] DEFAULT_THEM = {Color.getHSBColor(0.56f, 1.0f, 0.8f), Color.white, Color.YELLOW, Color.ORANGE};
-	private final static Color[] SHATRANJ_THEM = {Color.white, Color.white, Color.YELLOW, Color.ORANGE};
-	
+	private final static Color[] DEFAULT_THEM = { Color.getHSBColor(0.56f, 1.0f, 0.8f), Color.white, Color.YELLOW,
+			Color.ORANGE };
+	private final static Color[] SHATRANJ_THEM = { Color.white, Color.white, Color.YELLOW, Color.ORANGE };
+
 	private ChesstoryGame chesstoryGame;
 	/**
 	 * L'échiquier courrant
@@ -226,7 +217,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		// ech = new Echiquier();
 
 		changeTheme(DEFAULT_THEM);
-		
+
 		// This a test with the classical chess pieces
 		ech = new Echiquier(new Piece("pion", 'p', 0, 0, 1, 1, 0, 0, false),
 				new Piece("dame", 'q', true, true, true, true), new Piece("roi", 'k', 1, 1, 1, 1, 1, 1, true),
@@ -325,7 +316,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 
 				// Put king in a yoloswaggy color if echec
 				if (ech.isInCheck(ech.getTrait())) {
-					eventInter(YetAnotherChessGame.CHESS_EVENT_ECHEC, ((ech.getTrait() == 'w') ? "blanc" : "noir"));
+					eventInter(CHESS_EVENT_ECHEC, ((ech.getTrait() == 'w') ? "blanc" : "noir"));
 					surbrillance(ech.searchKing(ech.getTrait()), Color.MAGENTA);
 				}
 
@@ -364,7 +355,6 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	public void eventInter(int event, String s) {
 		chesstoryGame.chessEvent(event, s);
 	}
-
 
 	public void switchBorder(boolean b) {
 		if (b) {
@@ -446,8 +436,8 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 
 		return arrayPiece;
 	}
-	
-	public void changeTheme(Color[] theme){
+
+	public void changeTheme(Color[] theme) {
 		backgroundOne = theme[0];
 		backgroundTwo = theme[1];
 		caseAccessible = theme[2];

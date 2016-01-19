@@ -29,6 +29,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.text.DefaultCaret;
 
 import static gui.YetAnotherChessGame.*;
+import static Controller.ChesstoryConstants.*;
 
 public class ChesstoryGame extends JFrame implements MouseListener {
 	/**
