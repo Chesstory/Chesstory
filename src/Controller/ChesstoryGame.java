@@ -38,16 +38,18 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private static final long serialVersionUID = 1L;
 
 	public static final int GAMETYPE_CLASSICAL = 1;
-//ffff
+	
 	private YetAnotherChessGame YACG;
 	// >Interface
 	public static JFrame f;
+	private JPanel panelGlob;
 	private JPanel panelLeft;
 	private JPanel panelRight;
 	private JPanel panelLeftChessboard;
 	private JPanel panelLeftMenu;
 	private JPanel panelLeftMenuBrowse;
 	private JPanel panelLeftMenuMain;
+	private JScrollPane scrollPane;
 
 	private JButton bLoad;
 	private JButton bSave;
@@ -141,6 +143,10 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 		FENList = new ArrayList<String>();
 
+		panelGlob = new JPanel();
+		scrollPane = new JScrollPane(panelGlob);
+		f.getContentPane().add(scrollPane);
+		
 		f.setVisible(true);
 		panelLeft = new JPanel();
 		panelLeft.setBorder(new LineBorder(Color.GREEN));
@@ -272,7 +278,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		panelTimerW.add(textTimerW);
 		panelTimerB.add(textTimerB);
 
-		f.getContentPane().setLayout(new BoxLayout(f.getContentPane(), BoxLayout.X_AXIS));
+		panelGlob.setLayout(new BoxLayout(panelGlob, BoxLayout.X_AXIS));
 		panelLeftChessboard = new JPanel();
 		panelLeftChessboard.setSize(new Dimension(600, 600));
 		panelLeftChessboard.setMinimumSize(new Dimension(600, 600));
@@ -285,7 +291,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		panelLeft.add(panelLeftChessboard, gbc_panelLeftChessboard);
 		YACG = new YetAnotherChessGame(departureFEN, this);
 		panelLeftChessboard.add(YACG.CreationChessboard());
-		f.getContentPane().add(panelLeft);
+		panelGlob.add(panelLeft);
 
 		panelRight = new JPanel();
 		// FlowLayout flowLayout_1 = (FlowLayout) panelRight.getLayout();
@@ -336,10 +342,11 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		logsTextScroll = new JScrollPane(logsText);
 		logsTextScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		panelRight.add(logsTextScroll);
-		f.getContentPane().add(panelRight);
+		panelGlob.add(panelRight);
 
 		disableBrowserView();// We are in a game
 
+		panelGlob.validate();
 		f.validate();
 
 		switch (gameType) {
