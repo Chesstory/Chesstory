@@ -114,7 +114,7 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 		buttonConfirmChanges=new JButton("Confirm");
 		buttonConfirmChanges.addActionListener(new ActionListener() {	
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {//Save the currents var displayed in the array
 				for(int p=0;p<NB_PIECE;p++){
 					//pieceRules[p][0]=;
 					//pieceRules[p][1]=;
@@ -129,7 +129,7 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 					
 					returnString[p]=pieceRules[p][0] +","+ pieceRules[p][1] +","+ Integer.toString(iH.getSliderMinValue()) +","+ Integer.toString(iH.getSliderMaxValue()) +","+ 
 							Integer.toString(iV.getSliderMinValue()) +","+ Integer.toString(iV.getSliderMaxValue()) +","+ Integer.toString(iD.getSliderMinValue()) +","+ 
-							Integer.toString(iD.getSliderMaxValue()) +","+ Boolean.toString(checkBoxCanGoBack.isSelected());
+							Integer.toString(iD.getSliderMaxValue()) +","+ Boolean.toString(checkBoxCanGoBack.isSelected())+","+ Boolean.toString(checkBoxHasKnightMove.isSelected());
 				}
 				//End of the function we return the string
 				MainExe.switchToChesstoryGame(1, returnString);//TODO REPLACE THE INT "1" PER CONSTANT AFTER THE TYPE CHOOSEING MODULE IS DONE
@@ -149,6 +149,12 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 		panel.add(buttonBack);
 		
 		buttonLaunchGame=new JButton("Launch the game !");
+		buttonLaunchGame.addActionListener(new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub			
+			}
+		});
 		panel.add(buttonLaunchGame);
 	}
 	//TODO constructor without initialization
