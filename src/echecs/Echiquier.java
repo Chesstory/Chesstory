@@ -1085,205 +1085,203 @@ public class Echiquier {
 					p.videSpec();
 
 					// If it's a knight with basic move set
-					if (Character.toLowerCase(p.getCode()) == 'n' && p.getMaxY() == 0 && p.getMaxDiag() == 0) {
+					if (p.isHorse())
 						accessibleKnight(i, j);
-					} else {
 
-						// White pawn with 'normal' dep capacities
-						if (p.getCode() == 'P' && !p.getBackward() && p.getMaxDiag() == 0 && p.getMaxX() == 0)
-							accessibleWhitePawn(i, j, p);
+					// White pawn with 'normal' dep capacities
+					if (p.getCode() == 'P' && !p.getBackward() && p.getMaxDiag() == 0 && p.getMaxX() == 0)
+						accessibleWhitePawn(i, j, p);
 
-						// Black pawn with 'normal' dep capacities
-						if (p.getCode() == 'p' && !p.getBackward() && p.getMaxDiag() == 0 && p.getMaxX() == 0)
-							accessibleBlackPawn(i, j, p);
+					// Black pawn with 'normal' dep capacities
+					if (p.getCode() == 'p' && !p.getBackward() && p.getMaxDiag() == 0 && p.getMaxX() == 0)
+						accessibleBlackPawn(i, j, p);
 
-						if (roque && Character.toLowerCase(p.getCode()) == 'k' && !p.isMoved() && p.getMaxX() == 1)
-							geranceDuRoque(i, j);
+					if (roque && Character.toLowerCase(p.getCode()) == 'k' && !p.isMoved() && p.getMaxX() == 1)
+						geranceDuRoque(i, j);
 
-						// Chaturanga's special rule for rajah
-						if (Character.toLowerCase(p.getCode()) == 'h' && !p.isMoved() && !isInCheck(p.getColor()))
-							accessibleKnight(i, j);
+					// Chaturanga's special rule for rajah
+					if (Character.toLowerCase(p.getCode()) == 'h' && !p.isMoved() && !isInCheck(p.getColor()))
+						accessibleKnight(i, j);
 
-						Position posPiece = new Position(i, j);
-						int parcoursX;
-						int parcoursY;
-						Position parcours;
-						Deplacement dep;
-						boolean continu = true;
+					Position posPiece = new Position(i, j);
+					int parcoursX;
+					int parcoursY;
+					Position parcours;
+					Deplacement dep;
+					boolean continu = true;
 
-						// Horizontal moves here
-						if (p.getMaxX() > 0) {
-							// To the right
-							parcoursX = i + 1;
-							parcoursY = j;
-							while (continu) {
-								if (parcoursX < dimX) {
-									parcours = new Position(parcoursX, parcoursY);
-									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
-									if (accessiblePiece(dep))
-										p.addCaseAccessible(parcours);
-									if (!c[parcoursX][parcoursY].isEmpty())
-										continu = false;
-
-									parcoursX++;
-								} else
+					// Horizontal moves here
+					if (p.getMaxX() > 0) {
+						// To the right
+						parcoursX = i + 1;
+						parcoursY = j;
+						while (continu) {
+							if (parcoursX < dimX) {
+								parcours = new Position(parcoursX, parcoursY);
+								dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
+								if (accessiblePiece(dep))
+									p.addCaseAccessible(parcours);
+								if (!c[parcoursX][parcoursY].isEmpty())
 									continu = false;
-							}
 
-							parcoursX = i - 1;
-							parcoursY = j;
-							continu = true;
-
-							// To the left
-							while (continu) {
-								if (parcoursX >= 0) {
-									parcours = new Position(parcoursX, parcoursY);
-									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
-									if (accessiblePiece(dep))
-										p.addCaseAccessible(parcours);
-									if (!c[parcoursX][parcoursY].isEmpty())
-										continu = false;
-
-									parcoursX--;
-								} else
-									continu = false;
-							}
+								parcoursX++;
+							} else
+								continu = false;
 						}
 
-						// Vertical checking here
-						if (p.getMaxY() > 0) {
-							parcoursY = j + 1;
-							parcoursX = i;
-							continu = true;
-							// To the bottom !
-							while (continu) {
-								if (parcoursY < dimY) {
-									parcours = new Position(parcoursX, parcoursY);
-									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
-									if (accessiblePiece(dep))
-										p.addCaseAccessible(parcours);
-									if (!c[parcoursX][parcoursY].isEmpty()) {
-										continu = false;
-										if (Character.toLowerCase(p.getCode()) == 'p'
-												|| Character.toLowerCase(p.getCode()) == 'g')
-											p.suppCaseAccessible(parcours);
-									}
+						parcoursX = i - 1;
+						parcoursY = j;
+						continu = true;
 
-									parcoursY++;
-								} else
+						// To the left
+						while (continu) {
+							if (parcoursX >= 0) {
+								parcours = new Position(parcoursX, parcoursY);
+								dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
+								if (accessiblePiece(dep))
+									p.addCaseAccessible(parcours);
+								if (!c[parcoursX][parcoursY].isEmpty())
 									continu = false;
-							}
 
-							parcoursX = i;
-							parcoursY = j - 1;
-							continu = true;
+								parcoursX--;
+							} else
+								continu = false;
+						}
+					}
 
-							// To the top, to the stars !
-							while (continu) {
-								if (parcoursY >= 0) {
-									parcours = new Position(parcoursX, parcoursY);
-									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
-									if (accessiblePiece(dep))
-										p.addCaseAccessible(parcours);
-									if (!c[parcoursX][parcoursY].isEmpty()) {
-										continu = false;
-										if (Character.toLowerCase(p.getCode()) == 'p')
-											p.suppCaseAccessible(parcours);
-									}
-									parcoursY--;
-								} else
+					// Vertical checking here
+					if (p.getMaxY() > 0) {
+						parcoursY = j + 1;
+						parcoursX = i;
+						continu = true;
+						// To the bottom !
+						while (continu) {
+							if (parcoursY < dimY) {
+								parcours = new Position(parcoursX, parcoursY);
+								dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
+								if (accessiblePiece(dep))
+									p.addCaseAccessible(parcours);
+								if (!c[parcoursX][parcoursY].isEmpty()) {
 									continu = false;
-							}
+									if (Character.toLowerCase(p.getCode()) == 'p'
+											|| Character.toLowerCase(p.getCode()) == 'g')
+										p.suppCaseAccessible(parcours);
+								}
+
+								parcoursY++;
+							} else
+								continu = false;
 						}
 
-						// Diagonal checking here ! 4 directions !
-						if (p.getMaxDiag() > 0) {
-							continu = true;
-							parcoursX = i + 1;
-							parcoursY = j + 1;
+						parcoursX = i;
+						parcoursY = j - 1;
+						continu = true;
 
-							// First one ! bottom-right I think
-							while (continu) {
-								if (parcoursY < dimY && parcoursX < dimX) {
-									parcours = new Position(parcoursX, parcoursY);
-									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
-									if (accessiblePiece(dep))
-										p.addCaseAccessible(parcours);
-									if (!c[parcoursX][parcoursY].isEmpty())
-										continu = false;
-
-									parcoursX++;
-									parcoursY++;
-								} else
+						// To the top, to the stars !
+						while (continu) {
+							if (parcoursY >= 0) {
+								parcours = new Position(parcoursX, parcoursY);
+								dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
+								if (accessiblePiece(dep))
+									p.addCaseAccessible(parcours);
+								if (!c[parcoursX][parcoursY].isEmpty()) {
 									continu = false;
-							}
+									if (Character.toLowerCase(p.getCode()) == 'p')
+										p.suppCaseAccessible(parcours);
+								}
+								parcoursY--;
+							} else
+								continu = false;
+						}
+					}
 
-							continu = true;
-							parcoursX = i - 1;
-							parcoursY = j + 1;
+					// Diagonal checking here ! 4 directions !
+					if (p.getMaxDiag() > 0) {
+						continu = true;
+						parcoursX = i + 1;
+						parcoursY = j + 1;
 
-							// Second one ! bottom-left normally
-							// Do you know why the chicken crossed the road ??
-							// Because road is human-made, chicken do not get
-							// it.
-							while (continu) {
-								if (parcoursY < dimY && parcoursX >= 0) {
-									parcours = new Position(parcoursX, parcoursY);
-									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
-									if (accessiblePiece(dep))
-										p.addCaseAccessible(parcours);
-									if (!c[parcoursX][parcoursY].isEmpty())
-										continu = false;
-
-									parcoursX--;
-									parcoursY++;
-								} else
+						// First one ! bottom-right I think
+						while (continu) {
+							if (parcoursY < dimY && parcoursX < dimX) {
+								parcours = new Position(parcoursX, parcoursY);
+								dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
+								if (accessiblePiece(dep))
+									p.addCaseAccessible(parcours);
+								if (!c[parcoursX][parcoursY].isEmpty())
 									continu = false;
-							}
 
-							continu = true;
-							parcoursX = i - 1;
-							parcoursY = j - 1;
+								parcoursX++;
+								parcoursY++;
+							} else
+								continu = false;
+						}
 
-							// Third one ! top-right maybe, or top-chef ? Who
-							// knows
-							// ?
-							while (continu) {
-								if (parcoursY >= 0 && parcoursX >= 0) {
-									parcours = new Position(parcoursX, parcoursY);
-									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
-									if (accessiblePiece(dep))
-										p.addCaseAccessible(parcours);
-									if (!c[parcoursX][parcoursY].isEmpty())
-										continu = false;
+						continu = true;
+						parcoursX = i - 1;
+						parcoursY = j + 1;
 
-									parcoursX--;
-									parcoursY--;
-								} else
+						// Second one ! bottom-left normally
+						// Do you know why the chicken crossed the road ??
+						// Because road is human-made, chicken do not get
+						// it.
+						while (continu) {
+							if (parcoursY < dimY && parcoursX >= 0) {
+								parcours = new Position(parcoursX, parcoursY);
+								dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
+								if (accessiblePiece(dep))
+									p.addCaseAccessible(parcours);
+								if (!c[parcoursX][parcoursY].isEmpty())
 									continu = false;
-							}
 
-							continu = true;
-							parcoursX = i + 1;
-							parcoursY = j - 1;
+								parcoursX--;
+								parcoursY++;
+							} else
+								continu = false;
+						}
 
-							// Fourth one ! top-right if i'm right, got it ?
-							// right
-							// -> right !
-							while (continu) {
-								if (parcoursY >= 0 && parcoursX < dimX) {
-									parcours = new Position(parcoursX, parcoursY);
-									dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
-									if (accessiblePiece(dep))
-										p.addCaseAccessible(parcours);
-									if (!c[parcoursX][parcoursY].isEmpty())
-										continu = false;
+						continu = true;
+						parcoursX = i - 1;
+						parcoursY = j - 1;
 
-									parcoursX++;
-									parcoursY--;
-								} else
+						// Third one ! top-right maybe, or top-chef ? Who
+						// knows
+						// ?
+						while (continu) {
+							if (parcoursY >= 0 && parcoursX >= 0) {
+								parcours = new Position(parcoursX, parcoursY);
+								dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
+								if (accessiblePiece(dep))
+									p.addCaseAccessible(parcours);
+								if (!c[parcoursX][parcoursY].isEmpty())
 									continu = false;
-							}
+
+								parcoursX--;
+								parcoursY--;
+							} else
+								continu = false;
+						}
+
+						continu = true;
+						parcoursX = i + 1;
+						parcoursY = j - 1;
+
+						// Fourth one ! top-right if i'm right, got it ?
+						// right
+						// -> right !
+						while (continu) {
+							if (parcoursY >= 0 && parcoursX < dimX) {
+								parcours = new Position(parcoursX, parcoursY);
+								dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
+								if (accessiblePiece(dep))
+									p.addCaseAccessible(parcours);
+								if (!c[parcoursX][parcoursY].isEmpty())
+									continu = false;
+
+								parcoursX++;
+								parcoursY--;
+							} else
+								continu = false;
 						}
 					}
 				}
