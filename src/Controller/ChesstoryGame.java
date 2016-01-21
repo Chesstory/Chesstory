@@ -349,7 +349,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			rulesText.setText(CHESS_RULES_HEADER + CHESS_RULES_CLASSIC);
 			break;
 		case GAMETYPE_CUSTOM:
-			rulesText.setText(CHESS_RULES_HEADER + CHESS_RULES_CUSTOM_PT1 + CHESS_RULES_CUSTOM_PT2);
+			rulesText.setText(CHESS_RULES_HEADER + CHESS_RULES_CUSTOM_PT1 + YACG.getPiecesFancyMoveSet()
+					+ CHESS_RULES_CUSTOM_PT2);
 			break;
 		default:// TODO custom game;
 		}

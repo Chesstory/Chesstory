@@ -60,4 +60,6 @@ public class ChesstoryConstants {
 			+ "If you activated the rook, your king can travel two cells horizontally and put the nearest rook next to him, but only if none of them moved before.\n"
 			+ "If you toggled on the Prise-en-passant and if your pawn has 'basic' moves capacity, he can eat an enemy's one when they are side by side, but only if the enemy's pawn used his ability to travel two cells instead of one just before.\n"
 			+ "Good luck & have fun !";
+	public final static String CHESS_RULES_SHATRANJ = "";
+	public final static String CHESS_RULES_CHATURANGA = "";
 }
