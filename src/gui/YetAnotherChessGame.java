@@ -11,18 +11,14 @@ import echecs.Echiquier;
 import echecs.Piece;
 import echecs.Position;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
- * Classe principale pour l'interface graphique
+ * Graphic interface of the chess board.
  *
  * @author samuel
  */
 import java.util.ArrayList;
 
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 
 import static Controller.ChesstoryConstants.*;
@@ -31,35 +27,35 @@ import static Controller.ChesstoryConstants.*;
 public final class YetAnotherChessGame extends JFrame implements MouseListener, MouseMotionListener {
 
 	/**
-	 * Paneau de fond
+	 * Background
 	 */
 	JLayeredPane layeredPane;
 
 	/**
-	 * Echiquier
+	 * Chess board
 	 */
 	JPanel chessBoard;
 
 	/**
-	 * Une pièce
+	 * A chess piece
 	 */
 	JLabel chessPiece;
 
 	/**
-	 * Déplacement en x
+	 * Move in X
 	 */
 	int xDeplace;
 	/**
-	 * Déplacement en y
+	 * Move in Y
 	 */
 	int yDeplace;
 
 	/**
-	 * position de départ
+	 * Departure position
 	 */
 	Position depart;
 	/**
-	 * position d'arrivée
+	 * Arrival position
 	 */
 	Position arrive;
 
@@ -67,13 +63,10 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	 * Color themes
 	 */
 	Color backgroundOne, backgroundTwo, caseSpec, caseAccessible;
-	private final static Color[] DEFAULT_THEM = { Color.getHSBColor(0.56f, 1.0f, 0.8f), Color.white, Color.YELLOW,
-			Color.ORANGE };
-	private final static Color[] SHATRANJ_THEM = { Color.white, Color.white, Color.YELLOW, Color.ORANGE };
 
 	private ChesstoryGame chesstoryGame;
 	/**
-	 * L'échiquier courrant
+	 * Current chess board
 	 */
 	static Echiquier ech;// TODO REMOVE STATIC
 
@@ -89,9 +82,9 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	private char winner = 'n';
 
 	/**
-	 * Efface tout l'échiquier
+	 * Graphically remove all the chess pieces.
 	 */
-	private void videEchiquier() {
+	private void emptyChessboard() {
 		for (int j = 0; j < ech.getDimY(); j++) {
 			for (int i = 0; i < ech.getDimX(); i++) {
 				JPanel panel = (JPanel) chessBoard.getComponent(j * ech.getDimX() + i);
@@ -102,19 +95,19 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	}
 
 	/**
-	 * Dessine intégralement toutes les pièces de l'échiquier
+	 * Draw every pieces on the chess board. <br/>
+	 * Basically travel on every cell and check if there is a piece to draw.
 	 */
-	private void dessineToutesLesPieces() {
-		// dessin des pièces
+	private void drawEveryPieces() {
 		for (int j = 0; j < ech.getDimY(); j++) {
 			for (int i = 0; i < ech.getDimX(); i++) {
 				Piece p = ech.getPieceCase(i, 8 - j - 1);
 
 				if (p != null) {
-					String nom = p.getName();
-					String nomComplet = "icons/" + nom + ".png";
+					String name = p.getName();
+					String fullName = "icons/" + name + ".png";
 					ClassLoader cl = this.getClass().getClassLoader();
-					JLabel piece = new JLabel(new ImageIcon(cl.getResource(nomComplet)));
+					JLabel piece = new JLabel(new ImageIcon(cl.getResource(fullName)));
 					JPanel panel = (JPanel) chessBoard.getComponent(j * ech.getDimX() + i);
 					panel.add(piece);
 				}
@@ -123,11 +116,11 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	}
 
 	/**
-	 * Vide et dessine
+	 * Empty and redraw the chess board.
 	 */
-	private void redessine() {
-		videEchiquier();
-		dessineToutesLesPieces();
+	private void redraw() {
+		emptyChessboard();
+		drawEveryPieces();
 	}
 
 	/**
@@ -137,33 +130,50 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	 *            FEN code used to repaint the chessBoard
 	 */
 	public void makeDrawFen(String departureFEN) {
-		videEchiquier();
+		emptyChessboard();
 		ech.setFEN(departureFEN);
-		dessineToutesLesPieces();
+		drawEveryPieces();
 		chessBoard.revalidate();
 		chessBoard.repaint();
 	}
 
-	private void surbrillance(Position pos, Color couleur) {
+	/**
+	 * Highlight a cell, use to show accessible position for example.
+	 * 
+	 * @param pos
+	 *            The cell to highlight.
+	 * @param couleur
+	 *            The color in which the cell will be highlighted
+	 */
+	private void highlight(Position pos, Color couleur) {
 		JPanel panel = (JPanel) chessBoard.getComponent((8 - pos.getY() - 1) * ech.getDimX() + pos.getX());
 		panel.setBackground(couleur);
 	}
 
+	/**
+	 * Highlight all the accessible positions of the selected piece.
+	 * 
+	 * @param p
+	 *            The position of the piece.
+	 */
 	public void afficheLesPositionsDansLeGUI(Position p) {
 		ArrayList<Position> array = ech.affichePositionAccessibles(p);
 		ArrayList<Position> arraySpec = ech.showSpecPositions(p);
 
 		// NORMAL
 		for (int i = 0; i < array.size(); i++) {
-			surbrillance(array.get(i), caseAccessible/* new Color(0xfc913a *//* 0x74d600 *//* ) */);
+			highlight(array.get(i), caseAccessible/* new Color(0xfc913a *//* 0x74d600 *//* ) */);
 		}
-		// TRISOMIQUE
+		// Special
 		for (int i = 0; i < arraySpec.size(); i++) {
-			surbrillance(arraySpec.get(i), caseSpec /* new Color( *//* 0xf9d62e *//* 0xadff00 *//* ) */);
+			highlight(arraySpec.get(i), caseSpec /* new Color( *//* 0xf9d62e *//* 0xadff00 *//* ) */);
 		}
 	}
 
-	private void dessinEchiquier() {
+	/**
+	 * Draw the cells of the chess board (colors already selected in the theme).
+	 */
+	private void drawChessboard() {
 		for (int j = 0; j < ech.getDimY(); j++) {
 			for (int i = 0; i < ech.getDimX(); i++) {
 				JPanel panel = (JPanel) chessBoard.getComponent(j * ech.getDimX() + i);
@@ -184,7 +194,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	 */
 	public void forceMakeDeplacement(Deplacement move) {
 		ech.forceDeplacement(move);
-		redessine();
+		redraw();
 		chessBoard.repaint();
 		chessBoard.revalidate();
 	}
@@ -200,7 +210,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 
 		if (ech.isValidMove(move)) {
 			ech.executeDeplacement(move);
-			redessine();
+			redraw();
 			chesstoryGame.addMoveMadeByPlayer(move);
 			return true;
 		} else
@@ -208,7 +218,8 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	}
 
 	/**
-	 * Constructeur
+	 * Create everything that we need to draw the chess board, and mostly is an
+	 * intermediary between Echiquier and ChesstoryGame.
 	 */
 	public YetAnotherChessGame(String fenDeDeapart, ChesstoryGame chesstoryGame) {
 		// TODO a good looking shit to initialize pieces :3
@@ -216,7 +227,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		this.chesstoryGame = chesstoryGame;
 		// ech = new Echiquier();
 
-		changeTheme(DEFAULT_THEM);
+		changeTheme(THEM_DEFAULT);
 
 		// This a test with the classical chess pieces
 		ech = new Echiquier(new Piece("pion", 'p', 0, 0, 1, 1, 0, 0, false, false),
@@ -259,8 +270,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 				square.setBackground(i % 2 == 0 ? backgroundOne : backgroundTwo);
 			}
 		}
-		// tu pues du cul
-		dessineToutesLesPieces();
+		drawEveryPieces();
 	}
 
 	@Override
@@ -276,9 +286,12 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	}
 
 	/**
-	 * Méthode appelée lorsque la souris est cliquée
-	 *
-	 * @param e
+	 * What happens when you click on the chess board with your mouse !<br/>
+	 * 2 possibles cases :<br/>
+	 * - right click : display informations on the piece in the logs.<br/>
+	 * - left click : if no piece is already focused, it focus this one and
+	 * show, if needed, its possible moves. Else, it tests whether the move is
+	 * possible or not and do what is needed.
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -316,17 +329,17 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 					}
 
 					// Remettre la couleur d'origine
-					dessinEchiquier();
+					drawChessboard();
 
 					// Put king in a yoloswaggy color if echec
 					if (ech.isInCheck(ech.getTrait())) {
 						eventInter(CHESS_EVENT_ECHEC,
 								((ech.getTrait() == 'w') ? "In favor of black." : "In favor of white."));
-						surbrillance(ech.searchKing(ech.getTrait()), Color.MAGENTA);
+						highlight(ech.searchKing(ech.getTrait()), Color.MAGENTA);
 					}
 					first = true;
 				} else {
-					dessinEchiquier();
+					drawChessboard();
 					chessPiece = null;
 					Component c = chessBoard.findComponentAt(e.getX(), e.getY());
 					// if it is empty : do nothing
@@ -343,13 +356,13 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 					chessPiece = (JLabel) c;
 
 					// highlight the case
-					surbrillance(depart, (ech.getTrait() == ech.getPiece(depart).getColor()) ? Color.cyan : Color.red);
+					highlight(depart, (ech.getTrait() == ech.getPiece(depart).getColor()) ? Color.cyan : Color.red);
 
 					if (ech.getTrait() == ech.getPiece(depart).getColor())
 						afficheLesPositionsDansLeGUI(depart);
 
 					if (ech.isInCheck(ech.getTrait())) {
-						surbrillance(ech.searchKing(ech.getTrait()), Color.MAGENTA);
+						highlight(ech.searchKing(ech.getTrait()), Color.MAGENTA);
 					}
 
 					first = !(ech.getTrait() == ech.getPiece(depart).getColor());
@@ -375,10 +388,26 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		}
 	}
 
+	/**
+	 * Just an intermediary between Echiquier and ChesstoryGame, it tells to
+	 * ChesstoryGame when a special event occurs such as castling, check, etc.
+	 * 
+	 * @param event
+	 *            The event (a constant (take a look at ChesstoryConstant))
+	 * @param s
+	 *            The text to display, most of time it just tells the color of
+	 *            the concerned player.
+	 */
 	public void eventInter(int event, String s) {
 		chesstoryGame.chessEvent(event, s);
 	}
 
+	/**
+	 * Everything is in the name ! Used when entering/leaving browse mode.
+	 * 
+	 * @param b
+	 *            Represents whether we enter or leave browse mode.
+	 */
 	public void switchBorder(boolean b) {
 		if (b) {
 			chessBoard.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(0, 255, 255), new Color(0, 255, 255),
@@ -388,6 +417,13 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		}
 	}
 
+	/**
+	 * Are you really reading this ? I want a brownie !! Switch the mode between
+	 * browsing and playing.
+	 * 
+	 * @param b
+	 *            Whether we can act on the chess board or not.
+	 */
 	public void switchClickable(boolean b) {
 		isClickable = b;
 	}
@@ -407,6 +443,16 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 
 	}
 
+	/**
+	 * Captain Obvious here : It changes the rules *flies away*<br/>
+	 * Used when we load a file, we wrote it for custom games, you put 6 array
+	 * of string (one for each chess piece) and it cut it to change the move
+	 * capacities of the chess pieces.
+	 * 
+	 * @param arrayRulePiece
+	 *            A formated array which describes all the chess pieces (take a
+	 *            look at getMoveSet() in Piece).
+	 */
 	public void changeRules(String[] arrayRulePiece) {
 		Piece[] arrayPieces = new Piece[6];
 		String name;
@@ -438,15 +484,27 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		ech.initPieces(arrayPieces[0], arrayPieces[1], arrayPieces[2], arrayPieces[3], arrayPieces[4], arrayPieces[5]);
 	}
 
+	/**
+	 * Again an intermediary method between ChesstoryGame and Echiquier.
+	 * 
+	 * @return The FENcode of the current chess board.
+	 */
 	public String getFEN() {
 		return ech.getFEN();
 	}
 
+	/**
+	 * Ask Roman, the Bigfoot, I don't know what it is ...
+	 * 
+	 * @return The layered pane.
+	 */
 	public JLayeredPane CreationChessboard() {
 		return layeredPane;
 	}
 
 	/**
+	 * Used to save a game, this array will be on top of the save file.
+	 * 
 	 * @return An array with the pieces move set
 	 */
 	public String[] getArrayRulePiece() {
@@ -461,6 +519,12 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		return arrayPiece;
 	}
 
+	/**
+	 * Used to display the rules, it returns a string which is "readable".
+	 * 
+	 * @return A beautiful string which describes the chess pieces we currently
+	 *         play with.
+	 */
 	public String getPiecesFancyMoveSet() {
 		String info = ech.getKingSpec().getFancyMoveSet() + ech.getQueenSpec().getFancyMoveSet()
 				+ ech.getBishopSpec().getFancyMoveSet() + ech.getKnightSpec().getFancyMoveSet()
@@ -469,6 +533,11 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		return info;
 	}
 
+	/**
+	 * We did not use it a lot cause of time and bad color tastes ...
+	 * 
+	 * @param theme The theme (a constant => ChesstoryConstant).
+	 */
 	public void changeTheme(Color[] theme) {
 		backgroundOne = theme[0];
 		backgroundTwo = theme[1];

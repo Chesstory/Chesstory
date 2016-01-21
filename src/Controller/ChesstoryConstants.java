@@ -1,5 +1,6 @@
 package Controller;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -35,7 +36,14 @@ public class ChesstoryConstants {
 	public static final int GAMETYPE_CUSTOM = 2;
 	public static final int GAMETYPE_SHATRANJ = 3;
 	public static final int GAMETYPE_CHATURANGA = 4;
-	
+
+	/**
+	 * Thems gesture
+	 */
+	public final static Color[] THEM_DEFAULT = { Color.getHSBColor(0.56f, 1.0f, 0.8f), Color.white, Color.YELLOW,
+			Color.ORANGE };
+	public final static Color[] THEM_SHATRANJ = { Color.white, Color.white, Color.YELLOW, Color.ORANGE };
+
 	/**
 	 * Rules text gesture
 	 */
@@ -53,20 +61,27 @@ public class ChesstoryConstants {
 			+ "If you activated the rook, your king can travel two cells horizontally and put the nearest rook next to him, but only if none of them moved before.\n"
 			+ "If you toggled on the Prise-en-passant, your pawn can eat an enemy's one when they are side by side, but only if the enemy's pawn used his ability to travel two cells instead of one just before.\n"
 			+ "Good luck & have fun !";
-	
+
 	public final static String CHESS_RULES_CUSTOM_PT1 = "custom game mode !\n"
 			+ "Remember : if you need some help, just right-click a piece !\n"
 			+ "Your chess pieces have the following move ability :\n";
 	public final static String CHESS_RULES_CUSTOM_PT2 = "If your pawn has 'basic' moves capacity he can travel two cells instead of one if he is on his departure cell.\n"
-			+ "If you activated the rook, your king can travel two cells horizontally and put the nearest rook next to him, but only if none of them moved before.\n"
+			+ "If you activated castling , your king can travel two cells horizontally and put the nearest rook next to him, but only if none of them moved before.\n"
 			+ "If you toggled on the Prise-en-passant and if your pawn has 'basic' moves capacity, he can eat an enemy's one when they are side by side, but only if the enemy's pawn used his ability to travel two cells instead of one just before.\n"
 			+ "Good luck & have fun !";
-	
+
 	public final static String CHESS_RULES_SHATRANJ_PT1 = "shatranj game !\n"
 			+ "Remember : if you need some help, just right-click a piece !\n"
 			+ "Your chess pieces have the following move ability :\n";
-	public final static String CHESS_RULES_SHATRANJ_PT2 = "";
-	
-	public final static String CHESS_RULES_CHATURANGA_PT1 = "";
+	public final static String CHESS_RULES_SHATRANJ_PT2 = "As you can see, those rules are really close to ours.\n"
+			+ "In fact, our chess game has been conceived with shatranj's rules.\n"
+			+ "This game was born in east Asia, around IV or Vth century.\n"
+			+ "The shatranj has been brought to us by persians.\n"
+			+ "It basically refers to a batlle field, with different units such as chariots, foot soldiers, etc.\n"
+			+ "Good luck & have fun !";
+
+	public final static String CHESS_RULES_CHATURANGA_PT1 = "chaturanga game !\n"
+			+ "Remember : if you need some help, just right-click a piece !\n"
+			+ "Your chess pieces have the following move ability :\n";
 	public final static String CHESS_RULES_CHATURANGA_PT2 = "";
 }

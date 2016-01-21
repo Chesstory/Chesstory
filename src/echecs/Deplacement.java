@@ -224,5 +224,4 @@ public class Deplacement {
 	public String toString() {
 		return color + " " + pieceCode + " " + " (" + x1 + "," + y1 + ") ====> (" + x2 + "," + y2 + ")";
 	}
-
 }

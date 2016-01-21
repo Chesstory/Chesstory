@@ -28,9 +28,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.text.DefaultCaret;
 
-import static gui.YetAnotherChessGame.*;
 import static Controller.ChesstoryConstants.*;
 
+@SuppressWarnings("serial")
 public class ChesstoryGame extends JFrame implements MouseListener {
 
 	private YetAnotherChessGame YACG;
@@ -345,18 +345,22 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 		switch (gameType) {
 		case GAMETYPE_CLASSICAL:
+			YACG.changeTheme(THEM_DEFAULT);
 			loadGame("default_CLASSICAL");
 			rulesText.setText(CHESS_RULES_HEADER + CHESS_RULES_CLASSIC);
 			break;
 		case GAMETYPE_CUSTOM:
+			YACG.changeTheme(THEM_DEFAULT);
 			rulesText.setText(CHESS_RULES_HEADER + CHESS_RULES_CUSTOM_PT1 + YACG.getPiecesFancyMoveSet()
 					+ CHESS_RULES_CUSTOM_PT2);
 			break;
 		case GAMETYPE_SHATRANJ:
+			YACG.changeTheme(THEM_SHATRANJ);
 			rulesText.setText(CHESS_RULES_HEADER + CHESS_RULES_SHATRANJ_PT1 + YACG.getPiecesFancyMoveSet()
 					+ CHESS_RULES_SHATRANJ_PT2);
 			break;
 		case GAMETYPE_CHATURANGA:
+			YACG.changeTheme(THEM_SHATRANJ);
 			rulesText.setText(CHESS_RULES_HEADER + CHESS_RULES_CHATURANGA_PT1 + YACG.getPiecesFancyMoveSet()
 					+ CHESS_RULES_CHATURANGA_PT2);
 			break;

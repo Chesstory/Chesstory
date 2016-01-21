@@ -9,6 +9,7 @@ package echecs;
  *
  * @author samuel
  */
+@SuppressWarnings("serial")
 public class MalformedFENException extends IllegalArgumentException{
     
     
