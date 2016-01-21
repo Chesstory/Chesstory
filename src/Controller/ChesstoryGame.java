@@ -38,7 +38,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private static final long serialVersionUID = 1L;
 
 	public static final int GAMETYPE_CLASSICAL = 1;
-
+//ffff
 	private YetAnotherChessGame YACG;
 	// >Interface
 	public static JFrame f;
@@ -363,7 +363,6 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 	public void addLogsText(String s) {
 		logsText.append(s + "\n\r");
-		//logsText.setCaretPosition(logsText.getDocument().getLength());
 	}
 
 	public void addLogsMove(Deplacement d, char piece, char joueur) {

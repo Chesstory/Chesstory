@@ -391,6 +391,11 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 			else
 				info += "  - It can moves from " + chessPieceInfo.getMinDiag() + " cell(s) to "
 						+ chessPieceInfo.getMaxDiag() + " diagonnally.\n";
+			
+			if(chessPieceInfo.getBackward())
+				info += "  - It can move backward.\n";
+			else
+				info += "  - It can't move backward.\n";
 
 			chesstoryGame.addLogsText(info);
 		}

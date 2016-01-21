@@ -11,48 +11,57 @@ public class MainExe {
 	static ChesstoryGame chesstoryGame;
 	static RulesEditor rulesEditor;
 	static JFrame frame;
+
 	public static void main(String[] args) {
-		frame=new JFrame();
+		frame = new JFrame();
 		frame.setSize(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width,
 				GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height);
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.PAGE_AXIS));
 		frame.setForeground(Color.BLUE);
-	
+
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		mainMenu=new MainMenu(frame,false);
+		mainMenu = new MainMenu(frame, false);
 		frame.repaint();
 		frame.revalidate();
 	}
-	static void switchToChesstoryGame(int gameType){
+
+	static void switchToChesstoryGame(int gameType) {
 		clearMainMenu();
-		chesstoryGame=new ChesstoryGame("Classical game", gameType, frame);
-		//TODO fix the left border, it seems that the panel is still here
+		chesstoryGame = new ChesstoryGame("Classical game", gameType, frame);
+		// TODO fix the left border, it seems that the panel is still here
 	}
-	static void switchToChesstoryGame(int gameType, String[] rules){
-		
+
+	static void switchToChesstoryGame(int gameType, String[] rules) {
+
 	}
-	static void switchToEditor(){
+
+	static void switchToEditor() {
 		clearMainMenu();
-		rulesEditor=RulesEditor.getInstance(frame);
+		rulesEditor = RulesEditor.getInstance(frame);
 		frame.repaint();
 		frame.revalidate();
 	}
-	static void switchToMainMenu(){
+
+	static void switchToMainMenu() {
 		clearChesstoryGame();
 		clearEditor();
 	}
-	static void clearMainMenu(){
-		mainMenu=null;
+
+	static void clearMainMenu() {
+		mainMenu = null;
 	}
-	static void clearChesstoryGame(){
-		chesstoryGame=null;
+
+	static void clearChesstoryGame() {
+		chesstoryGame = null;
 	}
-	static void clearEditor(){
-		
+
+	static void clearEditor() {
+
 	}
-	static void refreshFrame(){
-		
+
+	static void refreshFrame() {
+
 	}
 
 }
