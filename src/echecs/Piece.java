@@ -554,6 +554,38 @@ public class Piece {
 				+ maxDiag + "," + backward + "," + horse);
 	}
 
+	/**
+	 * @return The move set of the piece in the fancy way, to display to the
+	 *         player
+	 */
+	public String getFancyMoveSet() {
+		String info = new String();
+		if (horse)
+			info += "  - Knight's specificities (1 cell in a direction, 2 in the other).\n";
+
+		if (maxX == 0)
+			info += "  - It can't move horizontally.\n";
+		else
+			info += "  - It can moves from " + minX + " cell(s) to " + maxX + " horizontally.\n";
+
+		if (maxY == 0)
+			info += "  - It can't move vertically.\n";
+		else
+			info += "  - It can moves from " + minY + " cell(s) to " + maxY + " vertically.\n";
+
+		if (maxDiag == 0)
+			info += "  - It can't move diagonnally.\n";
+		else
+			info += "  - It can moves from " + minDiag + " cell(s) to " + maxDiag + " diagonnally.\n";
+
+		if (backward)
+			info += "  - It can move backward.\n";
+		else
+			info += "  - It can't move backward.\n";
+
+		return info;
+	}
+
 	public String getNameAlone() {
 		return name;
 	}

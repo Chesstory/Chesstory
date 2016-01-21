@@ -32,7 +32,7 @@ import static gui.YetAnotherChessGame.*;
 import static Controller.ChesstoryConstants.*;
 
 public class ChesstoryGame extends JFrame implements MouseListener {
-	
+
 	private YetAnotherChessGame YACG;
 	// >Interface
 	public static JFrame f;
@@ -140,7 +140,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		panelGlob = new JPanel();
 		scrollPane = new JScrollPane(panelGlob);
 		f.getContentPane().add(scrollPane);
-		
+
 		f.setVisible(true);
 		panelLeft = new JPanel();
 		panelLeft.setBorder(new LineBorder(Color.GREEN));
@@ -346,7 +346,10 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		switch (gameType) {
 		case GAMETYPE_CLASSICAL:
 			loadGame("default_CLASSICAL");
-			rulesText.setText(CHESS_RULES_HEADER+CHESS_RULES_CLASSIC);
+			rulesText.setText(CHESS_RULES_HEADER + CHESS_RULES_CLASSIC);
+			break;
+		case GAMETYPE_CUSTOM:
+			rulesText.setText(CHESS_RULES_HEADER + CHESS_RULES_CUSTOM_PT1 + CHESS_RULES_CUSTOM_PT2);
 			break;
 		default:// TODO custom game;
 		}

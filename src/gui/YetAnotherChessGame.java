@@ -369,33 +369,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 			String info = "\nHELP DISPLAY : You clicked on the cell (" + depart.getX() + "," + depart.getY()
 					+ "), it contains a " + ((chessPieceInfo.getColor() == 'w') ? "white" : "black") + " "
 					+ chessPieceInfo.getNameAlone() + ", its code is " + chessPieceInfo.getCode()
-					+ ".\nIts move capacity are the following :\n";
-
-			if (chessPieceInfo.isHorse())
-				info += "  - Knight's specificities (1 cell in a direction, 2 in the other).\n";
-
-			if (chessPieceInfo.getMaxX() == 0)
-				info += "  - It can't move horizontally.\n";
-			else
-				info += "  - It can moves from " + chessPieceInfo.getMinX() + " cell(s) to " + chessPieceInfo.getMaxX()
-						+ " horizontally.\n";
-
-			if (chessPieceInfo.getMaxY() == 0)
-				info += "  - It can't move vertically.\n";
-			else
-				info += "  - It can moves from " + chessPieceInfo.getMinY() + " cell(s) to " + chessPieceInfo.getMaxY()
-						+ " vertically.\n";
-
-			if (chessPieceInfo.getMaxDiag() == 0)
-				info += "  - It can't move diagonnally.\n";
-			else
-				info += "  - It can moves from " + chessPieceInfo.getMinDiag() + " cell(s) to "
-						+ chessPieceInfo.getMaxDiag() + " diagonnally.\n";
-			
-			if(chessPieceInfo.getBackward())
-				info += "  - It can move backward.\n";
-			else
-				info += "  - It can't move backward.\n";
+					+ ".\nIts move capacity are the following :\n" + chessPieceInfo.getFancyMoveSet();
 
 			chesstoryGame.addLogsText(info);
 		}
@@ -485,6 +459,14 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		arrayPiece[5] = ech.getKnightSpec().getMoveSet();
 
 		return arrayPiece;
+	}
+
+	public String getPiecesFancyMoveSet() {
+		String info = ech.getKingSpec().getFancyMoveSet() + ech.getQueenSpec().getFancyMoveSet()
+				+ ech.getBishopSpec().getFancyMoveSet() + ech.getKnightSpec().getFancyMoveSet()
+				+ ech.getRookSpec().getFancyMoveSet() + ech.getPawnSpec().getFancyMoveSet();
+
+		return info;
 	}
 
 	public void changeTheme(Color[] theme) {
