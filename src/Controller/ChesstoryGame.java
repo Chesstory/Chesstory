@@ -32,12 +32,6 @@ import static gui.YetAnotherChessGame.*;
 import static Controller.ChesstoryConstants.*;
 
 public class ChesstoryGame extends JFrame implements MouseListener {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	public static final int GAMETYPE_CLASSICAL = 1;
 	
 	private YetAnotherChessGame YACG;
 	// >Interface
@@ -352,6 +346,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		switch (gameType) {
 		case GAMETYPE_CLASSICAL:
 			loadGame("default_CLASSICAL");
+			rulesText.setText(CHESS_RULES_HEADER+CHESS_RULES_CLASSIC);
 			break;
 		default:// TODO custom game;
 		}

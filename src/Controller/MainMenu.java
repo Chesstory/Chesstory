@@ -8,7 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import static Controller.ChesstoryGame.GAMETYPE_CLASSICAL;
+import static Controller.ChesstoryConstants.*;
 public class MainMenu {
 	private JFrame f;
 	private JPanel panel;
