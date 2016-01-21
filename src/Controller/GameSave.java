@@ -7,6 +7,42 @@ public class GameSave {
 	private int gameId;
 	private int gameType;
 	private String FEN;
+	/**
+	 * @param isGameCorrupted the isGameCorrupted to set
+	 */
+	void setGameCorrupted(boolean isGameCorrupted) {
+		this.isGameCorrupted = isGameCorrupted;
+	}
+	/**
+	 * @param gameId the gameId to set
+	 */
+	void setGameId(int gameId) {
+		this.gameId = gameId;
+	}
+	/**
+	 * @param gameType the gameType to set
+	 */
+	void setGameType(int gameType) {
+		this.gameType = gameType;
+	}
+	/**
+	 * @param fEN the fEN to set
+	 */
+	void setFEN(String fEN) {
+		FEN = fEN;
+	}
+	/**
+	 * @param arrayRulePiece the arrayRulePiece to set
+	 */
+	void setArrayRulePiece(String[] arrayRulePiece) {
+		this.arrayRulePiece = arrayRulePiece;
+	}
+	/**
+	 * @param moveList the moveList to set
+	 */
+	void setMoveList(ArrayList<Deplacement> moveList) {
+		this.moveList = moveList;
+	}
 	private String[] arrayRulePiece;
 	private ArrayList<Deplacement> moveList;
 	

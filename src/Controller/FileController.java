@@ -372,7 +372,6 @@ abstract class FileController {
 		if (wasTheWindowClosedBeforeSelection) {
 			return null;
 		}
-
 		return new GameSave(isFileCorrupted, game_id, game_type, a, FEN,
 				arrayRulePiece);
 	}
