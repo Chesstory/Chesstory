@@ -573,28 +573,30 @@ public class Echiquier {
 			if (codePiece == 'p' && (y2 == 0)) {
 				promotion = true;
 				piece = new Piece(queenSpec, 'b');
-				yacg.eventInter(CHESS_EVENT_PROM, "Promotion noir");
+				yacg.eventInter(CHESS_EVENT_PROM, "For black.");
 			}
-			// White pawn on last line
 			if (codePiece == 'P' && (y2 == dimY - 1)) {
 				promotion = true;
 				piece = new Piece(queenSpec, 'w');
-				yacg.eventInter(CHESS_EVENT_PROM, "Promotion blanc");
+				yacg.eventInter(CHESS_EVENT_PROM, "For white.");
 			}
 
-			// Prise en passant (i'vre written this word so many times ... Still
+			// Prise en passant (i'vre written this word so many times ...
+			// Still
 			// doesn't know him in english :( )
-			// So : it has to be a pawn, with pawn's deplacements who try to go
+			// So : it has to be a pawn, with pawn's deplacements who try to
+			// go
 			// where he could not go
 			if (priseEnPass && Character.toLowerCase(codePiece) == 'p' && piece.getMaxDiag() == 0
 					&& piece.getMaxX() == 0 && !piece.getBackward() && d.deplacementDiagonal() == 1
 					&& !c[x2][y1].isEmpty() && c[x2][y1].getPiece().getColor() != c[x1][y1].getPiece().getColor()) {
 				c[x2][y1].empty();
 				yacg.eventInter(CHESS_EVENT_PEP,
-						((piece.getCode() == 'P') ? "Prise en passant blanc" : "Prise en passant noir"));
+						((piece.getCode() == 'P') ? "In favor of white." : "In favor of black."));
 			}
 
-			// In case of : roque (king, on the same line, which move further
+			// In case of : roque (king, on the same line, which move
+			// further
 			// than it can
 			if (roque && Character.toLowerCase(codePiece) == 'k' && y1 == y2
 					&& Math.abs(d.deplacementHorizontal()) > piece.getMaxX()) {
@@ -604,24 +606,24 @@ public class Echiquier {
 						tour = c[roqueR][y1].getPiece();
 						c[x1 + 1][y1].setPiece(tour);
 						c[roqueR][y1].empty();
-						yacg.eventInter(CHESS_EVENT_ROQUE, "Petit roque blanc");
+						yacg.eventInter(CHESS_EVENT_ROQUE, "White did the little rook's move.");
 					} else {
 						tour = c[roquer][y1].getPiece();
 						c[x1 + 1][y1].setPiece(tour);
 						c[roquer][y1].empty();
-						yacg.eventInter(CHESS_EVENT_ROQUE, "Petit roque noir");
+						yacg.eventInter(CHESS_EVENT_ROQUE, "Black did the little rook's move.");
 					}
 				} else {
 					if (piece.estBlanc()) {
 						tour = c[roqueL][y1].getPiece();
 						c[x1 - 1][y1].setPiece(tour);
 						c[roqueL][y1].empty();
-						yacg.eventInter(CHESS_EVENT_ROQUE, "Grand roque blanc");
+						yacg.eventInter(CHESS_EVENT_ROQUE, "White did the great rook's move.");
 					} else {
 						tour = c[roquel][y1].getPiece();
 						c[x1 - 1][y1].setPiece(tour);
 						c[roquel][y1].empty();
-						yacg.eventInter(CHESS_EVENT_ROQUE, "Grand roque noir");
+						yacg.eventInter(CHESS_EVENT_ROQUE, "Black did the great rook's move.");
 					}
 				}
 			}
@@ -629,20 +631,24 @@ public class Echiquier {
 			c[x2][y2].setPiece(piece);
 			c[x1][y1].empty();
 
-			// We do our business with this little boolean that help a lot for
-			// roque and prise-en-passant (srsly i have to search those words in
+			// We do our business with this little boolean that help a lot
+			// for
+			// roque and prise-en-passant (srsly i have to search those
+			// words in
 			// english ... jambon-beurre)
 
 			// Here, if the king or tower moved (roque)
 			if (Character.toLowerCase(codePiece) == 'k' || Character.toLowerCase(codePiece) == 'r')
 				piece.setMoved(true);
 
-			// Here for the pawns, if they jump one more case, for the PeP(si)
+			// Here for the pawns, if they jump one more case, for the
+			// PeP(si)
 			if (Character.toLowerCase(codePiece) == 'p' && piece.getMaxDiag() == 0 && piece.getMaxX() == 0
 					&& !piece.getBackward())
 				piece.setMoved(Math.abs(d.deplacementVertical()) == piece.getMaxY() + 1);
 
-			// Here for the rajah, (chaturanga) if it used its special ability
+			// Here for the rajah, (chaturanga) if it used its special
+			// ability
 			if (Character.toLowerCase(codePiece) == 'h'
 					&& (Math.abs(d.deplacementHorizontal()) == 2 || Math.abs(d.deplacementVertical()) == 2))
 				piece.setMoved(true);
@@ -1485,16 +1491,16 @@ public class Echiquier {
 
 		if (blackCantMove) {
 			if (isInCheck('b'))
-				yacg.eventInter(CHESS_EVENT_MAT, "Echec et mat en faveur des blancs");
+				yacg.eventInter(CHESS_EVENT_MAT, "White won !");
 			else
-				yacg.eventInter(CHESS_EVENT_PAT, "Pat en faveur des blancs");
+				yacg.eventInter(CHESS_EVENT_PAT, "White won !");
 		}
 
 		if (whiteCantMove) {
 			if (isInCheck('w'))
-				yacg.eventInter(CHESS_EVENT_MAT, "Echec et mat en faveur des noirs");
+				yacg.eventInter(CHESS_EVENT_MAT, "Black won !");
 			else
-				yacg.eventInter(CHESS_EVENT_PAT, "Pat en faveur des noirs");
+				yacg.eventInter(CHESS_EVENT_PAT, "Black won !");
 		}
 
 		if (blackKingAlone || blackCantMove)

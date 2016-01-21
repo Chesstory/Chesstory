@@ -319,7 +319,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 
 					// Put king in a yoloswaggy color if echec
 					if (ech.isInCheck(ech.getTrait())) {
-						eventInter(CHESS_EVENT_ECHEC, ((ech.getTrait() == 'w') ? "blanc" : "noir"));
+						eventInter(CHESS_EVENT_ECHEC, ((ech.getTrait() == 'w') ? "In favor of black." : "In favor of white."));
 						surbrillance(ech.searchKing(ech.getTrait()), Color.MAGENTA);
 					}
 					first = true;
