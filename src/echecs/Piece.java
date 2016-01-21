@@ -9,15 +9,36 @@ import java.util.ArrayList;
 
 /**
  * Representation of a chess piece. A piece has a name, a code, a color and a
- * set of move possibility.<br /><br />
+ * set of move possibility.<br />
+ * <br />
  * 
- * Code description : <br />k : King <br />q : Queen <br />b : Bishop <br />r : Rook <br />n : Knight <br />p : Pawn
+ * Code description : <br />
+ * k : King <br />
+ * q : Queen <br />
+ * b : Bishop <br />
+ * r : Rook <br />
+ * n : Knight <br />
+ * p : Pawn
  * 
- * <br /><br />Shatranj : <br />a : Shah (king)<br />c : Farzin (queen)<br />d : Fil (bishop)<br />e :
- * Faras (knight)<br />f : Roukh (rook)<br />g : Baidaq (pawn)
+ * <br />
+ * <br />
+ * Shatranj : <br />
+ * a : Shah (king)<br />
+ * c : Farzin (queen)<br />
+ * d : Fil (bishop)<br />
+ * e : Faras (knight)<br />
+ * f : Roukh (rook)<br />
+ * g : Baidaq (pawn)
  * 
- * <br /><br />Chaturanga : <br />h : Rajag (king)<br />i : Mantri (queen)<br />j : Gaja (bishop)<br />l :
- * Ma (knight)<br />m : Ratha (rook)<br />o : Padati (pawn)
+ * <br />
+ * <br />
+ * Chaturanga : <br />
+ * h : Rajag (king)<br />
+ * i : Mantri (queen)<br />
+ * j : Gaja (bishop)<br />
+ * l : Ma (knight)<br />
+ * m : Ratha (rook)<br />
+ * o : Padati (pawn)
  *
  * @author samuel
  */
@@ -36,7 +57,7 @@ public class Piece {
 	 * min and max for each directions boolean to (dis)allow backward moves
 	 */
 	private int minX, maxX, minY, maxY, minDiag, maxDiag;
-	private boolean backward;
+	private boolean backward, horse;
 
 	ArrayList<Position> accessible = new ArrayList<>();
 	ArrayList<Position> accessibleSpec = new ArrayList<>();
@@ -47,9 +68,7 @@ public class Piece {
 	 * @param name
 	 *            Name of the piece
 	 * @param code
-	 *            Code of the piece
-	 * @param couleur
-	 *            Color of the piece
+	 *            Code of the piece (Uppercase if white, Lowercase if black)
 	 */
 	public Piece(String name, char code) {
 		this.name = name;
@@ -62,7 +81,7 @@ public class Piece {
 		maxY = 0;
 		minDiag = 0;
 		maxDiag = 0;
-		moved = backward = false;
+		moved = backward = horse = false;
 	}
 
 	/**
@@ -83,14 +102,18 @@ public class Piece {
 	 *            Whether it can move in diagonal or not
 	 * @param backward
 	 *            Whether it can move backward or not
+	 * @param horse
+	 *            Whether it has knight's move set
 	 */
-	public Piece(String name, char code, boolean depHor, boolean depVer, boolean depDiag, boolean backward) {
+	public Piece(String name, char code, boolean depHor, boolean depVer, boolean depDiag, boolean backward,
+			boolean horse) {
 		this.name = name;
 		this.code = code;
 		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 
 		this.backward = backward;
 		this.moved = false;
+		this.horse = horse;
 
 		minX = 0;
 		maxX = ((depHor) ? 99 : 0);
@@ -122,15 +145,18 @@ public class Piece {
 	 *            Maximum diagonal dep capacity
 	 * @param backward
 	 *            Whether it can move backward
+	 * @param horse
+	 *            Whether it has knight's move set
 	 */
 	public Piece(String name, char code, int minX, int maxX, int minY, int maxY, int minDiag, int maxDiag,
-			boolean backward) {
+			boolean backward, boolean horse) {
 		this.name = name;
 		this.code = code;
 		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 
 		this.backward = backward;
 		this.moved = false;
+		this.horse = horse;
 
 		this.minX = minX;
 		this.maxX = maxX;
@@ -144,44 +170,46 @@ public class Piece {
 	 * Constructor that build a chess piece with the same caracs as the entered
 	 * one Useful for 'type' pieces (no color choice here)
 	 * 
-	 * @param p
+	 * @param that
 	 *            The piece to copy
 	 */
-	Piece(Piece p) {
-		this.name = new String(p.name);
-		this.code = p.code;
-		this.couleur = new String(p.couleur);
+	Piece(Piece that) {
+		this.name = new String(that.name);
+		this.code = that.code;
+		this.couleur = new String(that.couleur);
 
-		this.minX = p.minX;
-		this.maxX = p.maxX;
-		this.minY = p.minY;
-		this.maxY = p.maxY;
-		this.minDiag = p.minDiag;
-		this.maxDiag = p.maxDiag;
-		this.backward = p.backward;
+		this.minX = that.minX;
+		this.maxX = that.maxX;
+		this.minY = that.minY;
+		this.maxY = that.maxY;
+		this.minDiag = that.minDiag;
+		this.maxDiag = that.maxDiag;
+		this.backward = that.backward;
+		this.horse = that.horse;
 		this.moved = false;
 	}
 
 	/**
 	 * Copy constructor, here we chose the color, and it's wonderful !
 	 * 
-	 * @param p
+	 * @param that
 	 *            The piece to copy
 	 * @param color
 	 *            The color of the new piece
 	 */
-	Piece(Piece p, char color) {
-		this.name = new String(p.name);
-		this.code = ((color == 'w') ? Character.toUpperCase(p.code) : p.code);
+	Piece(Piece that, char color) {
+		this.name = new String(that.name);
+		this.code = ((color == 'w') ? Character.toUpperCase(that.code) : that.code);
 		this.couleur = ((color == 'w') ? "blanc" : "noir");
 
-		this.minX = p.minX;
-		this.maxX = p.maxX;
-		this.minY = p.minY;
-		this.maxY = p.maxY;
-		this.minDiag = p.minDiag;
-		this.maxDiag = p.maxDiag;
-		this.backward = p.backward;
+		this.minX = that.minX;
+		this.maxX = that.maxX;
+		this.minY = that.minY;
+		this.maxY = that.maxY;
+		this.minDiag = that.minDiag;
+		this.maxDiag = that.maxDiag;
+		this.backward = that.backward;
+		this.horse = that.horse;
 		this.moved = false;
 	}
 
@@ -196,24 +224,23 @@ public class Piece {
 	 *            Name of the piece
 	 * @param code
 	 *            Code of the piece
-	 * @param minX
-	 *            Its lower move cap
-	 * @param maxX
-	 *            Its bigger move cap
+	 * @param horse
+	 *            Says that it has horse's move set
 	 */
-	public Piece(String name, char code, int minX, int maxX) {
+	public Piece(String name, char code, boolean horse) {
 		this.name = name;
 		this.code = code;
 		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
 
 		this.backward = true;
-		this.minX = minX;
-		this.maxX = maxX;
+		this.minX = 0;
+		this.maxX = 0;
 		this.minY = 0;
 		this.maxY = 0;
 		this.minDiag = 0;
 		this.maxDiag = 0;
 		this.moved = false;
+		this.horse = horse;
 	}
 
 	/**
@@ -283,7 +310,7 @@ public class Piece {
 		maxDiag = 0;
 		backward = false;
 		moved = false;
-		;
+		horse = false;
 	}
 
 	/**
@@ -524,10 +551,25 @@ public class Piece {
 	 */
 	public String getMoveSet() {
 		return new String(name + "," + code + "," + minX + "," + maxX + "," + minY + "," + maxY + "," + minDiag + ","
-				+ maxDiag + "," + backward);
+				+ maxDiag + "," + backward + "," + horse);
 	}
-	
-	public String getNameAlone(){
+
+	public String getNameAlone() {
 		return name;
+	}
+
+	/**
+	 * @return If the piece has knight's move set
+	 */
+	public boolean isHorse() {
+		return horse;
+	}
+
+	/**
+	 * @param horse
+	 *            The horse to set
+	 */
+	public void setHorse(boolean horse) {
+		this.horse = horse;
 	}
 }

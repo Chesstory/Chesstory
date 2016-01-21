@@ -219,10 +219,10 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		changeTheme(DEFAULT_THEM);
 
 		// This a test with the classical chess pieces
-		ech = new Echiquier(new Piece("pion", 'p', 0, 0, 1, 1, 0, 0, false),
-				new Piece("dame", 'q', true, true, true, true), new Piece("roi", 'k', 1, 1, 1, 1, 1, 1, true),
-				new Piece("cavalier", 'n', 1, 2), new Piece("fou", 'b', false, false, true, true),
-				new Piece("tour", 'r', true, true, false, true), this);
+		ech = new Echiquier(new Piece("pion", 'p', 0, 0, 1, 1, 0, 0, false, false),
+				new Piece("dame", 'q', true, true, true, true, false), new Piece("roi", 'k', 1, 1, 1, 1, 1, 1, true, false),
+				new Piece("cavalier", 'n', true), new Piece("fou", 'b', false, false, true, true, false),
+				new Piece("tour", 'r', true, true, false, true, false), this);
 
 		ech.setFEN(fenDeDeapart);
 
@@ -406,7 +406,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		String name;
 		char code;
 		int minX, maxX, minY, maxY, minDiag, maxDiag;
-		boolean backward;
+		boolean backward, horse;
 
 		try {
 			for (int i = 0; i < 6; i++) {
@@ -420,8 +420,9 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 				minDiag = Integer.parseInt(inter[6]);
 				maxDiag = Integer.parseInt(inter[7]);
 				backward = Boolean.parseBoolean(inter[8]);
+				horse = Boolean.parseBoolean(inter[9]);
 
-				arrayPieces[i] = new Piece(name, code, minX, maxX, minY, maxY, minDiag, maxDiag, backward);
+				arrayPieces[i] = new Piece(name, code, minX, maxX, minY, maxY, minDiag, maxDiag, backward, horse);
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();

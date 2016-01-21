@@ -764,57 +764,54 @@ public class Echiquier {
 		boolean blanc = c[i][j].getPiece().estBlanc();
 		Piece knight = c[i][j].getPiece();
 		boolean rajah = Character.toLowerCase(knight.getCode()) == 'h';
-		// In case of Chaturanga
-		int minX = ((rajah) ? 2 : knight.getMinX());
-		int maxX = ((rajah) ? 2 : knight.getMaxX());
 
 		// Les 8 positions du cavalier
-		if (existAndFree(i + minX, j + maxX, blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i + minX, j + maxX));
+		if (existAndFree(i + 1, j + 2, blanc)) {
+			c[i][j].getPiece().addCaseAccessible(new Position(i + 1, j + 2));
 			if (rajah)
-				c[i][j].getPiece().addCaseSpec(new Position(i + minX, j + maxX));
+				c[i][j].getPiece().addCaseSpec(new Position(i + 1, j + 2));
 		}
 
-		if (existAndFree(i + maxX, j + minX, blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i + maxX, j + minX));
+		if (existAndFree(i + 2, j + 1, blanc)) {
+			c[i][j].getPiece().addCaseAccessible(new Position(i + 2, j + 1));
 			if (rajah)
-				c[i][j].getPiece().addCaseSpec(new Position(i + maxX, j + minX));
+				c[i][j].getPiece().addCaseSpec(new Position(i + 2, j + 1));
 		}
 
-		if (existAndFree(i - minX, j - maxX, blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i - minX, j - maxX));
+		if (existAndFree(i - 1, j - 2, blanc)) {
+			c[i][j].getPiece().addCaseAccessible(new Position(i - 1, j - 2));
 			if (rajah)
-				c[i][j].getPiece().addCaseSpec(new Position(i - minX, j - maxX));
+				c[i][j].getPiece().addCaseSpec(new Position(i - 1, j - 2));
 		}
 
-		if (existAndFree(i - maxX, j - minX, blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i - maxX, j - minX));
+		if (existAndFree(i - 2, j - 1, blanc)) {
+			c[i][j].getPiece().addCaseAccessible(new Position(i - 2, j - 1));
 			if (rajah)
-				c[i][j].getPiece().addCaseSpec(new Position(i - maxX, j - minX));
+				c[i][j].getPiece().addCaseSpec(new Position(i - 2, j - 1));
 		}
 
-		if (existAndFree(i + minX, j - maxX, blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i + minX, j - maxX));
+		if (existAndFree(i + 1, j - 2, blanc)) {
+			c[i][j].getPiece().addCaseAccessible(new Position(i + 1, j - 2));
 			if (rajah)
-				c[i][j].getPiece().addCaseSpec(new Position(i + minX, j - maxX));
+				c[i][j].getPiece().addCaseSpec(new Position(i + 1, j - 2));
 		}
 
-		if (existAndFree(i + maxX, j - minX, blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i + maxX, j - minX));
+		if (existAndFree(i + 2, j - 1, blanc)) {
+			c[i][j].getPiece().addCaseAccessible(new Position(i + 2, j - 1));
 			if (rajah)
-				c[i][j].getPiece().addCaseSpec(new Position(i + maxX, j - minX));
+				c[i][j].getPiece().addCaseSpec(new Position(i + 2, j - 1));
 		}
 
-		if (existAndFree(i - minX, j + maxX, blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i - minX, j + maxX));
+		if (existAndFree(i - 1, j + 2, blanc)) {
+			c[i][j].getPiece().addCaseAccessible(new Position(i - 1, j + 2));
 			if (rajah)
-				c[i][j].getPiece().addCaseSpec(new Position(i - minX, j + maxX));
+				c[i][j].getPiece().addCaseSpec(new Position(i - 1, j + 2));
 		}
 
-		if (existAndFree(i - maxX, j + minX, blanc)) {
-			c[i][j].getPiece().addCaseAccessible(new Position(i - maxX, j + minX));
+		if (existAndFree(i - 2, j + 1, blanc)) {
+			c[i][j].getPiece().addCaseAccessible(new Position(i - 2, j + 1));
 			if (rajah)
-				c[i][j].getPiece().addCaseSpec(new Position(i - maxX, j + minX));
+				c[i][j].getPiece().addCaseSpec(new Position(i - 2, j + 1));
 		}
 	}
 
@@ -1167,7 +1164,8 @@ public class Echiquier {
 										p.addCaseAccessible(parcours);
 									if (!c[parcoursX][parcoursY].isEmpty()) {
 										continu = false;
-										if (Character.toLowerCase(p.getCode()) == 'p' || Character.toLowerCase(p.getCode()) == 'g')
+										if (Character.toLowerCase(p.getCode()) == 'p'
+												|| Character.toLowerCase(p.getCode()) == 'g')
 											p.suppCaseAccessible(parcours);
 									}
 
@@ -1538,36 +1536,36 @@ public class Echiquier {
 	 * Initialize the chess piece with the basical chess rules
 	 */
 	private void initChess() {
-		this.pawnSpec = new Piece("pion", 'p', 0, 0, 1, 1, 0, 0, false);
-		this.bishopSpec = new Piece("fou", 'b', false, false, true, true);
-		this.kingSpec = new Piece("roi", 'k', 1, 1, 1, 1, 1, 1, true);
-		this.queenSpec = new Piece("dame", 'q', true, true, true, true);
-		this.rookSpec = new Piece("tour", 'r', true, true, false, true);
-		this.knightSpec = new Piece("cavalier", 'n', 1, 2);
+		this.pawnSpec = new Piece("pion", 'p', 0, 0, 1, 1, 0, 0, false, false);
+		this.bishopSpec = new Piece("fou", 'b', false, false, true, true, false);
+		this.kingSpec = new Piece("roi", 'k', 1, 1, 1, 1, 1, 1, true, false);
+		this.queenSpec = new Piece("dame", 'q', true, true, true, true, false);
+		this.rookSpec = new Piece("tour", 'r', true, true, false, true, false);
+		this.knightSpec = new Piece("cavalier", 'n', true);
 	}
 
 	/**
 	 * Initialize the chess piece with the shatranj rules
 	 */
 	private void initShatranj() {
-		this.pawnSpec = new Piece("baidaq", 'g', 0, 0, 1, 1, 0, 0, false);
-		this.bishopSpec = new Piece("fil", 'd', 0, 0, 0, 0, 2, 2, true);
-		this.kingSpec = new Piece("shah", 'a', 1, 1, 1, 1, 1, 1, true);
-		this.queenSpec = new Piece("farzin", 'c', 0, 0, 0, 0, 1, 1, true);
-		this.rookSpec = new Piece("roukh", 'f', true, true, false, true);
-		this.knightSpec = new Piece("faras", 'e', 1, 2);
+		this.pawnSpec = new Piece("baidaq", 'g', 0, 0, 1, 1, 0, 0, false, false);
+		this.bishopSpec = new Piece("fil", 'd', 0, 0, 0, 0, 2, 2, true, false);
+		this.kingSpec = new Piece("shah", 'a', 1, 1, 1, 1, 1, 1, true, false);
+		this.queenSpec = new Piece("farzin", 'c', 0, 0, 0, 0, 1, 1, true, false);
+		this.rookSpec = new Piece("roukh", 'f', true, true, false, true, false);
+		this.knightSpec = new Piece("faras", 'e', true);
 	}
 
 	/**
 	 * Initialize the chess piece with the chaturanga rules
 	 */
 	private void initChaturanga() {
-		this.pawnSpec = new Piece("padati", 'o', 0, 0, 1, 1, 0, 0, false);
-		this.bishopSpec = new Piece("gaja", 'j', 0, 0, 0, 0, 2, 2, true);
-		this.kingSpec = new Piece("rajah", 'h', 1, 1, 1, 1, 1, 1, true);
-		this.queenSpec = new Piece("mantri", 'i', 0, 0, 0, 0, 1, 1, true);
-		this.rookSpec = new Piece("ratha", 'm', true, true, false, true);
-		this.knightSpec = new Piece("ma", 'l', 1, 2);
+		this.pawnSpec = new Piece("padati", 'o', 0, 0, 1, 1, 0, 0, false, false);
+		this.bishopSpec = new Piece("gaja", 'j', 0, 0, 0, 0, 2, 2, true, false);
+		this.kingSpec = new Piece("rajah", 'h', 1, 1, 1, 1, 1, 1, true, false);
+		this.queenSpec = new Piece("mantri", 'i', 0, 0, 0, 0, 1, 1, true, false);
+		this.rookSpec = new Piece("ratha", 'm', true, true, false, true, false);
+		this.knightSpec = new Piece("ma", 'l', true);
 	}
 
 	/**
