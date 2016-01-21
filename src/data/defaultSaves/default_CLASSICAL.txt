@@ -3,10 +3,10 @@
 1
 0
 rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR
-pion,p,0,0,1,1,0,0,false
-tour,r,1,99,1,99,0,0,true
-dame,q,1,99,1,99,1,99,true
-roi,k,1,1,1,1,1,1,true
-fou,b,0,0,0,0,1,99,true
-cavalier,n,1,2,0,0,0,0,true
+pion,p,0,0,1,1,0,0,false,false
+tour,r,1,99,1,99,0,0,true,false
+dame,q,1,99,1,99,1,99,true,false
+roi,k,1,1,1,1,1,1,true,false
+fou,b,0,0,0,0,1,99,true,false
+cavalier,n,0,0,0,0,0,0,true,false
 |--Chesstory_SaveFile_Footer----||<<<<
