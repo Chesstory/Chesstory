@@ -95,7 +95,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	}
 
 	/**
-	 * Draw every pieces on the chess board. <br/>
+	 * Draw every pieces on the chess board. <br />
 	 * Basically travel on every cell and check if there is a piece to draw.
 	 */
 	private void drawEveryPieces() {
@@ -286,9 +286,9 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	}
 
 	/**
-	 * What happens when you click on the chess board with your mouse !<br/>
-	 * 2 possibles cases :<br/>
-	 * - right click : display informations on the piece in the logs.<br/>
+	 * What happens when you click on the chess board with your mouse !<br />
+	 * 2 possibles cases :<br />
+	 * - right click : display informations on the piece in the logs.<br />
 	 * - left click : if no piece is already focused, it focus this one and
 	 * show, if needed, its possible moves. Else, it tests whether the move is
 	 * possible or not and do what is needed.
@@ -444,7 +444,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	}
 
 	/**
-	 * Captain Obvious here : It changes the rules *flies away*<br/>
+	 * Captain Obvious here : It changes the rules *flies away*<br />
 	 * Used when we load a file, we wrote it for custom games, you put 6 array
 	 * of string (one for each chess piece) and it cut it to change the move
 	 * capacities of the chess pieces.

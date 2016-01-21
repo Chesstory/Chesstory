@@ -983,7 +983,7 @@ public class Echiquier {
 	}
 
 	/**
-	 * Add 'special moves' of the black pawn (miamage & prise en passant (french
+	 * Add 'special moves' of the black pawn (miamage and prise en passant (french
 	 * accent included))
 	 * 
 	 * @param i
