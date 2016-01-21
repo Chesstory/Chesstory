@@ -43,6 +43,8 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 	private JButton buttonLaunchGame;
 	private JButton buttonBack;
 	
+	private int currentPieceWeAreCustomizing;
+	private boolean changesWereMade;
 	private String[] nameOfPieces;
 	private GameSave loadedRules;
 	private String[][] pieceRules;
@@ -60,6 +62,8 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 		return INSTANCE;
 	}
 	private RulesEditor(JFrame f){
+		changesWereMade=false;
+		currentPieceWeAreCustomizing=1;
 		this.f=f;
 		panel=new JPanel();
 		panel.setMaximumSize(new Dimension(java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width/2,
@@ -80,7 +84,11 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 		comboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("ActionListener : action sur " + ((JComboBox<String>) e.getSource()).getSelectedItem());
+				changesWereMade=false;
+				currentPieceWeAreCustomizing=Integer.parseInt(((String) (((JComboBox<String>) e.getSource()).getSelectedItem())).split(" ",-1)[1])-1;
+				refreshEditorVariables();
+				//System.out.println("ActionListener : action sur " + ((JComboBox<String>) e.getSource()).getSelectedItem()+", piece : "+currentPieceWeAreCustomizing);
+				//System.out.println("Get name : "+pieceRules[currentPieceWeAreCustomizing][0]+", back : "+Boolean.parseBoolean(pieceRules[currentPieceWeAreCustomizing][8])+", string : "+loadedRules.getArrayRulePiece()[currentPieceWeAreCustomizing]);
 			}
 		});//TODO Improve design
 		panel.add(comboBox);
@@ -95,44 +103,27 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 				
 				
 				
-			//	System.out.println("p : "+p+", r : "+r+", result : "+temp[r]);
+				//System.out.println("p : "+p+", r : "+r+", result : "+temp[r]);
 			}
 		}
 		
-		iH=new ItemSliderChecked("Horizontal", Integer.parseInt(pieceRules[1][2]), Integer.parseInt(pieceRules[1][3]));
-		iV=new ItemSliderChecked("Vertical", Integer.parseInt(pieceRules[1][4]), Integer.parseInt(pieceRules[1][5]));
-		iD=new ItemSliderChecked("Diagonal", Integer.parseInt(pieceRules[1][6]), Integer.parseInt(pieceRules[1][7]));
+		iH=new ItemSliderChecked("Horizontal", Integer.parseInt(pieceRules[0][2]), Integer.parseInt(pieceRules[0][3]));
+		iV=new ItemSliderChecked("Vertical", Integer.parseInt(pieceRules[0][4]), Integer.parseInt(pieceRules[0][5]));
+		iD=new ItemSliderChecked("Diagonal", Integer.parseInt(pieceRules[0][6]), Integer.parseInt(pieceRules[0][7]));
 		
 		checkBoxCanGoBack=new JCheckBox("Can the piece go backwards ? ");
-		checkBoxCanGoBack.setSelected(Boolean.parseBoolean(pieceRules[1][8]));
+		checkBoxCanGoBack.setSelected(Boolean.parseBoolean(pieceRules[0][8]));
 		panel.add(checkBoxCanGoBack);
 		
 		checkBoxHasKnightMove=new JCheckBox("Add knight move ?");
-		checkBoxHasKnightMove.setSelected(Boolean.parseBoolean(pieceRules[1][9]));
+		checkBoxHasKnightMove.setSelected(Boolean.parseBoolean(pieceRules[0][9]));
 		panel.add(checkBoxHasKnightMove);
 		
 		buttonConfirmChanges=new JButton("Confirm");
 		buttonConfirmChanges.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {//Save the currents var displayed in the array
-				for(int p=0;p<NB_PIECE;p++){
-					//pieceRules[p][0]=;
-					//pieceRules[p][1]=;
-					pieceRules[p][2]=Integer.toString(iH.getSliderMinValue());
-					pieceRules[p][3]=Integer.toString(iH.getSliderMaxValue());
-					pieceRules[p][4]=Integer.toString(iV.getSliderMinValue());
-					pieceRules[p][5]=Integer.toString(iV.getSliderMaxValue());
-					pieceRules[p][6]=Integer.toString(iD.getSliderMinValue());
-					pieceRules[p][7]=Integer.toString(iD.getSliderMaxValue());
-					pieceRules[p][8]=Boolean.toString(checkBoxCanGoBack.isSelected());
-					//TODO improve
-					
-					returnString[p]=pieceRules[p][0] +","+ pieceRules[p][1] +","+ Integer.toString(iH.getSliderMinValue()) +","+ Integer.toString(iH.getSliderMaxValue()) +","+ 
-							Integer.toString(iV.getSliderMinValue()) +","+ Integer.toString(iV.getSliderMaxValue()) +","+ Integer.toString(iD.getSliderMinValue()) +","+ 
-							Integer.toString(iD.getSliderMaxValue()) +","+ Boolean.toString(checkBoxCanGoBack.isSelected())+","+ Boolean.toString(checkBoxHasKnightMove.isSelected());
-				}
-				//End of the function we return the string
-				MainExe.switchToChesstoryGame(1, returnString);//TODO REPLACE THE INT "1" PER CONSTANT AFTER THE TYPE CHOOSEING MODULE IS DONE
+				saveChangesOnAPiece();
 			}
 		});
 		panel.add(buttonConfirmChanges);
@@ -152,10 +143,58 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 		buttonLaunchGame.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub			
+				
+				saveChangesOnAPiece();
+				for(int p=0;p<NB_PIECE;p++){
+					returnString[p]=pieceRules[p][0] +","+ pieceRules[p][1] +","+ pieceRules[p][2] +","+ pieceRules[p][3] +","+ pieceRules[p][4] +","
+							+ pieceRules[p][5] +","+ pieceRules[p][6] +","+ pieceRules[p][7] +","+ pieceRules[p][8] +","+ pieceRules[p][9];
+					/*returnString[p]=pieceRules[p][0] +","+ pieceRules[p][1] +","+ Integer.toString(iH.getSliderMinValue()) +","+ Integer.toString(iH.getSliderMaxValue()) +","+ 
+							Integer.toString(iV.getSliderMinValue()) +","+ Integer.toString(iV.getSliderMaxValue()) +","+ Integer.toString(iD.getSliderMinValue()) +","+ 
+							Integer.toString(iD.getSliderMaxValue()) +","+ Boolean.toString(checkBoxCanGoBack.isSelected())+","+ Boolean.toString(checkBoxHasKnightMove.isSelected());
+					*/
+					
+					System.out.println("FINAL LIST : "+returnString[p]);
+				}
+				iH.getP().removeAll();
+				iD.getP().removeAll();
+				iV.getP().removeAll();
+				iH.setP(null);
+				iD.setP(null);
+				iV.setP(null);
+				panel.removeAll();
+				panel=null;
+				loadedRules.setArrayRulePiece(returnString);//TODO CONTINUE
+				FileController.saveFile(loadedRules);
+				MainExe.switchToChesstoryGame(1, returnString);//TODO REPLACE THE INT "1" PER CONSTANT AFTER THE TYPE CHOOSEING MODULE IS DONE		
 			}
 		});
 		panel.add(buttonLaunchGame);
+	}
+	private void saveChangesOnAPiece(){
+		int p=currentPieceWeAreCustomizing;
+		
+		//pieceRules[p][0]=;
+		//pieceRules[p][1]=;
+		pieceRules[p][2]=Integer.toString(iH.getSliderMinValue());
+		pieceRules[p][3]=Integer.toString(iH.getSliderMaxValue());
+		pieceRules[p][4]=Integer.toString(iV.getSliderMinValue());
+		pieceRules[p][5]=Integer.toString(iV.getSliderMaxValue());
+		pieceRules[p][6]=Integer.toString(iD.getSliderMinValue());
+		pieceRules[p][7]=Integer.toString(iD.getSliderMaxValue());
+		pieceRules[p][8]=Boolean.toString(checkBoxCanGoBack.isSelected());
+		pieceRules[p][9]=Boolean.toString(checkBoxHasKnightMove.isSelected());
+	}
+	private void refreshEditorVariables(){
+		iH.setSliderMinValue(Integer.parseInt(pieceRules[currentPieceWeAreCustomizing][2]));
+		iH.setSliderMaxValue(Integer.parseInt(pieceRules[currentPieceWeAreCustomizing][3]));
+		iV.setSliderMinValue(Integer.parseInt(pieceRules[currentPieceWeAreCustomizing][4]));
+		iV.setSliderMaxValue(Integer.parseInt(pieceRules[currentPieceWeAreCustomizing][5]));
+		iD.setSliderMinValue(Integer.parseInt(pieceRules[currentPieceWeAreCustomizing][6]));
+		iD.setSliderMaxValue(Integer.parseInt(pieceRules[currentPieceWeAreCustomizing][7]));
+		checkBoxCanGoBack.setSelected(Boolean.parseBoolean(pieceRules[currentPieceWeAreCustomizing][8]));
+		checkBoxHasKnightMove.setSelected(Boolean.parseBoolean(pieceRules[currentPieceWeAreCustomizing][9]));
+		f.repaint();
+		f.revalidate();
 	}
 	//TODO constructor without initialization
 	class ItemSliderChecked{
@@ -254,14 +293,38 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 		/**
 		 * @return the sliderMin
 		 */
-		int getSliderMinValue() {
+		public int getSliderMinValue() {
 			return sliderMin.getValue();
 		}
 		/**
 		 * @return the sliderMax
 		 */
-		int getSliderMaxValue() {
+		public int getSliderMaxValue() {
 			return sliderMax.getValue();
+		}
+		/**
+		 * @return the sliderMin
+		 */
+		public void setSliderMinValue(int v) {
+			sliderMin.setValue(v);
+		}
+		/**
+		 * @return the sliderMax
+		 */
+		public void setSliderMaxValue(int v) {
+			sliderMax.setValue(v);
+		}
+		/**
+		 * @param p the p to set
+		 */
+		void setP(JPanel p) {
+			this.p = p;
+		}
+		/**
+		 * @return the p
+		 */
+		JPanel getP() {
+			return p;
 		}
 	}
 
