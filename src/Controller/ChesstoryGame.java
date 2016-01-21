@@ -363,6 +363,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 	public void addLogsText(String s) {
 		logsText.append(s + "\n\r");
+		//logsText.setCaretPosition(logsText.getDocument().getLength());
 	}
 
 	public void addLogsMove(Deplacement d, char piece, char joueur) {
@@ -649,9 +650,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 						+ Integer.toString(affPlayerBSec) + "s");
 
 				if (playerWTimeLeft <= 0)
-					chessEvent(CHESS_EVENT_ELAPSE_TIME, "White player has no time left.");
+					chessEvent(CHESS_EVENT_ELAPSE_TIME, "White lost.");
 				if (playerBTimeLeft <= 0)
-					chessEvent(CHESS_EVENT_ELAPSE_TIME, "Black player has no time left.");
+					chessEvent(CHESS_EVENT_ELAPSE_TIME, "Black lost.");
 			}
 		});
 

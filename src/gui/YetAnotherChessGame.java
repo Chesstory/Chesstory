@@ -220,8 +220,9 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 
 		// This a test with the classical chess pieces
 		ech = new Echiquier(new Piece("pion", 'p', 0, 0, 1, 1, 0, 0, false, false),
-				new Piece("dame", 'q', true, true, true, true, false), new Piece("roi", 'k', 1, 1, 1, 1, 1, 1, true, false),
-				new Piece("cavalier", 'n', true), new Piece("fou", 'b', false, false, true, true, false),
+				new Piece("dame", 'q', true, true, true, true, false),
+				new Piece("roi", 'k', 1, 1, 1, 1, 1, 1, true, false), new Piece("cavalier", 'n', true),
+				new Piece("fou", 'b', false, false, true, true, false),
 				new Piece("tour", 'r', true, true, false, true, false), this);
 
 		ech.setFEN(fenDeDeapart);
@@ -319,7 +320,8 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 
 					// Put king in a yoloswaggy color if echec
 					if (ech.isInCheck(ech.getTrait())) {
-						eventInter(CHESS_EVENT_ECHEC, ((ech.getTrait() == 'w') ? "In favor of black." : "In favor of white."));
+						eventInter(CHESS_EVENT_ECHEC,
+								((ech.getTrait() == 'w') ? "In favor of black." : "In favor of white."));
 						surbrillance(ech.searchKing(ech.getTrait()), Color.MAGENTA);
 					}
 					first = true;
@@ -364,8 +366,33 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 
 			chessPieceInfo = ech.getPiece(depart);
 
-			chesstoryGame.addLogsText("Bravo son of bitch, you clicked on a " + chessPieceInfo.getNameAlone()
-					+ " its code is " + chessPieceInfo.getCode() + ". Et elle te chie dans le nez.");
+			String info = "\nHELP DISPLAY : You clicked on the cell (" + depart.getX() + "," + depart.getY()
+					+ "), it contains a " + ((chessPieceInfo.getColor() == 'w') ? "white" : "black") + " "
+					+ chessPieceInfo.getNameAlone() + ", its code is " + chessPieceInfo.getCode()
+					+ ".\nIts move capacity are the following :\n";
+
+			if (chessPieceInfo.isHorse())
+				info += "  - Knight's specificities (1 cell in a direction, 2 in the other).\n";
+
+			if (chessPieceInfo.getMaxX() == 0)
+				info += "  - It can't move horizontally.\n";
+			else
+				info += "  - It can moves from " + chessPieceInfo.getMinX() + " cell(s) to " + chessPieceInfo.getMaxX()
+						+ " horizontally.\n";
+
+			if (chessPieceInfo.getMaxY() == 0)
+				info += "  - It can't move vertically.\n";
+			else
+				info += "  - It can moves from " + chessPieceInfo.getMinY() + " cell(s) to " + chessPieceInfo.getMaxY()
+						+ " vertically.\n";
+
+			if (chessPieceInfo.getMaxDiag() == 0)
+				info += "  - It can't move diagonnally.\n";
+			else
+				info += "  - It can moves from " + chessPieceInfo.getMinDiag() + " cell(s) to "
+						+ chessPieceInfo.getMaxDiag() + " diagonnally.\n";
+
+			chesstoryGame.addLogsText(info);
 		}
 	}
 
