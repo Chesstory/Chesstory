@@ -32,8 +32,8 @@ public class MainExe {
 		// TODO fix the left border, it seems that the panel is still here
 	}
 
-	static void switchToChesstoryGame(int gameType, String[] rules) {
-
+	static void switchToChesstoryGame(int gameType, String fileName) {
+		
 	}
 
 	static void switchToEditor() {

@@ -15,10 +15,13 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JFileChooser;
 
 abstract class FileController {
-	static boolean saveFile(GameSave g) {
+	static boolean saveFile(GameSave g){
+		return saveFile(g, "CHOOSER..FILE");
+	}
+	static boolean saveFile(GameSave g, String fileNameToSave) {
 		String directory = "./Saves/";
 		String suffix = "txt";
-
+		//TODO handle case where we receive CHOOSER..FILE
 		JFileChooser chooser = new JFileChooser();
 		chooser.setCurrentDirectory(new File(directory));
 		chooser.setDialogType(JFileChooser.OPEN_DIALOG);
