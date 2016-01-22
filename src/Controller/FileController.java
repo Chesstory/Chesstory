@@ -27,32 +27,38 @@ abstract class FileController {
 		String suffix = ".txt";
 		if (fileNameToSave != "CHOOSER..FILE") {
 			retrival = JFileChooser.APPROVE_OPTION;
-			//fileToSave=new File("src/data/defaultSaves/" + fileNameToSave+ suffix);
-			fileToSave=new File("src/data/defaultSaves/" + fileNameToSave);
-			//System.out.println("Name file : "+fileToSave.getName()+ Boolean.toString(fileToSave.exists()));
+			// fileToSave=new File("src/data/defaultSaves/" + fileNameToSave+
+			// suffix);
+			fileToSave = new File("src/data/defaultSaves/" + fileNameToSave);
+			// System.out.println("Name file : "+fileToSave.getName()+
+			// Boolean.toString(fileToSave.exists()));
 		} else {
 			JFileChooser chooser = new JFileChooser();
 			chooser.setCurrentDirectory(new File(directory));
 			chooser.setDialogType(JFileChooser.OPEN_DIALOG);
-			suffix="txt";
+			suffix = "txt";
 			chooser.setFileFilter(new FileNameExtensionFilter("text file",
 					suffix));
 			retrival = chooser.showSaveDialog(null);
 			fileToSave = chooser.getSelectedFile();
-			String sufTemp[] = fileToSave.getName().split("\\.", -1);
-			if (sufTemp.length > 1) {
-				if (sufTemp[1].equals("txt")) {
-					suffix = "";
+			try{
+				String sufTemp[] = fileToSave.getName().split("\\.", -1);
+				if (sufTemp.length > 1) {
+					if (sufTemp[1].equals("txt")) {
+						suffix = "";
+					} else {
+						suffix = ".txt";
+						System.out.println("xxxxxx");
+					}
 				} else {
 					suffix = ".txt";
-					System.out.println("xxxxxx");
 				}
-			}else{
-				suffix = ".txt";
+				fileNameToSave = fileToSave.getName();
+			}catch(Exception e){
+				
 			}
-			fileNameToSave=fileToSave.getName();
-			//System.out.println("NAMEFILEFFS : "+fileNameToSave);
-			
+
+
 		}
 		if (retrival == JFileChooser.APPROVE_OPTION) {
 			try (FileWriter fileWriter = new FileWriter(fileToSave + suffix)) {
@@ -60,7 +66,8 @@ abstract class FileController {
 				BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 				bufferedWriter.write(">>>>||----Chesstory_SaveFile_Header--|");
 				bufferedWriter.newLine();
-				System.out.println("Name file chooser : "+fileToSave.getAbsolutePath());
+				System.out.println("Name file chooser : "
+						+ fileToSave.getAbsolutePath());
 				bufferedWriter.write(Integer.toString(g.getGameId()));
 				System.out.println("    >id : " + g.getGameId());
 				bufferedWriter.newLine();
@@ -104,7 +111,7 @@ abstract class FileController {
 				 * suffix)){//useless I think file = new File(bufferedWriter +
 				 * suffix); }
 				 */
-				
+
 				// Always close files.
 				bufferedWriter.close();
 

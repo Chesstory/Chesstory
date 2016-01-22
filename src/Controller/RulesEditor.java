@@ -192,8 +192,12 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 		iV.setSliderMaxValue(Integer.parseInt(pieceRules[currentPieceWeAreCustomizing][5]));
 		iD.setSliderMinValue(Integer.parseInt(pieceRules[currentPieceWeAreCustomizing][6]));
 		iD.setSliderMaxValue(Integer.parseInt(pieceRules[currentPieceWeAreCustomizing][7]));
+		iH.unCheck();
+		iV.unCheck();
+		iD.unCheck();
 		checkBoxCanGoBack.setSelected(Boolean.parseBoolean(pieceRules[currentPieceWeAreCustomizing][8]));
 		checkBoxHasKnightMove.setSelected(Boolean.parseBoolean(pieceRules[currentPieceWeAreCustomizing][9]));
+		
 		f.repaint();
 		f.revalidate();
 	}
@@ -287,6 +291,9 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 					sliderMax.setEnabled(false);
 				}
 			}
+		}
+		public void unCheck(){
+			checkBox.setSelected(false);
 		}
 		public boolean getIsChecked(){
 			return isChecked;	
