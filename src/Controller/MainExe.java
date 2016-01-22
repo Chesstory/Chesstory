@@ -29,11 +29,11 @@ public class MainExe {
 	static void switchToChesstoryGame(int gameType) {
 		clearMainMenu();
 		chesstoryGame = new ChesstoryGame("Classical game", gameType, frame);
-		// TODO fix the left border, it seems that the panel is still here
 	}
 
 	static void switchToChesstoryGame(int gameType, String fileName) {
-		
+		rulesEditor=null;
+		chesstoryGame = new ChesstoryGame(fileName, gameType, frame);
 	}
 
 	static void switchToEditor() {

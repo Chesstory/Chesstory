@@ -165,8 +165,8 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 				panel=null;
 				loadedRules.setArrayRulePiece(returnString);//TODO CONTINUe
 				loadedRules.setGameType(GAMETYPE_CUSTOM);
-				FileController.saveFile(loadedRules);
-				MainExe.switchToChesstoryGame(GAMETYPE_CUSTOM,"tempFile");//TODO REPLACE THE INT "1" PER CONSTANT AFTER THE TYPE CHOOSEING MODULE IS DONE		
+				FileController.saveFile(loadedRules,TEMP_FILE_NAME);
+				MainExe.switchToChesstoryGame(GAMETYPE_CUSTOM,TEMP_FILE_NAME);//TODO REPLACE THE INT "1" PER CONSTANT AFTER THE TYPE CHOOSEING MODULE IS DONE		
 			}
 		});
 		panel.add(buttonLaunchGame);

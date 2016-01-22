@@ -3,6 +3,7 @@ package Controller;
 import echecs.Deplacement;
 import echecs.Position;
 
+import java.awt.BufferCapabilities.FlipContents;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,22 +16,30 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JFileChooser;
 
 abstract class FileController {
-	static boolean saveFile(GameSave g){
+	static boolean saveFile(GameSave g) {
 		return saveFile(g, "CHOOSER..FILE");
 	}
+
 	static boolean saveFile(GameSave g, String fileNameToSave) {
+		File fileToSave;
+		int retrival;
 		String directory = "./Saves/";
-		String suffix = "txt";
-		//TODO handle case where we receive CHOOSER..FILE
-		JFileChooser chooser = new JFileChooser();
-		chooser.setCurrentDirectory(new File(directory));
-		chooser.setDialogType(JFileChooser.OPEN_DIALOG);
-		chooser.setFileFilter(new FileNameExtensionFilter("text file", suffix));
-		suffix = ".txt";
-		int retrival = chooser.showSaveDialog(null);
-		if (retrival == JFileChooser.APPROVE_OPTION) {
-			String sufTemp[] = chooser.getSelectedFile().getName()
-					.split("\\.", -1);
+		String suffix = ".txt";
+		if (fileNameToSave != "CHOOSER..FILE") {
+			retrival = JFileChooser.APPROVE_OPTION;
+			//fileToSave=new File("src/data/defaultSaves/" + fileNameToSave+ suffix);
+			fileToSave=new File("src/data/defaultSaves/" + fileNameToSave);
+			//System.out.println("Name file : "+fileToSave.getName()+ Boolean.toString(fileToSave.exists()));
+		} else {
+			JFileChooser chooser = new JFileChooser();
+			chooser.setCurrentDirectory(new File(directory));
+			chooser.setDialogType(JFileChooser.OPEN_DIALOG);
+			suffix="txt";
+			chooser.setFileFilter(new FileNameExtensionFilter("text file",
+					suffix));
+			retrival = chooser.showSaveDialog(null);
+			fileToSave = chooser.getSelectedFile();
+			String sufTemp[] = fileToSave.getName().split("\\.", -1);
 			if (sufTemp.length > 1) {
 				if (sufTemp[1].equals("txt")) {
 					suffix = "";
@@ -38,14 +47,20 @@ abstract class FileController {
 					suffix = ".txt";
 					System.out.println("xxxxxx");
 				}
+			}else{
+				suffix = ".txt";
 			}
-			try (FileWriter fileWriter = new FileWriter(
-					chooser.getSelectedFile() + suffix)) {
+			fileNameToSave=fileToSave.getName();
+			//System.out.println("NAMEFILEFFS : "+fileNameToSave);
+			
+		}
+		if (retrival == JFileChooser.APPROVE_OPTION) {
+			try (FileWriter fileWriter = new FileWriter(fileToSave + suffix)) {
 				System.out.println("---->Saving file");
 				BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 				bufferedWriter.write(">>>>||----Chesstory_SaveFile_Header--|");
 				bufferedWriter.newLine();
-
+				System.out.println("Name file chooser : "+fileToSave.getAbsolutePath());
 				bufferedWriter.write(Integer.toString(g.getGameId()));
 				System.out.println("    >id : " + g.getGameId());
 				bufferedWriter.newLine();
@@ -89,7 +104,7 @@ abstract class FileController {
 				 * suffix)){//useless I think file = new File(bufferedWriter +
 				 * suffix); }
 				 */
-
+				
 				// Always close files.
 				bufferedWriter.close();
 

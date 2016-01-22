@@ -348,11 +348,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			YACG.changeTheme(THEM_DEFAULT);
 			loadGame("default_CLASSICAL");
 			rulesText.setText(CHESS_RULES_HEADER + CHESS_RULES_CLASSIC);
-			break;
-		case GAMETYPE_CUSTOM:
-			YACG.changeTheme(THEM_DEFAULT);
-			rulesText.setText(CHESS_RULES_HEADER + CHESS_RULES_CUSTOM_PT1 + YACG.getPiecesFancyMoveSet()
-					+ CHESS_RULES_CUSTOM_PT2);
+			addLogsText("Chesstory : Classical game !");
 			break;
 		case GAMETYPE_SHATRANJ:
 			YACG.changeTheme(THEM_SHATRANJ);
@@ -364,7 +360,15 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			rulesText.setText(CHESS_RULES_HEADER + CHESS_RULES_CHATURANGA_PT1 + YACG.getPiecesFancyMoveSet()
 					+ CHESS_RULES_CHATURANGA_PT2);
 			break;
-		default:// TODO custom game;
+		case GAMETYPE_CUSTOM:
+			YACG.changeTheme(THEM_DEFAULT);
+			loadGame(title);
+			addLogsText("Chesstory : Custom game !");
+			rulesText.setText(CHESS_RULES_HEADER + CHESS_RULES_CUSTOM_PT1 + YACG.getPiecesFancyMoveSet()
+					+ CHESS_RULES_CUSTOM_PT2);
+			break;
+		default:
+			addLogsText("ERROR TYPE CHESSTORY GAME CAN'T BE LAUNCHED");
 		}
 
 		// TODO remove test doute

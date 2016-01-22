@@ -33,10 +33,10 @@ public class ChesstoryConstants {
 	 * Gametype gesture
 	 */
 	public static final int GAMETYPE_CLASSICAL = 1;
-	public static final int GAMETYPE_CUSTOM = 2;
-	public static final int GAMETYPE_SHATRANJ = 3;
-	public static final int GAMETYPE_CHATURANGA = 4;
-
+	public static final int GAMETYPE_SHATRANJ = 2;
+	public static final int GAMETYPE_CHATURANGA = 3;
+	public static final int GAMETYPE_CUSTOM = 4;
+	public static final String TEMP_FILE_NAME="tempFile_TEMP";
 	/**
 	 * Thems gesture
 	 */
