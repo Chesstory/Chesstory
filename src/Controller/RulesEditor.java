@@ -63,7 +63,7 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 	}
 	private RulesEditor(JFrame f){
 		changesWereMade=false;
-		currentPieceWeAreCustomizing=1;
+		currentPieceWeAreCustomizing=0;
 		this.f=f;
 		panel=new JPanel();
 		panel.setMaximumSize(new Dimension(java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width/2,
