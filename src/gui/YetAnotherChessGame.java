@@ -526,9 +526,12 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	 *         play with.
 	 */
 	public String getPiecesFancyMoveSet() {
-		String info = ech.getKingSpec().getFancyMoveSet() + ech.getQueenSpec().getFancyMoveSet()
-				+ ech.getBishopSpec().getFancyMoveSet() + ech.getKnightSpec().getFancyMoveSet()
-				+ ech.getRookSpec().getFancyMoveSet() + ech.getPawnSpec().getFancyMoveSet();
+		String info = "The " + ech.getKingSpec().getNameAlone() + " :\n" + ech.getKingSpec().getFancyMoveSet() + "The "
+				+ ech.getQueenSpec().getNameAlone() + " :\n" + ech.getQueenSpec().getFancyMoveSet() + "The "
+				+ ech.getBishopSpec().getNameAlone() + " :\n" + ech.getBishopSpec().getFancyMoveSet() + "The "
+				+ ech.getKnightSpec().getNameAlone() + " :\n" + ech.getKnightSpec().getFancyMoveSet() + "The "
+				+ ech.getRookSpec().getNameAlone() + " :\n" + ech.getRookSpec().getFancyMoveSet() + "The "
+				+ ech.getPawnSpec().getNameAlone() + " :\n" + ech.getPawnSpec().getFancyMoveSet();
 
 		return info;
 	}
@@ -536,7 +539,8 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	/**
 	 * We did not use it a lot cause of time and bad color tastes ...
 	 * 
-	 * @param theme The theme (a constant => ChesstoryConstant).
+	 * @param theme
+	 *            The theme (a constant => ChesstoryConstant).
 	 */
 	public void changeTheme(Color[] theme) {
 		backgroundOne = theme[0];

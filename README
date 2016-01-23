@@ -9,30 +9,42 @@ What has been asked :
   - Allowing to chose for every pieces the move set and, if possible, recreate our own chess board.
   
 What is already done :
-  - 'Basic' chess game
+  - 'Basic' chess game with workful castling, etc.
   - Graphic interface :
-    * Visual hints like in case of 'echec', accessible positions, etc
+    * Visual hints like in case of check, accessible positions, etc
     * Chessboard and colors are customable
     * Browser view which includes :
       ~ Time travel (through the game only, sorry)
       ~ If you do this, to avoid time paradox, you must say that you want to do an action
+    * Rules of the current game are displayed in the rules text area.
+  
+  - Timer added, to avoid time paradox, one more time, it is better to stop it if you travel ...
+  	-> One timer for each player, we can remove it if wanted
+  
+  - Some warnings are displayed when "dangerous" action are made (leaving the game for example).
+  
+  - When right clicking a piece, it displays its rules in the logs text area.
     
   - Save & Load :
-    * Work one commit every two
+    * Work every time, with every possible rules set.
+    * Check if you did not try to cheat by changing the file.
     
   - Rules :
-    * Pieces and deplacement rules are customable really easily
+    * Pieces and moves rules are customable really easily
+    * Which means, Chaturanga and Shatranj are one button from being alive
     
 What is in progress :
-  - We are in a period where save & load feature do not work all the time (since we changed rules), so fix that (one set of rules = one file)
+  - Some buttons to select games
+  - Improvement of the graphic interface (like some adjustments on the scrollbars)
   - Graphic interface to select rules
-  - Do a (user-friendly) jdoc and put all the code in the same language
+  - Do a (user-friendly) jdoc and put all the code in the same language (only remains package Controller)
 
 What remains to do (not exhaustiv list) :
-  - Add a timer (one for each player (like real chess)) (we know the principe (new thread itout itout))
+  - Add ways to custom rules like castling, prise-en-passant, size of chess board, custom the timer, toggle on/off graphic hints, etc
+  - Create Chesstory 2.0, which should be really abstract
   - Save parameters (for all games)
   - Add some beautiful and shiny color themes !
-  - See if we can rotate the chessboard (utopia)
+  - See if we can rotate the chess board (utopia)
   
 If you have any question or request or just want to thank us, please send me an email at :
 b.guillemot95@gmail.com
