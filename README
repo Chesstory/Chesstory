@@ -1,12 +1,12 @@
 # Chesstory
 Mutliple Chess games, this is a school project.
-Goal : Create a chess game which include several variants and is really customable.
-Support : Written in JAVA => should be compatible for every OS !
+Goal : Create a chess game which includes several variants and is really customizable.
+Support : Written in JAVA (SE-1.8)=> should be compatible for every OS !
 
 What has been asked :
   - Chess game with graphic interface
   - Including historical variants
-  - Allowing to chose for every pieces the move set and, if possible, recreate our own chess board.
+  - Allowing to choose for every pieces the move set and, if possible, recreate our own chess board.
   
 What is already done :
   - 'Basic' chess game with workful castling, etc.
@@ -34,10 +34,12 @@ What is already done :
     * Which means, Chaturanga and Shatranj are one button from being alive
     
 What is in progress :
+  - Fix one for all the problems of build, where to put the images, saves, and default saves (actually the .JAR won't work properly because of that)
   - Some buttons to select games
   - Improvement of the graphic interface (like some adjustments on the scrollbars)
   - Graphic interface to select rules
   - Do a (user-friendly) jdoc and put all the code in the same language (only remains package Controller)
+  
 
 What remains to do (not exhaustiv list) :
   - Add ways to custom rules like castling, prise-en-passant, size of chess board, custom the timer, toggle on/off graphic hints, etc
