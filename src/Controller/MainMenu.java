@@ -129,12 +129,20 @@ public class MainMenu {
 				panelChoose.setVisible(false);
 				f.remove(panelChoose);
 				panelChoose=null;
+				panel.removeAll();
+				panel.setVisible(false);
+				f.remove(panel);
+				panel=null;
 				MainExe.switchToChesstoryGame(GAMETYPE_CLASSICAL);	
 			}
 		});
 		bChooseCustom.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				panelChoose.removeAll();
+				panelChoose.setVisible(false);
+				f.remove(panelChoose);
+				panelChoose=null;
 				panel.removeAll();
 				panel.setVisible(false);
 				f.remove(panel);

@@ -9,6 +9,12 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class ChesstoryConstants {
+	/**
+	 * Fonts used int Chesstory
+	 */
+	public static final String FONT_NAME_TITLE_1 = "Comic Sans MS";//Trolleur de qualité !
+	public static final int FONT_SIZE_TITLE_1 = 32;
+	
 	public static final String FILE_DEFAULT_CLASSICAL = "default_CLASSICAL";
 	public static final int NB_RULE_PER_PIECE = 10;
 	public static final int NB_PIECE = 6;

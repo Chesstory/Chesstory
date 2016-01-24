@@ -303,23 +303,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		rulesText.setColumns(30);
 		rulesText.setTabSize(1);
 		rulesText.setRows(15);
-		rulesText.setText("This is an editable JrulesText. " + "A text area is a \"plain\" text component, "
-				+ "which means that although it can display text " + "in any font, all of the text is in the same font."
-				+ "A text area is a \"plain\" text component, " + "which means that although it can display text "
-				+ "in any font, all of the text is in the same font." + "A text area is a \"plain\" text component, "
-				+ "which means that although it can display text " + "in any font, all of the text is in the same font."
-				+ "A text area is a \"plain\" text component, " + "which means that although it can display text "
-				+ "in any font, all of the text is in the same font." + "A text area is a \"plain\" text component, "
-				+ "which means that although it can display text " + "in any font, all of the text is in the same font."
-				+ "A text area is a \"plain\" text component, " + "which means that although it can display text "
-				+ "in any font, all of the text is in the same font." + "A text area is a \"plain\" text component, "
-				+ "which means that although it can display text " + "in any font, all of the text is in the same font."
-				+ "A text area is a \"plain\" text component, " + "which means that although it can display text "
-				+ "in any font, all of the text is in the same font." + "A text area is a \"plain\" text component, "
-				+ "which means that although it can display text " + "in any font, all of the text is in the same font."
-				+ "A text area is a \"plain\" text component, " + "which means that although it can display text "
-				+ "in any font, all of the text is in the same font.");
-
+		DefaultCaret caret = (DefaultCaret) rulesText.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);// if I don't do that, the caret of the rules would be at the bottom
 		rulesTextScroll = new JScrollPane(rulesText);
 		rulesTextScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		panelRight.add(rulesTextScroll);
@@ -333,9 +318,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		logsText.setColumns(30);
 		logsText.setTabSize(1);
 		logsText.setRows(32);
-		DefaultCaret caret = (DefaultCaret) logsText.getCaret();
+		caret = (DefaultCaret) logsText.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);// auto scrolling
-
 		logsTextScroll = new JScrollPane(logsText);
 		logsTextScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		panelRight.add(logsTextScroll);
