@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -18,14 +19,18 @@ import static Controller.ChesstoryConstants.*;
 public class MainMenu {
 	private JFrame f;
 	private JPanel panel;
+	private JPanel panelChoose;
 	private Dimension dimensionButtons;
 	private Dimension dimensionFillBetweenButtons;
+	private Dimension dimensionChoose;
 	private JLabel labelBanner;
 	private JButton bPlayGame;
 	private JButton bParameters;
 	private JButton bExit;
 	private JButton bChooseBack;
 	private JButton bChooseClassical;
+	private JButton bChooseShatranj;
+	private JButton bChooseChaturanga;
 	private JButton bChooseCustom;
 	public MainMenu(JFrame f, boolean startToGameChooser){
 		dimensionButtons=new Dimension(java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width/8,
@@ -88,24 +93,42 @@ public class MainMenu {
 		}
 	}
 	private void gameChooser(){
+		dimensionChoose=new Dimension((int)(java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width*(0.2)),
+				(int)(java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height*(0.1)));
 		panel.removeAll();
 		panel=new JPanel();
 		panel.setBackground(new Color(0x0F3855));
 		f.getContentPane().add(panel);
+		panelChoose=new JPanel();
+		panelChoose.setBackground(new Color(0x234F6E));
+		panelChoose.setPreferredSize(new Dimension((int)(java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width*(0.90)),
+				(int)(java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height*(0.90))));
+		GridLayout gridLayout=new GridLayout(2,3);
+		gridLayout.setHgap(20);
+		gridLayout.setVgap(20);
+		panelChoose.setLayout(gridLayout);
+		panel.add(panelChoose);
 		bChooseClassical=new JButton("Cassical");
-		panel.add(bChooseClassical);
+		//bChooseClassical.setPreferredSize(dimensionChoose);
+		panelChoose.add(bChooseClassical);
+		bChooseShatranj=new JButton("Shatranj");
+		bChooseShatranj.setEnabled(false);//TODO remove
+		panelChoose.add(bChooseShatranj);
+		bChooseChaturanga=new JButton("Chaturanga");
+		bChooseChaturanga.setEnabled(false);//TODO remove
+		panelChoose.add(bChooseChaturanga);
 		bChooseCustom=new JButton("Custom");
-		panel.add(bChooseCustom);
+		panelChoose.add(bChooseCustom);
 		bChooseBack=new JButton("Back");
 		bChooseBack.setEnabled(false);//TODO remove
-		panel.add(bChooseBack);
+		panelChoose.add(bChooseBack);
 		bChooseClassical.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {	
-				panel.removeAll();
-				panel.setVisible(false);
-				f.remove(panel);
-				panel=null;
+				panelChoose.removeAll();
+				panelChoose.setVisible(false);
+				f.remove(panelChoose);
+				panelChoose=null;
 				MainExe.switchToChesstoryGame(GAMETYPE_CLASSICAL);	
 			}
 		});
