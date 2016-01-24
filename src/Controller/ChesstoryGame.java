@@ -173,6 +173,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		panelLeftMenuMain.add(bSave);
 
 		bParameters = new JButton("Parameters");
+		bParameters.setEnabled(false);//TODO remove
 		panelLeftMenuMain.add(bParameters);
 
 		bExit = new JButton("Exit");

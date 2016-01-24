@@ -166,6 +166,7 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 				}
 			}
 		});
+		buttonBack.setEnabled(false);//TODO remove
 		panel.add(buttonBack);
 		
 		buttonLaunchGame=new JButton("Launch the game !");
