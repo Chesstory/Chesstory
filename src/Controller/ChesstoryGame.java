@@ -288,6 +288,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		panelGlob.add(panelLeft);
 
 		panelRight = new JPanel();
+		panelRight.setPreferredSize(new Dimension(java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width/3,
+				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height/3));
 		// FlowLayout flowLayout_1 = (FlowLayout) panelRight.getLayout();
 		panelRight.setBorder(new LineBorder(Color.RED));
 		panelRight.setBackground(Color.darkGray);

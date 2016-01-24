@@ -84,14 +84,31 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 		comboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				changesWereMade=false;
-				currentPieceWeAreCustomizing=Integer.parseInt(((String) (((JComboBox<String>) e.getSource()).getSelectedItem())).split(" ",-1)[1])-1;
-				refreshEditorVariables();
-				//System.out.println("ActionListener : action sur " + ((JComboBox<String>) e.getSource()).getSelectedItem()+", piece : "+currentPieceWeAreCustomizing);
-				//System.out.println("Get name : "+pieceRules[currentPieceWeAreCustomizing][0]+", back : "+Boolean.parseBoolean(pieceRules[currentPieceWeAreCustomizing][8])+", string : "+loadedRules.getArrayRulePiece()[currentPieceWeAreCustomizing]);
+				int response=JOptionPane.YES_OPTION;
+				if(changesWereMade){
+					response = JOptionPane.showConfirmDialog(null,
+							"You're about to loose current modifications of the piece "+(currentPieceWeAreCustomizing+1),
+							"Warning you're about to loose current modification", JOptionPane.YES_NO_OPTION,
+							JOptionPane.WARNING_MESSAGE);
+				}
+				if(response==JOptionPane.YES_OPTION){
+					
+				
+					changesWereMade=false;
+					currentPieceWeAreCustomizing=Integer.parseInt(((String) (((JComboBox<String>) e.getSource()).getSelectedItem())).split(" ",-1)[1])-1;
+					refreshEditorVariables();
+					//System.out.println("ActionListener : action sur " + ((JComboBox<String>) e.getSource()).getSelectedItem()+", piece : "+currentPieceWeAreCustomizing);
+					//System.out.println("Get name : "+pieceRules[currentPieceWeAreCustomizing][0]+", back : "+Boolean.parseBoolean(pieceRules[currentPieceWeAreCustomizing][8])+", string : "+loadedRules.getArrayRulePiece()[currentPieceWeAreCustomizing]);
+				}else{
+					if(changesWereMade){
+						System.out.println("cvhfxd");
+						comboBox.setSelectedItem(nameOfPieces[currentPieceWeAreCustomizing]);
+					}
+				}
 			}
 		});//TODO Improve design
 		panel.add(comboBox);
+		
 		for(int p=0;p<NB_PIECE;p++){
 			//System.out.println("p : "+p+", raw result : "+loadedRules.toString());
 			//System.out.println("RESULT :"+loadedRules.getArrayRulePiece()[p]);
@@ -113,10 +130,22 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 		
 		checkBoxCanGoBack=new JCheckBox("Can the piece go backwards ? ");
 		checkBoxCanGoBack.setSelected(Boolean.parseBoolean(pieceRules[0][8]));
+		checkBoxCanGoBack.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				changesWereMade=true;
+			}
+		});
 		panel.add(checkBoxCanGoBack);
 		
 		checkBoxHasKnightMove=new JCheckBox("Add knight move ?");
 		checkBoxHasKnightMove.setSelected(Boolean.parseBoolean(pieceRules[0][9]));
+		checkBoxHasKnightMove.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				changesWereMade=true;
+			}
+		});
 		panel.add(checkBoxHasKnightMove);
 		
 		buttonConfirmChanges=new JButton("Confirm");
@@ -132,7 +161,7 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 		buttonBack.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(JOptionPane.YES_OPTION==JOptionPane.showConfirmDialog(null, "Are you sure to extit the editor ? \nYou will loose all current modifications", "Confirm exiting the editor", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE)){
+				if(JOptionPane.YES_OPTION==JOptionPane.showConfirmDialog(null, "Are you sure to exit the editor ? \nYou will loose all current modifications", "Confirm exiting the editor", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE)){
 					//TODO go back	
 				}
 			}
@@ -261,6 +290,7 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 			sliderMin.addChangeListener(new ChangeListener() {		
 				@Override
 				public void stateChanged(ChangeEvent e) {
+					changesWereMade=true;
 					textFieldMin.setText(""+sliderMin.getValue());
 					if(sliderMin.getValue()>sliderMax.getValue())
 						sliderMax.setValue(sliderMin.getValue());
@@ -269,6 +299,7 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 			sliderMax.addChangeListener(new ChangeListener() {		
 				@Override
 				public void stateChanged(ChangeEvent e) {
+					changesWereMade=true;
 					textFieldMax.setText(""+sliderMax.getValue());
 					if(sliderMax.getValue()<sliderMin.getValue())
 						sliderMin.setValue(sliderMax.getValue());
