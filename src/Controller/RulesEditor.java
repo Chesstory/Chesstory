@@ -77,8 +77,8 @@ public class RulesEditor extends JFrame implements ItemListener,
 		panel.setMaximumSize(new Dimension(
 				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment()
 						.getMaximumWindowBounds().width / 2,
-				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment()
-						.getMaximumWindowBounds().height / 2));
+				(int)(java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment()
+						.getMaximumWindowBounds().height *0.90)));
 		panel.setBackground(new Color(0x234F6E));
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		f.getContentPane().add(panel);
@@ -89,11 +89,12 @@ public class RulesEditor extends JFrame implements ItemListener,
 				"Piece 3 'queen'", "Piece 4 'king'", "Piece 5 'bishop'",
 				"Piece 6 'knight'" };// TODO we may need to change the names
 
+		panel.add(Box.createRigidArea(new Dimension(0, 75)));
 		labelTitle = new JLabel("Game editor");
 		labelTitle.setFont(new Font(FONT_NAME_TITLE_1, Font.PLAIN,
 				FONT_SIZE_TITLE_1));
 		panel.add(labelTitle);
-		panel.add(Box.createRigidArea(new Dimension(0, 10)));
+		
 		JPanel panelBox = new JPanel();
 		panelBox.setAlignmentX(CENTER_ALIGNMENT);
 		panelBox.setAlignmentY(CENTER_ALIGNMENT);
