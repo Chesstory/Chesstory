@@ -435,7 +435,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		}
 	}
 
-	private void enableBrowserView() {
+	public void enableBrowserView() {
 		int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to enter browse mode ?",
 				"Warning you are about to activate browse mode", JOptionPane.YES_NO_OPTION,
 				JOptionPane.WARNING_MESSAGE);

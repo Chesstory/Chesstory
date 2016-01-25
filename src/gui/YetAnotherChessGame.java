@@ -222,8 +222,6 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	 * intermediary between Echiquier and ChesstoryGame.
 	 */
 	public YetAnotherChessGame(String fenDeDeapart, ChesstoryGame chesstoryGame) {
-		// TODO a good looking shit to initialize pieces :3
-
 		this.chesstoryGame = chesstoryGame;
 		// ech = new Echiquier();
 
@@ -237,9 +235,6 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 				new Piece("tour", 'r', true, true, false, true, false), this);
 
 		ech.setFEN(fenDeDeapart);
-
-		// Pour le test !
-		// ech.setFEN("kqqqqqqq/8/8/5b2/pppppppp/8/8/K5PP");
 
 		Dimension boardSize = new Dimension(600, 600);
 
@@ -318,8 +313,18 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 
 					if (makeDeplacement(d)) {
 						if ((winner = ech.checkGameIsEnded()) != 'n') {
-							System.out.println("GG aux " + winner);
-							System.exit(0);
+							int answer;
+						
+							chesstoryGame.addLogsText("It is finished, " + ((winner == 'w') ? "white" : "black")
+									+ " won the game."
+									+ "You can either start a new game, leave or browse back in time to see what you could have done better or to win again !");
+							answer = JOptionPane.showConfirmDialog(null, "It is finished, do you want to leave ? (you can either browse back in time)",
+									"Warning you are about to leave", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+							
+							if(answer == JOptionPane.YES_OPTION)
+								System.exit(0);
+							else
+								chesstoryGame.enableBrowserView();
 						}
 
 					} else {
