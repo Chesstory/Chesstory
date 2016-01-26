@@ -37,6 +37,7 @@ public class RulesEditor extends JFrame implements ItemListener,
 	private JFrame f;
 	private JPanel panel;
 	private JLabel labelTitle;
+	private JTextField textFieldFEN;
 	private JComboBox<String> comboBox;
 	private JLabel labelComboBox;
 	private ItemSliderChecked iV;
@@ -49,6 +50,7 @@ public class RulesEditor extends JFrame implements ItemListener,
 	private JButton buttonBack;
 	private int currentPieceWeAreCustomizing;
 	private boolean changesWereMade;
+	private String currentFEN;
 	private String[] nameOfPieces;
 	private GameSave loadedRules;
 	private String[][] pieceRules;
@@ -84,6 +86,7 @@ public class RulesEditor extends JFrame implements ItemListener,
 		f.getContentPane().add(panel);
 		returnString = new String[NB_PIECE];
 		loadedRules = FileController.loadFile(FILE_DEFAULT_CLASSICAL);
+		currentFEN=loadedRules.getFEN();
 		pieceRules = new String[NB_PIECE][NB_RULE_PER_PIECE];
 		nameOfPieces = new String[] { "Piece 1 'pawn'", "Piece 2 'rook'",
 				"Piece 3 'queen'", "Piece 4 'king'", "Piece 5 'bishop'",
@@ -94,6 +97,15 @@ public class RulesEditor extends JFrame implements ItemListener,
 		labelTitle.setFont(new Font(FONT_NAME_TITLE_1, Font.PLAIN,
 				FONT_SIZE_TITLE_1));
 		panel.add(labelTitle);
+		
+		
+		textFieldFEN=new JTextField("FEN : ");
+		textFieldFEN.setText(currentFEN);
+		//textFieldFEN.setColumns(39);
+		textFieldFEN.setMaximumSize(new Dimension(300,20));
+		textFieldFEN.setAlignmentX(CENTER_ALIGNMENT);
+		textFieldFEN.setAlignmentY(CENTER_ALIGNMENT);
+		panel.add(textFieldFEN);
 		
 		JPanel panelBox = new JPanel();
 		panelBox.setAlignmentX(CENTER_ALIGNMENT);
@@ -188,8 +200,7 @@ public class RulesEditor extends JFrame implements ItemListener,
 		buttonConfirmChanges.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {// Save the currents var
-														// displayed in the
-														// array
+														// displayed in the				// array
 				saveChangesOnAPiece();
 			}
 		});
@@ -238,6 +249,7 @@ public class RulesEditor extends JFrame implements ItemListener,
 				panel = null;
 				loadedRules.setArrayRulePiece(returnString);
 				loadedRules.setGameType(GAMETYPE_CUSTOM);
+				loadedRules.setFEN(currentFEN);
 				FileController.saveFile(loadedRules, TEMP_FILE_NAME);
 				MainExe.switchToChesstoryGame(GAMETYPE_CUSTOM, TEMP_FILE_NAME);
 			}
@@ -247,9 +259,11 @@ public class RulesEditor extends JFrame implements ItemListener,
 
 	private void saveChangesOnAPiece() {
 		int p = currentPieceWeAreCustomizing;
-
+		changesWereMade=false;
+		System.out.println("WHYYYYYYYYY");
 		// pieceRules[p][0]=;
 		// pieceRules[p][1]=;
+		currentFEN=textFieldFEN.getText();
 		pieceRules[p][2] = Integer.toString(iH.getSliderMinValue());
 		pieceRules[p][3] = Integer.toString(iH.getSliderMaxValue());
 		pieceRules[p][4] = Integer.toString(iV.getSliderMinValue());
