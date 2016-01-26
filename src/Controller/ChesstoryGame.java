@@ -55,9 +55,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 	private JPopupMenu popMenu;
 	private JMenu changeTheme;
-	private JMenuItem basic, shatranj, soup, flashy, yeld, trveblkmetol;
-	
-	private boolean menuDisplayed;
+	private JMenuItem itemBasic, itemShatranj, itemSoup, itemFlashy, itemYeld, itemTrveblkmetol, itemRose, itemSpring,
+			itemOutch;
 
 	private JTextArea rulesText;// RULES
 	private JScrollPane rulesTextScroll;
@@ -129,8 +128,6 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 		// YACG = new YetAnotherChessGame(departureFEN, this);
 
-		menuDisplayed = false;
-		
 		// TODO See for the boolean init and the length of timer
 		timer = true;
 		if (timer) {
@@ -195,19 +192,25 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 		popMenu = new JPopupMenu("Parameters");
 		changeTheme = new JMenu("Choose your theme");
-		basic = new JMenuItem("Default them");
-		shatranj = new JMenuItem("Shatranj's them");
-		soup = new JMenuItem("Some soup ?");
-		flashy = new JMenuItem("The flashy one");
-		yeld = new JMenuItem("D - The answer D");
-		trveblkmetol = new JMenuItem("So trve, so kvlt, so blck metol");
-		changeTheme.add(basic);
-		changeTheme.add(shatranj);
-		changeTheme.add(soup);
-		changeTheme.add(flashy);
-		changeTheme.add(yeld);
-		changeTheme.add(trveblkmetol);
-		
+		itemBasic = new JMenuItem("Default them");
+		itemShatranj = new JMenuItem("Shatranj's them");
+		itemSoup = new JMenuItem("Some itemSoup ?");
+		itemFlashy = new JMenuItem("The itemFlashy one");
+		itemYeld = new JMenuItem("D - The answer D");
+		itemTrveblkmetol = new JMenuItem("So trve, so kvlt, so blck metol");
+		itemRose = new JMenuItem("Rose");
+		itemSpring = new JMenuItem("Spring");
+		itemOutch = new JMenuItem("My eyes are bleeding");
+		changeTheme.add(itemBasic);
+		changeTheme.add(itemShatranj);
+		changeTheme.add(itemSoup);
+		changeTheme.add(itemFlashy);
+		changeTheme.add(itemYeld);
+		changeTheme.add(itemTrveblkmetol);
+		changeTheme.add(itemRose);
+		changeTheme.add(itemSpring);
+		changeTheme.add(itemOutch);
+
 		popMenu.add(changeTheme);
 		/*
 		 * arrowLeft.setBorder(BorderFactory.createEmptyBorder());
@@ -259,14 +262,10 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		bParameters.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(!menuDisplayed){
-					popMenu.show(null, 300, 400);
-					menuDisplayed = true;
-				}
-				else{
+				if (!popMenu.isVisible())
+					popMenu.show(f, 350, 50);
+				else
 					popMenu.setVisible(false);
-					menuDisplayed = false;
-				}
 			}
 		});
 		bExit.addActionListener(new ActionListener() {
@@ -298,7 +297,61 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 				browserViewNext();
 			}
 		});
-
+		itemBasic.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				YACG.changeTheme(THEM_DEFAULT);
+			}
+		});
+		itemShatranj.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				YACG.changeTheme(THEM_SHATRANJ);
+			}
+		});
+		itemSoup.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				YACG.changeTheme(THEM_SOUP);
+			}
+		});
+		itemFlashy.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				YACG.changeTheme(THEM_FLASHY);
+			}
+		});
+		itemYeld.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				YACG.changeTheme(THEM_YELD);
+			}
+		});
+		itemTrveblkmetol.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				YACG.changeTheme(THEM_TRVEBLKMETOL);
+			}
+		});
+		itemRose.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				YACG.changeTheme(THEM_ROSE);
+			}
+		});
+		itemSpring.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				YACG.changeTheme(THEM_SPRING);
+			}
+		});
+		itemOutch.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				YACG.changeTheme(THEM_OUTCH);
+			}
+		});
+		
 		panelTimerB = new JPanel();
 		panelLeftMenuBrowse.add(panelTimerB);
 

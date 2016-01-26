@@ -62,6 +62,12 @@ public class ChesstoryConstants {
 			new Color(0xffbd4f) };
 	public final static Color[] THEM_TRVEBLKMETOL = { new Color(0x9e9e9e), Color.BLACK, new Color(0x677179),
 			new Color(0xe21313) };
+	public final static Color[] THEM_ROSE = { new Color(0xffb5c5), new Color(0xcd919e), new Color(0xeee0e5),
+			new Color(0xe7c7c5) };
+	public final static Color[] THEM_SPRING = { new Color(0xadff2f), new Color(0x00c5cd), new Color(0xffd700),
+			new Color(0xdaa520) };
+	public final static Color[] THEM_OUTCH = { new Color(0x80d5ff), new Color(0xff84db), new Color(0xb136dd),
+			new Color(0xe78cff) };
 
 	/**
 	 * Rules text gesture

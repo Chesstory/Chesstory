@@ -225,7 +225,10 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		this.chesstoryGame = chesstoryGame;
 		// ech = new Echiquier();
 
-		changeTheme(THEM_DEFAULT);
+		backgroundOne = Color.getHSBColor(0.56f, 1.0f, 0.8f);
+		backgroundTwo = Color.white;
+		caseSpec = Color.ORANGE;
+		caseAccessible = Color.YELLOW;
 
 		// This a test with the classical chess pieces
 		ech = new Echiquier(new Piece("pion", 'p', 0, 0, 1, 1, 0, 0, false, false),
@@ -556,6 +559,6 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		backgroundTwo = theme[1];
 		caseAccessible = theme[2];
 		caseSpec = theme[3];
-		//drawChessboard();
+		drawChessboard();
 	}
 }
