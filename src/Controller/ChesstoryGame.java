@@ -53,6 +53,12 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private JButton arrowMiddle;
 	private JButton arrowRight;
 
+	private JPopupMenu popMenu;
+	private JMenu changeTheme;
+	private JMenuItem basic, shatranj, soup, flashy, yeld, trveblkmetol;
+	
+	private boolean menuDisplayed;
+
 	private JTextArea rulesText;// RULES
 	private JScrollPane rulesTextScroll;
 
@@ -123,6 +129,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 		// YACG = new YetAnotherChessGame(departureFEN, this);
 
+		menuDisplayed = false;
+		
 		// TODO See for the boolean init and the length of timer
 		timer = true;
 		if (timer) {
@@ -173,7 +181,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		panelLeftMenuMain.add(bSave);
 
 		bParameters = new JButton("Parameters");
-		bParameters.setEnabled(false);// TODO remove
+		// bParameters.setEnabled(false);// TODO remove
 		panelLeftMenuMain.add(bParameters);
 
 		bExit = new JButton("Exit");
@@ -185,6 +193,21 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		panelTimerW = new JPanel();
 		panelLeftMenuBrowse.add(panelTimerW);
 
+		popMenu = new JPopupMenu("Parameters");
+		changeTheme = new JMenu("Choose your theme");
+		popMenu.add(changeTheme);
+		basic = new JMenuItem("Default them");
+		shatranj = new JMenuItem("Shatranj's them");
+		soup = new JMenuItem("Some soup ?");
+		flashy = new JMenuItem("The flashy one");
+		yeld = new JMenuItem("D - The answer D");
+		trveblkmetol = new JMenuItem("So trve, so kvlt, so blck metol");
+		changeTheme.add(basic);
+		changeTheme.add(shatranj);
+		changeTheme.add(soup);
+		changeTheme.add(flashy);
+		changeTheme.add(yeld);
+		changeTheme.add(trveblkmetol);
 		/*
 		 * arrowLeft.setBorder(BorderFactory.createEmptyBorder());
 		 * arrowLeft.setContentAreaFilled(false);
@@ -230,6 +253,19 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				loadGame();
+			}
+		});
+		bParameters.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(!menuDisplayed){
+					popMenu.show(null, 300, 400);
+					menuDisplayed = true;
+				}
+				else{
+					popMenu.setVisible(false);
+					menuDisplayed = false;
+				}
 			}
 		});
 		bExit.addActionListener(new ActionListener() {
@@ -486,8 +522,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 						JOptionPane.WARNING_MESSAGE);
 
 				if (response == JOptionPane.CANCEL_OPTION) {
-					return ;
-				} else if (response == JOptionPane.YES_OPTION){
+					return;
+				} else if (response == JOptionPane.YES_OPTION) {
 					deleteTimer();
 				}
 			}
@@ -497,7 +533,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	}
 
 	private void browserViewNext() {
-		if (!isBrowserView){
+		if (!isBrowserView) {
 			int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to enter browse mode ?",
 					"Warning you are about to activate browse mode", JOptionPane.YES_NO_OPTION,
 					JOptionPane.WARNING_MESSAGE);
@@ -516,7 +552,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	}
 
 	private void browserViewBack() {
-		if (!isBrowserView){
+		if (!isBrowserView) {
 			int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to enter browse mode ?",
 					"Warning you are about to activate browse mode", JOptionPane.YES_NO_OPTION,
 					JOptionPane.WARNING_MESSAGE);
@@ -524,7 +560,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			if (response == JOptionPane.YES_OPTION) {
 				enableBrowserView();
 			} else
-				return ;
+				return;
 		}
 		if (moveListCursor >= 0) {
 

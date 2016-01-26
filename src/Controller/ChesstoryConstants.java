@@ -11,13 +11,15 @@ import javax.swing.*;
 public class ChesstoryConstants {
 	public static final int dimX = 8;
 	public static final int dimY = 8;
-	
+
 	/**
 	 * Fonts used int Chesstory
 	 */
-	public static final String FONT_NAME_TITLE_1 = "Comic Sans MS";//Trolleur de qualité !
+	public static final String FONT_NAME_TITLE_1 = "Comic Sans MS";// Trolleur
+																	// de
+																	// qualité !
 	public static final int FONT_SIZE_TITLE_1 = 32;
-	
+
 	public static final String FILE_DEFAULT_CLASSICAL = "default_CLASSICAL";
 	public static final int NB_RULE_PER_PIECE = 10;
 	public static final int NB_PIECE = 6;
@@ -45,13 +47,21 @@ public class ChesstoryConstants {
 	public static final int GAMETYPE_SHATRANJ = 2;
 	public static final int GAMETYPE_CHATURANGA = 3;
 	public static final int GAMETYPE_CUSTOM = 4;
-	public static final String TEMP_FILE_NAME="tempFile_TEMP";
+	public static final String TEMP_FILE_NAME = "tempFile_TEMP";
 	/**
 	 * Thems gesture
 	 */
 	public final static Color[] THEM_DEFAULT = { Color.getHSBColor(0.56f, 1.0f, 0.8f), Color.white, Color.YELLOW,
 			Color.ORANGE };
 	public final static Color[] THEM_SHATRANJ = { Color.white, Color.white, Color.YELLOW, Color.ORANGE };
+	public final static Color[] THEM_SOUP = { new Color(0x89725B), new Color(0xb0cc99), new Color(0x677e52),
+			new Color(0xf6e8b1) };
+	public final static Color[] THEM_FLASHY = { new Color(0xff456a), new Color(0xf4ff3a), new Color(0x84cecc),
+			new Color(0x006d80) };
+	public final static Color[] THEM_YELD = { new Color(0xe8cc06), new Color(0x1d702d), new Color(0x9c9e4b),
+			new Color(0xffbd4f) };
+	public final static Color[] THEM_TRVEBLKMETOL = { new Color(0x9e9e9e), Color.BLACK, new Color(0x677179),
+			new Color(0xe21313) };
 
 	/**
 	 * Rules text gesture
