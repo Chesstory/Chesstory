@@ -173,7 +173,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		panelLeftMenuMain.add(bSave);
 
 		bParameters = new JButton("Parameters");
-		bParameters.setEnabled(false);//TODO remove
+		bParameters.setEnabled(false);// TODO remove
 		panelLeftMenuMain.add(bParameters);
 
 		bExit = new JButton("Exit");
@@ -289,8 +289,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		panelGlob.add(panelLeft);
 
 		panelRight = new JPanel();
-		panelRight.setPreferredSize(new Dimension(java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width/3,
-				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height/3));
+		panelRight.setPreferredSize(new Dimension(
+				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width / 3,
+				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height / 3));
 		// FlowLayout flowLayout_1 = (FlowLayout) panelRight.getLayout();
 		panelRight.setBorder(new LineBorder(Color.RED));
 		panelRight.setBackground(Color.darkGray);
@@ -304,7 +305,10 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		rulesText.setTabSize(1);
 		rulesText.setRows(15);
 		DefaultCaret caret = (DefaultCaret) rulesText.getCaret();
-		caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);// if I don't do that, the caret of the rules would be at the bottom
+		caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);// if I don't do that,
+															// the caret of the
+															// rules would be at
+															// the bottom
 		rulesTextScroll = new JScrollPane(rulesText);
 		rulesTextScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		panelRight.add(rulesTextScroll);
@@ -436,36 +440,16 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	}
 
 	public void enableBrowserView() {
-		int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to enter browse mode ?",
-				"Warning you are about to activate browse mode", JOptionPane.YES_NO_OPTION,
-				JOptionPane.WARNING_MESSAGE);
+		adventureTimer.stop();
+		YACG.switchClickable(false);
+		isBrowserView = true;
+		switchBrowserViewBorder(true);
+		YACG.switchBorder(false);
+		addLogsText("    > STATE ----> Browser view !");
 
-		if (response == JOptionPane.YES_OPTION) {
-			adventureTimer.stop();
-			YACG.switchClickable(false);
-			isBrowserView = true;
-			switchBrowserViewBorder(true);
-			YACG.switchBorder(false);
-			addLogsText("    > STATE ----> Browser view !");
-		}
 	}
 
 	private void disableBrowserView() {
-		if (playerWTimeLeft <= initialTime / 1000 - 2) {
-
-			if (timer) {
-				int response = JOptionPane.showConfirmDialog(null,
-						"You are about to go back to the game, do you want to delete timers ? They could have been fucked up ...",
-						"Warning you are about to go back in play mode", JOptionPane.YES_NO_CANCEL_OPTION,
-						JOptionPane.WARNING_MESSAGE);
-
-				if (response == JOptionPane.CANCEL_OPTION)
-					return;
-				else if (response == JOptionPane.YES_OPTION)
-					deleteTimer();
-			}
-		}
-
 		adventureTimer.start();
 		YACG.switchClickable(true);
 		isBrowserView = false;
@@ -476,7 +460,13 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 	private void browserViewPlay() {
 		if (!isBrowserView) {
-			enableBrowserView();
+			int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to enter browse mode ?",
+					"Warning you are about to activate browse mode", JOptionPane.YES_NO_OPTION,
+					JOptionPane.WARNING_MESSAGE);
+
+			if (response == JOptionPane.YES_OPTION) {
+				enableBrowserView();
+			}
 		} else {
 			int i = moveListCursor;// the user has choosen a point in the game
 									// to return to
@@ -485,8 +475,19 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 				moveList.remove(i);
 				FENList.remove(i);
 			}
-			disableBrowserView();
-			refreshLabelsGame();
+			if (timer) {
+				int response = JOptionPane.showConfirmDialog(null,
+						"You are about to go back to the game, do you want to delete timers ? They could have been fucked up ...",
+						"Warning you are about to go back in play mode", JOptionPane.YES_NO_CANCEL_OPTION,
+						JOptionPane.WARNING_MESSAGE);
+
+				if (response == JOptionPane.NO_OPTION) {
+					disableBrowserView();
+					refreshLabelsGame();
+				} else if (response == JOptionPane.YES_OPTION)
+					deleteTimer();
+			}
+
 		}
 	}
 
@@ -494,7 +495,6 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		if (!isBrowserView)
 			enableBrowserView();
 		if (moveListCursor < moveList.size()) {
-
 			moveListCursor++;
 			// YACG.makeDeplacement(moveList.get(moveListCursor-1));
 			addLogsText("Next, moveList : " + moveList.size() + ", cursor : " + moveListCursor);

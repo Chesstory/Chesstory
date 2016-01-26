@@ -318,7 +318,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 							chesstoryGame.addLogsText("It is finished, " + ((winner == 'w') ? "white" : "black")
 									+ " won the game."
 									+ "You can either start a new game, leave or browse back in time to see what you could have done better or to win again !");
-							answer = JOptionPane.showConfirmDialog(null, "It is finished, do you want to leave ? (you can either browse back in time)",
+							answer = JOptionPane.showConfirmDialog(null, "The game is finished, do you want to leave ? (you can either browse back in time)",
 									"Warning you are about to leave", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 							
 							if(answer == JOptionPane.YES_OPTION)
