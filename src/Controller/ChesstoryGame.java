@@ -343,13 +343,17 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			break;
 		case GAMETYPE_SHATRANJ:
 			YACG.changeTheme(THEM_SHATRANJ);
+			loadGame("default_SHATRANJ");
 			rulesText.setText(CHESS_RULES_HEADER + CHESS_RULES_SHATRANJ_PT1 + YACG.getPiecesFancyMoveSet()
 					+ CHESS_RULES_SHATRANJ_PT2);
+			addLogsText("Chesstory : Shatranj game !");
 			break;
 		case GAMETYPE_CHATURANGA:
 			YACG.changeTheme(THEM_SHATRANJ);
+			loadGame("default_CHATURANGA");
 			rulesText.setText(CHESS_RULES_HEADER + CHESS_RULES_CHATURANGA_PT1 + YACG.getPiecesFancyMoveSet()
 					+ CHESS_RULES_CHATURANGA_PT2);
+			addLogsText("Chesstory : Chaturanga game !");
 			break;
 		case GAMETYPE_CUSTOM:
 			YACG.changeTheme(THEM_DEFAULT);
@@ -492,8 +496,15 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	}
 
 	private void browserViewNext() {
-		if (!isBrowserView)
-			enableBrowserView();
+		if (!isBrowserView){
+			int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to enter browse mode ?",
+					"Warning you are about to activate browse mode", JOptionPane.YES_NO_OPTION,
+					JOptionPane.WARNING_MESSAGE);
+
+			if (response == JOptionPane.YES_OPTION) {
+				enableBrowserView();
+			}
+		}
 		if (moveListCursor < moveList.size()) {
 			moveListCursor++;
 			// YACG.makeDeplacement(moveList.get(moveListCursor-1));
@@ -504,8 +515,15 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	}
 
 	private void browserViewBack() {
-		if (!isBrowserView)
-			enableBrowserView();
+		if (!isBrowserView){
+			int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to enter browse mode ?",
+					"Warning you are about to activate browse mode", JOptionPane.YES_NO_OPTION,
+					JOptionPane.WARNING_MESSAGE);
+
+			if (response == JOptionPane.YES_OPTION) {
+				enableBrowserView();
+			}
+		}
 		if (moveListCursor >= 0) {
 
 			moveListCursor--;
@@ -605,6 +623,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			YACG.changeRules(gameSave.getArrayRulePiece());
 			departureFEN = gameSave.getFEN();
 			YACG.makeDrawFen(departureFEN);
+			YACG.drawChessboard();
 			for (int i = 0; i < gameSave.getArrayRulePiece().length; i++) {
 				System.out.println(gameSave.getArrayRulePiece()[i]);
 			}

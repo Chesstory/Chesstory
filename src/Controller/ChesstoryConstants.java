@@ -9,6 +9,9 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class ChesstoryConstants {
+	public static final int dimX = 8;
+	public static final int dimY = 8;
+	
 	/**
 	 * Fonts used int Chesstory
 	 */

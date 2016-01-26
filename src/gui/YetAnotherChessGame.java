@@ -173,7 +173,7 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	/**
 	 * Draw the cells of the chess board (colors already selected in the theme).
 	 */
-	private void drawChessboard() {
+	public void drawChessboard() {
 		for (int j = 0; j < ech.getDimY(); j++) {
 			for (int i = 0; i < ech.getDimX(); i++) {
 				JPanel panel = (JPanel) chessBoard.getComponent(j * ech.getDimX() + i);
@@ -261,8 +261,10 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 			int row = (i / 8) % 2;
 			if (row == 0) {
 				square.setBackground(i % 2 == 0 ? backgroundTwo : backgroundOne);
+				square.setBorder(BorderFactory.createLineBorder(Color.black));
 			} else {
 				square.setBackground(i % 2 == 0 ? backgroundOne : backgroundTwo);
+				square.setBorder(BorderFactory.createLineBorder(Color.black));
 			}
 		}
 		drawEveryPieces();
@@ -314,14 +316,16 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 					if (makeDeplacement(d)) {
 						if ((winner = ech.checkGameIsEnded()) != 'n') {
 							int answer;
-						
+
 							chesstoryGame.addLogsText("It is finished, " + ((winner == 'w') ? "white" : "black")
 									+ " won the game."
 									+ "You can either start a new game, leave or browse back in time to see what you could have done better or to win again !");
-							answer = JOptionPane.showConfirmDialog(null, "The game is finished, do you want to leave ? (you can either browse back in time)",
-									"Warning you are about to leave", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-							
-							if(answer == JOptionPane.YES_OPTION)
+							answer = JOptionPane.showConfirmDialog(null,
+									"The game is finished, do you want to leave ? (you can either browse back in time)",
+									"Warning you are about to leave", JOptionPane.YES_NO_OPTION,
+									JOptionPane.QUESTION_MESSAGE);
+
+							if (answer == JOptionPane.YES_OPTION)
 								System.exit(0);
 							else
 								chesstoryGame.enableBrowserView();
@@ -552,5 +556,6 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		backgroundTwo = theme[1];
 		caseAccessible = theme[2];
 		caseSpec = theme[3];
+		//drawChessboard();
 	}
 }

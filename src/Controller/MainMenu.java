@@ -112,10 +112,10 @@ public class MainMenu {
 		//bChooseClassical.setPreferredSize(dimensionChoose);
 		panelChoose.add(bChooseClassical);
 		bChooseShatranj=new JButton("Shatranj");
-		bChooseShatranj.setEnabled(false);//TODO remove
+		//bChooseShatranj.setEnabled(false);//TODO remove
 		panelChoose.add(bChooseShatranj);
 		bChooseChaturanga=new JButton("Chaturanga");
-		bChooseChaturanga.setEnabled(false);//TODO remove
+		//bChooseChaturanga.setEnabled(false);//TODO remove
 		panelChoose.add(bChooseChaturanga);
 		bChooseCustom=new JButton("Custom");
 		panelChoose.add(bChooseCustom);
@@ -148,6 +148,34 @@ public class MainMenu {
 				f.remove(panel);
 				panel=null;
 				MainExe.switchToEditor();	
+			}
+		});
+		bChooseShatranj.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {	
+				panelChoose.removeAll();
+				panelChoose.setVisible(false);
+				f.remove(panelChoose);
+				panelChoose=null;
+				panel.removeAll();
+				panel.setVisible(false);
+				f.remove(panel);
+				panel=null;
+				MainExe.switchToChesstoryGame(GAMETYPE_SHATRANJ);	
+			}
+		});
+		bChooseChaturanga.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {	
+				panelChoose.removeAll();
+				panelChoose.setVisible(false);
+				f.remove(panelChoose);
+				panelChoose=null;
+				panel.removeAll();
+				panel.setVisible(false);
+				f.remove(panel);
+				panel=null;
+				MainExe.switchToChesstoryGame(GAMETYPE_CHATURANGA);	
 			}
 		});
 		bChooseBack.addActionListener(new ActionListener() {

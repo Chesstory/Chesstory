@@ -911,7 +911,7 @@ public class Echiquier {
 	 */
 	public void accessibleWhitePawn(int i, int j, Piece p) {
 		// On 2nd line maggle
-		if (j == 1 && c[i][j + p.getMaxY() + 1].isEmpty() && p.getMaxY() < dimY) {
+		if (p.getCode() == 'P' && j == 1 && c[i][j + p.getMaxY() + 1].isEmpty() && p.getMaxY() < dimY) {
 			p.addCaseAccessible(new Position(i, j + p.getMaxY() + 1));
 			p.addCaseSpec(new Position(i, j + p.getMaxY() + 1));
 		}
@@ -966,7 +966,7 @@ public class Echiquier {
 			}
 		}
 		// Prise en passant (baguette)
-		if (priseEnPass) {
+		if (p.getCode() == 'P' && priseEnPass) {
 			// Right one
 			if (existCase(i + 1, j) && !c[i + 1][j].isEmpty() && c[i + 1][j].getPiece().getCode() == 'p'
 					&& c[i + 1][j].getPiece().isMoved() && c[i + 1][j + 1].isEmpty()) {
@@ -983,8 +983,8 @@ public class Echiquier {
 	}
 
 	/**
-	 * Add 'special moves' of the black pawn (miamage and prise en passant (french
-	 * accent included))
+	 * Add 'special moves' of the black pawn (miamage and prise en passant
+	 * (french accent included))
 	 * 
 	 * @param i
 	 *            Die X kohordone ! Ach ! (with german accent my general)
@@ -997,7 +997,7 @@ public class Echiquier {
 		boolean fini;
 		int parcI, parcJ;
 		// On ANTEPENULTIEME(FDP) line
-		if (j == (dimY - 2) && c[i][j - p.getMaxY() - 1].isEmpty() && p.getMaxY() < dimY) {
+		if (p.getCode() == 'p' && j == (dimY - 2) && c[i][j - p.getMaxY() - 1].isEmpty() && p.getMaxY() < dimY) {
 			parcJ = j;
 			fini = false;
 			while (!fini && parcJ < (j + p.getMaxY())) {
@@ -1060,7 +1060,7 @@ public class Echiquier {
 			}
 		}
 		// Prise en passant (baguette)
-		if (priseEnPass) {
+		if (p.getCode() == 'p' && priseEnPass) {
 			// Right one
 			if (existCase(i + 1, j) && !c[i + 1][j].isEmpty() && c[i + 1][j].getPiece().getCode() == 'P'
 					&& c[i + 1][j].getPiece().isMoved() && c[i + 1][j - 1].isEmpty()) {
@@ -1095,11 +1095,13 @@ public class Echiquier {
 						accessibleKnight(i, j);
 
 					// White pawn with 'normal' dep capacities
-					if (p.getCode() == 'P' && !p.getBackward() && p.getMaxDiag() == 0 && p.getMaxX() == 0)
+					if ((p.getCode() == 'P' || p.getCode() == 'O' || p.getCode() == 'G') && !p.getBackward()
+							&& p.getMaxDiag() == 0 && p.getMaxX() == 0)
 						accessibleWhitePawn(i, j, p);
 
 					// Black pawn with 'normal' dep capacities
-					if (p.getCode() == 'p' && !p.getBackward() && p.getMaxDiag() == 0 && p.getMaxX() == 0)
+					if ((p.getCode() == 'p' || p.getCode() == 'o' || p.getCode() == 'g') && !p.getBackward()
+							&& p.getMaxDiag() == 0 && p.getMaxX() == 0)
 						accessibleBlackPawn(i, j, p);
 
 					if (roque && Character.toLowerCase(p.getCode()) == 'k' && !p.isMoved() && p.getMaxX() == 1)
@@ -1214,7 +1216,8 @@ public class Echiquier {
 								dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
 								if (accessiblePiece(dep))
 									p.addCaseAccessible(parcours);
-								if (!c[parcoursX][parcoursY].isEmpty())
+								if (!c[parcoursX][parcoursY].isEmpty() && Character.toLowerCase(p.getCode()) != 'd'
+										&& Character.toLowerCase(p.getCode()) != 'j')
 									continu = false;
 
 								parcoursX++;
@@ -1237,7 +1240,8 @@ public class Echiquier {
 								dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
 								if (accessiblePiece(dep))
 									p.addCaseAccessible(parcours);
-								if (!c[parcoursX][parcoursY].isEmpty())
+								if (!c[parcoursX][parcoursY].isEmpty() && Character.toLowerCase(p.getCode()) != 'd'
+										&& Character.toLowerCase(p.getCode()) != 'j')
 									continu = false;
 
 								parcoursX--;
@@ -1259,7 +1263,8 @@ public class Echiquier {
 								dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
 								if (accessiblePiece(dep))
 									p.addCaseAccessible(parcours);
-								if (!c[parcoursX][parcoursY].isEmpty())
+								if (!c[parcoursX][parcoursY].isEmpty() && Character.toLowerCase(p.getCode()) != 'd'
+										&& Character.toLowerCase(p.getCode()) != 'j')
 									continu = false;
 
 								parcoursX--;
@@ -1281,7 +1286,8 @@ public class Echiquier {
 								dep = new Deplacement(posPiece, parcours, p.getCode(), p.getColor());
 								if (accessiblePiece(dep))
 									p.addCaseAccessible(parcours);
-								if (!c[parcoursX][parcoursY].isEmpty())
+								if (!c[parcoursX][parcoursY].isEmpty() && Character.toLowerCase(p.getCode()) != 'd'
+										&& Character.toLowerCase(p.getCode()) != 'j')
 									continu = false;
 
 								parcoursX++;

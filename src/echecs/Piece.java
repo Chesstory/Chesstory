@@ -6,6 +6,7 @@
 package echecs;
 
 import java.util.ArrayList;
+import static Controller.ChesstoryConstants.*;
 
 /**
  * Representation of a chess piece. A piece has a name, a code, a color and a
@@ -565,16 +566,22 @@ public class Piece {
 
 		if (maxX == 0)
 			info += "  - It can't move horizontally.\n";
+		else if(maxY >= dimY)
+			info += "  - It can move horizontally.\n";
 		else
 			info += "  - It can moves from " + minX + " cell(s) to " + maxX + " horizontally.\n";
 
 		if (maxY == 0)
 			info += "  - It can't move vertically.\n";
+		else if(maxY >= dimY)
+			info += "  - It can move vertically.\n";
 		else
 			info += "  - It can moves from " + minY + " cell(s) to " + maxY + " vertically.\n";
 
 		if (maxDiag == 0)
 			info += "  - It can't move diagonnally.\n";
+		else if(maxY >= dimY)
+			info += "  - It can move diagonally.\n";
 		else
 			info += "  - It can moves from " + minDiag + " cell(s) to " + maxDiag + " diagonnally.\n";
 
