@@ -1,0 +1,12 @@
+>>>>||----Chesstory_SaveFile_Header--|
+1
+1
+0
+fedcadef/gggggggg/8/8/8/8/GGGGGGGG/FEDCADEF
+baidaq,g,0,0,1,1,0,0,false,false
+roukh,f,1,99,1,99,0,0,true,false
+farzin,c,0,0,0,0,1,1,true,false
+shah,a,1,1,1,1,1,1,true,false
+fil,d,0,0,0,0,2,2,true,false
+faras,e,0,0,0,0,0,0,true,true
+|--Chesstory_SaveFile_Footer----||<<<<
