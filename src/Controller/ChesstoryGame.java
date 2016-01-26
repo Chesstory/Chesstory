@@ -195,7 +195,6 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 		popMenu = new JPopupMenu("Parameters");
 		changeTheme = new JMenu("Choose your theme");
-		popMenu.add(changeTheme);
 		basic = new JMenuItem("Default them");
 		shatranj = new JMenuItem("Shatranj's them");
 		soup = new JMenuItem("Some soup ?");
@@ -208,6 +207,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		changeTheme.add(flashy);
 		changeTheme.add(yeld);
 		changeTheme.add(trveblkmetol);
+		
+		popMenu.add(changeTheme);
 		/*
 		 * arrowLeft.setBorder(BorderFactory.createEmptyBorder());
 		 * arrowLeft.setContentAreaFilled(false);
