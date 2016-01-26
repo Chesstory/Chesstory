@@ -488,15 +488,17 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 				if (response == JOptionPane.NO_OPTION) {
 					disableBrowserView();
 					refreshLabelsGame();
-				} else if (response == JOptionPane.YES_OPTION)
+				} else if (response == JOptionPane.YES_OPTION) {
 					deleteTimer();
+					disableBrowserView();
+					refreshLabelsGame();
+				}
 			}
-
 		}
 	}
 
 	private void browserViewNext() {
-		if (!isBrowserView){
+		if (!isBrowserView) {
 			int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to enter browse mode ?",
 					"Warning you are about to activate browse mode", JOptionPane.YES_NO_OPTION,
 					JOptionPane.WARNING_MESSAGE);
@@ -515,7 +517,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	}
 
 	private void browserViewBack() {
-		if (!isBrowserView){
+		if (!isBrowserView) {
 			int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to enter browse mode ?",
 					"Warning you are about to activate browse mode", JOptionPane.YES_NO_OPTION,
 					JOptionPane.WARNING_MESSAGE);
