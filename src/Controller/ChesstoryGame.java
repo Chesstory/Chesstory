@@ -91,6 +91,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private JTextField textTimerW, textTimerB;
 	private int affPlayerWSec, affPlayerBSec, affPlayerWMin, affPlayerBMin, affPlayerWHou, affPlayerBHou;
 
+	private Music chewy;
+
 	@SuppressWarnings("static-access")
 	public ChesstoryGame(String title, int gameType, JFrame f) {
 		this.gameType = gameType;
@@ -194,8 +196,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		changeTheme = new JMenu("Choose your theme");
 		itemBasic = new JMenuItem("Default them");
 		itemShatranj = new JMenuItem("Shatranj's them");
-		itemSoup = new JMenuItem("Some itemSoup ?");
-		itemFlashy = new JMenuItem("The itemFlashy one");
+		itemSoup = new JMenuItem("Some Soup ?");
+		itemFlashy = new JMenuItem("The Flashy one");
 		itemYeld = new JMenuItem("D - The answer D");
 		itemTrveblkmetol = new JMenuItem("So trve, so kvlt, so blck metol");
 		itemRose = new JMenuItem("Rose");
@@ -212,6 +214,10 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		changeTheme.add(itemOutch);
 
 		popMenu.add(changeTheme);
+
+		//chewy = new Music("src/data/sounds/test.wav");
+		//TODO music
+		
 		/*
 		 * arrowLeft.setBorder(BorderFactory.createEmptyBorder());
 		 * arrowLeft.setContentAreaFilled(false);
@@ -262,9 +268,10 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		bParameters.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (!popMenu.isVisible())
+				if (!popMenu.isVisible()) {
 					popMenu.show(f, 350, 50);
-				else
+					//chewy.play();
+				} else
 					popMenu.setVisible(false);
 			}
 		});
@@ -351,7 +358,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 				YACG.changeTheme(THEM_OUTCH);
 			}
 		});
-		
+
+		// TODO MUSIQUE BABY
+
 		panelTimerB = new JPanel();
 		panelLeftMenuBrowse.add(panelTimerB);
 

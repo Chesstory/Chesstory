@@ -17,6 +17,7 @@ What is already done :
       ~ Time travel (through the game only, sorry)
       ~ If you do this, to avoid time paradox, you must say that you want to do an action
     * Rules of the current game are displayed in the rules text area.
+    * Beautiful set of thems are available !
   
   - Timer added, to avoid time paradox, one more time, it is better to stop it if you travel ...
   	-> One timer for each player, we can remove it if wanted
@@ -30,14 +31,11 @@ What is already done :
     * Check if you did not try to cheat by changing the file.
     
   - Rules :
-    * Pieces and moves rules are customable really easily
-    * Which means, Chaturanga and Shatranj are one button from being alive
+    * Pieces and moves rules are customizable really easily with a graphic interface
     
 What is in progress :
   - Fix one for all the problems of build, where to put the images, saves, and default saves (actually the .JAR won't work properly because of that)
   - Some buttons to select games
-  - Improvement of the graphic interface (like some adjustments on the scrollbars)
-  - Graphic interface to select rules
   - Do a (user-friendly) jdoc and put all the code in the same language (only remains package Controller)
   
 
