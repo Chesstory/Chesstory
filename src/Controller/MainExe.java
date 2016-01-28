@@ -42,10 +42,14 @@ public class MainExe {
 		frame.repaint();
 		frame.revalidate();
 	}
-
-	static void switchToMainMenu() {
+	static void switchToMainMenuFromChesstoryGame(){
 		clearChesstoryGame();
+		mainMenu=new MainMenu(frame, true);
+	}
+	static void switchToMainMenu() {
 		clearEditor();
+		rulesEditor.removeInstance();
+		mainMenu=new MainMenu(frame, true);
 	}
 
 	static void clearMainMenu() {
@@ -57,7 +61,7 @@ public class MainExe {
 	}
 
 	static void clearEditor() {
-
+		rulesEditor=null;
 	}
 
 	static void refreshFrame() {

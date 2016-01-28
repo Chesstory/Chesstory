@@ -36,8 +36,10 @@ public class MainMenu {
 
 	public MainMenu(JFrame f, boolean startToGameChooser) {
 		dimensionButtons = new Dimension(
-				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width / 8,
-				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height / 12);
+				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment()
+						.getMaximumWindowBounds().width / 8,
+				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment()
+						.getMaximumWindowBounds().height / 12);
 		dimensionFillBetweenButtons = new Dimension(0, 50);
 		this.f = f;
 		panel = new JPanel();
@@ -46,73 +48,82 @@ public class MainMenu {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		f.getContentPane().add(panel);
 		if (startToGameChooser) {
-			gameChooser();
+			displayGameChooser();
 		} else {
-			panel.add(Box.createRigidArea(new Dimension(0, 100)));
-			labelBanner = new JLabel("Chesstorygame");
-			labelBanner.setAlignmentY(Component.CENTER_ALIGNMENT);
-			labelBanner.setAlignmentX(Component.CENTER_ALIGNMENT);
-			labelBanner.setFont(new Font("Papyrus", Font.PLAIN, 32));
-			panel.add(labelBanner);
-			panel.add(Box.createRigidArea(dimensionFillBetweenButtons));
-			bPlayGame = new JButton("Play Game");
-			bPlayGame.setMaximumSize(dimensionButtons);
-			bPlayGame.setAlignmentY(Component.CENTER_ALIGNMENT);
-			bPlayGame.setAlignmentX(Component.CENTER_ALIGNMENT);
-			panel.add(bPlayGame);
-			panel.add(Box.createRigidArea(dimensionFillBetweenButtons));
-			bParameters = new JButton("Parameters");
-			bParameters.setMaximumSize(dimensionButtons);
-			bParameters.setAlignmentY(Component.CENTER_ALIGNMENT);
-			bParameters.setAlignmentX(Component.CENTER_ALIGNMENT);
-			bParameters.setEnabled(false);// TODO remove
-			panel.add(bParameters);
-			panel.add(Box.createRigidArea(dimensionFillBetweenButtons));
-			bExit = new JButton("Exit");
-			bExit.setMaximumSize(dimensionButtons);
-			bExit.setAlignmentY(Component.CENTER_ALIGNMENT);
-			bExit.setAlignmentX(Component.CENTER_ALIGNMENT);
-			panel.add(bExit);
-			bPlayGame.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					f.remove(panel);
-					gameChooser();
-				}
-			});
-			bParameters.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO parameters
-				}
-			});
-			bExit.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO confirm dialogbox
-					System.exit(0);
-				}
-			});
+			displayMainMenu();
 		}
 	}
 
-	private void gameChooser() {
-		dimensionChoose = new Dimension(
-				(int) (java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width
-						* (0.2)),
-				(int) (java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height
-						* (0.1)));
+	private void displayMainMenu() {
 		panel.removeAll();
-		panel = new JPanel();
+
+		panel.add(Box.createRigidArea(new Dimension(0, 100)));
+		labelBanner = new JLabel("Chesstorygame");
+		labelBanner.setAlignmentY(Component.CENTER_ALIGNMENT);
+		labelBanner.setAlignmentX(Component.CENTER_ALIGNMENT);
+		labelBanner.setFont(new Font("Papyrus", Font.PLAIN, 32));
+		panel.add(labelBanner);
+		panel.add(Box.createRigidArea(dimensionFillBetweenButtons));
+		bPlayGame = new JButton("Play Game");
+		bPlayGame.setMaximumSize(dimensionButtons);
+		bPlayGame.setAlignmentY(Component.CENTER_ALIGNMENT);
+		bPlayGame.setAlignmentX(Component.CENTER_ALIGNMENT);
+		panel.add(bPlayGame);
+		panel.add(Box.createRigidArea(dimensionFillBetweenButtons));
+		bParameters = new JButton("Parameters");
+		bParameters.setMaximumSize(dimensionButtons);
+		bParameters.setAlignmentY(Component.CENTER_ALIGNMENT);
+		bParameters.setAlignmentX(Component.CENTER_ALIGNMENT);
+		bParameters.setEnabled(false);// TODO remove
+		panel.add(bParameters);
+		panel.add(Box.createRigidArea(dimensionFillBetweenButtons));
+		bExit = new JButton("Exit");
+		bExit.setMaximumSize(dimensionButtons);
+		bExit.setAlignmentY(Component.CENTER_ALIGNMENT);
+		bExit.setAlignmentX(Component.CENTER_ALIGNMENT);
+		panel.add(bExit);
+		bPlayGame.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				f.remove(panel);
+				displayGameChooser();
+			}
+		});
+		bParameters.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO parameters
+			}
+		});
+		bExit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO confirm dialogbox
+				System.exit(0);
+			}
+		});
+	}
+
+	private void displayGameChooser() {
+		dimensionChoose = new Dimension(
+				(int) (java.awt.GraphicsEnvironment
+						.getLocalGraphicsEnvironment().getMaximumWindowBounds().width * (0.2)),
+				(int) (java.awt.GraphicsEnvironment
+						.getLocalGraphicsEnvironment().getMaximumWindowBounds().height * (0.1)));
+		panel.removeAll();
+
 		panel.setBackground(new Color(0x0F3855));
 		f.getContentPane().add(panel);
 		panelChoose = new JPanel();
 		panelChoose.setBackground(new Color(0x234F6E));
-		panelChoose.setPreferredSize(new Dimension(
-				(int) (java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width
-						* (0.90)),
-				(int) (java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height
-						* (0.90))));
+		panelChoose
+				.setPreferredSize(new Dimension(
+						(int) (java.awt.GraphicsEnvironment
+								.getLocalGraphicsEnvironment()
+								.getMaximumWindowBounds().width * (0.90)),
+						(int) (java.awt.GraphicsEnvironment
+								.getLocalGraphicsEnvironment()
+								.getMaximumWindowBounds().height * (0.90))));
 		GridLayout gridLayout = new GridLayout(2, 3);
 		gridLayout.setHgap(20);
 		gridLayout.setVgap(20);
@@ -130,7 +141,6 @@ public class MainMenu {
 		bChooseCustom = new JButton("Custom");
 		panelChoose.add(bChooseCustom);
 		bChooseBack = new JButton("Back");
-		bChooseBack.setEnabled(false);// TODO remove
 		panelChoose.add(bChooseBack);
 		bChooseClassical.addActionListener(new ActionListener() {
 			@Override
@@ -191,8 +201,14 @@ public class MainMenu {
 		bChooseBack.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				displayMainMenu();
+				f.repaint();
+				f.revalidate();
 			}
 		});
+		f.repaint();
 		f.revalidate();
+
 	}
+
 }

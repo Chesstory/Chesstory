@@ -68,7 +68,9 @@ public class RulesEditor extends JFrame implements ItemListener,
 		}
 		return INSTANCE;
 	}
-
+	public static void removeInstance(){
+		INSTANCE=null;
+	}
 	private RulesEditor(JFrame f) {
 		changesWereMade = false;
 		currentPieceWeAreCustomizing = 0;
@@ -217,11 +219,18 @@ public class RulesEditor extends JFrame implements ItemListener,
 								"Confirm exiting the editor",
 								JOptionPane.YES_NO_OPTION,
 								JOptionPane.WARNING_MESSAGE)) {
-					// TODO go back
+					iD.removeThis();
+					iH.removeThis();
+					iV.removeThis();
+					panelBox.removeAll();
+					panel.removeAll();
+					f.remove(panelBox);
+					f.remove(panel);
+					panel=null;
+					MainExe.switchToMainMenu();
 				}
 			}
 		});
-		buttonBack.setEnabled(false);// TODO remove
 		panel.add(buttonBack);
 
 		buttonLaunchGame = new JButton("Launch the game !");
@@ -398,7 +407,10 @@ public class RulesEditor extends JFrame implements ItemListener,
 		public void unCheck() {
 			// checkBox.setSelected(false);
 		}
-
+		 public void removeThis(){
+			 p.removeAll();
+			 p=null;
+		 }
 		public boolean getIsChecked() {
 			return isChecked;
 		}
