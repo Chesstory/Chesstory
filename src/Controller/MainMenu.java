@@ -124,6 +124,8 @@ public class MainMenu {
 				}
 			}
 		});
+		f.repaint();
+		f.revalidate();
 	}
 
 	/**

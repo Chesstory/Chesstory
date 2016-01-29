@@ -294,7 +294,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 				panelRight.removeAll();
 			    scrollPane.removeAll();
 			    panelGlob.removeAll();
-			    f.removeAll();
+			    f.getContentPane().removeAll();
 				MainExe.switchToMainMenuFromChesstoryGame();
 			}
 		});
