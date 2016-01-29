@@ -95,7 +95,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private JTextField textTimerW, textTimerB;
 	private int affPlayerWSec, affPlayerBSec, affPlayerWMin, affPlayerBMin, affPlayerWHou, affPlayerBHou;
 
-	private Music chewy;
+	private Music sound1;
 
 	/**
 	 * Calls YACG to create the chessBoard with the selected rules. And creates
@@ -233,8 +233,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 		popMenu.add(changeTheme);
 
-		// chewy = new Music("src/data/sounds/test.wav");
-		// TODO music
+		ClassLoader cl = this.getClass().getClassLoader();
+
+		sound1 = new Music(cl.getResource("sounds/test2.wav"));
 
 		/*
 		 * arrowLeft.setBorder(BorderFactory.createEmptyBorder());
@@ -243,8 +244,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		// Icon icon =new ImageIcon(new
 		// ImageIcon(cl.getResource("arrow_left.png")).getImage().getScaledInstance(20,
 		// 60, Image.SCALE_DEFAULT));
-		// yolo
-		ClassLoader cl = this.getClass().getClassLoader();
+
 		/*
 		 * Icon icon = new ImageIcon( new
 		 * ImageIcon("./bin/icons/arrow_left.png")
@@ -288,7 +288,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			public void actionPerformed(ActionEvent e) {
 				if (!popMenu.isVisible()) {
 					popMenu.show(f, 350, 50);
-					// chewy.play();
+					sound1.play();
 				} else
 					popMenu.setVisible(false);
 			}

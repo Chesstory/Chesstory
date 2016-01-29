@@ -3,6 +3,8 @@ package Controller;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -18,12 +20,12 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class Music {
 	private Clip clip;
 
-	public Music(String fileName) {
+	public Music(URL fileName) {
 		// specify the sound to play
 		// (assuming the sound can be played by the audio system)
 		// from a wave File
 		try {
-			File file = new File(fileName);
+			File file = new File(fileName.getPath());
 			if (file.exists()) {
 				AudioInputStream sound = AudioSystem.getAudioInputStream(file);
 				// load the sound into memory (a Clip)
