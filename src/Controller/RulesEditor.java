@@ -199,6 +199,7 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				changesWereMade = true;
+				buttonConfirmChanges.setEnabled(true);
 			}
 		});
 		panel.add(checkBoxCanGoBack);
@@ -209,6 +210,7 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				changesWereMade = true;
+				buttonConfirmChanges.setEnabled(true);
 			}
 		});
 		panel.add(checkBoxHasKnightMove);
@@ -220,9 +222,12 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 														// displayed in the //
 														// array
 				saveChangesOnAPiece();
+				buttonConfirmChanges.setEnabled(false);
+				changesWereMade = false;
 			}
 		});
 		panel.add(buttonConfirmChanges);
+		buttonConfirmChanges.setEnabled(false);
 
 		buttonBack = new JButton("Back");
 		buttonBack.addActionListener(new ActionListener() {
@@ -298,7 +303,7 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 	}
 
 	/**
-	 * Refresh what is displayed on the interface.
+	 * Refresh what is displayed on the interface for a new chess piece.
 	 */
 	private void refreshEditorVariables() {
 		iH.setSliderMinValue(Integer.parseInt(pieceRules[currentPieceWeAreCustomizing][2]));
@@ -312,6 +317,8 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 		iD.unCheck();
 		checkBoxCanGoBack.setSelected(Boolean.parseBoolean(pieceRules[currentPieceWeAreCustomizing][8]));
 		checkBoxHasKnightMove.setSelected(Boolean.parseBoolean(pieceRules[currentPieceWeAreCustomizing][9]));
+		buttonConfirmChanges.setEnabled(false);
+		changesWereMade = false;
 
 		f.repaint();
 		f.revalidate();
@@ -385,6 +392,7 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 				@Override
 				public void stateChanged(ChangeEvent e) {
 					changesWereMade = true;
+					buttonConfirmChanges.setEnabled(true);
 					textFieldMin.setText("" + sliderMin.getValue());
 					if (sliderMin.getValue() > sliderMax.getValue())
 						sliderMax.setValue(sliderMin.getValue());
@@ -394,6 +402,7 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 				@Override
 				public void stateChanged(ChangeEvent e) {
 					changesWereMade = true;
+					buttonConfirmChanges.setEnabled(true);
 					textFieldMax.setText("" + sliderMax.getValue());
 					if (sliderMax.getValue() < sliderMin.getValue())
 						sliderMin.setValue(sliderMax.getValue());
