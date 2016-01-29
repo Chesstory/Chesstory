@@ -1,7 +1,15 @@
 package Controller;
+
 import java.util.ArrayList;
 import echecs.Deplacement;
 
+/**
+ * Contains what is needed to load and save a chess game. Which means the move
+ * that occurs during the game, a formated array of the rules, etc
+ * 
+ * @author Acevedo Roman and Guillemot Baptiste.
+ *
+ */
 public class GameSave {
 	private boolean isGameCorrupted;
 	private int gameId;
@@ -9,75 +17,112 @@ public class GameSave {
 	private String FEN;
 	private String[] arrayRulePiece;
 	private ArrayList<Deplacement> moveList;
-	
-	public GameSave(boolean isGameCorrupted, int gameId, int gameType,
-			ArrayList<Deplacement> moveList, String FEN, String[] arrayRulePiece){
-		this.arrayRulePiece=arrayRulePiece;
-		this.FEN=FEN;
-		this.isGameCorrupted=isGameCorrupted;
-		this.gameId=gameId;
-		this.gameType=gameType;
-		this.moveList=moveList;
+
+	public GameSave(boolean isGameCorrupted, int gameId, int gameType, ArrayList<Deplacement> moveList, String FEN,
+			String[] arrayRulePiece) {
+		this.arrayRulePiece = arrayRulePiece;
+		this.FEN = FEN;
+		this.isGameCorrupted = isGameCorrupted;
+		this.gameId = gameId;
+		this.gameType = gameType;
+		this.moveList = moveList;
 	}
-	public boolean getIsGameCorrupted(){
+
+	/**
+	 * @return If the game is corrupted
+	 */
+	public boolean getIsGameCorrupted() {
 		return isGameCorrupted;
 	}
-	public int getGameId(){
+
+	/**
+	 * @return Game ID
+	 */
+	public int getGameId() {
 		return gameId;
 	}
-	public int getGameType(){
+
+	/**
+	 * @return Game type
+	 */
+	public int getGameType() {
 		return gameType;
 	}
-	public String getFEN(){
+
+	/**
+	 * @return FEN Code
+	 */
+	public String getFEN() {
 		return FEN;
 	}
-	public String[] getArrayRulePiece(){
+
+	/**
+	 * @return Formated move set of the chess pieces
+	 */
+	public String[] getArrayRulePiece() {
 		return arrayRulePiece;
 	}
-	public ArrayList<Deplacement> getMoveList(){
+
+	/**
+	 * @return ArrayList of the moves to save
+	 */
+	public ArrayList<Deplacement> getMoveList() {
 		return moveList;
 	}
+
 	/**
-	 * @param isGameCorrupted the isGameCorrupted to set
+	 * @param isGameCorrupted
+	 *            the isGameCorrupted to set
 	 */
 	void setGameCorrupted(boolean isGameCorrupted) {
 		this.isGameCorrupted = isGameCorrupted;
 	}
+
 	/**
-	 * @param gameId the gameId to set
+	 * @param gameId
+	 *            The gameId to set
 	 */
 	void setGameId(int gameId) {
 		this.gameId = gameId;
 	}
+
 	/**
-	 * @param gameType the gameType to set
+	 * @param gameType
+	 *            The gameType to set
 	 */
 	void setGameType(int gameType) {
 		this.gameType = gameType;
 	}
+
 	/**
-	 * @param fEN the fEN to set
+	 * @param fEN
+	 *            The FEN to set
 	 */
 	void setFEN(String fEN) {
 		FEN = fEN;
 	}
+
 	/**
-	 * @param arrayRulePiece the arrayRulePiece to set
+	 * @param arrayRulePiece
+	 *            The arrayRulePiece to set
 	 */
 	void setArrayRulePiece(String[] arrayRulePiece) {
 		this.arrayRulePiece = arrayRulePiece;
 	}
+
 	/**
-	 * @param moveList the moveList to set
+	 * @param moveList
+	 *            The moveList to set
 	 */
 	void setMoveList(ArrayList<Deplacement> moveList) {
 		this.moveList = moveList;
 	}
-	public String toString(){
-		String s="_";
-		for(int i=0;i<arrayRulePiece.length;i++){
-			s+=arrayRulePiece[i];
-			s+=",";
+
+	public String toString() {
+		String s = "_";
+		for (int i = 0; i < arrayRulePiece.length; i++) {
+			s += arrayRulePiece[i];
+			s += ",";
 		}
 		return s;
 	}

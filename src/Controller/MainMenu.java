@@ -13,10 +13,19 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import static Controller.ChesstoryConstants.*;
 
+/**
+ * The first menu of the game ; It permits the user to choose the game he wants
+ * to play, etc. Which means it contains graphic elements and a set of methods
+ * to instance other classes.
+ * 
+ * @author Acevedo Roman and Guillemot Baptiste.
+ *
+ */
 public class MainMenu {
 	private JFrame f;
 	private JPanel panel;
@@ -34,12 +43,18 @@ public class MainMenu {
 	private JButton bChooseChaturanga;
 	private JButton bChooseCustom;
 
+	/**
+	 * Create the menu and displays it.
+	 * 
+	 * @param f
+	 *            The frame
+	 * @param startToGameChooser
+	 *            Whether it launch to the game chooser or not.
+	 */
 	public MainMenu(JFrame f, boolean startToGameChooser) {
 		dimensionButtons = new Dimension(
-				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment()
-						.getMaximumWindowBounds().width / 8,
-				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment()
-						.getMaximumWindowBounds().height / 12);
+				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width / 8,
+				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height / 12);
 		dimensionFillBetweenButtons = new Dimension(0, 50);
 		this.f = f;
 		panel = new JPanel();
@@ -54,6 +69,9 @@ public class MainMenu {
 		}
 	}
 
+	/**
+	 * Display the menu, with all the labels, panels, etc.
+	 */
 	private void displayMainMenu() {
 		panel.removeAll();
 
@@ -98,32 +116,38 @@ public class MainMenu {
 		bExit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO confirm dialogbox
-				System.exit(0);
+				int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to leave ?",
+						"Warning you are about to leave", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+				if (response == JOptionPane.YES_OPTION) {
+					System.exit(0);
+				}
 			}
 		});
 	}
 
+	/**
+	 * Display the game chooser menu, with the buttons to choose between
+	 * chaturanga, shatran, custon, etc. And add the action listeners to those
+	 * buttons.
+	 */
 	private void displayGameChooser() {
 		dimensionChoose = new Dimension(
-				(int) (java.awt.GraphicsEnvironment
-						.getLocalGraphicsEnvironment().getMaximumWindowBounds().width * (0.2)),
-				(int) (java.awt.GraphicsEnvironment
-						.getLocalGraphicsEnvironment().getMaximumWindowBounds().height * (0.1)));
+				(int) (java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width
+						* (0.2)),
+				(int) (java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height
+						* (0.1)));
 		panel.removeAll();
 
 		panel.setBackground(new Color(0x0F3855));
 		f.getContentPane().add(panel);
 		panelChoose = new JPanel();
 		panelChoose.setBackground(new Color(0x234F6E));
-		panelChoose
-				.setPreferredSize(new Dimension(
-						(int) (java.awt.GraphicsEnvironment
-								.getLocalGraphicsEnvironment()
-								.getMaximumWindowBounds().width * (0.90)),
-						(int) (java.awt.GraphicsEnvironment
-								.getLocalGraphicsEnvironment()
-								.getMaximumWindowBounds().height * (0.90))));
+		panelChoose.setPreferredSize(new Dimension(
+				(int) (java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width
+						* (0.90)),
+				(int) (java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height
+						* (0.90))));
 		GridLayout gridLayout = new GridLayout(2, 3);
 		gridLayout.setHgap(20);
 		gridLayout.setVgap(20);
@@ -133,10 +157,8 @@ public class MainMenu {
 		// bChooseClassical.setPreferredSize(dimensionChoose);
 		panelChoose.add(bChooseClassical);
 		bChooseShatranj = new JButton("Shatranj");
-		// bChooseShatranj.setEnabled(false);//TODO remove
 		panelChoose.add(bChooseShatranj);
 		bChooseChaturanga = new JButton("Chaturanga");
-		// bChooseChaturanga.setEnabled(false);//TODO remove
 		panelChoose.add(bChooseChaturanga);
 		bChooseCustom = new JButton("Custom");
 		panelChoose.add(bChooseCustom);
@@ -208,7 +230,5 @@ public class MainMenu {
 		});
 		f.repaint();
 		f.revalidate();
-
 	}
-
 }

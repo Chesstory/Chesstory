@@ -1,15 +1,11 @@
 package Controller;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.*;
 
 /**
- * @author HiJohn
+ * Contains all the constants we use ! (Themes, font_size, texts, etc)
+ * 
+ * @author Acevedo Roman and Guillemot Baptiste.
  *
  */
 public class ChesstoryConstants {

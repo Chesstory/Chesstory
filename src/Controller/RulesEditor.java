@@ -3,12 +3,8 @@ package Controller;
 import static Controller.ChesstoryConstants.*;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -26,14 +22,20 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.MouseInputListener;
 
-public class RulesEditor extends JFrame implements ItemListener,
-		MouseInputListener {
+/**
+ * Manages everything needed to custom chess pieces. Which includes move
+ * capacity, departure FEN, etc.
+ * 
+ * @author Acevedo Roman and Guillemot Baptiste.
+ *
+ */
+@SuppressWarnings("serial")
+public class RulesEditor extends JFrame implements ItemListener, MouseInputListener {
 	private JFrame f;
 	private JPanel panel;
 	private JLabel labelTitle;
@@ -59,18 +61,36 @@ public class RulesEditor extends JFrame implements ItemListener,
 
 	private static RulesEditor INSTANCE = null;
 
+	/**
+	 * This class is a singleton. This method permits to be sure of that.
+	 * 
+	 * @param f
+	 *            The frame
+	 * @return A new instance of this or the current one.
+	 */
 	public static RulesEditor getInstance(JFrame f) {
 		if (INSTANCE == null) {
 			INSTANCE = new RulesEditor(f);
 		} else {
-			System.out
-					.println("Critical error this should never happend 2 instances of RulesEditor");
+			System.out.println("Critical error this should never happend 2 instances of RulesEditor");
 		}
 		return INSTANCE;
 	}
-	public static void removeInstance(){
-		INSTANCE=null;
+
+	/**
+	 * Remove the current instance of this class.
+	 */
+	public static void removeInstance() {
+		INSTANCE = null;
 	}
+
+	/**
+	 * Manage everything that is needed to custom the move set of the chess
+	 * pieces.
+	 * 
+	 * @param f
+	 *            The frame.
+	 */
 	private RulesEditor(JFrame f) {
 		changesWereMade = false;
 		currentPieceWeAreCustomizing = 0;
@@ -79,36 +99,33 @@ public class RulesEditor extends JFrame implements ItemListener,
 		panel.setAlignmentX(CENTER_ALIGNMENT);
 		panel.setAlignmentY(CENTER_ALIGNMENT);
 		panel.setMaximumSize(new Dimension(
-				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment()
-						.getMaximumWindowBounds().width / 2,
-				(int)(java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment()
-						.getMaximumWindowBounds().height *0.90)));
+				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width / 2,
+				(int) (java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height
+						* 0.90)));
 		panel.setBackground(new Color(0x234F6E));
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		f.getContentPane().add(panel);
 		returnString = new String[NB_PIECE];
 		loadedRules = FileController.loadFile(FILE_DEFAULT_CLASSICAL);
-		currentFEN=loadedRules.getFEN();
+		currentFEN = loadedRules.getFEN();
 		pieceRules = new String[NB_PIECE][NB_RULE_PER_PIECE];
-		nameOfPieces = new String[] { "Piece 1 'pawn'", "Piece 2 'rook'",
-				"Piece 3 'queen'", "Piece 4 'king'", "Piece 5 'bishop'",
-				"Piece 6 'knight'" };// TODO we may need to change the names
+		nameOfPieces = new String[] { "Piece 1 'pawn'", "Piece 2 'rook'", "Piece 3 'queen'", "Piece 4 'king'",
+				"Piece 5 'bishop'", "Piece 6 'knight'" };// TODO we may need to
+															// change the names
 
 		panel.add(Box.createRigidArea(new Dimension(0, 75)));
 		labelTitle = new JLabel("Game editor");
-		labelTitle.setFont(new Font(FONT_NAME_TITLE_1, Font.PLAIN,
-				FONT_SIZE_TITLE_1));
+		labelTitle.setFont(new Font(FONT_NAME_TITLE_1, Font.PLAIN, FONT_SIZE_TITLE_1));
 		panel.add(labelTitle);
-		
-		
-		textFieldFEN=new JTextField("FEN : ");
+
+		textFieldFEN = new JTextField("FEN : ");
 		textFieldFEN.setText(currentFEN);
-		//textFieldFEN.setColumns(39);
-		textFieldFEN.setMaximumSize(new Dimension(300,20));
+		// textFieldFEN.setColumns(39);
+		textFieldFEN.setMaximumSize(new Dimension(300, 20));
 		textFieldFEN.setAlignmentX(CENTER_ALIGNMENT);
 		textFieldFEN.setAlignmentY(CENTER_ALIGNMENT);
 		panel.add(textFieldFEN);
-		
+
 		JPanel panelBox = new JPanel();
 		panelBox.setAlignmentX(CENTER_ALIGNMENT);
 		panelBox.setAlignmentY(CENTER_ALIGNMENT);
@@ -120,30 +137,31 @@ public class RulesEditor extends JFrame implements ItemListener,
 		comboBox.setMaximumSize(new Dimension(200, 20));
 		comboBox.setSelectedItem(1);
 		comboBox.addActionListener(new ActionListener() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int response = JOptionPane.YES_OPTION;
 				if (changesWereMade) {
-					response = JOptionPane
-							.showConfirmDialog(
-									null,
-									"You're about to loose current modifications of the piece "
-											+ (currentPieceWeAreCustomizing + 1),
-									"Warning you're about to loose current modification",
-									JOptionPane.YES_NO_OPTION,
-									JOptionPane.WARNING_MESSAGE);
+					response = JOptionPane.showConfirmDialog(null,
+							"You're about to loose current modifications of the piece "
+									+ (currentPieceWeAreCustomizing + 1),
+							"Warning you're about to loose current modification", JOptionPane.YES_NO_OPTION,
+							JOptionPane.WARNING_MESSAGE);
 				}
 				if (response == JOptionPane.YES_OPTION) {
-					currentPieceWeAreCustomizing = Integer
-							.parseInt(((String) (((JComboBox<String>) e
-									.getSource()).getSelectedItem())).split(
-									" ", -1)[1]) - 1;
+					currentPieceWeAreCustomizing = Integer.parseInt(
+							((String) (((JComboBox<String>) e.getSource()).getSelectedItem())).split(" ", -1)[1]) - 1;
 					refreshEditorVariables();
 					changesWereMade = false;
 					// System.out.println("ActionListener : action sur " +
 					// ((JComboBox<String>)
-					// e.getSource()).getSelectedItem()+", piece : "+currentPieceWeAreCustomizing);
-					// System.out.println("Get name : "+pieceRules[currentPieceWeAreCustomizing][0]+", back : "+Boolean.parseBoolean(pieceRules[currentPieceWeAreCustomizing][8])+", string : "+loadedRules.getArrayRulePiece()[currentPieceWeAreCustomizing]);
+					// e.getSource()).getSelectedItem()+", piece :
+					// "+currentPieceWeAreCustomizing);
+					// System.out.println("Get name :
+					// "+pieceRules[currentPieceWeAreCustomizing][0]+", back :
+					// "+Boolean.parseBoolean(pieceRules[currentPieceWeAreCustomizing][8])+",
+					// string :
+					// "+loadedRules.getArrayRulePiece()[currentPieceWeAreCustomizing]);
 				} else {
 					if (changesWereMade) {
 						System.out.println("cvhfxd");
@@ -155,27 +173,25 @@ public class RulesEditor extends JFrame implements ItemListener,
 		panelBox.add(comboBox);
 
 		for (int p = 0; p < NB_PIECE; p++) {
-			// System.out.println("p : "+p+", raw result : "+loadedRules.toString());
-			// System.out.println("RESULT :"+loadedRules.getArrayRulePiece()[p]);
+			// System.out.println("p : "+p+", raw result :
+			// "+loadedRules.toString());
+			// System.out.println("RESULT
+			// :"+loadedRules.getArrayRulePiece()[p]);
 			String temp[] = loadedRules.getArrayRulePiece()[p].split(",", -1);
 			for (int r = 0; r < NB_RULE_PER_PIECE; r++) {
 
 				pieceRules[p][r] = temp[r];
 				// TODO PRESQUE
 
-				// System.out.println("p : "+p+", r : "+r+", result : "+temp[r]);
+				// System.out.println("p : "+p+", r : "+r+", result :
+				// "+temp[r]);
 			}
 		}
 
-		iH = new ItemSliderChecked("Horizontal",
-				Integer.parseInt(pieceRules[0][2]),
+		iH = new ItemSliderChecked("Horizontal", Integer.parseInt(pieceRules[0][2]),
 				Integer.parseInt(pieceRules[0][3]));
-		iV = new ItemSliderChecked("Vertical",
-				Integer.parseInt(pieceRules[0][4]),
-				Integer.parseInt(pieceRules[0][5]));
-		iD = new ItemSliderChecked("Diagonal",
-				Integer.parseInt(pieceRules[0][6]),
-				Integer.parseInt(pieceRules[0][7]));
+		iV = new ItemSliderChecked("Vertical", Integer.parseInt(pieceRules[0][4]), Integer.parseInt(pieceRules[0][5]));
+		iD = new ItemSliderChecked("Diagonal", Integer.parseInt(pieceRules[0][6]), Integer.parseInt(pieceRules[0][7]));
 
 		checkBoxCanGoBack = new JCheckBox("Can the piece go backwards ? ");
 		checkBoxCanGoBack.setSelected(Boolean.parseBoolean(pieceRules[0][8]));
@@ -188,8 +204,7 @@ public class RulesEditor extends JFrame implements ItemListener,
 		panel.add(checkBoxCanGoBack);
 
 		checkBoxHasKnightMove = new JCheckBox("Add knight move ?");
-		checkBoxHasKnightMove.setSelected(Boolean
-				.parseBoolean(pieceRules[0][9]));
+		checkBoxHasKnightMove.setSelected(Boolean.parseBoolean(pieceRules[0][9]));
 		checkBoxHasKnightMove.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -202,7 +217,8 @@ public class RulesEditor extends JFrame implements ItemListener,
 		buttonConfirmChanges.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {// Save the currents var
-														// displayed in the				// array
+														// displayed in the //
+														// array
 				saveChangesOnAPiece();
 			}
 		});
@@ -212,13 +228,9 @@ public class RulesEditor extends JFrame implements ItemListener,
 		buttonBack.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (JOptionPane.YES_OPTION == JOptionPane
-						.showConfirmDialog(
-								null,
-								"Are you sure to exit the editor ? \nYou will loose all current modifications",
-								"Confirm exiting the editor",
-								JOptionPane.YES_NO_OPTION,
-								JOptionPane.WARNING_MESSAGE)) {
+				if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null,
+						"Are you sure to exit the editor ? \nYou will loose all current modifications",
+						"Confirm exiting the editor", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE)) {
 					iD.removeThis();
 					iH.removeThis();
 					iV.removeThis();
@@ -226,7 +238,7 @@ public class RulesEditor extends JFrame implements ItemListener,
 					panel.removeAll();
 					f.remove(panelBox);
 					f.remove(panel);
-					panel=null;
+					panel = null;
 					MainExe.switchToMainMenu();
 				}
 			}
@@ -240,11 +252,10 @@ public class RulesEditor extends JFrame implements ItemListener,
 
 				saveChangesOnAPiece();
 				for (int p = 0; p < NB_PIECE; p++) {
-					returnString[p] = pieceRules[p][0] + "," + pieceRules[p][1]
-							+ "," + pieceRules[p][2] + "," + pieceRules[p][3]
-							+ "," + pieceRules[p][4] + "," + pieceRules[p][5]
-							+ "," + pieceRules[p][6] + "," + pieceRules[p][7]
-							+ "," + pieceRules[p][8] + "," + pieceRules[p][9];
+					returnString[p] = pieceRules[p][0] + "," + pieceRules[p][1] + "," + pieceRules[p][2] + ","
+							+ pieceRules[p][3] + "," + pieceRules[p][4] + "," + pieceRules[p][5] + ","
+							+ pieceRules[p][6] + "," + pieceRules[p][7] + "," + pieceRules[p][8] + ","
+							+ pieceRules[p][9];
 					System.out.println("FINAL LIST : " + returnString[p]);
 				}
 				iH.getP().removeAll();
@@ -266,13 +277,16 @@ public class RulesEditor extends JFrame implements ItemListener,
 		panel.add(buttonLaunchGame);
 	}
 
+	/**
+	 * Save changes made by the user on a piece in the custom panel.
+	 */
 	private void saveChangesOnAPiece() {
 		int p = currentPieceWeAreCustomizing;
-		changesWereMade=false;
+		changesWereMade = false;
 		System.out.println("WHYYYYYYYYY");
 		// pieceRules[p][0]=;
 		// pieceRules[p][1]=;
-		currentFEN=textFieldFEN.getText();
+		currentFEN = textFieldFEN.getText();
 		pieceRules[p][2] = Integer.toString(iH.getSliderMinValue());
 		pieceRules[p][3] = Integer.toString(iH.getSliderMaxValue());
 		pieceRules[p][4] = Integer.toString(iV.getSliderMinValue());
@@ -283,32 +297,33 @@ public class RulesEditor extends JFrame implements ItemListener,
 		pieceRules[p][9] = Boolean.toString(checkBoxHasKnightMove.isSelected());
 	}
 
+	/**
+	 * Refresh what is displayed on the interface.
+	 */
 	private void refreshEditorVariables() {
-		iH.setSliderMinValue(Integer
-				.parseInt(pieceRules[currentPieceWeAreCustomizing][2]));
-		iH.setSliderMaxValue(Integer
-				.parseInt(pieceRules[currentPieceWeAreCustomizing][3]));
-		iV.setSliderMinValue(Integer
-				.parseInt(pieceRules[currentPieceWeAreCustomizing][4]));
-		iV.setSliderMaxValue(Integer
-				.parseInt(pieceRules[currentPieceWeAreCustomizing][5]));
-		iD.setSliderMinValue(Integer
-				.parseInt(pieceRules[currentPieceWeAreCustomizing][6]));
-		iD.setSliderMaxValue(Integer
-				.parseInt(pieceRules[currentPieceWeAreCustomizing][7]));
+		iH.setSliderMinValue(Integer.parseInt(pieceRules[currentPieceWeAreCustomizing][2]));
+		iH.setSliderMaxValue(Integer.parseInt(pieceRules[currentPieceWeAreCustomizing][3]));
+		iV.setSliderMinValue(Integer.parseInt(pieceRules[currentPieceWeAreCustomizing][4]));
+		iV.setSliderMaxValue(Integer.parseInt(pieceRules[currentPieceWeAreCustomizing][5]));
+		iD.setSliderMinValue(Integer.parseInt(pieceRules[currentPieceWeAreCustomizing][6]));
+		iD.setSliderMaxValue(Integer.parseInt(pieceRules[currentPieceWeAreCustomizing][7]));
 		iH.unCheck();
 		iV.unCheck();
 		iD.unCheck();
-		checkBoxCanGoBack.setSelected(Boolean
-				.parseBoolean(pieceRules[currentPieceWeAreCustomizing][8]));
-		checkBoxHasKnightMove.setSelected(Boolean
-				.parseBoolean(pieceRules[currentPieceWeAreCustomizing][9]));
+		checkBoxCanGoBack.setSelected(Boolean.parseBoolean(pieceRules[currentPieceWeAreCustomizing][8]));
+		checkBoxHasKnightMove.setSelected(Boolean.parseBoolean(pieceRules[currentPieceWeAreCustomizing][9]));
 
 		f.repaint();
 		f.revalidate();
 	}
 
 	// TODO constructor without initialization
+	/**
+	 * Manage the slide bars.
+	 * 
+	 * @author Acevedo Roman and Guillemot Baptiste.
+	 *
+	 */
 	class ItemSliderChecked {
 		private JPanel p;
 		private JLabel label;
@@ -407,10 +422,12 @@ public class RulesEditor extends JFrame implements ItemListener,
 		public void unCheck() {
 			// checkBox.setSelected(false);
 		}
-		 public void removeThis(){
-			 p.removeAll();
-			 p=null;
-		 }
+
+		public void removeThis() {
+			p.removeAll();
+			p = null;
+		}
+
 		public boolean getIsChecked() {
 			return isChecked;
 		}

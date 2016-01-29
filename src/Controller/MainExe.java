@@ -6,6 +6,12 @@ import java.awt.GraphicsEnvironment;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 
+/**
+ * The Main of this project, it starts the program !
+ * 
+ * @author Acevedo Roman and Guillemot Baptiste.
+ *
+ */
 public class MainExe {
 	static MainMenu mainMenu;
 	static ChesstoryGame chesstoryGame;
@@ -32,7 +38,7 @@ public class MainExe {
 	}
 
 	static void switchToChesstoryGame(int gameType, String fileName) {
-		rulesEditor=null;
+		rulesEditor = null;
 		chesstoryGame = new ChesstoryGame(fileName, gameType, frame);
 	}
 
@@ -42,14 +48,16 @@ public class MainExe {
 		frame.repaint();
 		frame.revalidate();
 	}
-	static void switchToMainMenuFromChesstoryGame(){
+
+	static void switchToMainMenuFromChesstoryGame() {
 		clearChesstoryGame();
-		mainMenu=new MainMenu(frame, true);
+		mainMenu = new MainMenu(frame, true);
 	}
+
 	static void switchToMainMenu() {
 		clearEditor();
 		rulesEditor.removeInstance();
-		mainMenu=new MainMenu(frame, true);
+		mainMenu = new MainMenu(frame, true);
 	}
 
 	static void clearMainMenu() {
@@ -61,11 +69,10 @@ public class MainExe {
 	}
 
 	static void clearEditor() {
-		rulesEditor=null;
+		rulesEditor = null;
 	}
 
 	static void refreshFrame() {
 
 	}
-
 }
