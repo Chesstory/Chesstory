@@ -154,7 +154,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			playerWTimeLeft = playerBTimeLeft = initialTime / 1000;
 			initTimer();
 		}
-
+		
 		moveList = new ArrayList<Deplacement>();
 		moveListCursor = -1;
 
@@ -232,11 +232,11 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		changeTheme.add(itemOutch);
 
 		popMenu.add(changeTheme);
-
+		
 		ClassLoader cl = this.getClass().getClassLoader();
 
-		sound1 = new Music(cl.getResource("sounds/test2.wav"));
-
+		//sound1 = new Music(cl.getResource("sounds/test2.wav"));
+		
 		/*
 		 * arrowLeft.setBorder(BorderFactory.createEmptyBorder());
 		 * arrowLeft.setContentAreaFilled(false);

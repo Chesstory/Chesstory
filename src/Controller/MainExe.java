@@ -2,6 +2,7 @@ package Controller;
 
 import java.awt.Color;
 import java.awt.GraphicsEnvironment;
+import java.io.File;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -17,8 +18,8 @@ public class MainExe {
 	static ChesstoryGame chesstoryGame;
 	static RulesEditor rulesEditor;
 	static JFrame frame;
-
 	public static void main(String[] args) {
+		
 		frame = new JFrame();
 		frame.setSize(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width,
 				GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height);
@@ -30,6 +31,11 @@ public class MainExe {
 		mainMenu = new MainMenu(frame, false);
 		frame.repaint();
 		frame.revalidate();
+		
+		/*File file= new File("data/defaultSaves/default_SHATRANJ.txt");
+		if(new File().ex){
+			
+		}*/
 	}
 
 	static void switchToChesstoryGame(int gameType) {
