@@ -219,6 +219,7 @@ public class MainMenu {
 				panel.setVisible(false);
 				f.remove(panel);
 				panel = null;
+				f.getContentPane().removeAll();
 				MainExe.switchToChesstoryGame(GAMETYPE_CHATURANGA);
 			}
 		});
@@ -226,8 +227,6 @@ public class MainMenu {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				displayMainMenu();
-				f.repaint();
-				f.revalidate();
 			}
 		});
 		f.repaint();
