@@ -564,4 +564,14 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		caseSpec = theme[3];
 		drawChessboard();
 	}
+	/**
+	 * Used for closing YACG from the inside 
+	 * 
+	 */
+	public void close(){
+		layeredPane.removeAll();
+		chessBoard.removeAll();
+		layeredPane=null;
+		chessBoard=null;
+	}
 }

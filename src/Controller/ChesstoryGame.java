@@ -48,6 +48,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private JButton bLoad;
 	private JButton bSave;
 	private JButton bParameters;
+	private JButton bBack;
 	private JButton bExit;
 	private JButton arrowLeft;
 	private JButton arrowMiddle;
@@ -182,7 +183,10 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		bParameters = new JButton("Parameters");
 		// bParameters.setEnabled(false);// TODO remove
 		panelLeftMenuMain.add(bParameters);
-
+		
+		bBack = new JButton("Back");
+		panelLeftMenuMain.add(bBack);
+		
 		bExit = new JButton("Exit");
 		panelLeftMenuMain.add(bExit);
 
@@ -273,6 +277,25 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 					//chewy.play();
 				} else
 					popMenu.setVisible(false);
+			}
+		});
+		bBack.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				YACG.close();
+				YACG=null;
+				panelTimerW.removeAll(); 
+				panelTimerB.removeAll();
+				panelLeftChessboard.removeAll();
+				panelLeftMenu.removeAll();
+				panelLeftMenuBrowse.removeAll();
+				panelLeftMenuMain.removeAll();
+				panelLeft.removeAll();
+				panelRight.removeAll();
+			    scrollPane.removeAll();
+			    panelGlob.removeAll();
+			    f.removeAll();
+				MainExe.switchToMainMenuFromChesstoryGame();
 			}
 		});
 		bExit.addActionListener(new ActionListener() {
