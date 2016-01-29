@@ -4,7 +4,8 @@ package echecs;
  * Represents a position ; The intersection of two points. Ease the use of class
  * Deplacement, etc.
  *
- * @author samuel
+ * @author Acevedo Roman and Guillemot Baptiste, based on Delepoulle Samuel's
+ *         code.
  */
 public class Position {
 	private int x, y;
@@ -37,7 +38,8 @@ public class Position {
 	}
 
 	/**
-	 * Ease the toString() method (which return the standard chess notation of chess case).
+	 * Ease the toString() method (which return the standard chess notation of
+	 * chess case).
 	 * 
 	 * @param i
 	 * @return The letter associated with the given int

@@ -7,19 +7,18 @@ package echecs;
 
 /**
  *
- * @author samuel
+ * @author Acevedo Roman and Guillemot Baptiste, based on Delepoulle Samuel's
+ *         code.
  */
 @SuppressWarnings("serial")
-public class MalformedFENException extends IllegalArgumentException{
-    
-    
-    MalformedFENException(){
-        super();
-    }
-    
-    MalformedFENException(String msg){
-        super(msg);
-    }
-    
-    
+public class MalformedFENException extends IllegalArgumentException {
+
+	MalformedFENException() {
+		super();
+	}
+
+	MalformedFENException(String msg) {
+		super(msg);
+	}
+
 }

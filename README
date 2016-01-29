@@ -12,12 +12,14 @@ What is already done :
   - 'Basic' chess game with workful castling, etc.
   - Graphic interface :
     * Visual hints like in case of check, accessible positions, etc
-    * Chessboard and colors are customable
+    * Chess board and colors are customizable
     * Browser view which includes :
       ~ Time travel (through the game only, sorry)
       ~ If you do this, to avoid time paradox, you must say that you want to do an action
     * Rules of the current game are displayed in the rules text area.
-    * Beautiful set of thems are available !
+    * Beautiful set of themes are available !
+    
+  - Some buttons to select game type
   
   - Timer added, to avoid time paradox, one more time, it is better to stop it if you travel ...
   	-> One timer for each player, we can remove it if wanted
@@ -35,7 +37,6 @@ What is already done :
     
 What is in progress :
   - Fix one for all the problems of build, where to put the images, saves, and default saves (actually the .JAR won't work properly because of that)
-  - Some buttons to select games
   - Do a (user-friendly) jdoc and put all the code in the same language (only remains package Controller)
   
 
@@ -43,7 +44,6 @@ What remains to do (not exhaustiv list) :
   - Add ways to custom rules like castling, prise-en-passant, size of chess board, custom the timer, toggle on/off graphic hints, etc
   - Create Chesstory 2.0, which should be really abstract
   - Save parameters (for all games)
-  - Add some beautiful and shiny color themes !
   - See if we can rotate the chess board (utopia)
   
 If you have any question or request or just want to thank us, please send me an email at :

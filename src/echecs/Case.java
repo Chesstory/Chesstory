@@ -9,7 +9,8 @@ package echecs;
  * Represents a chess case, it has a content (a chess piece or empty) and some
  * method that are helpful for tests in Echiquier.
  *
- * @author samuel
+ * @author Acevedo Roman and Guillemot Baptiste, based on Delepoulle Samuel's
+ *         code.
  */
 
 class Case {

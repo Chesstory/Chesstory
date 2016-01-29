@@ -8,6 +8,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+/**
+ * @author HiJohn
+ *
+ */
 public class ChesstoryConstants {
 	public static final int dimX = 8;
 	public static final int dimY = 8;

@@ -23,7 +23,8 @@ import static Controller.ChesstoryConstants.*;
  * here. It contains a set of boolean to adjusts rules, the specimen chess
  * pieces, the width and height of the chess board, etc
  *
- * @author samuel
+ * @author Acevedo Roman and Guillemot Baptiste, based on Delepoulle Samuel's
+ *         code.
  */
 @SuppressWarnings("unused")
 public class Echiquier {

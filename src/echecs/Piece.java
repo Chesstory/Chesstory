@@ -41,7 +41,8 @@ import static Controller.ChesstoryConstants.*;
  * m : Ratha (rook)<br />
  * o : Padati (pawn)
  *
- * @author samuel
+ * @author Acevedo Roman and Guillemot Baptiste, based on Delepoulle Samuel's
+ *         code.
  */
 public class Piece {
 
@@ -566,21 +567,21 @@ public class Piece {
 
 		if (maxX == 0)
 			info += "  - It can't move horizontally.\n";
-		else if(maxY >= dimY)
+		else if (maxY >= dimY)
 			info += "  - It can move horizontally.\n";
 		else
 			info += "  - It can moves from " + minX + " cell(s) to " + maxX + " horizontally.\n";
 
 		if (maxY == 0)
 			info += "  - It can't move vertically.\n";
-		else if(maxY >= dimY)
+		else if (maxY >= dimY)
 			info += "  - It can move vertically.\n";
 		else
 			info += "  - It can moves from " + minY + " cell(s) to " + maxY + " vertically.\n";
 
 		if (maxDiag == 0)
 			info += "  - It can't move diagonnally.\n";
-		else if(maxY >= dimY)
+		else if (maxY >= dimY)
 			info += "  - It can move diagonally.\n";
 		else
 			info += "  - It can moves from " + minDiag + " cell(s) to " + maxDiag + " diagonnally.\n";

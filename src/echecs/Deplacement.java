@@ -8,7 +8,8 @@ package echecs;
 /**
  * Representation of a move
  * 
- * @author samuel
+ * @author Acevedo Roman and Guillemot Baptiste, based on Delepoulle Samuel's
+ *         code.
  */
 public class Deplacement {
 	private final char pieceCode;
@@ -19,8 +20,8 @@ public class Deplacement {
 	private final int y2;
 
 	/**
-	 * Create a move with two positions, the code of the piece concerned
-	 * and the color of this piece Used in YetAnotherChessGame mainly
+	 * Create a move with two positions, the code of the piece concerned and the
+	 * color of this piece Used in YetAnotherChessGame mainly
 	 * 
 	 * @param p1
 	 *            Departure position

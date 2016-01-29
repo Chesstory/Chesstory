@@ -11,11 +11,6 @@ import echecs.Echiquier;
 import echecs.Piece;
 import echecs.Position;
 
-/**
- * Graphic interface of the chess board.
- *
- * @author samuel
- */
 import java.util.ArrayList;
 
 import javax.swing.border.EmptyBorder;
@@ -23,6 +18,14 @@ import javax.swing.border.BevelBorder;
 
 import static Controller.ChesstoryConstants.*;
 
+/**
+ * Graphic interface of the chess board. It describes everything that is needed
+ * to interact with it and shows the user the state of the chess board.
+ * 
+ * @author Acevedo Roman and Guillemot Baptiste, based on Delepoulle Samuel's
+ *         code.
+ *
+ */
 @SuppressWarnings("serial")
 public final class YetAnotherChessGame extends JFrame implements MouseListener, MouseMotionListener {
 

@@ -28,22 +28,23 @@ see http://www.wtfpl.net/txt/copying/ for no more detail.
  * @author Samuel Delepoulle <delepoulle@lisic.univ-littoral>
  */
 public class Main {
-    public static void main(String[] args){
-        Echiquier e = new Echiquier();
-        e.setFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");        
-        //e.setFEN("rn1q1rk1/pb1p1pnp/2pP2p1/2p1P1P1/2P5/3Q3B/PP1NK2P/5RR1 b KQkq");
-        System.out.println("représentation de l'échiquier");
-        System.out.println(e);
-        
-        System.out.println("son code FEN");
-        System.out.println(e.getFEN());
-        
-        e.executeDeplacement("c2-c4");
-        System.out.println("après déplacement");
-        System.out.println(e);
-        System.out.println(e.getFEN());
-        
-        e.buildAccessiblePositions();
-        //e.affichePositionAccessibles();
-    }
+	public static void main(String[] args) {
+		Echiquier e = new Echiquier();
+		e.setFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+		// e.setFEN("rn1q1rk1/pb1p1pnp/2pP2p1/2p1P1P1/2P5/3Q3B/PP1NK2P/5RR1 b
+		// KQkq");
+		System.out.println("représentation de l'échiquier");
+		System.out.println(e);
+
+		System.out.println("son code FEN");
+		System.out.println(e.getFEN());
+
+		e.executeDeplacement("c2-c4");
+		System.out.println("après déplacement");
+		System.out.println(e);
+		System.out.println(e.getFEN());
+
+		e.buildAccessiblePositions();
+		// e.affichePositionAccessibles();
+	}
 }
