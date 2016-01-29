@@ -30,6 +30,13 @@ import javax.swing.text.DefaultCaret;
 
 import static Controller.ChesstoryConstants.*;
 
+/**
+ * Manages all the graphic elements and actions in-game (but not the chess board
+ * itself), including themes, logs displayer, rules displayer, time travel, etc.
+ * 
+ * @author Acevedo Roman and Guillemot Baptiste
+ *
+ */
 @SuppressWarnings("serial")
 public class ChesstoryGame extends JFrame implements MouseListener {
 
@@ -79,10 +86,6 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private JLabel labelSizeOfMoveList;
 	private JLabel labelMoveListCursor;
 
-	// TODO remove test
-	private JFrame testFrame;
-	private JTextArea testFrameTextArea;
-
 	// Timer
 	private boolean timer;
 	private boolean timerW;
@@ -94,6 +97,18 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 	private Music chewy;
 
+	/**
+	 * Calls YACG to create the chessBoard with the selected rules. And creates
+	 * the buttons, the timers, the text areas, etc. Calls save/load function
+	 * when needed ...
+	 * 
+	 * @param title
+	 *            Title of the game.
+	 * @param gameType
+	 *            Type of the game.
+	 * @param f
+	 *            Frame.
+	 */
 	@SuppressWarnings("static-access")
 	public ChesstoryGame(String title, int gameType, JFrame f) {
 		this.gameType = gameType;
@@ -181,12 +196,11 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		panelLeftMenuMain.add(bSave);
 
 		bParameters = new JButton("Parameters");
-		// bParameters.setEnabled(false);// TODO remove
 		panelLeftMenuMain.add(bParameters);
-		
+
 		bBack = new JButton("Back");
 		panelLeftMenuMain.add(bBack);
-		
+
 		bExit = new JButton("Exit");
 		panelLeftMenuMain.add(bExit);
 
@@ -219,9 +233,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 		popMenu.add(changeTheme);
 
-		//chewy = new Music("src/data/sounds/test.wav");
-		//TODO music
-		
+		// chewy = new Music("src/data/sounds/test.wav");
+		// TODO music
+
 		/*
 		 * arrowLeft.setBorder(BorderFactory.createEmptyBorder());
 		 * arrowLeft.setContentAreaFilled(false);
@@ -274,7 +288,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			public void actionPerformed(ActionEvent e) {
 				if (!popMenu.isVisible()) {
 					popMenu.show(f, 350, 50);
-					//chewy.play();
+					// chewy.play();
 				} else
 					popMenu.setVisible(false);
 			}
@@ -282,9 +296,19 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		bBack.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				int response = JOptionPane.showConfirmDialog(null,
+						"Do you want to save your game before going back to menu ? (Cancel if you don't want to leave)",
+						"Warning you are about to leave", JOptionPane.YES_NO_CANCEL_OPTION,
+						JOptionPane.WARNING_MESSAGE);
+
+				if (response == JOptionPane.YES_OPTION) {
+					saveGame();
+				} else if (response == JOptionPane.CANCEL_OPTION) {
+					return;
+				}
 				YACG.close();
-				YACG=null;
-				panelTimerW.removeAll(); 
+				YACG = null;
+				panelTimerW.removeAll();
 				panelTimerB.removeAll();
 				panelLeftChessboard.removeAll();
 				panelLeftMenu.removeAll();
@@ -292,19 +316,24 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 				panelLeftMenuMain.removeAll();
 				panelLeft.removeAll();
 				panelRight.removeAll();
-			    scrollPane.removeAll();
-			    panelGlob.removeAll();
-			    f.getContentPane().removeAll();
+				scrollPane.removeAll();
+				panelGlob.removeAll();
+				f.getContentPane().removeAll();
 				MainExe.switchToMainMenuFromChesstoryGame();
 			}
 		});
 		bExit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to leave ?",
-						"Warning you are about to leave", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+				int response = JOptionPane.showConfirmDialog(null,
+						"Do you want to save your game before leaving the game ? (Cancel if you don't want to leave)",
+						"Warning you are about to leave", JOptionPane.YES_NO_CANCEL_OPTION,
+						JOptionPane.WARNING_MESSAGE);
 
-				if (response == JOptionPane.YES_OPTION) {
+				if (response == JOptionPane.NO_OPTION) {
+					System.exit(0);
+				} else if (response == JOptionPane.YES_OPTION) {
+					saveGame();
 					System.exit(0);
 				}
 			}
@@ -487,23 +516,29 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		default:
 			addLogsText("ERROR TYPE CHESSTORY GAME CAN'T BE LAUNCHED");
 		}
-
-		// TODO remove test doute
-		testFrame = new JFrame();
-		testFrame.setTitle("Affichage dynamique de la moveList");
-		testFrame.setSize(300, 800);
-		testFrameTextArea = new JTextArea();
-		testFrameTextArea.setText("ARRAYLIST THIS IS NOT SUPPOSED TO BE DISPLAYED");
-		testFrame.getContentPane().add(testFrameTextArea);
-		testFrame.setAlwaysOnTop(true);
-		testFrame.setVisible(false);
-		testFrame.validate();
 	}
 
+	/**
+	 * Allows to add in an easier way texts to the logs text area.
+	 * 
+	 * @param s
+	 *            The String to add.
+	 */
 	public void addLogsText(String s) {
 		logsText.append(s + "\n\r");
 	}
 
+	/**
+	 * Add a formated string that represents the move which has been done to the
+	 * logs displayer.
+	 * 
+	 * @param d
+	 *            The move to add.
+	 * @param piece
+	 *            The piece concerned.
+	 * @param joueur
+	 *            The player concerned.
+	 */
 	public void addLogsMove(Deplacement d, char piece, char joueur) {
 		String color;
 		// TODO addMove, WHY ?
@@ -519,11 +554,24 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		addLogsText(s);
 	}
 
+	/**
+	 * Add a move into the list which is used to travel in time.
+	 * 
+	 * @param d
+	 *            The move to add.
+	 */
 	private void addMove(Deplacement d) {
 		moveList.add(d);
 		moveListCursor = moveList.size() - 1;
 	}
 
+	/**
+	 * addMove(Deplacement d) with the player in addition. Also manage the
+	 * timer's switch.
+	 * 
+	 * @param d
+	 *            The move to add.
+	 */
 	public void addMoveMadeByPlayer(Deplacement d) {
 		addMove(d);
 		addLogsMove(d, d.getPiececode(), d.getColor());
@@ -536,6 +584,16 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			switchTimer(d.getColor());
 	}
 
+	/**
+	 * Displays a text for the several events which can occured in a chess game
+	 * (castling, promotion, check, etc).
+	 * 
+	 * @param i
+	 *            The constant that corresponds to the event.
+	 * @param s
+	 *            The string which contains an other hint (such as the player
+	 *            concerned).
+	 */
 	public void chessEvent(int i, String s) {
 		switch (i) {
 		case CHESS_EVENT_ECHEC:
@@ -565,6 +623,10 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		}
 	}
 
+	/**
+	 * Leave the game mode to enter browse mode. Which include : No interaction
+	 * with the chess board, possibility of time travel and the timer to stop.
+	 */
 	public void enableBrowserView() {
 		adventureTimer.stop();
 		YACG.switchClickable(false);
@@ -575,6 +637,10 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 	}
 
+	/**
+	 * Leave the browser mode to enter play mode. Which include : Interactions
+	 * with the chess board, timer to start and no time travel allowed.
+	 */
 	private void disableBrowserView() {
 		adventureTimer.start();
 		YACG.switchClickable(true);
@@ -584,6 +650,11 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		addLogsText("    > STATE ----> Game view!");
 	}
 
+	/**
+	 * Manages what happens when clicking on the "play" button which means,
+	 * whether the player goes into browse mode or game mode, confirm dialogs,
+	 * etc.
+	 */
 	private void browserViewPlay() {
 		if (!isBrowserView) {
 			int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to enter browse mode ?",
@@ -618,6 +689,10 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		}
 	}
 
+	/**
+	 * Manages what happens when clicking on the "next" button (entering browse
+	 * mode if needed and traveling in time).
+	 */
 	private void browserViewNext() {
 		if (!isBrowserView) {
 			int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to enter browse mode ?",
@@ -637,6 +712,10 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		refreshLabelsGame();
 	}
 
+	/**
+	 * Manages what happens when clicking on the "previous" button (entering
+	 * browse mode if needed and traveling in time).
+	 */
 	private void browserViewBack() {
 		if (!isBrowserView) {
 			int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to enter browse mode ?",
@@ -669,6 +748,10 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		refreshLabelsGame();
 	}
 
+	/**
+	 * Refresh the state of the "next" and "previous" arrows by checking if they
+	 * can be used (if there is a previous or next move).
+	 */
 	private void refreshArrows() {
 		if (moveListCursor == moveList.size()) {
 			if (arrowRight.isEnabled())
@@ -686,26 +769,21 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		}
 	}
 
+	/**
+	 * Refresh the labels (arrows, texts).
+	 */
 	private void refreshLabelsGame() {
 		labelMoveListCursor.setText("Cursor : " + moveListCursor);
 		labelSizeOfMoveList.setText("Size : " + moveList.size());
 		refreshArrows();
-		refreshTestFrame();
 	}
 
-	// TODO remove test
-	private void refreshTestFrame() {
-		/*
-		 * testFrameTextArea.setText(""); if (FENList.size() > 0) { for (int i =
-		 * 0; i < moveList.size(); i++) { // TODO improve display
-		 * 
-		 * testFrameTextArea.append((i + 1) + " >" + moveList.get(i).getColor()
-		 * + " : Déplacement " + moveList.get(i) + " ||FEN: " + FENList.get(i) +
-		 * "\n\r"); } } else { testFrameTextArea.append("FENList size is : " +
-		 * FENList.size()); }
-		 */
-	}
-
+	/**
+	 * Put the needed border in function on the current mode (browse or game).
+	 * 
+	 * @param b
+	 *            Whether we enter or leave the browse mode.
+	 */
 	private void switchBrowserViewBorder(boolean b) {
 		if (b) {
 			panelLeftMenuBrowse.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(0, 255, 255),
@@ -719,6 +797,13 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		loadGame("choosingAFile");
 	}
 
+	/**
+	 * Displays the browser to select a file to load and then load this file if
+	 * possible.
+	 * 
+	 * @param nameOfTheFileToLoad
+	 *            Name of the file.
+	 */
 	public void loadGame(String nameOfTheFileToLoad) {
 		disableBrowserView();// We are in a game
 		System.out.println("---->Init load");
@@ -764,6 +849,10 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 	}
 
+	/**
+	 * Save the current game in a file which will contains rules, state of the
+	 * chess board, etc.
+	 */
 	public void saveGame() {
 		// TODO game id generator
 		gameId = 1;
@@ -773,6 +862,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		FileController.saveFile(g);
 	}
 
+	/**
+	 * Initialize the timer (display, etc).
+	 */
 	private void initTimer() {
 		adventureTimer = new Timer(1000, new ActionListener() {
 			@Override
@@ -810,6 +902,12 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		adventureTimer.start();
 	}
 
+	/**
+	 * Switch the player who is concerned by the timer.
+	 * 
+	 * @param color
+	 *            The player.
+	 */
 	private void switchTimer(char color) {
 		if (color == 'w')
 			timerW = false;
@@ -819,6 +917,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			addLogsText("ERROR : Wrong color for timer switch.");
 	}
 
+	/**
+	 * Delete the timer and its display.
+	 */
 	public void deleteTimer() {
 		adventureTimer.stop();
 		textTimerB.setVisible(false);
