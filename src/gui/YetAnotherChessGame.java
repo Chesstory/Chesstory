@@ -27,7 +27,8 @@ import static Controller.ChesstoryConstants.*;
  *
  */
 @SuppressWarnings("serial")
-public final class YetAnotherChessGame extends JFrame implements MouseListener, MouseMotionListener {
+public final class YetAnotherChessGame extends JFrame implements MouseListener,
+		MouseMotionListener {
 
 	/**
 	 * Background
@@ -90,7 +91,8 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	private void emptyChessboard() {
 		for (int j = 0; j < ech.getDimY(); j++) {
 			for (int i = 0; i < ech.getDimX(); i++) {
-				JPanel panel = (JPanel) chessBoard.getComponent(j * ech.getDimX() + i);
+				JPanel panel = (JPanel) chessBoard.getComponent(j
+						* ech.getDimX() + i);
 				panel.removeAll();
 				panel.repaint();
 			}
@@ -110,8 +112,10 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 					String name = p.getName();
 					String fullName = "icons/" + name + ".png";
 					ClassLoader cl = this.getClass().getClassLoader();
-					JLabel piece = new JLabel(new ImageIcon(cl.getResource(fullName)));
-					JPanel panel = (JPanel) chessBoard.getComponent(j * ech.getDimX() + i);
+					JLabel piece = new JLabel(new ImageIcon(
+							cl.getResource(fullName)));
+					JPanel panel = (JPanel) chessBoard.getComponent(j
+							* ech.getDimX() + i);
 					panel.add(piece);
 				}
 			}
@@ -149,7 +153,8 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	 *            The color in which the cell will be highlighted
 	 */
 	private void highlight(Position pos, Color couleur) {
-		JPanel panel = (JPanel) chessBoard.getComponent((8 - pos.getY() - 1) * ech.getDimX() + pos.getX());
+		JPanel panel = (JPanel) chessBoard.getComponent((8 - pos.getY() - 1)
+				* ech.getDimX() + pos.getX());
 		panel.setBackground(couleur);
 	}
 
@@ -179,11 +184,14 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	public void drawChessboard() {
 		for (int j = 0; j < ech.getDimY(); j++) {
 			for (int i = 0; i < ech.getDimX(); i++) {
-				JPanel panel = (JPanel) chessBoard.getComponent(j * ech.getDimX() + i);
+				JPanel panel = (JPanel) chessBoard.getComponent(j
+						* ech.getDimX() + i);
 				if (i % 2 == 0) {
-					panel.setBackground(j % 2 == 0 ? backgroundTwo : backgroundOne);
+					panel.setBackground(j % 2 == 0 ? backgroundTwo
+							: backgroundOne);
 				} else {
-					panel.setBackground(j % 2 == 0 ? backgroundOne : backgroundTwo);
+					panel.setBackground(j % 2 == 0 ? backgroundOne
+							: backgroundTwo);
 				}
 			}
 		}
@@ -212,9 +220,9 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	public boolean makeDeplacement(Deplacement move) {
 
 		if (ech.isValidMove(move)) {
-			ech.executeDeplacement(move);
+			boolean eaten = ech.executeDeplacement(move);
 			redraw();
-			chesstoryGame.addMoveMadeByPlayer(move);
+			chesstoryGame.addMoveMadeByPlayer(move, eaten);
 			return true;
 		} else
 			return false;
@@ -234,11 +242,12 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		caseAccessible = Color.YELLOW;
 
 		// This a test with the classical chess pieces
-		ech = new Echiquier(new Piece("pion", 'p', 0, 0, 1, 1, 0, 0, false, false),
-				new Piece("dame", 'q', true, true, true, true, false),
-				new Piece("roi", 'k', 1, 1, 1, 1, 1, 1, true, false), new Piece("cavalier", 'n', true),
-				new Piece("fou", 'b', false, false, true, true, false),
-				new Piece("tour", 'r', true, true, false, true, false), this);
+		ech = new Echiquier(new Piece("pawn", 'p', 0, 0, 1, 1, 0, 0, false,
+				false), new Piece("queen", 'q', true, true, true, true, false),
+				new Piece("king", 'k', 1, 1, 1, 1, 1, 1, true, false),
+				new Piece("knight", 'n', true), new Piece("bishop", 'b', false,
+						false, true, true, false), new Piece("rook", 'r', true,
+						true, false, true, false), this);
 
 		ech.setFEN(fenDeDeapart);
 
@@ -304,8 +313,8 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 					chessPiece.setVisible(false);
 					// TODO PLUS RAPIDE FDP
 
-					JPanel panel = (JPanel) chessBoard
-							.getComponent((8 - depart.getY() - 1) * ech.getDimX() + depart.getX());
+					JPanel panel = (JPanel) chessBoard.getComponent((8 - depart
+							.getY() - 1) * ech.getDimX() + depart.getX());
 
 					arrive = new Position((int) ((e.getX() / 600.0) * 8.0),
 							(int) ((((600.0 - e.getY()) / 600.0) * 8.0)));
@@ -314,8 +323,9 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 					// to
 					// later save it in the arraylist
 
-					Deplacement d = new Deplacement(depart, arrive, ech.getPiece(depart).getCode(),
-							ech.getPiece(depart).getColor());
+					Deplacement d = new Deplacement(depart, arrive, ech
+							.getPiece(depart).getCode(), ech.getPiece(depart)
+							.getColor());
 
 					System.out.println("==> Déplacement : " + d);
 
@@ -323,13 +333,19 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 						if ((winner = ech.checkGameIsEnded()) != 'n') {
 							int answer;
 
-							chesstoryGame.addLogsText("It is finished, " + ((winner == 'w') ? "white" : "black")
-									+ " won the game."
-									+ "You can either start a new game, leave or browse back in time to see what you could have done better or to win again !");
-							answer = JOptionPane.showConfirmDialog(null,
-									"The game is finished, do you want to leave ? (you can either browse back in time)",
-									"Warning you are about to leave", JOptionPane.YES_NO_OPTION,
-									JOptionPane.QUESTION_MESSAGE);
+							chesstoryGame
+									.addLogsText("It is finished, "
+											+ ((winner == 'w') ? "white"
+													: "black")
+											+ " won the game."
+											+ "You can either start a new game, leave or browse back in time to see what you could have done better or to win again !");
+							answer = JOptionPane
+									.showConfirmDialog(
+											null,
+											"The game is finished, do you want to leave ? (you can either browse back in time)",
+											"Warning you are about to leave",
+											JOptionPane.YES_NO_OPTION,
+											JOptionPane.QUESTION_MESSAGE);
 
 							if (answer == JOptionPane.YES_OPTION)
 								System.exit(0);
@@ -349,14 +365,16 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 					// Put king in a yoloswaggy color if echec
 					if (ech.isInCheck(ech.getTrait())) {
 						eventInter(CHESS_EVENT_ECHEC,
-								((ech.getTrait() == 'w') ? "In favor of black." : "In favor of white."));
+								((ech.getTrait() == 'w') ? "In favor of black."
+										: "In favor of white."));
 						highlight(ech.searchKing(ech.getTrait()), Color.MAGENTA);
 					}
 					first = true;
 				} else {
 					drawChessboard();
 					chessPiece = null;
-					Component c = chessBoard.findComponentAt(e.getX(), e.getY());
+					Component c = chessBoard
+							.findComponentAt(e.getX(), e.getY());
 					// if it is empty : do nothing
 					if (c instanceof JPanel) {
 						return;
@@ -371,7 +389,8 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 					chessPiece = (JLabel) c;
 
 					// highlight the case
-					highlight(depart, (ech.getTrait() == ech.getPiece(depart).getColor()) ? Color.cyan : Color.red);
+					highlight(depart, (ech.getTrait() == ech.getPiece(depart)
+							.getColor()) ? Color.cyan : Color.red);
 
 					if (ech.getTrait() == ech.getPiece(depart).getColor())
 						afficheLesPositionsDansLeGUI(depart);
@@ -390,14 +409,18 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 			if (c instanceof JPanel) {
 				return;
 			}
-			depart = new Position((int) ((e.getX() / 600.0) * 8.0), (int) ((((600.0 - e.getY()) / 600.0) * 8.0)));
+			depart = new Position((int) ((e.getX() / 600.0) * 8.0),
+					(int) ((((600.0 - e.getY()) / 600.0) * 8.0)));
 
 			chessPieceInfo = ech.getPiece(depart);
 
-			String info = "\nHELP DISPLAY : You clicked on the cell (" + depart.getX() + "," + depart.getY()
-					+ "), it contains a " + ((chessPieceInfo.getColor() == 'w') ? "white" : "black") + " "
-					+ chessPieceInfo.getNameAlone() + ", its code is " + chessPieceInfo.getCode()
-					+ ".\nIts move capacity are the following :\n" + chessPieceInfo.getFancyMoveSet();
+			String info = "\nHELP DISPLAY : You clicked on the cell ("
+					+ depart.getX() + "," + depart.getY() + "), it contains a "
+					+ ((chessPieceInfo.getColor() == 'w') ? "white" : "black")
+					+ " " + chessPieceInfo.getNameAlone() + ", its code is "
+					+ chessPieceInfo.getCode()
+					+ ".\nIts move capacity are the following :\n"
+					+ chessPieceInfo.getFancyMoveSet();
 
 			chesstoryGame.addLogsText(info);
 		}
@@ -425,8 +448,9 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	 */
 	public void switchBorder(boolean b) {
 		if (b) {
-			chessBoard.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(0, 255, 255), new Color(0, 255, 255),
-					new Color(0, 255, 255), new Color(0, 255, 255)));
+			chessBoard.setBorder(new BevelBorder(BevelBorder.LOWERED,
+					new Color(0, 255, 255), new Color(0, 255, 255), new Color(
+							0, 255, 255), new Color(0, 255, 255)));
 		} else {
 			chessBoard.setBorder(new EmptyBorder(0, 0, 0, 0));
 		}
@@ -489,14 +513,16 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 				backward = Boolean.parseBoolean(inter[8]);
 				horse = Boolean.parseBoolean(inter[9]);
 
-				arrayPieces[i] = new Piece(name, code, minX, maxX, minY, maxY, minDiag, maxDiag, backward, horse);
+				arrayPieces[i] = new Piece(name, code, minX, maxX, minY, maxY,
+						minDiag, maxDiag, backward, horse);
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			System.out.println("Error : Setting rules of pieces.");
 		}
 
-		ech.initPieces(arrayPieces[0], arrayPieces[1], arrayPieces[2], arrayPieces[3], arrayPieces[4], arrayPieces[5]);
+		ech.initPieces(arrayPieces[0], arrayPieces[1], arrayPieces[2],
+				arrayPieces[3], arrayPieces[4], arrayPieces[5]);
 	}
 
 	/**
@@ -541,12 +567,18 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 	 *         play with.
 	 */
 	public String getPiecesFancyMoveSet() {
-		String info = "The " + ech.getKingSpec().getNameAlone() + " :\n" + ech.getKingSpec().getFancyMoveSet() + "The "
-				+ ech.getQueenSpec().getNameAlone() + " :\n" + ech.getQueenSpec().getFancyMoveSet() + "The "
-				+ ech.getBishopSpec().getNameAlone() + " :\n" + ech.getBishopSpec().getFancyMoveSet() + "The "
-				+ ech.getKnightSpec().getNameAlone() + " :\n" + ech.getKnightSpec().getFancyMoveSet() + "The "
-				+ ech.getRookSpec().getNameAlone() + " :\n" + ech.getRookSpec().getFancyMoveSet() + "The "
-				+ ech.getPawnSpec().getNameAlone() + " :\n" + ech.getPawnSpec().getFancyMoveSet();
+		String info = "The " + ech.getKingSpec().getNameAlone() + " :\n"
+				+ ech.getKingSpec().getFancyMoveSet() + "The "
+				+ ech.getQueenSpec().getNameAlone() + " :\n"
+				+ ech.getQueenSpec().getFancyMoveSet() + "The "
+				+ ech.getBishopSpec().getNameAlone() + " :\n"
+				+ ech.getBishopSpec().getFancyMoveSet() + "The "
+				+ ech.getKnightSpec().getNameAlone() + " :\n"
+				+ ech.getKnightSpec().getFancyMoveSet() + "The "
+				+ ech.getRookSpec().getNameAlone() + " :\n"
+				+ ech.getRookSpec().getFancyMoveSet() + "The "
+				+ ech.getPawnSpec().getNameAlone() + " :\n"
+				+ ech.getPawnSpec().getFancyMoveSet();
 
 		return info;
 	}
@@ -564,14 +596,15 @@ public final class YetAnotherChessGame extends JFrame implements MouseListener, 
 		caseSpec = theme[3];
 		drawChessboard();
 	}
+
 	/**
-	 * Used for closing YACG from the inside 
+	 * Used for closing YACG from the inside
 	 * 
 	 */
-	public void close(){
+	public void close() {
 		layeredPane.removeAll();
 		chessBoard.removeAll();
-		layeredPane=null;
-		chessBoard=null;
+		layeredPane = null;
+		chessBoard = null;
 	}
 }

@@ -223,6 +223,15 @@ public class Deplacement {
 	 */
 	@Override
 	public String toString() {
-		return color + " " + pieceCode + " " + " (" + x1 + "," + y1 + ") ====> (" + x2 + "," + y2 + ")";
+		char code;
+		if (Character.toLowerCase(pieceCode) == 'p')
+			code = ' ';
+		else
+			code = pieceCode;
+
+		return color + " " + code + new Position(x1, y1) + "-"
+				+ new Position(x2, y2) + "\n              " + color + " "
+				+ pieceCode + " " + " (" + x1 + "," + y1 + ") ====> (" + x2
+				+ "," + y2 + ")";
 	}
 }

@@ -75,7 +75,7 @@ public class Piece {
 	public Piece(String name, char code) {
 		this.name = name;
 		this.code = code;
-		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
+		couleur = (Character.isUpperCase(code)) ? "white" : "black";
 
 		minX = 0;
 		maxX = 0;
@@ -111,7 +111,7 @@ public class Piece {
 			boolean horse) {
 		this.name = name;
 		this.code = code;
-		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
+		couleur = (Character.isUpperCase(code)) ? "white" : "black";
 
 		this.backward = backward;
 		this.moved = false;
@@ -154,7 +154,7 @@ public class Piece {
 			boolean backward, boolean horse) {
 		this.name = name;
 		this.code = code;
-		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
+		couleur = (Character.isUpperCase(code)) ? "white" : "black";
 
 		this.backward = backward;
 		this.moved = false;
@@ -202,7 +202,7 @@ public class Piece {
 	Piece(Piece that, char color) {
 		this.name = new String(that.name);
 		this.code = ((color == 'w') ? Character.toUpperCase(that.code) : that.code);
-		this.couleur = ((color == 'w') ? "blanc" : "noir");
+		this.couleur = ((color == 'w') ? "white" : "black");
 
 		this.minX = that.minX;
 		this.maxX = that.maxX;
@@ -232,7 +232,7 @@ public class Piece {
 	public Piece(String name, char code, boolean horse) {
 		this.name = name;
 		this.code = code;
-		couleur = (Character.isUpperCase(code)) ? "blanc" : "noir";
+		couleur = (Character.isUpperCase(code)) ? "white" : "black";
 
 		this.backward = true;
 		this.minX = 0;
@@ -256,7 +256,7 @@ public class Piece {
 	 * @return The color of the piece
 	 */
 	public char getColor() {
-		return couleur.equals("blanc") ? 'w' : 'b';
+		return couleur.equals("white") ? 'w' : 'b';
 	}
 
 	/**
@@ -269,15 +269,15 @@ public class Piece {
 	/**
 	 * @return Whether the piece is white
 	 */
-	public boolean estBlanc() {
-		return (couleur.equals("blanc"));
+	public boolean isWhite() {
+		return (couleur.equals("white"));
 	}
 
 	/**
 	 * @return Whether the piece is black
 	 */
-	public boolean estNoir() {
-		return (couleur.equals("noir"));
+	public boolean isBlack() {
+		return (couleur.equals("black"));
 	}
 
 	/**

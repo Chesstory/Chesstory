@@ -29,13 +29,11 @@ abstract class FileController {
 	static boolean saveFile(GameSave g, String fileNameToSave) {
 		File fileToSave;
 		int retrival;
-		String directory = "./Saves/";
+		String directory = "./ChesstoryData/Save/";
 		String suffix = ".txt";
-		ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		if (fileNameToSave != "CHOOSER..FILE") {
 			retrival = JFileChooser.APPROVE_OPTION;
-			fileToSave = new File(cl.getResource(
-					"data/defaultSaves/" + fileNameToSave).getPath());
+			fileToSave = new File("ChesstoryData/defaultSaves/"+fileNameToSave);
 			System.out.println("DOUUUUUUUUUUTE M'HABITE");
 			// fileToSave = new File("bin/data/defaultSaves/" + fileNameToSave);
 
@@ -171,29 +169,24 @@ abstract class FileController {
 			// chooser.setAcceptAllFileFilterUsed(false); // remove the
 			// accept-all
 			// (.*) file filter
-			retrival = chooser.showDialog(ChesstoryGame.f, "LOAD...");
+			retrival = chooser.showDialog(null, "LOAD...");
 			file = chooser.getSelectedFile();
 		} else {
 			retrival = JFileChooser.APPROVE_OPTION;
-			file=null;
+			file = null;
 			try {
 				JOptionPane.showMessageDialog(
 						null,
-						cl.getResource("data/defaultSaves/" + fileToLoad
+						cl.getResource("ChesstoryData/defaultSaves/" + fileToLoad
 								+ ".txt"));
-				/*file = new File(cl.getResource(
-						"data/defaultSaves/" + fileToLoad + ".txt").getPath());*/
-				file=new File("data/defaultSaves/" + fileToLoad
-						+ ".txt");
+				file = new File("ChesstoryData/defaultSaves/" + fileToLoad + ".txt");
 				System.out.println("DOUUUUUUUUUUTE M'HABITE : "
 						+ cl.getResource(
-								"data/defaultSaves/" + fileToLoad + ".txt")
+								"ChesstoryData/defaultSaves/" + fileToLoad + ".txt")
 								.getPath());
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "ERRORBITHC: " + e);
+				JOptionPane.showMessageDialog(null, "ERRORBITHC: " + e,"Bonjour : " ,JOptionPane.WARNING_MESSAGE);
 			}
-			// file = new File("bin/data/defaultSaves/" + fileToLoad + ".txt");
-			// file=Class.getResource("./data/defaultSaves/"+fileToLoad).getFile();
 		}
 		if (retrival == JFileChooser.APPROVE_OPTION) {
 			System.out.println("FILE :::::::: " + file.getName());

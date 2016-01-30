@@ -18,8 +18,8 @@ public class GameSave {
 	private String[] arrayRulePiece;
 	private ArrayList<Deplacement> moveList;
 
-	public GameSave(boolean isGameCorrupted, int gameId, int gameType, ArrayList<Deplacement> moveList, String FEN,
-			String[] arrayRulePiece) {
+	public GameSave(boolean isGameCorrupted, int gameId, int gameType,
+			ArrayList<Deplacement> moveList, String FEN, String[] arrayRulePiece) {
 		this.arrayRulePiece = arrayRulePiece;
 		this.FEN = FEN;
 		this.isGameCorrupted = isGameCorrupted;

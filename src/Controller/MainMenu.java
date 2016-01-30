@@ -53,8 +53,10 @@ public class MainMenu {
 	 */
 	public MainMenu(JFrame f, boolean startToGameChooser) {
 		dimensionButtons = new Dimension(
-				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width / 8,
-				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height / 12);
+				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment()
+						.getMaximumWindowBounds().width / 8,
+				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment()
+						.getMaximumWindowBounds().height / 12);
 		dimensionFillBetweenButtons = new Dimension(0, 50);
 		this.f = f;
 		panel = new JPanel();
@@ -116,8 +118,10 @@ public class MainMenu {
 		bExit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to leave ?",
-						"Warning you are about to leave", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+				int response = JOptionPane.showConfirmDialog(null,
+						"Are you sure you want to leave ?",
+						"Warning you are about to leave",
+						JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
 				if (response == JOptionPane.YES_OPTION) {
 					System.exit(0);
@@ -135,21 +139,24 @@ public class MainMenu {
 	 */
 	private void displayGameChooser() {
 		dimensionChoose = new Dimension(
-				(int) (java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width
-						* (0.2)),
-				(int) (java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height
-						* (0.1)));
+				(int) (java.awt.GraphicsEnvironment
+						.getLocalGraphicsEnvironment().getMaximumWindowBounds().width * (0.2)),
+				(int) (java.awt.GraphicsEnvironment
+						.getLocalGraphicsEnvironment().getMaximumWindowBounds().height * (0.1)));
 		panel.removeAll();
 
 		panel.setBackground(new Color(0x0F3855));
 		f.getContentPane().add(panel);
 		panelChoose = new JPanel();
 		panelChoose.setBackground(new Color(0x234F6E));
-		panelChoose.setPreferredSize(new Dimension(
-				(int) (java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width
-						* (0.90)),
-				(int) (java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height
-						* (0.90))));
+		panelChoose
+				.setPreferredSize(new Dimension(
+						(int) (java.awt.GraphicsEnvironment
+								.getLocalGraphicsEnvironment()
+								.getMaximumWindowBounds().width * (0.90)),
+						(int) (java.awt.GraphicsEnvironment
+								.getLocalGraphicsEnvironment()
+								.getMaximumWindowBounds().height * (0.90))));
 		GridLayout gridLayout = new GridLayout(2, 3);
 		gridLayout.setHgap(20);
 		gridLayout.setVgap(20);
