@@ -42,16 +42,15 @@ public class MainExe {
 		frame.repaint();
 		frame.revalidate();
 
-		
-		new File("ChesstoryData").mkdirs();
+		new File("ChesstoryData/defaultSaves").mkdirs();
 		try {
 			InputStream localInputStream = ClassLoader.getSystemClassLoader()
 					.getResourceAsStream(
 							"ChesstoryData/defaultSaves/default_SHATRANJ.txt");
 			byte[] buffer = new byte[localInputStream.available()];
-			
+			//new File("ChesstoryData/defaultSaves").mkdirs();
 			localInputStream.read(buffer);
-			new File("ChesstoryData/defaultSaves").mkdirs();
+			
 			File targetFile = new File(
 					"ChesstoryData/defaultSaves/default_SHATRANJ.txt");
 			OutputStream outStream = new FileOutputStream(targetFile);
