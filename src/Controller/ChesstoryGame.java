@@ -237,7 +237,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 		ClassLoader cl = this.getClass().getClassLoader();
 
-		sound1 = new Music(cl.getResource("ChesstoryData/sounds/test2.wav"));
+		//sound1 = new Music(cl.getResource("ChesstoryData/sounds/test2.wav"));
 
 		/*
 		 * arrowLeft.setBorder(BorderFactory.createEmptyBorder());
