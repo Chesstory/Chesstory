@@ -1,0 +1,12 @@
+>>>>||----Chesstory_SaveFile_Header--|
+1
+1
+0
+mljihjlm/oooooooo/8/8/8/8/OOOOOOOO/MLJIHJLM
+padati,o,0,0,1,1,0,0,false,false
+ratha,m,1,99,1,99,0,0,true,false
+mantri,i,0,0,0,0,1,1,true,false
+rajah,h,1,1,1,1,1,1,true,false
+gaja,j,0,0,0,0,2,2,true,false
+ma,l,0,0,0,0,0,0,true,true
+|--Chesstory_SaveFile_Footer----||<<<<

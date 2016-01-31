@@ -1,0 +1,12 @@
+>>>>||----Chesstory_SaveFile_Header--|
+1
+1
+0
+rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR
+pawn,p,0,0,1,1,0,0,false,false
+rook,r,1,99,1,99,0,0,true,false
+queen,q,1,99,1,99,1,99,true,false
+king,k,1,1,1,1,1,1,true,false
+bishop,b,0,0,0,0,1,99,true,false
+knight,n,0,0,0,0,0,0,true,true
+|--Chesstory_SaveFile_Footer----||<<<<
