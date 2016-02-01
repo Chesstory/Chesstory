@@ -289,7 +289,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			public void actionPerformed(ActionEvent e) {
 				if (!popMenu.isVisible()) {
 					popMenu.show(f, 350, 50);
-					sound1.play();
+					//sound1.play();
 				} else
 					popMenu.setVisible(false);
 			}
