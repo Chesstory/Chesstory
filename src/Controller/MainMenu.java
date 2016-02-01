@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -138,6 +139,8 @@ public class MainMenu {
 	 * buttons.
 	 */
 	private void displayGameChooser() {
+		ClassLoader cl;
+		ImageIcon image;
 		dimensionChoose = new Dimension(
 				(int) (java.awt.GraphicsEnvironment
 						.getLocalGraphicsEnvironment().getMaximumWindowBounds().width * (0.2)),
@@ -162,14 +165,21 @@ public class MainMenu {
 		gridLayout.setVgap(20);
 		panelChoose.setLayout(gridLayout);
 		panel.add(panelChoose);
-		bChooseClassical = new JButton("Cassical");
+		
+		cl = this.getClass().getClassLoader();
+		image = new ImageIcon(cl.getResource("icons/classical.jpg"));
+		bChooseClassical = new JButton("Classical", image);
 		// bChooseClassical.setPreferredSize(dimensionChoose);
 		panelChoose.add(bChooseClassical);
-		bChooseShatranj = new JButton("Shatranj");
+
+		image = new ImageIcon(cl.getResource("icons/shatranj.jpg"));
+		bChooseShatranj = new JButton("Shatranj", image);
 		panelChoose.add(bChooseShatranj);
-		bChooseChaturanga = new JButton("Chaturanga");
+		image = new ImageIcon(cl.getResource("icons/chaturanga.jpg"));
+		bChooseChaturanga = new JButton("Chaturanga", image);
 		panelChoose.add(bChooseChaturanga);
-		bChooseCustom = new JButton("Custom");
+		image = new ImageIcon(cl.getResource("icons/custom.png"));
+		bChooseCustom = new JButton("Custom", image);
 		panelChoose.add(bChooseCustom);
 		bChooseBack = new JButton("Back");
 		panelChoose.add(bChooseBack);
