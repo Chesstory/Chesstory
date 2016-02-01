@@ -35,7 +35,7 @@ public class MainExe {
 				if ("Nimbus".equals(info.getName())) {
 					
 					UIManager.setLookAndFeel(info.getClassName());
-					UIManager.put("nimbusBlueGrey", Color.RED);
+					UIManager.put("nimbusBlueGrey", new Color(0xff009a));
 					break;
 				}
 			}
