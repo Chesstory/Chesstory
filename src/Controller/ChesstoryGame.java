@@ -155,7 +155,13 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			playerWTimeLeft = playerBTimeLeft = initialTime / 1000;
 			initTimer();
 		}
-
+		ClassLoader cl = this.getClass().getClassLoader();
+		try{//TODO DO IT BAPTISTE BECAUSE CA ME SAOULE
+		//sound1 = new Music(cl.getResource("ChesstoryData/sounds/test2.wav"));
+		}catch(Exception e){
+			JOptionPane.showMessageDialog(null, "error sound");
+		}
+		
 		moveList = new ArrayList<Deplacement>();
 		moveListCursor = -1;
 
@@ -235,9 +241,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 		popMenu.add(changeTheme);
 
-		ClassLoader cl = this.getClass().getClassLoader();
-
-		//sound1 = new Music(cl.getResource("ChesstoryData/sounds/test2.wav"));
+		
 
 		/*
 		 * arrowLeft.setBorder(BorderFactory.createEmptyBorder());

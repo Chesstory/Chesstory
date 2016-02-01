@@ -38,11 +38,10 @@ public class MainExe {
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		mainMenu = new MainMenu(frame, false);
-		frame.repaint();
-		frame.revalidate();
+		
 
 		new File("ChesstoryData/defaultSaves").mkdirs();
+
 		try {
 			InputStream localInputStream = ClassLoader.getSystemClassLoader()
 					.getResourceAsStream(
@@ -58,7 +57,6 @@ public class MainExe {
 			outStream.close();
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					localInputStream));
-			JOptionPane.showMessageDialog(null, "Creation done1:" + targetFile);
 		} catch (Exception e) {
 			String str = new String(" errorPN1:");
 			for (int i = 0; i < e.getStackTrace().length; i++) {
@@ -81,7 +79,6 @@ public class MainExe {
 			outStream.close();
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					localInputStream));
-			JOptionPane.showMessageDialog(null, "Creation done:" + targetFile);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "error:" + e);
 		}
@@ -101,23 +98,39 @@ public class MainExe {
 			outStream.close();
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					localInputStream));
-			JOptionPane.showMessageDialog(null, "Creation done:" + targetFile);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "error:" + e);
-		}
+		}		
+		
+		mainMenu = new MainMenu(frame, false);
+		frame.repaint();
+		frame.revalidate();
 	}
 
 	static void switchToChesstoryGame(int gameType) {
-		clearMainMenu();
+		System.out.println("*************************************");
+		System.out.println("****////---->>>>switchToChesstoryGame");
+		System.out.println("*************************************");
+		/*clearMainMenu();rulesEditor.closeInstance();useless ?
+		rulesEditor = null;*/
+		
 		chesstoryGame = new ChesstoryGame("Classical game", gameType, frame);
 	}
 
-	static void switchToChesstoryGame(int gameType, String fileName) {
+	static void switchToChesstoryGameFromEditor(int gameType, String fileName) {
+		System.out.println("*************************************");
+		System.out.println("****////---->>>>switchToChesstoryGameFromEditor");
+		System.out.println("*************************************");
+		rulesEditor.closeInstance();
 		rulesEditor = null;
+		
 		chesstoryGame = new ChesstoryGame(fileName, gameType, frame);
 	}
 
 	static void switchToEditor() {
+		System.out.println("*************************************");
+		System.out.println("****////---->>>>switchToEditor");
+		System.out.println("*************************************");
 		clearMainMenu();
 		rulesEditor = RulesEditor.getInstance(frame);
 		frame.repaint();
@@ -125,11 +138,15 @@ public class MainExe {
 	}
 
 	static void switchToMainMenuFromChesstoryGame() {
+		System.out.println("*************************************");
+		System.out.println("****////---->>>>switchToMainMenuFromChesstoryGame");
+		System.out.println("*************************************");
 		clearChesstoryGame();
 		mainMenu = new MainMenu(frame, true);
 	}
 
 	static void switchToMainMenu() {
+		System.out.println("****////---->>>>switchToMainMenu");
 		clearEditor();
 		rulesEditor.removeInstance();
 		mainMenu = new MainMenu(frame, true);

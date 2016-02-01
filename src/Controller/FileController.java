@@ -175,10 +175,10 @@ abstract class FileController {
 			retrival = JFileChooser.APPROVE_OPTION;
 			file = null;
 			try {
-				JOptionPane.showMessageDialog(
+				/*JOptionPane.showMessageDialog(
 						null,
 						cl.getResource("ChesstoryData/defaultSaves/" + fileToLoad
-								+ ".txt"));
+								+ ".txt"));*/
 				file = new File("ChesstoryData/defaultSaves/" + fileToLoad + ".txt");
 				System.out.println("DOUUUUUUUUUUTE M'HABITE : "
 						+ cl.getResource(

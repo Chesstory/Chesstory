@@ -61,7 +61,6 @@ public class RulesEditor extends JFrame implements ItemListener,
 	private String[] returnString;
 
 	private static RulesEditor INSTANCE = null;
-
 	/**
 	 * This class is a singleton. This method permits to be sure of that.
 	 * 
@@ -75,10 +74,13 @@ public class RulesEditor extends JFrame implements ItemListener,
 		} else {
 			System.out
 					.println("Critical error this should never happend 2 instances of RulesEditor");
+			
 		}
 		return INSTANCE;
 	}
-
+	public void closeInstance(){
+		INSTANCE=null;
+	}
 	/**
 	 * Remove the current instance of this class.
 	 */
@@ -297,7 +299,8 @@ public class RulesEditor extends JFrame implements ItemListener,
 				loadedRules.setGameType(GAMETYPE_CUSTOM);
 				loadedRules.setFEN(currentFEN);
 				FileController.saveFile(loadedRules, TEMP_FILE_NAME);
-				MainExe.switchToChesstoryGame(GAMETYPE_CUSTOM, TEMP_FILE_NAME);
+				System.out.println("EPNIS DES CHAMPS FDP DE TES MORTS");
+				MainExe.switchToChesstoryGameFromEditor(GAMETYPE_CUSTOM, TEMP_FILE_NAME);
 			}
 		});
 		panel.add(buttonLaunchGame);
