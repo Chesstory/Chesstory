@@ -35,7 +35,8 @@ public class MainExe {
 				if ("Nimbus".equals(info.getName())) {
 					
 					UIManager.setLookAndFeel(info.getClassName());
-					UIManager.put("nimbusBlueGrey", new Color(0xff009a));
+					//UIManager.put("nimbusBlueGrey", new Color(0xff009a));
+					//TODO here we can modifiy everything we want https://docs.oracle.com/javase/tutorial/uiswing/lookandfeel/_nimbusDefaults.html#primary
 					break;
 				}
 			}
@@ -56,7 +57,7 @@ public class MainExe {
 		
 
 		new File("ChesstoryData/defaultSaves").mkdirs();
-
+		new File("ChesstoryData/playerSaves").mkdir();
 		try {
 			InputStream localInputStream = ClassLoader.getSystemClassLoader()
 					.getResourceAsStream(

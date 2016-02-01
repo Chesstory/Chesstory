@@ -29,7 +29,7 @@ abstract class FileController {
 	static boolean saveFile(GameSave g, String fileNameToSave) {
 		File fileToSave;
 		int retrival;
-		String directory = "./ChesstoryData/Save/";
+		String directory = "./ChesstoryData/playerSaves/";
 		String suffix = ".txt";
 		if (fileNameToSave != "CHOOSER..FILE") {
 			retrival = JFileChooser.APPROVE_OPTION;
@@ -132,7 +132,7 @@ abstract class FileController {
 
 	static GameSave loadFile(String fileToLoad) {
 		ArrayList<Deplacement> a = new ArrayList<Deplacement>();
-		String directory = "./Saves/";
+		String directory = "./ChesstoryData/playerSaves/";
 		String line[];
 		line = new String[100];
 		String splitted[];
