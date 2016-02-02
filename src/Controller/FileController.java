@@ -528,4 +528,8 @@ abstract class FileController {
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
+	
+	public static void loadParametersToChesstoryConstants(){
+		//TODO setBoolelolo etc
+	}
 }

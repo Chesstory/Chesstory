@@ -31,14 +31,15 @@ public class MainExe {
 	static JFrame frame;
 
 	public static void main(String[] args) {
-		
+
 		try {
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
-					
+
 					UIManager.setLookAndFeel(info.getClassName());
-					//UIManager.put("nimbusBlueGrey", new Color(0xff009a));
-					//TODO here we can modifiy everything we want https://docs.oracle.com/javase/tutorial/uiswing/lookandfeel/_nimbusDefaults.html#primary
+					// UIManager.put("nimbusBlueGrey", new Color(0xff009a));
+					// TODO here we can modifiy everything we want
+					// https://docs.oracle.com/javase/tutorial/uiswing/lookandfeel/_nimbusDefaults.html#primary
 					break;
 				}
 			}
@@ -56,7 +57,6 @@ public class MainExe {
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		
 
 		new File("ChesstoryData/defaultSaves").mkdirs();
 		new File("ChesstoryData/playerSaves").mkdir();
@@ -65,9 +65,9 @@ public class MainExe {
 					.getResourceAsStream(
 							"ChesstoryData/defaultSaves/default_SHATRANJ.txt");
 			byte[] buffer = new byte[localInputStream.available()];
-			//new File("ChesstoryData/defaultSaves").mkdirs();
+			// new File("ChesstoryData/defaultSaves").mkdirs();
 			localInputStream.read(buffer);
-			
+
 			File targetFile = new File(
 					"ChesstoryData/defaultSaves/default_SHATRANJ.txt");
 			OutputStream outStream = new FileOutputStream(targetFile);
@@ -100,7 +100,7 @@ public class MainExe {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "error:" + e);
 		}
-		
+
 		try {
 			InputStream localInputStream = ClassLoader
 					.getSystemClassLoader()
@@ -118,15 +118,18 @@ public class MainExe {
 					localInputStream));
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "error:" + e);
-		}	
-		
+		}
+
 		try {
-			if(!(new File("ChesstoryData/parameters/mainParameters.txt").exists())){
+			if (!(new File("ChesstoryData/parameters/mainParameters.txt")
+					.exists())) {
 				new File("ChesstoryData/parameters").mkdirs();
-				InputStream localInputStream = ClassLoader.getSystemClassLoader()
-						.getResourceAsStream(
+				InputStream localInputStream = ClassLoader
+						.getSystemClassLoader().getResourceAsStream(
 								"ChesstoryData/parameters/mainParameters.txt");
+				JOptionPane.showMessageDialog(null, "test:");
 				byte[] buffer = new byte[localInputStream.available()];
+
 				localInputStream.read(buffer);
 				new File("ChesstoryData/defaultSaves").mkdirs();
 				File targetFile = new File(
@@ -139,11 +142,13 @@ public class MainExe {
 				br.close();
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Error", "mainParameters was not correctly clone",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					"mainParameters was not correctly clone" + e, "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
-		
-		int[] arrayIntTest={12,15,17,666};
-		FileController.saveParameters("mainParameters",arrayIntTest);
+
+		int[] arrayIntTest = { 12, 15, 17, 666 };
+		FileController.saveParameters("mainParameters", arrayIntTest);
 		mainMenu = new MainMenu(frame, false);
 		frame.repaint();
 		frame.revalidate();
@@ -153,9 +158,11 @@ public class MainExe {
 		System.out.println("*************************************");
 		System.out.println("****////---->>>>switchToChesstoryGame");
 		System.out.println("*************************************");
-		/*clearMainMenu();rulesEditor.closeInstance();useless ?
-		rulesEditor = null;*/
-		
+		/*
+		 * clearMainMenu();rulesEditor.closeInstance();useless ? rulesEditor =
+		 * null;
+		 */
+
 		chesstoryGame = new ChesstoryGame("Classical game", gameType, frame);
 	}
 
@@ -165,7 +172,7 @@ public class MainExe {
 		System.out.println("*************************************");
 		rulesEditor.closeInstance();
 		rulesEditor = null;
-		
+
 		chesstoryGame = new ChesstoryGame(fileName, gameType, frame);
 	}
 
