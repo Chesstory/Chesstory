@@ -9,7 +9,7 @@ What has been asked :
   - Allowing to choose for every pieces the move set and, if possible, recreate our own chess board.
   
 What is already done :
-  - 'Basic' chess game with workful castling, etc.
+  - 'Basic' chess game with functional castling, etc.
   - Graphic interface :
     * Visual hints like in case of check, accessible positions, etc
     * Chess board and colors are customizable
@@ -34,15 +34,15 @@ What is already done :
     
   - Rules :
     * Pieces and moves rules are customizable really easily with a graphic interface
+ 
+  - Do a (user-friendly) jdoc and put all the code in the same language (only remains package Controller)
     
 What is in progress :
   - Fix one for all the problems of build, where to put the images, saves, and default saves (actually the .JAR won't work properly because of that)
-  - Do a (user-friendly) jdoc and put all the code in the same language (only remains package Controller)
-  
+  - Chesstory 2.0
 
 What remains to do (not exhaustiv list) :
   - Add ways to custom rules like castling, prise-en-passant, size of chess board, custom the timer, toggle on/off graphic hints, etc
-  - Create Chesstory 2.0, which should be really abstract
   - Save parameters (for all games)
   - See if we can rotate the chess board (utopia)
   

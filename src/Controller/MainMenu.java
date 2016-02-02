@@ -15,10 +15,15 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import Controller.RulesEditor.ItemSliderChecked;
 
 import static Controller.ChesstoryConstants.*;
 
@@ -34,10 +39,12 @@ public class MainMenu {
 	private JFrame f;
 	private JPanel panel;
 	private JPanel panelChoose;
+	private JPanel panelParam;
 	private Dimension dimensionButtons;
 	private Dimension dimensionFillBetweenButtons;
 	private Dimension dimensionChoose;
 	private JLabel labelBanner;
+	private JLabel labelParam;
 	private JButton bPlayGame;
 	private JButton bParameters;
 	private JButton bExit;
@@ -46,6 +53,11 @@ public class MainMenu {
 	private JButton bChooseShatranj;
 	private JButton bChooseChaturanga;
 	private JButton bChooseCustom;
+
+	private JButton bParamBack, bSaveChange;
+	private int[] arrayParam;
+	private JCheckBox checkboxDisplayHelp;
+	private boolean changesNotSaved = false;
 
 	/**
 	 * Create the menu and displays it.
@@ -57,10 +69,8 @@ public class MainMenu {
 	 */
 	public MainMenu(JFrame f, boolean startToGameChooser) {
 		dimensionButtons = new Dimension(
-				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment()
-						.getMaximumWindowBounds().width / 8,
-				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment()
-						.getMaximumWindowBounds().height / 12);
+				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width / 8,
+				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height / 12);
 		dimensionFillBetweenButtons = new Dimension(0, 50);
 		this.f = f;
 		panel = new JPanel();
@@ -74,6 +84,7 @@ public class MainMenu {
 			displayMainMenu();
 		}
 	}
+
 	/**
 	 * Display the menu, with all the labels, panels, etc.
 	 */
@@ -97,7 +108,6 @@ public class MainMenu {
 		bParameters.setMaximumSize(dimensionButtons);
 		bParameters.setAlignmentY(Component.CENTER_ALIGNMENT);
 		bParameters.setAlignmentX(Component.CENTER_ALIGNMENT);
-		bParameters.setEnabled(false);// TODO remove
 		panel.add(bParameters);
 		panel.add(Box.createRigidArea(dimensionFillBetweenButtons));
 		bExit = new JButton("Exit");
@@ -115,16 +125,15 @@ public class MainMenu {
 		bParameters.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO parameters
+				f.remove(panel);
+				displayParameter();
 			}
 		});
 		bExit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int response = JOptionPane.showConfirmDialog(null,
-						"Are you sure you want to leave ?",
-						"Warning you are about to leave",
-						JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+				int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to leave ?",
+						"Warning you are about to leave", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
 				if (response == JOptionPane.YES_OPTION) {
 					System.exit(0);
@@ -144,30 +153,27 @@ public class MainMenu {
 		ClassLoader cl;
 		ImageIcon image;
 		dimensionChoose = new Dimension(
-				(int) (java.awt.GraphicsEnvironment
-						.getLocalGraphicsEnvironment().getMaximumWindowBounds().width * (0.2)),
-				(int) (java.awt.GraphicsEnvironment
-						.getLocalGraphicsEnvironment().getMaximumWindowBounds().height * (0.1)));
+				(int) (java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width
+						* (0.2)),
+				(int) (java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height
+						* (0.1)));
 		panel.removeAll();
 
 		panel.setBackground(new Color(0x0F3855));
 		f.getContentPane().add(panel);
 		panelChoose = new JPanel();
 		panelChoose.setBackground(new Color(0x234F6E));
-		panelChoose
-				.setPreferredSize(new Dimension(
-						(int) (java.awt.GraphicsEnvironment
-								.getLocalGraphicsEnvironment()
-								.getMaximumWindowBounds().width * (0.90)),
-						(int) (java.awt.GraphicsEnvironment
-								.getLocalGraphicsEnvironment()
-								.getMaximumWindowBounds().height * (0.90))));
+		panelChoose.setPreferredSize(new Dimension(
+				(int) (java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width
+						* (0.90)),
+				(int) (java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height
+						* (0.90))));
 		GridLayout gridLayout = new GridLayout(2, 3);
 		gridLayout.setHgap(20);
 		gridLayout.setVgap(20);
 		panelChoose.setLayout(gridLayout);
 		panel.add(panelChoose);
-		
+
 		cl = this.getClass().getClassLoader();
 		image = new ImageIcon(cl.getResource("icons/classical.jpg"));
 		bChooseClassical = new JButton("Classical", image);
@@ -248,6 +254,83 @@ public class MainMenu {
 				displayMainMenu();
 			}
 		});
+		f.repaint();
+		f.revalidate();
+	}
+
+	/**
+	 * Display the parameter board
+	 */
+	private void displayParameter() {
+		arrayParam = FileController.loadParameters("mainParameters");
+
+		panel.removeAll();
+		f.getContentPane().add(panel);
+		panelParam = new JPanel();
+		panelParam.setBackground(new Color(0x234F6E));
+		panelParam.setPreferredSize(new Dimension(
+				(int) (java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width
+						* (0.90)),
+				(int) (java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height
+						* (0.90))));
+		panelParam.setLayout(new BoxLayout(panelParam, BoxLayout.Y_AXIS));
+		panel.add(panelParam);
+
+		panelParam.add(Box.createRigidArea(new Dimension(0, 100)));
+		labelParam = new JLabel("Parameters");
+		labelParam.setAlignmentY(Component.CENTER_ALIGNMENT);
+		labelParam.setAlignmentX(Component.CENTER_ALIGNMENT);
+		labelParam.setFont(new Font("Papyrus", Font.PLAIN, 32));
+		panelParam.add(labelParam);
+		panelParam.add(Box.createRigidArea(dimensionFillBetweenButtons));
+		checkboxDisplayHelp = new JCheckBox("Do you want to be helped by graphic hints ? ");
+		checkboxDisplayHelp.setSelected(arrayParam[0] == 1);
+		checkboxDisplayHelp.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				changesNotSaved = true;
+				bSaveChange.setEnabled(true);
+			}
+		});
+		panelParam.add(checkboxDisplayHelp);
+		bSaveChange = new JButton("Confirm changes");
+		bSaveChange.setMaximumSize(dimensionButtons);
+		bSaveChange.setAlignmentY(Component.CENTER_ALIGNMENT);
+		bSaveChange.setAlignmentX(Component.CENTER_ALIGNMENT);
+		panelParam.add(bSaveChange);
+		panelParam.add(Box.createRigidArea(dimensionFillBetweenButtons));
+		bSaveChange.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				FileController.saveParameters("mainParameters");
+				bSaveChange.setEnabled(false);
+				changesNotSaved = false;
+			}
+		});
+		bSaveChange.setEnabled(false);
+		bParamBack = new JButton("Back");
+		bParamBack.setMaximumSize(dimensionButtons);
+		bParamBack.setAlignmentY(Component.CENTER_ALIGNMENT);
+		bParamBack.setAlignmentX(Component.CENTER_ALIGNMENT);
+		panelParam.add(bParamBack);
+		panelParam.add(Box.createRigidArea(dimensionFillBetweenButtons));
+		bParamBack.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (changesNotSaved) {
+					int response = JOptionPane.showConfirmDialog(null, "Do you want to save changes ?",
+							"Warning you are about to go back to main menu", JOptionPane.YES_NO_CANCEL_OPTION,
+							JOptionPane.WARNING_MESSAGE);
+
+					if (response == JOptionPane.YES_OPTION) {
+						FileController.saveParameters("mainParameters");
+					} else if (response == JOptionPane.CANCEL_OPTION)
+						return;
+				}
+				displayMainMenu();
+			}
+		});
+
 		f.repaint();
 		f.revalidate();
 	}

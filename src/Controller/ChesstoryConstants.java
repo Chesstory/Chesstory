@@ -111,4 +111,7 @@ public class ChesstoryConstants {
 			+ "Remember : if you need some help, just right-click a piece !\n"
 			+ "Your chess pieces have the following move ability :\n";
 	public final static String CHESS_RULES_CHATURANGA_PT2 = "";
+	
+	public static boolean YACG_DISPLAYHELP = true;
+	
 }
