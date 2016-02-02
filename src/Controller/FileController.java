@@ -416,6 +416,12 @@ abstract class FileController {
 				arrayRulePiece);
 	}
 
+	/**
+	 * Save a file in the directory /ChesstoryData/parameters/ of parameters.
+	 * @param nameOfTheFileToLoad
+	 *            The name of the file to load, has to be a parameters file
+	 * @return -Array of int (parameters) -(-1) the file was corrupted, if was replaced by the default one -(-2) Fatal error in the cloning, thus cloning should not happend anyway
+	 */
 	public static int[] loadParameters(String nameOfTheFileToLoad) {
 		String splitted[];
 		int res[];
@@ -506,95 +512,7 @@ abstract class FileController {
 
 	}
 	
-	public static void saveParameters(String nameOfTheFileToLoad) {
-		String splitted[];
-		int res[];
-		File fileToLoad;
-		try {//we try to load the file
-			fileToLoad = new File("ChesstoryData/parameters/"
-					+ nameOfTheFileToLoad + ".txt");
-		} catch (Exception e) {//if the file was not found
-			try {//we create the file from the jar 
-				JOptionPane.showMessageDialog(null, "File '"
-						+ nameOfTheFileToLoad + "' not found", "Error",
-						JOptionPane.ERROR_MESSAGE);
-				InputStream localInputStream = ClassLoader
-						.getSystemClassLoader().getResourceAsStream(
-								"ChesstoryData/parameters/"
-										+ nameOfTheFileToLoad + ".txt");
-				byte[] buffer = new byte[localInputStream.available()];
-				localInputStream.read(buffer);
-				File targetFile = new File("ChesstoryData/parameters/"
-						+ nameOfTheFileToLoad + ".txt");
-				OutputStream outStream = new FileOutputStream(targetFile);
-				outStream.write(buffer);
-				outStream.close();
-				BufferedReader br = new BufferedReader(new InputStreamReader(
-						localInputStream));
-				br.close();
-				fileToLoad = new File("ChesstoryData/parameters/"
-						+ nameOfTheFileToLoad + "txt");
-			} catch (Exception ex) {//if the cloning has failed
-				JOptionPane.showMessageDialog(null,
-						"The operation 'cloning the file "
-								+ nameOfTheFileToLoad + " from jar' failed",
-						"Fatal Error", JOptionPane.ERROR_MESSAGE);
-				res = new int[1];
-				res[0] = -2;
-				
-			}
-		}
-
-		try {//we process the file, turning string into a array of int
-			//TODO remove
-			fileToLoad=new File("ffd");
-			FileReader fileReader = new FileReader(fileToLoad);
-			BufferedReader bufferedReader = new BufferedReader(fileReader);
-			splitted = bufferedReader.readLine().split(",", -1);
-			res = new int[splitted.length];
-			for (int i = 0; i < splitted.length; i++) {
-				res[i] = Integer.parseInt(splitted[i]);
-			}
-			bufferedReader.close();
-		} catch (Exception e) {//if the file was corrupted
-			JOptionPane.showMessageDialog(null, "The file "
-					+ nameOfTheFileToLoad
-					+ " is corrupted, it was replaced by the the default one",
-					"Error", JOptionPane.ERROR_MESSAGE);
-			try {//we replace the file from the jar 
-				JOptionPane.showMessageDialog(null, "File '"
-						+ nameOfTheFileToLoad + "' not found", "Error",
-						JOptionPane.ERROR_MESSAGE);
-				InputStream localInputStream = ClassLoader
-						.getSystemClassLoader().getResourceAsStream(
-								"ChesstoryData/parameters/"
-										+ nameOfTheFileToLoad + ".txt");
-				byte[] buffer = new byte[localInputStream.available()];
-				localInputStream.read(buffer);
-				File targetFile = new File("ChesstoryData/parameters/"
-						+ nameOfTheFileToLoad + ".txt");
-				OutputStream outStream = new FileOutputStream(targetFile);
-				outStream.write(buffer);
-				outStream.close();
-				BufferedReader br = new BufferedReader(new InputStreamReader(
-						localInputStream));
-				br.close();
-				fileToLoad = new File("ChesstoryData/parameters/"
-						+ nameOfTheFileToLoad + "txt");//we reset the fileToLoad with the new one we've just created
-			} catch (Exception ex) {//if the cloning has failed
-				JOptionPane.showMessageDialog(null,
-						"The operation 'cloning the file "
-								+ nameOfTheFileToLoad + " from jar' failed",
-						"Fatal Error", JOptionPane.ERROR_MESSAGE);
-				res = new int[1];
-				res[0] = -2;
-				
-			}
-			res = new int[1];
-			res[0] = -1;
+	public void saveParameters(String nameOfTheFileToSave){
 		
-		}
-		
-
 	}
 }
