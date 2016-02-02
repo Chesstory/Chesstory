@@ -38,7 +38,8 @@ abstract class FileController {
 		String suffix = ".txt";
 		if (fileNameToSave != "CHOOSER..FILE") {
 			retrival = JFileChooser.APPROVE_OPTION;
-			fileToSave = new File("ChesstoryData/defaultSaves/"+fileNameToSave);
+			fileToSave = new File("ChesstoryData/defaultSaves/"
+					+ fileNameToSave);
 			System.out.println("DOUUUUUUUUUUTE M'HABITE");
 			// fileToSave = new File("bin/data/defaultSaves/" + fileNameToSave);
 
@@ -137,7 +138,7 @@ abstract class FileController {
 
 	static GameSave loadFile(String fileToLoad) {
 		ArrayList<Deplacement> a = new ArrayList<Deplacement>();
-			String directory = "./ChesstoryData/playerSaves/";
+		String directory = "./ChesstoryData/playerSaves/";
 		String line[];
 		line = new String[100];
 		String splitted[];
@@ -180,17 +181,20 @@ abstract class FileController {
 			retrival = JFileChooser.APPROVE_OPTION;
 			file = null;
 			try {
-				/*JOptionPane.showMessageDialog(
-						null,
-						cl.getResource("ChesstoryData/defaultSaves/" + fileToLoad
-								+ ".txt"));*/
-				file = new File("ChesstoryData/defaultSaves/" + fileToLoad + ".txt");
+				/*
+				 * JOptionPane.showMessageDialog( null,
+				 * cl.getResource("ChesstoryData/defaultSaves/" + fileToLoad +
+				 * ".txt"));
+				 */
+				file = new File("ChesstoryData/defaultSaves/" + fileToLoad
+						+ ".txt");
 				System.out.println("DOUUUUUUUUUUTE M'HABITE : "
 						+ cl.getResource(
-								"ChesstoryData/defaultSaves/" + fileToLoad + ".txt")
-								.getPath());
+								"ChesstoryData/defaultSaves/" + fileToLoad
+										+ ".txt").getPath());
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "ERRORBITHC: " + e,"Bonjour : " ,JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, "ERRORBITHC: " + e,
+						"Bonjour : ", JOptionPane.WARNING_MESSAGE);
 			}
 		}
 		if (retrival == JFileChooser.APPROVE_OPTION) {
@@ -338,8 +342,8 @@ abstract class FileController {
 																					// if
 																					// it's
 																					// not
-																				// the
-																					// footer
+							// the
+							// footer
 							System.out.println("Footer :" + splitted[0]);
 							if (splitted.length == 6) {// there is 6 parameter,
 														// no more, no less
@@ -420,24 +424,33 @@ abstract class FileController {
 		return new GameSave(isFileCorrupted, game_id, game_type, a, FEN,
 				arrayRulePiece);
 	}
-	public static int[] saveParameters(String nameOfTheFile){
+
+	/**
+	 * Save a file in the directory /ChesstoryData/parameters/ of parameters.
+	 * @param nameOfTheFileToLoad
+	 *            The name of the file to load, has to be a parameters file
+	 * @return -Array of int (parameters) -(-1) the file was corrupted, if was replaced by the default one -(-2) Fatal error in the cloning, thus cloning should not happend anyway
+	 */
+	public static int[] loadParameters(String nameOfTheFileToLoad) {
 		String splitted[];
 		int res[];
 		File fileToLoad;
-			try {
-				fileToLoad = new File("ChesstoryData/parameters/"+nameOfTheFile+".txt");
+		try {
+			fileToLoad = new File("ChesstoryData/parameters/"
+					+ nameOfTheFileToLoad + ".txt");
 		} catch (Exception e) {
 			try {
-				JOptionPane.showMessageDialog(null, "File '" + nameOfTheFile
-						+ "' not found", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "File '"
+						+ nameOfTheFileToLoad + "' not found", "Error",
+						JOptionPane.ERROR_MESSAGE);
 				InputStream localInputStream = ClassLoader
 						.getSystemClassLoader().getResourceAsStream(
-								"ChesstoryData/parameters/" + nameOfTheFile
-										+ ".txt");
+								"ChesstoryData/parameters/"
+										+ nameOfTheFileToLoad + ".txt");
 				byte[] buffer = new byte[localInputStream.available()];
 				localInputStream.read(buffer);
 				File targetFile = new File("ChesstoryData/parameters/"
-						+ nameOfTheFile + ".txt");
+						+ nameOfTheFileToLoad + ".txt");
 				OutputStream outStream = new FileOutputStream(targetFile);
 				outStream.write(buffer);
 				outStream.close();
@@ -445,19 +458,19 @@ abstract class FileController {
 						localInputStream));
 				br.close();
 				fileToLoad = new File("ChesstoryData/parameters/"
-						+ nameOfTheFile + "txt");
+						+ nameOfTheFileToLoad + "txt");
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(null,
-						"The operation 'cloning the file " + nameOfTheFile
-								+ " from jar' failed", "Fatal Error",
-						JOptionPane.ERROR_MESSAGE);
+						"The operation 'cloning the file "
+								+ nameOfTheFileToLoad + " from jar' failed",
+						"Fatal Error", JOptionPane.ERROR_MESSAGE);
 				res = new int[1];
 				res[0] = -2;
 				return res;
 			}
 		}
-		
-		try{
+
+		try {
 			FileReader fileReader = new FileReader(fileToLoad);
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			splitted = bufferedReader.readLine().split(",", -1);
@@ -466,35 +479,45 @@ abstract class FileController {
 				res[i] = Integer.parseInt(splitted[i]);
 			}
 			bufferedReader.close();
-		}catch(Exception e){
-				JOptionPane.showMessageDialog(null, "The file "+nameOfTheFile+" is corrupted, it was replaced by the the default one", "Error", JOptionPane.ERROR_MESSAGE);
-				try{
-					JOptionPane.showMessageDialog(null, "File '"+nameOfTheFile+"' not found", "Error", JOptionPane.ERROR_MESSAGE);
-					InputStream localInputStream = ClassLoader.getSystemClassLoader()
-							.getResourceAsStream(
-									"ChesstoryData/parameters/"+nameOfTheFile+".txt");
-					byte[] buffer = new byte[localInputStream.available()];
-					localInputStream.read(buffer);
-					File targetFile = new File(
-							"ChesstoryData/parameters/"+nameOfTheFile+".txt");
-					OutputStream outStream = new FileOutputStream(targetFile);
-					outStream.write(buffer);
-					outStream.close();
-					BufferedReader br = new BufferedReader(new InputStreamReader(
-							localInputStream));
-					br.close();
-					fileToLoad = new File("ChesstoryData/parameters/"+nameOfTheFile+"txt");
-				}catch(Exception ex){
-					JOptionPane.showMessageDialog(null, "The operation 'cloning the file "+nameOfTheFile+" from jar' failed", "Fatal Error", JOptionPane.ERROR_MESSAGE);
-					res=new int[1];
-					res[0]=-2;
-					return res;
-				}
-				res=new int[1];
-				res[0]=-1;
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "The file "
+					+ nameOfTheFileToLoad
+					+ " is corrupted, it was replaced by the the default one",
+					"Error", JOptionPane.ERROR_MESSAGE);
+			try {
+				JOptionPane.showMessageDialog(null, "File '"
+						+ nameOfTheFileToLoad + "' not found", "Error",
+						JOptionPane.ERROR_MESSAGE);
+				InputStream localInputStream = ClassLoader
+						.getSystemClassLoader().getResourceAsStream(
+								"ChesstoryData/parameters/"
+										+ nameOfTheFileToLoad + ".txt");
+				byte[] buffer = new byte[localInputStream.available()];
+				localInputStream.read(buffer);
+				File targetFile = new File("ChesstoryData/parameters/"
+						+ nameOfTheFileToLoad + ".txt");
+				OutputStream outStream = new FileOutputStream(targetFile);
+				outStream.write(buffer);
+				outStream.close();
+				BufferedReader br = new BufferedReader(new InputStreamReader(
+						localInputStream));
+				br.close();
+				fileToLoad = new File("ChesstoryData/parameters/"
+						+ nameOfTheFileToLoad + "txt");
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(null,
+						"The operation 'cloning the file "
+								+ nameOfTheFileToLoad + " from jar' failed",
+						"Fatal Error", JOptionPane.ERROR_MESSAGE);
+				res = new int[1];
+				res[0] = -2;
 				return res;
 			}
-		return res; 
-	
+			res = new int[1];
+			res[0] = -1;
+			return res;
+		}
+		return res;
+
 	}
 }
