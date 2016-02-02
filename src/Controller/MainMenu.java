@@ -22,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.plaf.DimensionUIResource;
 
 import Controller.RulesEditor.ItemSliderChecked;
 
@@ -56,8 +57,9 @@ public class MainMenu {
 
 	private JButton bParamBack, bSaveChange;
 	private int[] arrayParam;
-	private JCheckBox checkboxDisplayHelp;
+	private JCheckBox checkboxDisplayHelp, checkboxTimer;
 	private boolean changesNotSaved = false;
+	private JTextField tfTimer;
 
 	/**
 	 * Create the menu and displays it.
@@ -293,18 +295,35 @@ public class MainMenu {
 			}
 		});
 		panelParam.add(checkboxDisplayHelp);
+		panelParam.add(Box.createRigidArea(dimensionFillBetweenButtons));
+		checkboxTimer = new JCheckBox("Allow timer ? ");
+		checkboxTimer.setSelected(arrayParam[1] == 1);
+		checkboxTimer.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				changesNotSaved = true;
+				bSaveChange.setEnabled(true);
+				if (checkboxTimer.isSelected())
+					tfTimer.setEnabled(true);
+				else
+					tfTimer.setEnabled(false);
+			}
+		});
+		panelParam.add(checkboxTimer);
+		tfTimer = new JTextField("xhxxmxxs", 8);
+		tfTimer.setMaximumSize(new DimensionUIResource(100, 40));
+		panelParam.add(tfTimer);
+
 		bSaveChange = new JButton("Confirm changes");
 		bSaveChange.setMaximumSize(dimensionButtons);
 		bSaveChange.setAlignmentY(Component.CENTER_ALIGNMENT);
 		bSaveChange.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panelParam.add(bSaveChange);
 		panelParam.add(Box.createRigidArea(dimensionFillBetweenButtons));
-		//TODO remove this test
-		int[] arrayIntTest={12,15,17,666};
 		bSaveChange.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				FileController.saveParameters("mainParameters",arrayIntTest);
+				saveParameters();
 				bSaveChange.setEnabled(false);
 				changesNotSaved = false;
 			}
@@ -325,7 +344,7 @@ public class MainMenu {
 							JOptionPane.WARNING_MESSAGE);
 
 					if (response == JOptionPane.YES_OPTION) {
-						FileController.saveParameters("mainParameters",arrayIntTest);
+						saveParameters();
 					} else if (response == JOptionPane.CANCEL_OPTION)
 						return;
 				}
@@ -335,5 +354,21 @@ public class MainMenu {
 
 		f.repaint();
 		f.revalidate();
+	}
+
+	private void saveParameters() {
+		arrayParam[0] = checkboxDisplayHelp.isSelected() ? 1 : 0;
+		if (!checkboxTimer.isSelected()) {
+			arrayParam[1] = 0;
+		} else {
+			String[] inter1 = tfTimer.getText().split("h");
+			String[] inter2 = inter1[1].split("m");
+			String[] inter3 = inter2[1].split("s");
+			// TODO check format
+			arrayParam[1] = Integer.parseInt(inter1[0]) * 3600 + Integer.parseInt(inter2[0]) * 60
+					+ Integer.parseInt(inter3[0]);
+		}
+
+		FileController.saveParameters("mainParameters", arrayParam);
 	}
 }
