@@ -299,10 +299,12 @@ public class MainMenu {
 		bSaveChange.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panelParam.add(bSaveChange);
 		panelParam.add(Box.createRigidArea(dimensionFillBetweenButtons));
+		//TODO remove this test
+		int[] arrayIntTest={12,15,17,666};
 		bSaveChange.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				FileController.saveParameters("mainParameters");
+				FileController.saveParameters("mainParameters",arrayIntTest);
 				bSaveChange.setEnabled(false);
 				changesNotSaved = false;
 			}
@@ -323,7 +325,7 @@ public class MainMenu {
 							JOptionPane.WARNING_MESSAGE);
 
 					if (response == JOptionPane.YES_OPTION) {
-						FileController.saveParameters("mainParameters");
+						FileController.saveParameters("mainParameters",arrayIntTest);
 					} else if (response == JOptionPane.CANCEL_OPTION)
 						return;
 				}

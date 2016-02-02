@@ -502,12 +502,12 @@ abstract class FileController {
 
 	}
 	
-	public void saveParameters(String nameOfTheFileToSave, int parameters[]){
+	public static void saveParameters(String nameOfTheFileToSave, int parameters[]){
 		File fileToSave;
 		try{
 			fileToSave=new File("ChesstoryData/parameters/"
 					+ nameOfTheFileToSave + ".txt");
-			FileWriter fileWriter = new FileWriter(fileToSave + ".txt");
+			FileWriter fileWriter = new FileWriter(fileToSave);
 			System.out.println("---->Saving parameters file");
 			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 			String tempStr="";
@@ -517,8 +517,7 @@ abstract class FileController {
 				}
 				tempStr+=parameters[i];
 			}
-			bufferedWriter.write(">>>>||----Chesstory_SaveFile_Header--|");
-			bufferedWriter.newLine();
+			bufferedWriter.write(tempStr);
 			bufferedWriter.close();
 			System.out.println("---->Save successful");
 

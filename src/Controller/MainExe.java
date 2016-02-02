@@ -2,6 +2,8 @@ package Controller;
 
 import java.awt.Color;
 import java.awt.GraphicsEnvironment;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -100,6 +102,25 @@ public class MainExe {
 		}
 		
 		try {
+			InputStream localInputStream = ClassLoader
+					.getSystemClassLoader()
+					.getResourceAsStream(
+							"ChesstoryData/defaultSaves/default_CHATURANGA.txt");
+			byte[] buffer = new byte[localInputStream.available()];
+			localInputStream.read(buffer);
+			new File("ChesstoryData/defaultSaves").mkdirs();
+			File targetFile = new File(
+					"ChesstoryData/defaultSaves/default_CHATURANGA.txt");
+			OutputStream outStream = new FileOutputStream(targetFile);
+			outStream.write(buffer);
+			outStream.close();
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					localInputStream));
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "error:" + e);
+		}	
+		
+		try {
 			if(!(new File("ChesstoryData/parameters/mainParameters.txt").exists())){
 				new File("ChesstoryData/parameters").mkdirs();
 				InputStream localInputStream = ClassLoader.getSystemClassLoader()
@@ -118,28 +139,11 @@ public class MainExe {
 				br.close();
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "error:" + e);
+			JOptionPane.showMessageDialog(null, "Error", "mainParameters was not correctly clone",JOptionPane.ERROR_MESSAGE);
 		}
 		
-		try {
-			InputStream localInputStream = ClassLoader
-					.getSystemClassLoader()
-					.getResourceAsStream(
-							"ChesstoryData/defaultSaves/default_CHATURANGA.txt");
-			byte[] buffer = new byte[localInputStream.available()];
-			localInputStream.read(buffer);
-			new File("ChesstoryData/defaultSaves").mkdirs();
-			File targetFile = new File(
-					"ChesstoryData/defaultSaves/default_CHATURANGA.txt");
-			OutputStream outStream = new FileOutputStream(targetFile);
-			outStream.write(buffer);
-			outStream.close();
-			BufferedReader br = new BufferedReader(new InputStreamReader(
-					localInputStream));
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "error:" + e);
-		}		
-		
+		int[] arrayIntTest={12,15,17,666};
+		FileController.saveParameters("mainParameters",arrayIntTest);
 		mainMenu = new MainMenu(frame, false);
 		frame.repaint();
 		frame.revalidate();
