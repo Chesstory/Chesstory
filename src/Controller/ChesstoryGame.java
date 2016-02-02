@@ -63,8 +63,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 	private JPopupMenu popMenu;
 	private JMenu changeTheme;
-	private JMenuItem itemBasic, itemShatranj, itemSoup, itemFlashy, itemYeld,
-			itemTrveblkmetol, itemRose, itemSpring, itemOutch;
+	private JMenuItem itemBasic, itemShatranj, itemSoup, itemFlashy, itemYeld, itemTrveblkmetol, itemRose, itemSpring,
+			itemOutch;
 
 	private JTextArea rulesText;// RULES
 	private JScrollPane rulesTextScroll;
@@ -93,8 +93,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private int initialTime, playerWTimeLeft, playerBTimeLeft;
 	private JPanel panelTimerW, panelTimerB;
 	private JTextField textTimerW, textTimerB;
-	private String affPlayerWSec, affPlayerBSec, affPlayerWMin, affPlayerBMin,
-			affPlayerWHou, affPlayerBHou;
+	private String affPlayerWSec, affPlayerBSec, affPlayerWMin, affPlayerBMin, affPlayerWHou, affPlayerBHou;
 
 	private Music sound1;
 
@@ -118,8 +117,6 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		 * heightRightPanel=(int)(height*(0.66));
 		 * widthRightPanel=(int)(width*(0.66));
 		 */
-
-		
 
 		/*
 		 * f = new JFrame();
@@ -146,12 +143,14 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			initTimer();
 		}
 		ClassLoader cl = this.getClass().getClassLoader();
-		try{//TODO DO IT BAPTISTE BECAUSE CA ME SAOULE
-		//sound1 = new Music(cl.getResource("ChesstoryData/sounds/test2.wav"));
-		}catch(Exception e){
+		ImageIcon iconTheme;
+		try {// TODO DO IT BAPTISTE BECAUSE CA ME SAOULE
+				// sound1 = new
+				// Music(cl.getResource("ChesstoryData/sounds/test2.wav"));
+		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "error sound");
 		}
-		
+
 		moveList = new ArrayList<Deplacement>();
 		moveListCursor = -1;
 
@@ -171,8 +170,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		gbl_panelLeft.columnWidths = new int[] { 1000, 0 };
 		gbl_panelLeft.rowHeights = new int[] { 10, 600, 0, 0, 0 };
 		gbl_panelLeft.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gbl_panelLeft.rowWeights = new double[] { 0.0, 0.0, 1.0, 1.0,
-				Double.MIN_VALUE };
+		gbl_panelLeft.rowWeights = new double[] { 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE };
 		panelLeft.setLayout(gbl_panelLeft);
 
 		panelLeftMenu = new JPanel();
@@ -210,15 +208,24 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 		popMenu = new JPopupMenu("Parameters");
 		changeTheme = new JMenu("Choose your theme");
-		itemBasic = new JMenuItem("Default them");
-		itemShatranj = new JMenuItem("Shatranj's them");
-		itemSoup = new JMenuItem("Some Soup ?");
-		itemFlashy = new JMenuItem("The Flashy one");
-		itemYeld = new JMenuItem("D - The answer D");
-		itemTrveblkmetol = new JMenuItem("So trve, so kvlt, so blck metol");
-		itemRose = new JMenuItem("Rose");
-		itemSpring = new JMenuItem("Spring");
-		itemOutch = new JMenuItem("My eyes are bleeding");
+		iconTheme = new ImageIcon(cl.getResource("icons/th_cl.png"));
+		itemBasic = new JMenuItem("Default them", iconTheme);
+		iconTheme = new ImageIcon(cl.getResource("icons/th_sh.png"));
+		itemShatranj = new JMenuItem("Shatranj's them", iconTheme);
+		iconTheme = new ImageIcon(cl.getResource("icons/th_so.png"));
+		itemSoup = new JMenuItem("Some Soup ?", iconTheme);
+		iconTheme = new ImageIcon(cl.getResource("icons/th_fl.png"));
+		itemFlashy = new JMenuItem("The Flashy one", iconTheme);
+		iconTheme = new ImageIcon(cl.getResource("icons/th_ad.png"));
+		itemYeld = new JMenuItem("D - The answer D", iconTheme);
+		iconTheme = new ImageIcon(cl.getResource("icons/th_bl.png"));
+		itemTrveblkmetol = new JMenuItem("So trve, so kvlt, so blck metol", iconTheme);
+		iconTheme = new ImageIcon(cl.getResource("icons/th_ro.png"));
+		itemRose = new JMenuItem("Rose", iconTheme);
+		iconTheme = new ImageIcon(cl.getResource("icons/th_sp.png"));
+		itemSpring = new JMenuItem("Spring", iconTheme);
+		iconTheme = new ImageIcon(cl.getResource("icons/th_ey.png"));
+		itemOutch = new JMenuItem("My eyes are bleeding", iconTheme);
 		changeTheme.add(itemBasic);
 		changeTheme.add(itemShatranj);
 		changeTheme.add(itemSoup);
@@ -230,8 +237,6 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		changeTheme.add(itemOutch);
 
 		popMenu.add(changeTheme);
-
-		
 
 		/*
 		 * arrowLeft.setBorder(BorderFactory.createEmptyBorder());
@@ -246,21 +251,18 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		 * ImageIcon("./bin/icons/arrow_left.png")
 		 * .getImage().getScaledInstance(60, 40, Image.SCALE_DEFAULT));
 		 */
-		Icon icon = new ImageIcon(new ImageIcon(
-				cl.getResource("icons/arrow_left.png")).getImage()
-				.getScaledInstance(60, 40, Image.SCALE_DEFAULT));
+		Icon icon = new ImageIcon(new ImageIcon(cl.getResource("icons/arrow_left.png")).getImage().getScaledInstance(60,
+				40, Image.SCALE_DEFAULT));
 		arrowLeft = new JButton(icon);
 		panelLeftMenuBrowse.add(arrowLeft);
 
-		icon = new ImageIcon(new ImageIcon(
-				cl.getResource("icons/arrow_play.png")).getImage()
-				.getScaledInstance(60, 40, Image.SCALE_DEFAULT));
+		icon = new ImageIcon(new ImageIcon(cl.getResource("icons/arrow_play.png")).getImage().getScaledInstance(60, 40,
+				Image.SCALE_DEFAULT));
 		arrowMiddle = new JButton(icon);
 		panelLeftMenuBrowse.add(arrowMiddle);
 
-		icon = new ImageIcon(new ImageIcon(
-				cl.getResource("icons/arrow_right.png")).getImage()
-				.getScaledInstance(60, 40, Image.SCALE_DEFAULT));
+		icon = new ImageIcon(new ImageIcon(cl.getResource("icons/arrow_right.png")).getImage().getScaledInstance(60, 40,
+				Image.SCALE_DEFAULT));
 		arrowRight = new JButton(icon);
 		panelLeftMenuBrowse.add(arrowRight);
 
@@ -287,7 +289,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			public void actionPerformed(ActionEvent e) {
 				if (!popMenu.isVisible()) {
 					popMenu.show(f, 350, 50);
-					sound1.play();
+					//sound1.play();
 				} else
 					popMenu.setVisible(false);
 			}
@@ -295,13 +297,10 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		bBack.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int response = JOptionPane
-						.showConfirmDialog(
-								null,
-								"Do you want to save your game before going back to menu ? (Cancel if you don't want to leave)",
-								"Warning you are about to leave",
-								JOptionPane.YES_NO_CANCEL_OPTION,
-								JOptionPane.WARNING_MESSAGE);
+				int response = JOptionPane.showConfirmDialog(null,
+						"Do you want to save your game before going back to menu ? (Cancel if you don't want to leave)",
+						"Warning you are about to leave", JOptionPane.YES_NO_CANCEL_OPTION,
+						JOptionPane.WARNING_MESSAGE);
 
 				if (response == JOptionPane.YES_OPTION) {
 					saveGame();
@@ -327,13 +326,10 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		bExit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int response = JOptionPane
-						.showConfirmDialog(
-								null,
-								"Do you want to save your game before leaving the game ? (Cancel if you don't want to leave)",
-								"Warning you are about to leave",
-								JOptionPane.YES_NO_CANCEL_OPTION,
-								JOptionPane.WARNING_MESSAGE);
+				int response = JOptionPane.showConfirmDialog(null,
+						"Do you want to save your game before leaving the game ? (Cancel if you don't want to leave)",
+						"Warning you are about to leave", JOptionPane.YES_NO_CANCEL_OPTION,
+						JOptionPane.WARNING_MESSAGE);
 
 				if (response == JOptionPane.NO_OPTION) {
 					System.exit(0);
@@ -446,10 +442,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 		panelRight = new JPanel();
 		panelRight.setPreferredSize(new Dimension(
-				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment()
-						.getMaximumWindowBounds().width / 3,
-				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment()
-						.getMaximumWindowBounds().height / 3));
+				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width / 3,
+				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height / 3));
 		// FlowLayout flowLayout_1 = (FlowLayout) panelRight.getLayout();
 		panelRight.setBorder(new LineBorder(Color.RED));
 		panelRight.setBackground(Color.darkGray);
@@ -468,8 +462,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 															// rules would be at
 															// the bottom
 		rulesTextScroll = new JScrollPane(rulesText);
-		rulesTextScroll
-				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		rulesTextScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		panelRight.add(rulesTextScroll);
 		// < RULES
 
@@ -481,12 +474,11 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		logsText.setColumns(30);
 		logsText.setTabSize(1);
 		logsText.setRows(32);
-		// TODO HTML BALISES
+		// TODO See how to identify type of message
 		caret = (DefaultCaret) logsText.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);// auto scrolling
 		logsTextScroll = new JScrollPane(logsText);
-		logsTextScroll
-				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		logsTextScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		panelRight.add(logsTextScroll);
 		panelGlob.add(panelRight);
 
@@ -505,25 +497,23 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		case GAMETYPE_SHATRANJ:
 			YACG.changeTheme(THEM_SHATRANJ);
 			loadGame("default_SHATRANJ");
-			rulesText.setText(CHESS_RULES_HEADER + CHESS_RULES_SHATRANJ_PT1
-					+ YACG.getPiecesFancyMoveSet() + CHESS_RULES_SHATRANJ_PT2);
+			rulesText.setText(CHESS_RULES_HEADER + CHESS_RULES_SHATRANJ_PT1 + YACG.getPiecesFancyMoveSet()
+					+ CHESS_RULES_SHATRANJ_PT2);
 			addLogsText("Chesstory : Shatranj game !");
 			break;
 		case GAMETYPE_CHATURANGA:
 			YACG.changeTheme(THEM_SHATRANJ);
 			loadGame("default_CHATURANGA");
-			rulesText
-					.setText(CHESS_RULES_HEADER + CHESS_RULES_CHATURANGA_PT1
-							+ YACG.getPiecesFancyMoveSet()
-							+ CHESS_RULES_CHATURANGA_PT2);
+			rulesText.setText(CHESS_RULES_HEADER + CHESS_RULES_CHATURANGA_PT1 + YACG.getPiecesFancyMoveSet()
+					+ CHESS_RULES_CHATURANGA_PT2);
 			addLogsText("Chesstory : Chaturanga game !");
 			break;
 		case GAMETYPE_CUSTOM:
 			YACG.changeTheme(THEM_DEFAULT);
 			loadGame(title);
 			addLogsText("Chesstory : Custom game !");
-			rulesText.setText(CHESS_RULES_HEADER + CHESS_RULES_CUSTOM_PT1
-					+ YACG.getPiecesFancyMoveSet() + CHESS_RULES_CUSTOM_PT2);
+			rulesText.setText(CHESS_RULES_HEADER + CHESS_RULES_CUSTOM_PT1 + YACG.getPiecesFancyMoveSet()
+					+ CHESS_RULES_CUSTOM_PT2);
 			break;
 		default:
 			addLogsText("ERROR TYPE CHESSTORY GAME CAN'T BE LAUNCHED");
@@ -551,18 +541,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	 * @param joueur
 	 *            The player concerned.
 	 */
-	public void addLogsMove(Deplacement d, char piece, char joueur,
-			boolean eaten) {
-		String color, inter[];
+	public void addLogsMove(Deplacement d, char piece, char joueur, boolean eaten) {
+		String inter[];
 		// TODO addMove, WHY ?
-		if (joueur == 'b') {
-			color = "black";
-		} else if (joueur == 'w') {
-			color = "white";
-		} else {
-			color = "ERREUR_COULEUR";
-		}
-
 		String outprint = "MOVE : ";
 		outprint += d;
 		if (eaten) {
@@ -636,8 +617,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			addLogsText("EVENT ELAPSED TIME : " + s);
 			break;
 		default:
-			addLogsText("Error : chessEvent (), this should not be displayed"
-					+ s);
+			addLogsText("Error : chessEvent (), this should not be displayed" + s);
 			break;
 		}
 	}
@@ -676,10 +656,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	 */
 	private void browserViewPlay() {
 		if (!isBrowserView) {
-			int response = JOptionPane.showConfirmDialog(null,
-					"Are you sure you want to enter browse mode ?",
-					"Warning you are about to activate browse mode",
-					JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+			int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to enter browse mode ?",
+					"Warning you are about to activate browse mode", JOptionPane.YES_NO_OPTION,
+					JOptionPane.WARNING_MESSAGE);
 
 			if (response == JOptionPane.YES_OPTION) {
 				enableBrowserView();
@@ -693,13 +672,10 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 				FENList.remove(i);
 			}
 			if (timer) {
-				int response = JOptionPane
-						.showConfirmDialog(
-								null,
-								"You are about to go back to the game, do you want to delete timers ? They could have been fucked up ...",
-								"Warning you are about to go back in play mode",
-								JOptionPane.YES_NO_CANCEL_OPTION,
-								JOptionPane.WARNING_MESSAGE);
+				int response = JOptionPane.showConfirmDialog(null,
+						"You are about to go back to the game, do you want to delete timers ? They could have been fucked up ...",
+						"Warning you are about to go back in play mode", JOptionPane.YES_NO_CANCEL_OPTION,
+						JOptionPane.WARNING_MESSAGE);
 
 				if (response == JOptionPane.CANCEL_OPTION) {
 					return;
@@ -718,10 +694,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	 */
 	private void browserViewNext() {
 		if (!isBrowserView) {
-			int response = JOptionPane.showConfirmDialog(null,
-					"Are you sure you want to enter browse mode ?",
-					"Warning you are about to activate browse mode",
-					JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+			int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to enter browse mode ?",
+					"Warning you are about to activate browse mode", JOptionPane.YES_NO_OPTION,
+					JOptionPane.WARNING_MESSAGE);
 
 			if (response == JOptionPane.YES_OPTION) {
 				enableBrowserView();
@@ -730,8 +705,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		if (moveListCursor < moveList.size()) {
 			moveListCursor++;
 			// YACG.makeDeplacement(moveList.get(moveListCursor-1));
-			addLogsText("Next, moveList : " + moveList.size() + ", cursor : "
-					+ moveListCursor);
+			addLogsText("Next, moveList : " + moveList.size() + ", cursor : " + moveListCursor);
 			YACG.makeDrawFen(FENList.get(moveListCursor - 1));
 		}
 		refreshLabelsGame();
@@ -743,10 +717,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	 */
 	private void browserViewBack() {
 		if (!isBrowserView) {
-			int response = JOptionPane.showConfirmDialog(null,
-					"Are you sure you want to enter browse mode ?",
-					"Warning you are about to activate browse mode",
-					JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+			int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to enter browse mode ?",
+					"Warning you are about to activate browse mode", JOptionPane.YES_NO_OPTION,
+					JOptionPane.WARNING_MESSAGE);
 
 			if (response == JOptionPane.YES_OPTION) {
 				enableBrowserView();
@@ -767,8 +740,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 				YACG.makeDrawFen(FENList.get(moveListCursor - 1));
 			}
-			addLogsText("Back, moveList : " + moveList.size() + ", cursor : "
-					+ moveListCursor);
+			addLogsText("Back, moveList : " + moveList.size() + ", cursor : " + moveListCursor);
 		} else {// put the arrow in grey
 
 		}
@@ -813,9 +785,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	 */
 	private void switchBrowserViewBorder(boolean b) {
 		if (b) {
-			panelLeftMenuBrowse.setBorder(new BevelBorder(BevelBorder.LOWERED,
-					new Color(0, 255, 255), new Color(0, 255, 255), new Color(
-							0, 255, 255), new Color(0, 255, 255)));
+			panelLeftMenuBrowse.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(0, 255, 255),
+					new Color(0, 255, 255), new Color(0, 255, 255), new Color(0, 255, 255)));
 		} else {
 			panelLeftMenuBrowse.setBorder(new EmptyBorder(0, 0, 0, 0));
 		}
@@ -855,8 +826,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			gameType = gameSave.getGameType();
 			moveListCursor = 0;
 			moveList.clear();
-			System.out.println("Load game, id: " + gameId + ", type: "
-					+ gameType);
+			System.out.println("Load game, id: " + gameId + ", type: " + gameType);
 			FENList.clear();
 			YACG.changeRules(gameSave.getArrayRulePiece());
 			departureFEN = gameSave.getFEN();
@@ -867,12 +837,9 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			}
 			for (int i = 0; i < gameSave.getMoveList().size(); i++) {
 				YACG.makeDeplacement(gameSave.getMoveList().get(i));
-				System.out.println("c =" + moveList.get(i).getColor() + ", p ="
-						+ moveList.get(i).getPiececode() + ", ("
-						+ moveList.get(i).getX1() + ", "
-						+ moveList.get(i).getY1() + ") -> ("
-						+ moveList.get(i).getX2() + ", "
-						+ moveList.get(i).getY2() + ")");
+				System.out.println("c =" + moveList.get(i).getColor() + ", p =" + moveList.get(i).getPiececode() + ", ("
+						+ moveList.get(i).getX1() + ", " + moveList.get(i).getY1() + ") -> (" + moveList.get(i).getX2()
+						+ ", " + moveList.get(i).getY2() + ")");
 			}
 
 			System.out.println("---->Processing successful\n");
@@ -887,10 +854,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	public void saveGame() {
 		// TODO game id generator
 		gameId = 1;
-
-		GameSave g = new GameSave(true, gameId, gameType, moveList,
-				departureFEN, YACG.getArrayRulePiece());
-
+		GameSave g = new GameSave(true, gameId, gameType, moveList, departureFEN, YACG.getArrayRulePiece());
 		FileController.saveFile(g);
 	}
 
@@ -911,24 +875,16 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 					textTimerW.setBackground(Color.GRAY);
 				}
 
-				affPlayerWHou = String.format("%01d",
-						((int) playerWTimeLeft / 3600));
-				affPlayerWMin = String.format("%02d",
-						((int) (playerWTimeLeft % 3600) / 60));
-				affPlayerWSec = String.format("%02d",
-						((int) (playerWTimeLeft % 3600) % 60));
+				affPlayerWHou = String.format("%01d", ((int) playerWTimeLeft / 3600));
+				affPlayerWMin = String.format("%02d", ((int) (playerWTimeLeft % 3600) / 60));
+				affPlayerWSec = String.format("%02d", ((int) (playerWTimeLeft % 3600) % 60));
 
-				affPlayerBHou = String.format("%01d",
-						((int) playerBTimeLeft / 3600));
-				affPlayerBMin = String.format("%02d",
-						((int) (playerBTimeLeft % 3600) / 60));
-				affPlayerBSec = String.format("%02d",
-						((int) (playerBTimeLeft % 3600) % 60));
+				affPlayerBHou = String.format("%01d", ((int) playerBTimeLeft / 3600));
+				affPlayerBMin = String.format("%02d", ((int) (playerBTimeLeft % 3600) / 60));
+				affPlayerBSec = String.format("%02d", ((int) (playerBTimeLeft % 3600) % 60));
 
-				textTimerW.setText(affPlayerWHou + "h" + affPlayerWMin + "m"
-						+ affPlayerWSec + "s");
-				textTimerB.setText(affPlayerBHou + "h" + affPlayerBMin + "m"
-						+ affPlayerBSec + "s");
+				textTimerW.setText(affPlayerWHou + "h" + affPlayerWMin + "m" + affPlayerWSec + "s");
+				textTimerB.setText(affPlayerBHou + "h" + affPlayerBMin + "m" + affPlayerBSec + "s");
 
 				if (playerWTimeLeft <= 0)
 					chessEvent(CHESS_EVENT_ELAPSE_TIME, "White lost.");
