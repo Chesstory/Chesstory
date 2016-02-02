@@ -8,6 +8,9 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -71,7 +74,6 @@ public class MainMenu {
 			displayMainMenu();
 		}
 	}
-
 	/**
 	 * Display the menu, with all the labels, panels, etc.
 	 */
