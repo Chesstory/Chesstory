@@ -98,7 +98,29 @@ public class MainExe {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "error:" + e);
 		}
-
+		
+		try {
+			if(!(new File("ChesstoryData/parameters/mainParameters.txt").exists())){
+				new File("ChesstoryData/parameters").mkdirs();
+				InputStream localInputStream = ClassLoader.getSystemClassLoader()
+						.getResourceAsStream(
+								"ChesstoryData/parameters/mainParameters.txt");
+				byte[] buffer = new byte[localInputStream.available()];
+				localInputStream.read(buffer);
+				new File("ChesstoryData/defaultSaves").mkdirs();
+				File targetFile = new File(
+						"ChesstoryData/parameters/mainParameters.txt");
+				OutputStream outStream = new FileOutputStream(targetFile);
+				outStream.write(buffer);
+				outStream.close();
+				BufferedReader br = new BufferedReader(new InputStreamReader(
+						localInputStream));
+				br.close();
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "error:" + e);
+		}
+		
 		try {
 			InputStream localInputStream = ClassLoader
 					.getSystemClassLoader()

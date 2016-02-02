@@ -1,13 +1,18 @@
 package Controller;
 
 import echecs.Deplacement;
+import echecs.Echiquier;
 import echecs.Position;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -132,7 +137,7 @@ abstract class FileController {
 
 	static GameSave loadFile(String fileToLoad) {
 		ArrayList<Deplacement> a = new ArrayList<Deplacement>();
-		String directory = "./ChesstoryData/playerSaves/";
+			String directory = "./ChesstoryData/playerSaves/";
 		String line[];
 		line = new String[100];
 		String splitted[];
@@ -333,7 +338,7 @@ abstract class FileController {
 																					// if
 																					// it's
 																					// not
-																					// the
+																				// the
 																					// footer
 							System.out.println("Footer :" + splitted[0]);
 							if (splitted.length == 6) {// there is 6 parameter,
@@ -414,5 +419,82 @@ abstract class FileController {
 		}
 		return new GameSave(isFileCorrupted, game_id, game_type, a, FEN,
 				arrayRulePiece);
+	}
+	public static int[] saveParameters(String nameOfTheFile){
+		String splitted[];
+		int res[];
+		File fileToLoad;
+			try {
+				fileToLoad = new File("ChesstoryData/parameters/"+nameOfTheFile+".txt");
+		} catch (Exception e) {
+			try {
+				JOptionPane.showMessageDialog(null, "File '" + nameOfTheFile
+						+ "' not found", "Error", JOptionPane.ERROR_MESSAGE);
+				InputStream localInputStream = ClassLoader
+						.getSystemClassLoader().getResourceAsStream(
+								"ChesstoryData/parameters/" + nameOfTheFile
+										+ ".txt");
+				byte[] buffer = new byte[localInputStream.available()];
+				localInputStream.read(buffer);
+				File targetFile = new File("ChesstoryData/parameters/"
+						+ nameOfTheFile + ".txt");
+				OutputStream outStream = new FileOutputStream(targetFile);
+				outStream.write(buffer);
+				outStream.close();
+				BufferedReader br = new BufferedReader(new InputStreamReader(
+						localInputStream));
+				br.close();
+				fileToLoad = new File("ChesstoryData/parameters/"
+						+ nameOfTheFile + "txt");
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(null,
+						"The operation 'cloning the file " + nameOfTheFile
+								+ " from jar' failed", "Fatal Error",
+						JOptionPane.ERROR_MESSAGE);
+				res = new int[1];
+				res[0] = -2;
+				return res;
+			}
+		}
+		
+		try{
+			FileReader fileReader = new FileReader(fileToLoad);
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+			splitted = bufferedReader.readLine().split(",", -1);
+			res = new int[splitted.length];
+			for (int i = 0; i < splitted.length; i++) {
+				res[i] = Integer.parseInt(splitted[i]);
+			}
+			bufferedReader.close();
+		}catch(Exception e){
+				JOptionPane.showMessageDialog(null, "The file "+nameOfTheFile+" is corrupted, it was replaced by the the default one", "Error", JOptionPane.ERROR_MESSAGE);
+				try{
+					JOptionPane.showMessageDialog(null, "File '"+nameOfTheFile+"' not found", "Error", JOptionPane.ERROR_MESSAGE);
+					InputStream localInputStream = ClassLoader.getSystemClassLoader()
+							.getResourceAsStream(
+									"ChesstoryData/parameters/"+nameOfTheFile+".txt");
+					byte[] buffer = new byte[localInputStream.available()];
+					localInputStream.read(buffer);
+					File targetFile = new File(
+							"ChesstoryData/parameters/"+nameOfTheFile+".txt");
+					OutputStream outStream = new FileOutputStream(targetFile);
+					outStream.write(buffer);
+					outStream.close();
+					BufferedReader br = new BufferedReader(new InputStreamReader(
+							localInputStream));
+					br.close();
+					fileToLoad = new File("ChesstoryData/parameters/"+nameOfTheFile+"txt");
+				}catch(Exception ex){
+					JOptionPane.showMessageDialog(null, "The operation 'cloning the file "+nameOfTheFile+" from jar' failed", "Fatal Error", JOptionPane.ERROR_MESSAGE);
+					res=new int[1];
+					res[0]=-2;
+					return res;
+				}
+				res=new int[1];
+				res[0]=-1;
+				return res;
+			}
+		return res; 
+	
 	}
 }
