@@ -135,10 +135,10 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		// YACG = new YetAnotherChessGame(departureFEN, this);
 
 		// TODO See for the boolean init and the length of timer
-		timer = true;
+		timer = CHGA_TIMER != 0;
 		if (timer) {
 			timerW = true;
-			initialTime = 3600000;
+			initialTime = CHGA_TIMER;
 			playerWTimeLeft = playerBTimeLeft = initialTime / 1000;
 			initTimer();
 		}
@@ -289,7 +289,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			public void actionPerformed(ActionEvent e) {
 				if (!popMenu.isVisible()) {
 					popMenu.show(f, 350, 50);
-					//sound1.play();
+					// sound1.play();
 				} else
 					popMenu.setVisible(false);
 			}

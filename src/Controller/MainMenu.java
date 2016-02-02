@@ -303,7 +303,7 @@ public class MainMenu {
 			public void actionPerformed(ActionEvent e) {
 				changesNotSaved = true;
 				bSaveChange.setEnabled(true);
-				if (checkboxTimer.isSelected())
+				if (!tfTimer.isEnabled())
 					tfTimer.setEnabled(true);
 				else
 					tfTimer.setEnabled(false);
@@ -313,6 +313,7 @@ public class MainMenu {
 		tfTimer = new JTextField("xhxxmxxs", 8);
 		tfTimer.setMaximumSize(new DimensionUIResource(100, 40));
 		panelParam.add(tfTimer);
+		tfTimer.setEnabled(checkboxTimer.isSelected());
 
 		bSaveChange = new JButton("Confirm changes");
 		bSaveChange.setMaximumSize(dimensionButtons);
@@ -344,7 +345,8 @@ public class MainMenu {
 							JOptionPane.WARNING_MESSAGE);
 
 					if (response == JOptionPane.YES_OPTION) {
-						saveParameters();
+						if (!saveParameters())
+							return;
 					} else if (response == JOptionPane.CANCEL_OPTION)
 						return;
 				}
@@ -356,19 +358,23 @@ public class MainMenu {
 		f.revalidate();
 	}
 
-	private void saveParameters() {
+	private boolean saveParameters() {
 		arrayParam[0] = checkboxDisplayHelp.isSelected() ? 1 : 0;
-		if (!checkboxTimer.isSelected()) {
+		if (checkboxTimer.isSelected()) {
+			try {
+				String[] inter1 = tfTimer.getText().split("h");
+				String[] inter2 = inter1[1].split("m");
+				String[] inter3 = inter2[1].split("s");
+				arrayParam[1] = Integer.parseInt(inter1[0]) * 3600 + Integer.parseInt(inter2[0]) * 60
+						+ Integer.parseInt(inter3[0]);
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(f, "Timer format must be : XhXXmXXs");
+				return false;
+			}
+		} else
 			arrayParam[1] = 0;
-		} else {
-			String[] inter1 = tfTimer.getText().split("h");
-			String[] inter2 = inter1[1].split("m");
-			String[] inter3 = inter2[1].split("s");
-			// TODO check format
-			arrayParam[1] = Integer.parseInt(inter1[0]) * 3600 + Integer.parseInt(inter2[0]) * 60
-					+ Integer.parseInt(inter3[0]);
-		}
 
 		FileController.saveParameters("mainParameters", arrayParam);
+		return true;
 	}
 }

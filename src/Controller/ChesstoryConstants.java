@@ -113,5 +113,6 @@ public class ChesstoryConstants {
 	public final static String CHESS_RULES_CHATURANGA_PT2 = "";
 	
 	public static boolean YACG_DISPLAYHELP = true;
+	public static int CHGA_TIMER = 3600000;
 	
 }
