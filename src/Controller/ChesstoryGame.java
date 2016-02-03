@@ -162,7 +162,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 		f.setVisible(true);
 		panelLeft = new JPanel();
-		panelLeft.setBorder(new LineBorder(Color.GREEN));
+		//panelLeft.setBorder(new LineBorder(Color.GREEN));
 		// panelLeft.setSize((int)(f.getSize().getWidth()*panelLeftRatio)-200,
 		// (int)f.getSize().getHeight()+500);
 		panelLeft.setBackground(Color.gray);
@@ -445,7 +445,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width / 3,
 				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height / 3));
 		// FlowLayout flowLayout_1 = (FlowLayout) panelRight.getLayout();
-		panelRight.setBorder(new LineBorder(Color.RED));
+		//panelRight.setBorder(new LineBorder(Color.RED));
 		panelRight.setBackground(Color.darkGray);
 
 		// RULES
@@ -673,8 +673,8 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			}
 			if (timer) {
 				int response = JOptionPane.showConfirmDialog(null,
-						"You are about to go back to the game, do you want to delete timers ? They could have been fucked up ...",
-						"Warning you are about to go back in play mode", JOptionPane.YES_NO_CANCEL_OPTION,
+						"You're about to go back to the game, do you want to delete timers ? Something could have gone wrong ...",
+						"Warning you're about to go back in play mode", JOptionPane.YES_NO_CANCEL_OPTION,
 						JOptionPane.WARNING_MESSAGE);
 
 				if (response == JOptionPane.CANCEL_OPTION) {
