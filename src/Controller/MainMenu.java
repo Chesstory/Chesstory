@@ -25,7 +25,6 @@ import javax.swing.JTextField;
 import javax.swing.plaf.DimensionUIResource;
 
 import Controller.RulesEditor.ItemSliderChecked;
-
 import static Controller.ChesstoryConstants.*;
 
 /**
@@ -366,7 +365,7 @@ public class MainMenu {
 				String[] inter2 = inter1[1].split("m");
 				String[] inter3 = inter2[1].split("s");
 				arrayParam[1] = Integer.parseInt(inter1[0]) * 3600 + Integer.parseInt(inter2[0]) * 60
-						+ Integer.parseInt(inter3[0]);
+						+ Integer.parseInt(inter3[0]);//TODO calcul is wrong
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(f, "Timer format must be : XhXXmXXs");
 				return false;
@@ -375,6 +374,7 @@ public class MainMenu {
 			arrayParam[1] = 0;
 
 		FileController.saveParameters("mainParameters", arrayParam);
+		FileController.loadParametersToChesstoryConstants();
 		return true;
 	}
 }

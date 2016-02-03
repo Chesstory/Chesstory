@@ -3,6 +3,7 @@ package Controller;
 import echecs.Deplacement;
 import echecs.Echiquier;
 import echecs.Position;
+import gui.YetAnotherChessGame;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-
+import static Controller.ChesstoryConstants.*;
 /**
  * Check the structure of a text/file in order to save/load it.
  * 
@@ -531,5 +532,8 @@ abstract class FileController {
 	
 	public static void loadParametersToChesstoryConstants(){
 		//TODO setBoolelolo etc
+		int[] paramToLoad=loadParameters("mainParameters");
+		YACG_DISPLAYHELP=(paramToLoad[0]==1);
+		CHGA_TIMER=paramToLoad[1];
 	}
 }

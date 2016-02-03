@@ -127,9 +127,9 @@ public class MainExe {
 				InputStream localInputStream = ClassLoader
 						.getSystemClassLoader().getResourceAsStream(
 								"ChesstoryData/parameters/mainParameters.txt");
+				
+				byte[] buffer = new byte[localInputStream.available()];//TODO bug right here
 				JOptionPane.showMessageDialog(null, "test:");
-				byte[] buffer = new byte[localInputStream.available()];
-
 				localInputStream.read(buffer);
 				new File("ChesstoryData/defaultSaves").mkdirs();
 				File targetFile = new File(
@@ -146,9 +146,9 @@ public class MainExe {
 					"mainParameters was not correctly clone" + e, "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
-
-		int[] arrayIntTest = { 12, 15, 17, 666 };
-		FileController.saveParameters("mainParameters", arrayIntTest);
+		FileController.loadParametersToChesstoryConstants();
+		/*int[] arrayIntTest = { 12, 15, 17, 666 };
+		FileController.saveParameters("mainParameters", arrayIntTest);*/
 		mainMenu = new MainMenu(frame, false);
 		frame.repaint();
 		frame.revalidate();
