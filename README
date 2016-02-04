@@ -1,7 +1,9 @@
 # Chesstory
-Mutliple Chess games, this is a school project.
+Chess game with modular rules.
+School project for IUT de Calais France.
+
 Goal : Create a chess game which includes several variants and is really customizable.
-Support : Written in JAVA (SE-1.8)=> should be compatible for every OS !
+Environment : Written in JAVA (SE-1.8)=> should be compatible for every OS !
 
 What has been asked :
   - Chess game with graphic interface
@@ -35,16 +37,17 @@ What is already done :
   - Rules :
     * Pieces and moves rules are customizable really easily with a graphic interface
  
-  - Do a (user-friendly) jdoc and put all the code in the same language (only remains package Controller)
+  - JDoc
     
 What is in progress :
-  - Fix one for all the problems of build, where to put the images, saves, and default saves (actually the .JAR won't work properly because of that)
+  - Fix one for all the problems of build, where to put the images, saves, and default saves (actually the .JAR won't work properly because of the sounds, they were removed for the last version)
   - Chesstory 2.0
 
 What remains to do (not exhaustiv list) :
   - Add ways to custom rules like castling, prise-en-passant, size of chess board, custom the timer, toggle on/off graphic hints, etc
+  - Little FEN UI setter
   - Save parameters (for all games)
   - See if we can rotate the chess board (utopia)
   
-If you have any question or request or just want to thank us, please send me an email at :
-b.guillemot95@gmail.com
+If you have any question or request, or just want to thank us, please send an email at :
+b.guillemot95@gmail.com or roman.acevedo62@gmail.com
