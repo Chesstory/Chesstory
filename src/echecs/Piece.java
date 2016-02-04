@@ -49,8 +49,8 @@ public class Piece {
 	private String name;
 	private char code;
 	private String couleur;
-	// Tell if the piece moved during the game, useful for roque,
-	// prise-en-passant (omelette du fromage, etc
+	// Tell if the piece moved during the game, useful for castle,
+	// prise-en-passant, etc
 	private boolean moved;
 
 	/**
@@ -500,21 +500,21 @@ public class Piece {
 		else if (maxY >= dimY)
 			info += "  - It can move horizontally.\n";
 		else
-			info += "  - It can moves from " + minX + " cell(s) to " + maxX + " horizontally.\n";
+			info += "  - It can move from " + minX + " cell(s) to " + maxX + " horizontally.\n";
 
 		if (maxY == 0)
 			info += "  - It can't move vertically.\n";
 		else if (maxY >= dimY)
 			info += "  - It can move vertically.\n";
 		else
-			info += "  - It can moves from " + minY + " cell(s) to " + maxY + " vertically.\n";
+			info += "  - It can move from " + minY + " cell(s) to " + maxY + " vertically.\n";
 
 		if (maxDiag == 0)
 			info += "  - It can't move diagonnally.\n";
-		else if (maxY >= dimY)
+		else if (maxDiag >= dimY*2)
 			info += "  - It can move diagonally.\n";
 		else
-			info += "  - It can moves from " + minDiag + " cell(s) to " + maxDiag + " diagonnally.\n";
+			info += "  - It can move from " + minDiag + " cell(s) to " + maxDiag + " diagonnally.\n";
 
 		if (backward)
 			info += "  - It can move backward.\n";

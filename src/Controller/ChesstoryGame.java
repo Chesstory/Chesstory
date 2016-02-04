@@ -135,10 +135,10 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		// YACG = new YetAnotherChessGame(departureFEN, this);
 
 		// TODO See for the boolean init and the length of timer
-		timer = CHGA_TIMER != 0;
+		timer = true;// CHGA_TIMER != 0;
 		if (timer) {
 			timerW = true;
-			initialTime = CHGA_TIMER;
+			initialTime = 3600000;// CHGA_TIMER;
 			playerWTimeLeft = playerBTimeLeft = initialTime / 1000;
 			initTimer();
 		}
