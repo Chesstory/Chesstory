@@ -22,7 +22,7 @@ import javax.swing.JOptionPane;
 import static Controller.ChesstoryConstants.*;
 
 /**
- * Check the structure of a text/file in order to save/load it.
+ * Library of fuctions used for loading/saving games files and parameters files
  * 
  * @author Acevedo Roman and Guillemot Baptiste, based on Delepoulle Samuel's
  *         code.
@@ -32,7 +32,22 @@ abstract class FileController {
 	static boolean saveFile(GameSave g) {
 		return saveFile(g, "CHOOSER..FILE");
 	}
-
+	
+	/**
+	 * Saving a game file in a user-choosen directory. The file is a .txt and has to follow the exact format :
+	 * 	-ChesstoryHeader
+	 * 	-Id of the game
+	 * 	-Type of the game
+	 *	-Number of lines of moves expected
+	 *	-FEN code
+	 *	-6 lines of rules
+	 * 	-ChesstoryFooter
+	 * */
+	/**
+	 * @param g GameSave to save.
+	 * @param fileNameToSave Name of the file to save, if it's CHOOSER..FILE then the user will have to choose it with the FileChooser
+	 * @return true if the file was correctly saved
+	 */
 	static boolean saveFile(GameSave g, String fileNameToSave) {
 		File fileToSave;
 		int retrival;
@@ -121,6 +136,11 @@ abstract class FileController {
 		return true;
 	}
 
+	/**
+	 * load a game file
+	 * @param name of the file to load
+	 * @return the GameSave object of the loaded game
+	 */
 	static GameSave loadFile(String fileToLoad) {
 		ArrayList<Deplacement> a = new ArrayList<Deplacement>();
 		String directory = "./ChesstoryData/playerSaves/";
@@ -368,7 +388,7 @@ abstract class FileController {
 	}
 
 	/**
-	 * Save a file in the directory /ChesstoryData/parameters/ of parameters.
+	 * Load a file in the directory /ChesstoryData/parameters/ of parameters.
 	 * 
 	 * @param nameOfTheFileToLoad
 	 *            The name of the file to load, has to be a parameters file
@@ -462,6 +482,13 @@ abstract class FileController {
 
 	}
 
+	/**
+	 * Save a file in the directory /ChesstoryData/parameters/ of parameters.
+	 * 
+	 * @param nameOfTheFileToSave nameOfTheFileToSave has to be a param one
+	 * @param parameters - Array of int (parameters)<br/>
+	 * 
+	 */
 	public static void saveParameters(String nameOfTheFileToSave, int parameters[]) {
 		File fileToSave;
 		try {
@@ -486,6 +513,10 @@ abstract class FileController {
 		}
 	}
 
+	/**
+	 * Load the mainParameters file into the game
+	 * 
+	 */
 	public static void loadParametersToChesstoryConstants() {
 		// TODO setBoolelolo etc
 		int[] paramToLoad = loadParameters("mainParameters");

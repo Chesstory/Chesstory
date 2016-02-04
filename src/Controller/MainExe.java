@@ -60,6 +60,7 @@ public class MainExe {
 
 		new File("ChesstoryData/defaultSaves").mkdirs();
 		new File("ChesstoryData/playerSaves").mkdir();
+		new File("ChesstoryData/parameters").mkdir();
 		try {
 			InputStream localInputStream = ClassLoader.getSystemClassLoader()
 					.getResourceAsStream(
@@ -123,13 +124,21 @@ public class MainExe {
 		try {
 			if (!(new File("ChesstoryData/parameters/mainParameters.txt")
 					.exists())) {
-				new File("ChesstoryData/parameters").mkdirs();
+
 				InputStream localInputStream = ClassLoader
 						.getSystemClassLoader().getResourceAsStream(
 								"ChesstoryData/parameters/mainParameters.txt");
-				
-				byte[] buffer = new byte[localInputStream.available()];//TODO bug right here
-				JOptionPane.showMessageDialog(null, "test:");
+				byte[] buffer;
+				try {
+					buffer = new byte[localInputStream.available()];
+				} catch (Exception e) {
+					String err;
+
+					JOptionPane.showMessageDialog(null,
+							"error train seconde : " + e.getMessage());
+					buffer = new byte[localInputStream.available()];
+				}
+
 				localInputStream.read(buffer);
 				new File("ChesstoryData/defaultSaves").mkdirs();
 				File targetFile = new File(
@@ -146,9 +155,11 @@ public class MainExe {
 					"mainParameters was not correctly clone" + e, "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
-		FileController.loadParametersToChesstoryConstants();
-		/*int[] arrayIntTest = { 12, 15, 17, 666 };
-		FileController.saveParameters("mainParameters", arrayIntTest);*/
+		// FileController.loadParametersToChesstoryConstants();
+		/*
+		 * int[] arrayIntTest = { 12, 15, 17, 666 };
+		 * FileController.saveParameters("mainParameters", arrayIntTest);
+		 */
 		mainMenu = new MainMenu(frame, false);
 		frame.repaint();
 		frame.revalidate();
