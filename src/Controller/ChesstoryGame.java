@@ -1,33 +1,23 @@
 package Controller;
 
 import java.awt.event.ActionEvent;
-
-import javax.swing.UIManager.*;
-
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import javax.swing.*;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.GridLayout;
 import java.util.ArrayList;
-
 import gui.YetAnotherChessGame;
 import echecs.Deplacement;
-
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.text.DefaultCaret;
-
 import static Controller.ChesstoryConstants.*;
 
 /**
@@ -95,7 +85,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	private JTextField textTimerW, textTimerB;
 	private String affPlayerWSec, affPlayerBSec, affPlayerWMin, affPlayerBMin, affPlayerWHou, affPlayerBHou;
 
-	private Music sound1;
+	//private Music sound1;
 
 	/**
 	 * Calls YACG to create the chessBoard with the selected rules. And creates
@@ -112,30 +102,10 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	@SuppressWarnings("static-access")
 	public ChesstoryGame(String title, int gameType, JFrame f) {
 		this.gameType = gameType;
-
-		/*
-		 * heightRightPanel=(int)(height*(0.66));
-		 * widthRightPanel=(int)(width*(0.66));
-		 */
-
-		/*
-		 * f = new JFrame();
-		 * 
-		 * // f.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		 * f.setSize(GraphicsEnvironment
-		 * .getLocalGraphicsEnvironment().getMaximumWindowBounds().width,
-		 * GraphicsEnvironment
-		 * .getLocalGraphicsEnvironment().getMaximumWindowBounds().height);
-		 * f.setForeground(Color.BLUE);
-		 * f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); f.setVisible(true);
-		 */
-		// Chessboard
 		this.f = f;
-
 		// YACG = new YetAnotherChessGame(departureFEN, this);
-
 		// TODO See for the boolean init and the length of timer
-		timer = true;// CHGA_TIMER != 0;
+		timer = true;
 		if (timer) {
 			timerW = true;
 			initialTime = 3600000;// CHGA_TIMER;
@@ -144,7 +114,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		}
 		ClassLoader cl = this.getClass().getClassLoader();
 		ImageIcon iconTheme;
-		try {// TODO DO IT BAPTISTE BECAUSE CA ME SAOULE
+		try {// TODO sounds won't load in jar runnable
 				// sound1 = new
 				// Music(cl.getResource("ChesstoryData/sounds/test2.wav"));
 		} catch (Exception e) {
@@ -162,9 +132,6 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 		f.setVisible(true);
 		panelLeft = new JPanel();
-		// panelLeft.setBorder(new LineBorder(Color.GREEN));
-		// panelLeft.setSize((int)(f.getSize().getWidth()*panelLeftRatio)-200,
-		// (int)f.getSize().getHeight()+500);
 		panelLeft.setBackground(Color.gray);
 		GridBagLayout gbl_panelLeft = new GridBagLayout();
 		gbl_panelLeft.columnWidths = new int[] { 1000, 0 };
@@ -412,8 +379,6 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 			}
 		});
 
-		// TODO MUSIQUE BABY
-
 		panelTimerB = new JPanel();
 		panelLeftMenuBrowse.add(panelTimerB);
 
@@ -475,7 +440,6 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		logsText.setColumns(30);
 		logsText.setTabSize(1);
 		logsText.setRows(32);
-		// TODO See how to identify type of message
 		caret = (DefaultCaret) logsText.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);// auto scrolling
 		logsTextScroll = new JScrollPane(logsText);
@@ -842,7 +806,6 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 						+ moveList.get(i).getX1() + ", " + moveList.get(i).getY1() + ") -> (" + moveList.get(i).getX2()
 						+ ", " + moveList.get(i).getY2() + ")");
 			}
-
 			System.out.println("---->Processing successful\n");
 		}
 		refreshLabelsGame();

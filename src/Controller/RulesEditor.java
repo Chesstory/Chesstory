@@ -115,9 +115,7 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 		currentFEN = loadedRules.getFEN();
 		pieceRules = new String[NB_PIECE][NB_RULE_PER_PIECE];
 		nameOfPieces = new String[] { "Piece 1 'pawn'", "Piece 2 'rook'", "Piece 3 'queen'", "Piece 4 'king'",
-				"Piece 5 'bishop'", "Piece 6 'knight'" };// TODO we may need to
-															// change the names
-
+				"Piece 5 'bishop'", "Piece 6 'knight'" };
 		panel.add(Box.createRigidArea(new Dimension(0, 75)));
 		labelTitle = new JLabel("Game editor");
 		labelTitle.setFont(new Font(FONT_NAME_TITLE_1, Font.PLAIN, FONT_SIZE_TITLE_1));
@@ -174,25 +172,14 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 					}
 				}
 			}
-		});// TODO Improve design
+		});
 		panelBox.add(comboBox);
-
 		for (int p = 0; p < NB_PIECE; p++) {
-			// System.out.println("p : "+p+", raw result :
-			// "+loadedRules.toString());
-			// System.out.println("RESULT
-			// :"+loadedRules.getArrayRulePiece()[p]);
 			String temp[] = loadedRules.getArrayRulePiece()[p].split(",", -1);
 			for (int r = 0; r < NB_RULE_PER_PIECE; r++) {
-
 				pieceRules[p][r] = temp[r];
-				// TODO PRESQUE
-
-				// System.out.println("p : "+p+", r : "+r+", result :
-				// "+temp[r]);
 			}
 		}
-
 		iH = new ItemSliderChecked("Horizontal", Integer.parseInt(pieceRules[0][2]),
 				Integer.parseInt(pieceRules[0][3]));
 		iV = new ItemSliderChecked("Vertical", Integer.parseInt(pieceRules[0][4]), Integer.parseInt(pieceRules[0][5]));
@@ -330,7 +317,6 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 		f.revalidate();
 	}
 
-	// TODO constructor without initialization
 	/**
 	 * Manage the slide bars.
 	 * 
@@ -493,49 +479,33 @@ public class RulesEditor extends JFrame implements ItemListener, MouseInputListe
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 }

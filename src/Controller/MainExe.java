@@ -2,12 +2,9 @@ package Controller;
 
 import java.awt.Color;
 import java.awt.GraphicsEnvironment;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -66,9 +63,7 @@ public class MainExe {
 					.getResourceAsStream(
 							"ChesstoryData/defaultSaves/default_SHATRANJ.txt");
 			byte[] buffer = new byte[localInputStream.available()];
-			// new File("ChesstoryData/defaultSaves").mkdirs();
 			localInputStream.read(buffer);
-
 			File targetFile = new File(
 					"ChesstoryData/defaultSaves/default_SHATRANJ.txt");
 			OutputStream outStream = new FileOutputStream(targetFile);
@@ -76,6 +71,7 @@ public class MainExe {
 			outStream.close();
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					localInputStream));
+			br.close();
 		} catch (Exception e) {
 			String str = new String(" errorPN1:");
 			for (int i = 0; i < e.getStackTrace().length; i++) {
@@ -98,6 +94,7 @@ public class MainExe {
 			outStream.close();
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					localInputStream));
+			br.close();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "error:" + e);
 		}
@@ -117,6 +114,7 @@ public class MainExe {
 			outStream.close();
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					localInputStream));
+			br.close();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "error:" + e);
 		}
@@ -132,8 +130,6 @@ public class MainExe {
 				try {
 					buffer = new byte[localInputStream.available()];
 				} catch (Exception e) {
-					String err;
-
 					JOptionPane.showMessageDialog(null,
 							"error train seconde : " + e.getMessage());
 					buffer = new byte[localInputStream.available()];
@@ -155,11 +151,6 @@ public class MainExe {
 					"mainParameters was not correctly clone" + e, "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
-		// FileController.loadParametersToChesstoryConstants();
-		/*
-		 * int[] arrayIntTest = { 12, 15, 17, 666 };
-		 * FileController.saveParameters("mainParameters", arrayIntTest);
-		 */
 		mainMenu = new MainMenu(frame, false);
 		frame.repaint();
 		frame.revalidate();
@@ -169,11 +160,6 @@ public class MainExe {
 		System.out.println("*************************************");
 		System.out.println("****////---->>>>switchToChesstoryGame");
 		System.out.println("*************************************");
-		/*
-		 * clearMainMenu();rulesEditor.closeInstance();useless ? rulesEditor =
-		 * null;
-		 */
-
 		chesstoryGame = new ChesstoryGame("Classical game", gameType, frame);
 	}
 
@@ -191,7 +177,7 @@ public class MainExe {
 		System.out.println("*************************************");
 		System.out.println("****////---->>>>switchToEditor");
 		System.out.println("*************************************");
-		clearMainMenu();
+		mainMenu = null;
 		rulesEditor = RulesEditor.getInstance(frame);
 		frame.repaint();
 		frame.revalidate();
@@ -201,30 +187,15 @@ public class MainExe {
 		System.out.println("*************************************");
 		System.out.println("****////---->>>>switchToMainMenuFromChesstoryGame");
 		System.out.println("*************************************");
-		clearChesstoryGame();
+		chesstoryGame = null;
 		mainMenu = new MainMenu(frame, true);
 	}
 
 	static void switchToMainMenu() {
 		System.out.println("****////---->>>>switchToMainMenu");
-		clearEditor();
-		rulesEditor.removeInstance();
+		rulesEditor = null;
+		RulesEditor.removeInstance();
 		mainMenu = new MainMenu(frame, true);
 	}
 
-	static void clearMainMenu() {
-		mainMenu = null;
-	}
-
-	static void clearChesstoryGame() {
-		chesstoryGame = null;
-	}
-
-	static void clearEditor() {
-		rulesEditor = null;
-	}
-
-	static void refreshFrame() {
-
-	}
 }

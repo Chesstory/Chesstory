@@ -17,7 +17,17 @@ public class GameSave {
 	private String FEN;
 	private String[] arrayRulePiece;
 	private ArrayList<Deplacement> moveList;
-
+	
+	/**
+	 * Constructor for load and save
+	 *
+	 * @param isGameCorrupted for load : if the game file was corrupted the bool is tu true. For save it's useless
+	 * @param gameId id of the game
+	 * @param gameType type of the game
+	 * @param moveList list of the moves made in the game
+	 * @param FEN departure FEN
+	 * @param arrayRulePiece list of the rules of the game
+	 */
 	public GameSave(boolean isGameCorrupted, int gameId, int gameType,
 			ArrayList<Deplacement> moveList, String FEN, String[] arrayRulePiece) {
 		this.arrayRulePiece = arrayRulePiece;

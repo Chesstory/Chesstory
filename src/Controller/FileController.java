@@ -1,10 +1,7 @@
 package Controller;
 
 import echecs.Deplacement;
-import echecs.Echiquier;
 import echecs.Position;
-import gui.YetAnotherChessGame;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,7 +12,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
-
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -164,10 +160,7 @@ abstract class FileController {
 		int expectedNbOfMoves = -1;
 		String FEN = "-1";
 		String[] arrayRulePiece = new String[6];
-
 		// TODO the case where there is a " " at the end of a line
-
-		ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		int retrival;
 		File file;
 		if (fileToLoad == "choosingAFile") {
@@ -341,6 +334,7 @@ abstract class FileController {
 					}
 					nbLine++;
 				}
+				bufferedReader.close();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 				System.out.println("ErrorFileLoad: Unable to open file '" + file + "'");
@@ -384,6 +378,7 @@ abstract class FileController {
 		if (wasTheWindowClosedBeforeSelection) {
 			return null;
 		}
+		
 		return new GameSave(isFileCorrupted, game_id, game_type, a, FEN, arrayRulePiece);
 	}
 
@@ -520,8 +515,7 @@ abstract class FileController {
 	public static void loadParametersToChesstoryConstants() {
 		// TODO setBoolelolo etc
 		int[] paramToLoad = loadParameters("mainParameters");
-		YACG_DISPLAYHELP = true;// (paramToLoad[0] == 1);
-		CHGA_TIMER = 0;// paramToLoad[1];
-		// TODO stop the errors
+		YACG_DISPLAYHELP = (paramToLoad[0] == 1);
+		CHGA_TIMER = paramToLoad[1];
 	}
 }

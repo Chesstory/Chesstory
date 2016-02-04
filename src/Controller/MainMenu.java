@@ -7,24 +7,17 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.plaf.DimensionUIResource;
-
-import Controller.RulesEditor.ItemSliderChecked;
 import static Controller.ChesstoryConstants.*;
 
 /**
@@ -42,7 +35,6 @@ public class MainMenu {
 	private JPanel panelParam;
 	private Dimension dimensionButtons;
 	private Dimension dimensionFillBetweenButtons;
-	private Dimension dimensionChoose;
 	private JLabel labelBanner;
 	private JLabel labelParam;
 	private JButton bPlayGame;
@@ -66,7 +58,7 @@ public class MainMenu {
 	 * @param f
 	 *            The frame
 	 * @param startToGameChooser
-	 *            Whether it launch to the game chooser or not.
+	 *            Whenever it launch to the game chooser or not.
 	 */
 	public MainMenu(JFrame f, boolean startToGameChooser) {
 		dimensionButtons = new Dimension(
@@ -91,7 +83,6 @@ public class MainMenu {
 	 */
 	private void displayMainMenu() {
 		panel.removeAll();
-
 		panel.add(Box.createRigidArea(new Dimension(0, 100)));
 		labelBanner = new JLabel("Chesstorygame");
 		labelBanner.setAlignmentY(Component.CENTER_ALIGNMENT);
@@ -153,13 +144,7 @@ public class MainMenu {
 	private void displayGameChooser() {
 		ClassLoader cl;
 		ImageIcon image;
-		dimensionChoose = new Dimension(
-				(int) (java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width
-						* (0.2)),
-				(int) (java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height
-						* (0.1)));
 		panel.removeAll();
-
 		panel.setBackground(new Color(0x0F3855));
 		f.getContentPane().add(panel);
 		panelChoose = new JPanel();
@@ -178,7 +163,6 @@ public class MainMenu {
 		cl = this.getClass().getClassLoader();
 		image = new ImageIcon(cl.getResource("icons/classical.jpg"));
 		bChooseClassical = new JButton("Classical", image);
-		// bChooseClassical.setPreferredSize(dimensionChoose);
 		panelChoose.add(bChooseClassical);
 
 		image = new ImageIcon(cl.getResource("icons/shatranj.jpg"));
@@ -365,7 +349,7 @@ public class MainMenu {
 				String[] inter2 = inter1[1].split("m");
 				String[] inter3 = inter2[1].split("s");
 				arrayParam[1] = Integer.parseInt(inter1[0]) * 3600 + Integer.parseInt(inter2[0]) * 60
-						+ Integer.parseInt(inter3[0]);//TODO calcul is wrong
+						+ Integer.parseInt(inter3[0]);//TODO operation is wrong
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(f, "Timer format must be : XhXXmXXs");
 				return false;
