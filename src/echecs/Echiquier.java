@@ -254,9 +254,7 @@ public class Echiquier {
 	 */
 	public void setFEN(String FENcode) {
 		empty();
-
 		// TODO allow change width and height
-
 		try {
 			String[] code = FENcode.split(" ");
 			String[] ligne = code[0].split("/");
@@ -415,7 +413,6 @@ public class Echiquier {
 				priseEnPass = true;
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
-			// TODO remove => dialog
 			throw (new MalformedFENException("le code " + FENcode + " n'est pas un code FEN valide"));
 		}
 		buildAccessiblePositions();
@@ -587,12 +584,13 @@ public class Echiquier {
 			// Prise en passant (i'vre written this word so many times ...
 			// Still
 			// doesn't know him in english :( )
-			// So : it has to be a pawn, with pawn's deplacements who try to
+			// So : it has to be a pawn, with pawn's move set who try to
 			// go
-			// where he could not go
+			// where he should not
 			if (priseEnPass && Character.toLowerCase(codePiece) == 'p' && piece.getMaxDiag() == 0
 					&& piece.getMaxX() == 0 && !piece.getBackward() && d.deplacementDiagonal() == 1
-					&& !c[x2][y1].isEmpty() && c[x2][y1].getPiece().getColor() != c[x1][y1].getPiece().getColor()) {
+					&& !c[x2][y1].isEmpty() && c[x2][y1].getPiece().getColor() != c[x1][y1].getPiece().getColor()
+					&& c[x2][y2].isEmpty()) {
 				eaten = !c[x2][y1].isEmpty();
 				c[x2][y1].empty();
 				yacg.eventInter(CHESS_EVENT_PEP,
@@ -903,10 +901,10 @@ public class Echiquier {
 			}
 		}
 	}
-	
+
 	/**
-	 * Add 'special moves' for a pawn (miamage & prise en passant (french
-	 * accent included))
+	 * Add 'special moves' for a pawn (miamage & prise en passant (french accent
+	 * included))
 	 * 
 	 * @param i
 	 *            The X coordonate

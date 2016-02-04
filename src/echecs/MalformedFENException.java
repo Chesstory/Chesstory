@@ -5,6 +5,8 @@
  */
 package echecs;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Acevedo Roman and Guillemot Baptiste, based on Delepoulle Samuel's
@@ -19,6 +21,7 @@ public class MalformedFENException extends IllegalArgumentException {
 
 	MalformedFENException(String msg) {
 		super(msg);
+		JOptionPane.showMessageDialog(null, msg);
 	}
 
 }

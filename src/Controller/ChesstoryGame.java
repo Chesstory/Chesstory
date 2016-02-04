@@ -162,7 +162,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 
 		f.setVisible(true);
 		panelLeft = new JPanel();
-		//panelLeft.setBorder(new LineBorder(Color.GREEN));
+		// panelLeft.setBorder(new LineBorder(Color.GREEN));
 		// panelLeft.setSize((int)(f.getSize().getWidth()*panelLeftRatio)-200,
 		// (int)f.getSize().getHeight()+500);
 		panelLeft.setBackground(Color.gray);
@@ -417,13 +417,14 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 		panelTimerB = new JPanel();
 		panelLeftMenuBrowse.add(panelTimerB);
 
-		// TODO Nb col
-		textTimerW = new JTextField("0h00m00s", 8);
-		textTimerB = new JTextField("0h00m00s", 8);
-		textTimerW.setEditable(false);
-		textTimerB.setEditable(false);
-		panelTimerW.add(textTimerW);
-		panelTimerB.add(textTimerB);
+		if (timer) {
+			textTimerW = new JTextField("0h00m00s", 8);
+			textTimerB = new JTextField("0h00m00s", 8);
+			textTimerW.setEditable(false);
+			textTimerB.setEditable(false);
+			panelTimerW.add(textTimerW);
+			panelTimerB.add(textTimerB);
+		}
 
 		panelGlob.setLayout(new BoxLayout(panelGlob, BoxLayout.X_AXIS));
 		panelLeftChessboard = new JPanel();
@@ -445,7 +446,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width / 3,
 				java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height / 3));
 		// FlowLayout flowLayout_1 = (FlowLayout) panelRight.getLayout();
-		//panelRight.setBorder(new LineBorder(Color.RED));
+		// panelRight.setBorder(new LineBorder(Color.RED));
 		panelRight.setBackground(Color.darkGray);
 
 		// RULES
@@ -627,7 +628,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	 * with the chess board, possibility of time travel and the timer to stop.
 	 */
 	public void enableBrowserView() {
-		adventureTimer.stop();
+		stopTimer();
 		YACG.switchClickable(false);
 		isBrowserView = true;
 		switchBrowserViewBorder(true);
@@ -641,7 +642,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	 * with the chess board, timer to start and no time travel allowed.
 	 */
 	private void disableBrowserView() {
-		adventureTimer.start();
+		startTimer();
 		YACG.switchClickable(true);
 		isBrowserView = false;
 		switchBrowserViewBorder(false);
@@ -892,7 +893,7 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 					chessEvent(CHESS_EVENT_ELAPSE_TIME, "Black lost.");
 			}
 		});
-		adventureTimer.start();
+		startTimer();
 	}
 
 	/**
@@ -914,10 +915,26 @@ public class ChesstoryGame extends JFrame implements MouseListener {
 	 * Delete the timer and its display.
 	 */
 	public void deleteTimer() {
-		adventureTimer.stop();
+		stopTimer();
 		textTimerB.setVisible(false);
 		textTimerW.setVisible(false);
 		timer = false;
+	}
+
+	/**
+	 * Test if timer is on before starting it
+	 */
+	public void startTimer() {
+		if (timer)
+			adventureTimer.start();
+	}
+
+	/**
+	 * Test if timer is on before stopping it
+	 */
+	public void stopTimer() {
+		if (timer)
+			adventureTimer.stop();
 	}
 
 	@Override
