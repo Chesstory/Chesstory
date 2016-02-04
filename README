@@ -37,16 +37,19 @@ What is already done :
   - Rules :
     * Pieces and moves rules are customizable really easily with a graphic interface
  
+  - Save general parameters, witch stays in a file between utilizations of Chesstory
+ 
   - JDoc
     
 What is in progress :
   - Fix one for all the problems of build, where to put the images, saves, and default saves (actually the .JAR won't work properly because of the sounds, they were removed for the last version)
+  - Improve UI in all the program
+  - Add some main parameters
   - Chesstory 2.0
 
 What remains to do (not exhaustiv list) :
   - Add ways to custom rules like castling, prise-en-passant, size of chess board, custom the timer, toggle on/off graphic hints, etc
   - Little FEN UI setter
-  - Save parameters (for all games)
   - See if we can rotate the chess board (utopia)
   
 If you have any question or request, or just want to thank us, please send an email at :
